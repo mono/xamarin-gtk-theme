@@ -1,0 +1,56 @@
+AC_INIT([murrine], [0.60])
+AC_CONFIG_SRCDIR([README])
+
+AM_INIT_AUTOMAKE
+
+dnl Initialize maintainer mode
+AM_MAINTAINER_MODE
+
+AC_PROG_CC
+AM_PROG_CC_STDC
+AC_PROG_INSTALL
+AC_PROG_MAKE_SET
+
+dnl Initialize libtool
+AM_DISABLE_STATIC
+AC_LIBTOOL_WIN32_DLL
+AM_PROG_LIBTOOL
+
+AC_ARG_ENABLE(animation, [  --enable-animation      compile murrine with animation support], [animation=$enableval], 	[animation="no"], )
+AC_ARG_ENABLE(macmenu, [  --enable-macmenu        compile murrine with mac menubar patches], [macmenu=$enableval], 	[macmenu="no"], )
+AC_ARG_ENABLE(animationtoleft, [  --enable-animationtoleft        compile murrine with progressbar animation from right to left], [animationtoleft=$enableval], 	[animationtoleft="no"], )
+
+PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.8.0,,
+                  AC_MSG_ERROR([GTK+-2.8 is required to compile murrine]))
+
+AC_SUBST(GTK_CFLAGS)
+AC_SUBST(GTK_LIBS)
+
+GTK_VERSION=`$PKG_CONFIG --variable=gtk_binary_version gtk+-2.0`
+AC_SUBST(GTK_VERSION)
+
+AC_SUBST(BUILD_ENGINES)
+AC_SUBST(BUILD_THEMES)
+
+if test $animation = "yes"; then
+	AC_DEFINE_UNQUOTED(HAVE_ANIMATION, 1, [Defines whether to compile with animation support])
+fi
+
+if test $macmenu = "yes"; then
+	AC_DEFINE_UNQUOTED(HAVE_MACMENU, 1, [Defines whether to compile with mac menubar patches])
+fi
+
+if test $animationtoleft = "yes"; then
+	AC_DEFINE_UNQUOTED(HAVE_ANIMATIONTOLEFT, 1, [Defines whether to compile with progressbar animation from right to left])
+fi
+
+AM_CONFIG_HEADER([src/config.h])
+
+AC_CONFIG_FILES([
+Makefile
+murrine.pc
+]) 
+
+AC_OUTPUT
+
+echo "Now run make."

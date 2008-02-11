@@ -1,0 +1,156 @@
+0.60
+===
+* hilight_ratio is deprecated, use highlight_ratio instead, which is 1.1 by default and 1.0 for a flat look (previously was 0.909090)
+Anyway a dummy parse is still present, so hilight_ratio will continue to work but it will print warnings.
+* Added style option, style = MURRINE, NODOKA, FLAT
+* Rounded frames
+* A lot of improvements in the code, much more clean
+* Added toolbarstyle with three styles: toolbarstyle= 0 flat, toolbarstyle = 1 glassy, toolbarstyle = 2 gradient
+* Added sliderstyle = 1 (from email [Murrine Improvement] "sliders style options" by Andrea Antolini) to add handles on sliders
+* Automatically colorize scrollbar with bg[SELECTED], a new option "colorize_scrollbar = TRUE | FALSE" is used to colorize it or no
+* Added new default button state
+* Glossy tooltips
+* New arrows
+* Implemented tooltip's drawing
+* Fixed bug with symbolic colors
+* Fixed bug #438456 of gnome bugzilla
+* More sanity checks
+* Using const color's variable instead adding a cast
+
+0.53.1
+===
+* Two mistakes under draw_radiobutton fixed
+* murrine_set_gradient is now static
+
+0.53
+===
+* Added shaded shadows on inactive color text, so dark themes are MUCH better supported/looking
+* Moved radiobutton and checkbuttons functions to draw.c
+
+0.52
+===
+* Fixed "black hilight bug": just one line of code changed from 0.51 but necessary to fix a lot of drawing mistakes, upgrade suggested
+* Turned back default animation to "left to right", removed --enable-animationtoright but added --enable-animationtoleft at the configure to use progressbar animation "right to left"
+
+0.51
+===
+* Fixed few cairo pixel misplacing that happened with the 0.50 release
+* Added --enable-animationtoright at the configure to use progressbar animation "left to right" (as before)
+
+0.50
+===
+* Added gradients to all widgets! use gradients = TRUE, FALSE.
+* Added menustyle = 1 to draw a left colored border on dropdown menu
+* New listview cells
+* Changed progressbar animation
+* Code merging and cleaning
+* Fixed a pixel alignment in progressbar
+* Changed few bg[SELECTED] colors
+* Various bugfixes
+
+0.41
+===
+* New option, hilight_ratio = 1.0 (it's a double) to select the amount of hilight you want. Useful with dark themes that lacks on hilight (set hilight_ratio = 1.15 or more) or you can simply decrease the hilight (set hilight_ratio = 0.909090 to have a flat theme!!! Less to emulate something similar to the concave style, useful to make concave style on rounded themes)
+* Fixed bug that prevents using different options in different widgets (e.g. you can have different roundness on buttons and menuitems if you edit gtkrc by hand)
+* Fixed a rendering bug on scrollbar steppers
+* Added retrocompatibility to old themes before 0.30 release
+* Now arrows on comboboxes and optionmenus use text color (good for dark themes)
+* Improved things here and here :)
+* Reformatted code here and here :)
+
+0.40.1
+===
+* Fixed few crashes of 0.40 (Brasero for example)
+* Fixed all memory leaks founded (thanks to gnome developer benzea for the valgrind test)
+
+0.40
+===
+* New checkboxes and radio, completely rewritten with some ubuntulooks inspiration (and with new bugfixes). An Xmas gift for my friend Iacopo Masi :)
+* New glazestyle, with "beryl/emerald" hilight (glazestyle = 4)
+* New glazestyle, with topleft-center-topright hilight (glazestyle = 3)
+* New listview style, with dots! An Xmas gift for my friend MacSlow :) (listviewstyle = 1)
+* New scrollbar style, you can enable/disable handles on other styles (scrollbarstyle = 2,4,6)
+* New scrollbar style, with horizontal Stripes (scrollbarstyle = 5,6)
+* New scrollbar style, with diagonal Stripes (scrollbarstyle = 3,4)
+* New scrollbar style, with Circles. Thx to my friend Clarkkent/UnforgivenII (scrollbarstyle = 1)
+* New listviewheader style, "raised" one (listviewheaderstyle = 2)
+* Fixed "arrow bug" in nautilus
+* Lot of code rewritten, fixed gtk-engines bug #326249
+* Fixed macmenu patches (--enable-macmenu at the configure)
+* Other fixes
+
+0.31
+===
+* Added --enable-macmenu at the configure to enable patches for gtk2 with mac menubar patches
+* Improved look of rounded corners of widgets
+* Now supporting prelight state on listviewheaders
+* Fixed a bug with menubaritems with button look
+* Fixed option and radio buttons to support dark themes
+* Little fix with rounded tabs
+* Simpler and polished code
+
+0.30.2
+===
+* Concave menuitems were completely broken, now fixed
+
+0.30.1
+===
+* Glassy menuitems were broken with glazestyle = 0, now fixed
+
+0.30
+===
+* Replaced squaredstyle with roundness now themes can be round! (roundness <= 1 are fast, >= 2 is slower but faster than ubuntulooks and clearlooks)
+* Fixed a bug with glazestyle = 2 and glass menubar
+
+0.21
+===
+* Now supporting colored notebooks! Set bg[NORMAL] under theme-notebook in the gtkrc
+* Fixed border color on scrollbar sliders
+
+0.20
+===
+* New glaze style, now all the theme can be "concave" (glazestyle = 2)
+* New menubar style, the "Striped" one (menubarstyle = 3)
+* Perfect squared state, more sharp and fast
+* A lot of code rewritten. New code will give a great performance boost with the next cairo release (1.4.0)
+* Improved flat menuitems, now look better
+
+0.13
+===
+* Added a option to make the menuitems striped (menuitemstyle = 2)
+* Fixed all recents bug in cairo engines (like animation crashes), thanks benzea
+* Fixed bug that doesn't render the shadow on e.g. workspace changer
+* Fixed handles... Now supporting horizontal handles and a better rendering of the verticals
+
+0.12
+===
+* Added a option to make the menuitems flat (menuitemstyle = 0)
+* Fixed the rendering of glazestyle = 0 vertical buttons as requested
+
+0.11.1
+===
+* ...not all vertical buttons were fixed in 0.11 (lol see yesterday's ChangeLog), I forgot all buttons with glazestyle = 0
+* Updated spinbuttons to use squaredstyle option
+
+0.11
+===
+* Changed GtkComboBox and GtkOption with a new separator (Thanks Richard Stellingwerff for the patience and helps)
+* Fixed all vertical buttons (so all bugs you have probably saw in aMule, Medit, Firefox, ecc... will gone away)
+* Improved spinbuttons
+
+0.10
+===
+* Added new option to control look of all surfaces (glazestyle in gtkrc)
+* Added new listheaders for new glaze style
+* Finally fixed vertical sliders, also supporting new glaze style
+* Minor fixes/improvements
+
+0.9.1
+===
+* Changed progressbar and menuitem hilight in order to better fit themes
+* Fixed rendering of the progressbar beginning/ending
+* Stolen various bugfixes from gtk-engines-cvs
+
+0.9
+===
+* First public release

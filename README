@@ -1,0 +1,9 @@
+This is Murrine GTK+ engine. This source code provides only the engine, get the themes @ gnomelook.org.
+
+Do the normal dance to install:
+
+	(./autogen.sh ; ) ./configure (generally --prefix=/usr, try --enable-animation); make ; make install
+
+To uninstall:
+	
+	make uninstall

@@ -657,7 +657,7 @@ murrine_style_draw_box (DRAW_ARGS)
 
 		horizontal = height < 2*width;
 		/* This is not that great. Ideally we would have a nice vertical menubar. */
-		if ((shadow_type != GTK_SHADOW_NONE) && horizontal)
+		if (params.mrn_gradient.use_rgba || ((shadow_type != GTK_SHADOW_NONE) && horizontal))
 			STYLE_FUNCTION(draw_menubar) (cr, colors, &params, x, y, width, height,
 			                              murrine_style->menubarstyle);
 	}

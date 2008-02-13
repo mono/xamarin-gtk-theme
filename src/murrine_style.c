@@ -646,6 +646,7 @@ murrine_style_draw_box (DRAW_ARGS)
 	    !(widget && (murrine_is_panel_widget (widget->parent))))
 	{
 		WidgetParameters params;
+		gboolean horizontal;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 
@@ -1119,6 +1120,7 @@ murrine_style_draw_box (DRAW_ARGS)
 		{
 			WidgetParameters params;
 			ToolbarParameters toolbar;
+			gboolean horizontal;
 
 			murrine_set_widget_parameters (widget, style, state_type, &params);
 

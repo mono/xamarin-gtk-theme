@@ -1545,9 +1545,9 @@ murrine_style_draw_layout (GtkStyle     *style,
 		MurrineRGB temp;
 
 		if (GTK_WIDGET_NO_WINDOW (widget))
-			murrine_shade (&params.parentbg, &temp, 1.2);
+			murrine_shade (&params.parentbg, 1.2, &temp);
 		else
-			murrine_shade (&colors->bg[widget->state], &temp, 1.2);
+			murrine_shade (&colors->bg[widget->state], 1.2, &temp);
 
 		etched.red = (int) (temp.r * 65535);
 		etched.green = (int) (temp.g * 65535);
@@ -1685,17 +1685,17 @@ murrine_style_realize (GtkStyle * style)
 	/* Lighter to darker */
 	for (i = 0; i < 9; i++)
 	{
-		murrine_shade (&bg_normal, &murrine_style->colors.shade[i],
-		               (shades[i]-0.9) * contrast + 0.9);
+		murrine_shade (&bg_normal, (shades[i]-0.9) * contrast + 0.9,
+		               &murrine_style->colors.shade[i]);
 	}
 
 	spot_color.r = style->bg[GTK_STATE_SELECTED].red   / 65535.0;
 	spot_color.g = style->bg[GTK_STATE_SELECTED].green / 65535.0;
 	spot_color.b = style->bg[GTK_STATE_SELECTED].blue  / 65535.0;
 
-	murrine_shade (&spot_color, &murrine_style->colors.spot[0], 1.42);
-	murrine_shade (&spot_color, &murrine_style->colors.spot[1], 1.00);
-	murrine_shade (&spot_color, &murrine_style->colors.spot[2], 0.65);
+	murrine_shade (&spot_color, 1.42, &murrine_style->colors.spot[0]);
+	murrine_shade (&spot_color, 1.00, &murrine_style->colors.spot[1]);
+	murrine_shade (&spot_color, 0.65, &murrine_style->colors.spot[2]);
 
 	for (i=0; i<5; i++)
 	{

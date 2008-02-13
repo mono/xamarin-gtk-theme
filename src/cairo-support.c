@@ -178,7 +178,7 @@ murrine_hls_to_rgb (gdouble *h,
 }
 
 void
-murrine_shade (const MurrineRGB * a, MurrineRGB * b, float k)
+murrine_shade (const MurrineRGB * a, float k, MurrineRGB * b)
 {
 	double red;
 	double green;
@@ -474,28 +474,28 @@ murrine_draw_innerborder (cairo_t *cr,
 	{
 		if (mrn_gradient.has_gradient_stop)
 		{
-			murrine_shade (highlight_color, &shade1, mrn_gradient.gradient_stop_1);
-			murrine_shade (highlight_color, &shade2, mrn_gradient.gradient_stop_2);
-			murrine_shade (highlight_color, &shade3, mrn_gradient.gradient_stop_3);
-			murrine_shade (highlight_color, &shade4, mrn_gradient.gradient_stop_4);
-			murrine_shade (fill, &fill_shade, mrn_gradient.gradient_stop_4);
+			murrine_shade (highlight_color, mrn_gradient.gradient_stop_1, &shade1);
+			murrine_shade (highlight_color, mrn_gradient.gradient_stop_2, &shade2);
+			murrine_shade (highlight_color, mrn_gradient.gradient_stop_3, &shade3);
+			murrine_shade (highlight_color, mrn_gradient.gradient_stop_4, &shade4);
+			murrine_shade (fill, mrn_gradient.gradient_stop_4, &fill_shade);
 		}
 		else
 		{
-			murrine_shade (highlight_color, &shade1, 1.1);
-			murrine_shade (highlight_color, &shade2, 1.0);
-			murrine_shade (highlight_color, &shade3, 1.0);
-			murrine_shade (highlight_color, &shade4, 1.1);
-			murrine_shade (fill, &fill_shade, 1.1);
+			murrine_shade (highlight_color, 1.1, &shade1);
+			murrine_shade (highlight_color, 1.0, &shade2);
+			murrine_shade (highlight_color, 1.0, &shade3);
+			murrine_shade (highlight_color, 1.1, &shade4);
+			murrine_shade (fill, 1.1, &fill_shade);
 		}
 	}
 	else
 	{
-		murrine_shade (highlight_color, &shade1, 1.0);
-		murrine_shade (highlight_color, &shade2, 1.0);
-		murrine_shade (highlight_color, &shade3, 1.0);
-		murrine_shade (highlight_color, &shade4, 1.0);
-		murrine_shade (fill, &fill_shade, 1.0);
+		murrine_shade (highlight_color, 1.0, &shade1);
+		murrine_shade (highlight_color, 1.0, &shade2);
+		murrine_shade (highlight_color, 1.0, &shade3);
+		murrine_shade (highlight_color, 1.0, &shade4);
+		murrine_shade (fill, 1.0, &fill_shade);
 	}
 
 	double fill_pos = 1.0-(1.0/(!horizontal ? (double)(width) : (double)(height)));
@@ -551,17 +551,17 @@ murrine_set_gradient (cairo_t *cr,
 
 		if (mrn_gradient.has_gradient_stop)
 		{
-			murrine_shade (color, &shade1, mrn_gradient.gradient_stop_1);
-			murrine_shade (color, &shade2, mrn_gradient.gradient_stop_2);
-			murrine_shade (color, &shade3, mrn_gradient.gradient_stop_3);
-			murrine_shade (color, &shade4, mrn_gradient.gradient_stop_4);
+			murrine_shade (color, mrn_gradient.gradient_stop_1, &shade1);
+			murrine_shade (color, mrn_gradient.gradient_stop_2, &shade2);
+			murrine_shade (color, mrn_gradient.gradient_stop_3, &shade3);
+			murrine_shade (color, mrn_gradient.gradient_stop_4, &shade4);
 		}
 		else
 		{
-			murrine_shade (color, &shade1, 1.1);
-			murrine_shade (color, &shade2, 1.0);
-			murrine_shade (color, &shade3, 1.0);
-			murrine_shade (color, &shade4, 1.1);
+			murrine_shade (color, 1.1, &shade1);
+			murrine_shade (color, 1.0, &shade2);
+			murrine_shade (color, 1.0, &shade3);
+			murrine_shade (color, 1.1, &shade4);
 		}
 
 		pattern = cairo_pattern_create_linear (x, y, width+x, height+y);

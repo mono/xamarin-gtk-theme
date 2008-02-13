@@ -577,15 +577,11 @@ murrine_style_draw_handle (DRAW_ARGS, GtkOrientation orientation)
 	MurrineStyle  *murrine_style = MURRINE_STYLE (style);
 	MurrineColors *colors = &murrine_style->colors;
 	cairo_t       *cr;
-	gboolean      is_horizontal;
 
 	CHECK_ARGS
 	SANITIZE_SIZE
 
 	cr = murrine_begin_paint (window, area);
-
-	/* Evil hack to work around broken orientation for toolbars */
-	is_horizontal = (width > height);
 
 	if (DETAIL ("handlebox"))
 	{
@@ -593,27 +589,9 @@ murrine_style_draw_handle (DRAW_ARGS, GtkOrientation orientation)
 		HandleParameters handle;
 
 		handle.type = MRN_HANDLE_TOOLBAR;
-		handle.horizontal = is_horizontal;
+		handle.horizontal = (orientation == GTK_ORIENTATION_HORIZONTAL);
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
-
-		/* Is this ever true? -Daniel */
-		if (MRN_IS_TOOLBAR (widget) && shadow_type != GTK_SHADOW_NONE)
-		{
-			ToolbarParameters toolbar;
-
-			murrine_set_toolbar_parameters (&toolbar, widget, window, x, y);
-			toolbar.style = murrine_style->toolbarstyle;
-
-			if (params.mrn_gradient.use_rgba)
-			{
-				params.mrn_gradient.rgba_opacity = TOOLBAR_GLOSSY_OPACITY;
-			}
-
-			cairo_save (cr);
-			STYLE_FUNCTION(draw_toolbar) (cr, colors, &params, &toolbar, x, y, width, height);
-			cairo_restore (cr);
-		}
 
 		STYLE_FUNCTION(draw_handle) (cr, colors, &params, &handle, x, y, width, height);
 	}
@@ -623,7 +601,7 @@ murrine_style_draw_handle (DRAW_ARGS, GtkOrientation orientation)
 		HandleParameters handle;
 
 		handle.type = MRN_HANDLE_SPLITTER;
-		handle.horizontal = orientation == GTK_ORIENTATION_HORIZONTAL;
+		handle.horizontal = (orientation == GTK_ORIENTATION_HORIZONTAL);
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 
@@ -635,21 +613,9 @@ murrine_style_draw_handle (DRAW_ARGS, GtkOrientation orientation)
 		HandleParameters handle;
 
 		handle.type = MRN_HANDLE_TOOLBAR;
-		handle.horizontal = is_horizontal;
+		handle.horizontal = (orientation == GTK_ORIENTATION_HORIZONTAL);
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
-
-		if (MRN_IS_TOOLBAR (widget) && shadow_type != GTK_SHADOW_NONE)
-		{
-			ToolbarParameters toolbar;
-
-			murrine_set_toolbar_parameters (&toolbar, widget, window, x, y);
-			toolbar.style = murrine_style->toolbarstyle;
-
-			cairo_save (cr);
-			STYLE_FUNCTION(draw_toolbar) (cr, colors, &params, &toolbar, x, y, width, height);
-			cairo_restore (cr);
-		}
 
 		STYLE_FUNCTION(draw_handle) (cr, colors, &params, &handle, x, y, width, height);
 	}
@@ -688,8 +654,11 @@ murrine_style_draw_box (DRAW_ARGS)
 			params.mrn_gradient.rgba_opacity = MENUBAR_GLOSSY_OPACITY;
 		}
 
-		STYLE_FUNCTION(draw_menubar) (cr, colors, &params, x, y, width, height,
-		                              murrine_style->menubarstyle);
+		horizontal = height < 2*width;
+		/* This is not that great. Ideally we would have a nice vertical menubar. */
+		if ((shadow_type != GTK_SHADOW_NONE) && horizontal)
+			STYLE_FUNCTION(draw_menubar) (cr, colors, &params, x, y, width, height,
+			                              murrine_style->menubarstyle);
 	}
 	else if (DETAIL ("button") && widget && widget->parent &&
 	                 (MRN_IS_TREE_VIEW(widget->parent) ||
@@ -1155,8 +1124,20 @@ murrine_style_draw_box (DRAW_ARGS)
 
 			murrine_set_toolbar_parameters (&toolbar, widget, window, x, y);
 			toolbar.style = murrine_style->toolbarstyle;
+			if ((DETAIL ("handlebox_bin") || DETAIL ("dockitem_bin")) && MRN_IS_BIN (widget))
+			{
+				GtkWidget* child = gtk_bin_get_child ((GtkBin*) widget);
+				/* This is to draw the correct shadow on the handlebox.
+				 * We need to draw it here, as otherwise the handle will not get the
+				 * background. */
+				if (MRN_IS_TOOLBAR (child))
+					gtk_widget_style_get (child, "shadow-type", &shadow_type, NULL);
+			}
 
-			STYLE_FUNCTION(draw_toolbar) (cr, colors, &params, &toolbar, x, y, width, height);
+			horizontal = height < 2*width;
+			/* This is not that great. Ideally we would have a nice vertical toolbar. */
+			if ((shadow_type != GTK_SHADOW_NONE) && horizontal)
+				STYLE_FUNCTION(draw_toolbar) (cr, colors, &params, &toolbar, x, y, width, height);
 		}
 	}
 	else if (DETAIL ("trough"))

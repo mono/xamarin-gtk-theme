@@ -502,6 +502,9 @@ murrine_style_draw_box_gap (DRAW_ARGS,
 		if (params.roundness < 2)
 			params.corners = MRN_CORNER_NONE;
 
+		if (params.mrn_gradient.use_rgba)
+			cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
+
 		/* Fill the background with bg[NORMAL] */
 		murrine_rounded_rectangle (cr, x, y, width, height, params.roundness, params.corners);
 		if (!params.mrn_gradient.use_rgba)
@@ -509,6 +512,9 @@ murrine_style_draw_box_gap (DRAW_ARGS,
 		else
 			murrine_set_color_rgba (cr, &colors->bg[0], NOTEBOOK_OPACITY);
 		cairo_fill(cr);
+
+		if (params.mrn_gradient.use_rgba)
+			cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 
 		STYLE_FUNCTION(draw_frame) (cr, colors, &params, &frame,
 		                            x, y, width, height);

@@ -28,14 +28,6 @@
 #include "murrine_types.h"
 #include "cairo-support.h"
 
-/* GTK 2.2 compatibility */
-#ifndef GTK_IS_COMBO_BOX_ENTRY
-	#define GTK_IS_COMBO_BOX_ENTRY(x) 0
-#endif
-#ifndef GTK_IS_COMBO_BOX
-	#define GTK_IS_COMBO_BOX(x) 0
-#endif
-
 #define RADIO_SIZE 13
 #define CHECK_SIZE 13
 
@@ -43,7 +35,7 @@
 #define GRADIENT_OPACITY 0.90
 #define WINDOW_OPACITY 0.84
 #define ENTRY_OPACITY 0.88
-#define NOTEBOOK_OPACITY 0.74
+#define NOTEBOOK_OPACITY 0.90
 #define MENUBAR_OPACITY 0.90
 #define MENUBAR_GLOSSY_OPACITY 0.86
 #define MENUBAR_STRIPED_OPACITY 0.94

@@ -1061,6 +1061,8 @@ murrine_rgba_draw_tab (cairo_t *cr,
 	cairo_set_line_width (cr, 1.0);
 	cairo_translate      (cr, x+0.5, y+0.5);
 
+	cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
+
 	/* Make the tabs slightly bigger than they should be, to create a gap */
 	/* And calculate the strip size too, while you're at it */
 	if (tab->gap_side == MRN_GAP_TOP || tab->gap_side == MRN_GAP_BOTTOM)
@@ -1189,6 +1191,7 @@ murrine_rgba_draw_tab (cairo_t *cr,
 		cairo_pattern_destroy (pattern);
 
 		cairo_set_line_width (cr, 1.0);
+		cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 		murrine_set_color_rgba (cr, &colors->shade[0], 0.2);
 
 		if (widget->roundness < 2)
@@ -1224,10 +1227,11 @@ murrine_rgba_draw_tab (cairo_t *cr,
 
 		cairo_pattern_add_color_stop_rgba (pattern, 0.0,        stripe_fill->r, stripe_fill->g, stripe_fill->b, NOTEBOOK_OPACITY);
 		cairo_pattern_add_color_stop_rgba (pattern, strip_size, stripe_fill->r, stripe_fill->g, stripe_fill->b, NOTEBOOK_OPACITY);
-		cairo_pattern_add_color_stop_rgba (pattern, strip_size, fill->r, fill->g, fill->b, 0.0);
+		cairo_pattern_add_color_stop_rgba (pattern, strip_size, fill->r, fill->g, fill->b, NOTEBOOK_OPACITY);
 		cairo_set_source (cr, pattern);
 		cairo_fill (cr);
 		cairo_pattern_destroy (pattern);
+		cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 	}
 
 	murrine_rounded_rectangle (cr, 0, 0, width-1, height-1, widget->roundness, corners);

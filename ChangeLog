@@ -1,3 +1,12 @@
+2008-02-15  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/animation.h:
+	* src/murrine_draw_rgba.c: (murrine_rgba_draw_tab):
+	* src/murrine_style.c: (murrine_style_draw_box_gap):
+	* src/support.h:
+	Using cairo operator SOURCE to draw notebooks in RGBA
+	Removed a duplicated definition of MRN_IS_PROGRESS_BAR
+
 2008-02-13  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/cairo-support.c: (murrine_shade), (murrine_draw_innerborder),

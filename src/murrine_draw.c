@@ -1032,30 +1032,10 @@ murrine_draw_tab (cairo_t *cr,
 		double custom_highlight_ratio = widget->highlight_ratio;
 		custom_highlight_ratio = get_decreased_ratio (widget->highlight_ratio, 2.0);
 
-		if (mrn_gradient_custom.gradients)
-		{
-			if (mrn_gradient_custom.has_gradient_stop)
-			{
-				murrine_shade (fill, mrn_gradient_custom.gradient_stop_1*custom_highlight_ratio, &shade1);
-				murrine_shade (fill, mrn_gradient_custom.gradient_stop_2*custom_highlight_ratio, &shade2);
-				murrine_shade (fill, mrn_gradient_custom.gradient_stop_3, &shade3);
-				murrine_shade (fill, mrn_gradient_custom.gradient_stop_4, &shade4);
-			}
-			else
-			{
-				murrine_shade (fill, 1.1*custom_highlight_ratio, &shade1);
-				murrine_shade (fill, 1.0*custom_highlight_ratio, &shade2);
-				murrine_shade (fill, 1.0, &shade3);
-				murrine_shade (fill, 1.1, &shade4);;
-			}
-		}
-		else
-		{
-			murrine_shade (fill, 1.0*custom_highlight_ratio, &shade1);
-			murrine_shade (fill, 1.0*custom_highlight_ratio, &shade2);
-			murrine_shade (fill, 1.0, &shade3);
-			murrine_shade (fill, 1.0, &shade4);
-		}
+		murrine_shade (fill, mrn_gradient_custom.gradient_stop_1*custom_highlight_ratio, &shade1);
+		murrine_shade (fill, mrn_gradient_custom.gradient_stop_2*custom_highlight_ratio, &shade2);
+		murrine_shade (fill, mrn_gradient_custom.gradient_stop_3, &shade3);
+		murrine_shade (fill, mrn_gradient_custom.gradient_stop_4, &shade4);
 
 		switch (tab->gap_side)
 		{

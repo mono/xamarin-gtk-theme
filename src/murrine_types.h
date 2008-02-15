@@ -182,7 +182,6 @@ typedef struct
 	double  rgba_opacity;
 
 	boolean gradients;
-	boolean has_gradient_stop;
 	boolean use_rgba;
 } MurrineGradients;
 

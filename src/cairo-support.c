@@ -472,22 +472,11 @@ murrine_draw_innerborder (cairo_t *cr,
 
 	if (gradients)
 	{
-		if (mrn_gradient.has_gradient_stop)
-		{
-			murrine_shade (highlight_color, mrn_gradient.gradient_stop_1, &shade1);
-			murrine_shade (highlight_color, mrn_gradient.gradient_stop_2, &shade2);
-			murrine_shade (highlight_color, mrn_gradient.gradient_stop_3, &shade3);
-			murrine_shade (highlight_color, mrn_gradient.gradient_stop_4, &shade4);
-			murrine_shade (fill, mrn_gradient.gradient_stop_4, &fill_shade);
-		}
-		else
-		{
-			murrine_shade (highlight_color, 1.1, &shade1);
-			murrine_shade (highlight_color, 1.0, &shade2);
-			murrine_shade (highlight_color, 1.0, &shade3);
-			murrine_shade (highlight_color, 1.1, &shade4);
-			murrine_shade (fill, 1.1, &fill_shade);
-		}
+		murrine_shade (highlight_color, mrn_gradient.gradient_stop_1, &shade1);
+		murrine_shade (highlight_color, mrn_gradient.gradient_stop_2, &shade2);
+		murrine_shade (highlight_color, mrn_gradient.gradient_stop_3, &shade3);
+		murrine_shade (highlight_color, mrn_gradient.gradient_stop_4, &shade4);
+		murrine_shade (fill, mrn_gradient.gradient_stop_4, &fill_shade);
 	}
 	else
 	{
@@ -549,20 +538,10 @@ murrine_set_gradient (cairo_t *cr,
 		cairo_pattern_t *pattern;
 		MurrineRGB shade1, shade2, shade3, shade4;
 
-		if (mrn_gradient.has_gradient_stop)
-		{
-			murrine_shade (color, mrn_gradient.gradient_stop_1, &shade1);
-			murrine_shade (color, mrn_gradient.gradient_stop_2, &shade2);
-			murrine_shade (color, mrn_gradient.gradient_stop_3, &shade3);
-			murrine_shade (color, mrn_gradient.gradient_stop_4, &shade4);
-		}
-		else
-		{
-			murrine_shade (color, 1.1, &shade1);
-			murrine_shade (color, 1.0, &shade2);
-			murrine_shade (color, 1.0, &shade3);
-			murrine_shade (color, 1.1, &shade4);
-		}
+		murrine_shade (color, mrn_gradient.gradient_stop_1, &shade1);
+		murrine_shade (color, mrn_gradient.gradient_stop_2, &shade2);
+		murrine_shade (color, mrn_gradient.gradient_stop_3, &shade3);
+		murrine_shade (color, mrn_gradient.gradient_stop_4, &shade4);
 
 		pattern = cairo_pattern_create_linear (x, y, width+x, height+y);
 		if (mrn_gradient.use_rgba)

@@ -138,11 +138,27 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	params->highlight_ratio   = murrine_style->highlight_ratio;
 
 	MurrineGradients mrn_gradient;
-	mrn_gradient.has_gradient_stop = murrine_style->has_gradient_stop;
-	mrn_gradient.gradient_stop_1 = murrine_style->gradient_stop_1;
-	mrn_gradient.gradient_stop_2 = murrine_style->gradient_stop_2;
-	mrn_gradient.gradient_stop_3 = murrine_style->gradient_stop_3;
-	mrn_gradient.gradient_stop_4 = murrine_style->gradient_stop_4;
+	if (murrine_style->has_gradient_stop)
+	{
+		mrn_gradient.gradient_stop_1 = murrine_style->gradient_stop_1;
+		mrn_gradient.gradient_stop_2 = murrine_style->gradient_stop_2;
+		mrn_gradient.gradient_stop_3 = murrine_style->gradient_stop_3;
+		mrn_gradient.gradient_stop_4 = murrine_style->gradient_stop_4;
+	}
+	else if (murrine_style->gradients)
+	{
+		mrn_gradient.gradient_stop_1 = 1.1;
+		mrn_gradient.gradient_stop_2 = 1.0;
+		mrn_gradient.gradient_stop_3 = 1.0;
+		mrn_gradient.gradient_stop_4 = 1.1;
+	}
+	else
+	{
+		mrn_gradient.gradient_stop_1 = 1.0;
+		mrn_gradient.gradient_stop_2 = 1.0;
+		mrn_gradient.gradient_stop_3 = 1.0;
+		mrn_gradient.gradient_stop_4 = 1.0;
+	}
 	mrn_gradient.gradients = murrine_style->gradients;
 	mrn_gradient.use_rgba = (murrine_widget_is_rgba ((GtkWidget*) widget) && murrine_style->rgba);
 	mrn_gradient.rgba_opacity = GRADIENT_OPACITY;
@@ -150,7 +166,6 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	MurrineDrawStyles drawstyle = MRN_DRAW_STYLE_MURRINE;
 	if (mrn_gradient.use_rgba)
 	{
-		//params->highlight_ratio = get_increased_ratio (params->highlight_ratio, 1.4);
 		drawstyle = MRN_DRAW_STYLE_RGBA;
 	}
 	params->mrn_gradient = mrn_gradient;

@@ -285,7 +285,7 @@ murrine_style_draw_flat_box (DRAW_ARGS)
 					                                                 colors->bg[0].b, WINDOW_OPACITY);
 					cairo_pattern_add_color_stop_rgba (pattern, 0.5, colors->bg[0].r,
 					                                                 colors->bg[0].g,
-					                                                 colors->bg[0].b, 0.8);
+					                                                 colors->bg[0].b, (WINDOW_OPACITY-0.04));
 					cairo_pattern_add_color_stop_rgba (pattern, 1.0, colors->bg[0].r,
 					                                                 colors->bg[0].g,
 					                                                 colors->bg[0].b, WINDOW_OPACITY);

@@ -1,5 +1,11 @@
 2008-02-16  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/cairo-support.c: (murrine_draw_innerborder):
+	* src/murrine_style.c: (murrine_style_draw_flat_box):
+	Code polished
+
+2008-02-16  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_draw_rgba.c: (murrine_rgba_draw_entry),
 	(murrine_rgba_draw_menubar), (murrine_rgba_draw_toolbar),
 	(murrine_rgba_draw_tab), (murrine_rgba_draw_menu_frame):

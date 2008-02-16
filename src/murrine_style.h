@@ -43,9 +43,9 @@ struct _MurrineStyle
 	GtkStyle parent_instance;
 
 	MurrineColors colors;
-	
+
 	MurrineStyles style;
-	
+
 	double   contrast;
 	double   gradient_stop_1;
 	double   gradient_stop_2;
@@ -80,7 +80,7 @@ struct _MurrineStyle
 struct _MurrineStyleClass
 {
 	GtkStyleClass parent_class;
-	
+
 	MurrineStyleFunctions style_functions[MRN_NUM_DRAW_STYLES];
 };
 

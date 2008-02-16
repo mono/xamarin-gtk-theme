@@ -1,3 +1,21 @@
+2008-02-16  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/murrine_draw_rgba.c: (murrine_rgba_draw_entry),
+	(murrine_rgba_draw_menubar), (murrine_rgba_draw_toolbar),
+	(murrine_rgba_draw_tab), (murrine_rgba_draw_menu_frame):
+	* src/murrine_rc_style.c: (murrine_rc_style_init),
+	(murrine_rc_style_parse), (murrine_rc_style_merge):
+	* src/murrine_rc_style.h:
+	* src/murrine_style.c: (murrine_set_widget_parameters),
+	(murrine_style_draw_flat_box), (murrine_style_draw_box_gap),
+	(murrine_style_draw_box), (murrine_style_init_from_rc),
+	(murrine_style_copy):
+	* src/murrine_style.h:
+	* src/murrine_types.h:
+	Just for the History... this version has an opacity ratio, but it is
+	dangerous :)
+	So I will remove it in the next commit
+
 2008-02-15  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/cairo-support.c: (murrine_draw_innerborder),

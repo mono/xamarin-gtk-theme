@@ -179,6 +179,7 @@ typedef struct
 	double  gradient_stop_2;
 	double  gradient_stop_3;
 	double  gradient_stop_4;
+	double  opacity_ratio;
 	double  rgba_opacity;
 
 	boolean gradients;

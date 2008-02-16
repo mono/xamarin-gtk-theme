@@ -351,12 +351,12 @@ murrine_rgba_draw_entry (cairo_t *cr,
 
 	/* Fill the background (shouldn't have to) */
 	cairo_rectangle (cr, -0.5, -0.5, width, height);
-	murrine_set_color_rgba (cr, &widget->parentbg, WINDOW_OPACITY);
+	murrine_set_color_rgba (cr, &widget->parentbg, WINDOW_OPACITY*widget->mrn_gradient.opacity_ratio);
 	cairo_fill (cr);
 
 	/* Fill the entry's base color (why isn't is large enough by default?) */
 	cairo_rectangle (cr, 1.5, 1.5, width-3, height-3);
-	murrine_set_color_rgba (cr, base, ENTRY_OPACITY);
+	murrine_set_color_rgba (cr, base, ENTRY_OPACITY*widget->mrn_gradient.opacity_ratio);
 	cairo_fill (cr);
 
 	cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
@@ -686,8 +686,8 @@ murrine_rgba_draw_menubar (cairo_t *cr,
 		MurrineRGB lower;
 		murrine_shade (fill, 0.95, &lower);
 		pattern = cairo_pattern_create_linear (0, 0, 0, height);
-		cairo_pattern_add_color_stop_rgba (pattern, 0.0, fill->r, fill->g, fill->b, MENUBAR_OPACITY);
-		cairo_pattern_add_color_stop_rgba (pattern, 1.0, lower.r, lower.g, lower.b, MENUBAR_OPACITY);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.0, fill->r, fill->g, fill->b, MENUBAR_OPACITY*widget->mrn_gradient.opacity_ratio);
+		cairo_pattern_add_color_stop_rgba (pattern, 1.0, lower.r, lower.g, lower.b, MENUBAR_OPACITY*widget->mrn_gradient.opacity_ratio);
 		cairo_set_source (cr, pattern);
 		cairo_fill (cr);
 		cairo_pattern_destroy (pattern);
@@ -701,8 +701,8 @@ murrine_rgba_draw_menubar (cairo_t *cr,
 		murrine_shade (fill, 0.9, &top);
 		murrine_shade (fill, 1.1, &low);
 		pattern = cairo_pattern_create_linear (0, 0, 0, height);
-		cairo_pattern_add_color_stop_rgba (pattern, 0.0, top.r, top.g, top.b, MENUBAR_STRIPED_OPACITY);
-		cairo_pattern_add_color_stop_rgba (pattern, 1.0, low.r, low.g, low.b, MENUBAR_STRIPED_OPACITY);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.0, top.r, top.g, top.b, MENUBAR_STRIPED_OPACITY*widget->mrn_gradient.opacity_ratio);
+		cairo_pattern_add_color_stop_rgba (pattern, 1.0, low.r, low.g, low.b, MENUBAR_STRIPED_OPACITY*widget->mrn_gradient.opacity_ratio);
 		cairo_set_source (cr, pattern);
 		cairo_fill (cr);
 
@@ -712,7 +712,7 @@ murrine_rgba_draw_menubar (cairo_t *cr,
 		int counter = -height;
 		cairo_set_line_width  (cr, 1.0);
 		murrine_shade (&low, 0.9, &low);
-		murrine_set_color_rgba (cr, &low, MENUBAR_STRIPED_OPACITY);
+		murrine_set_color_rgba (cr, &low, MENUBAR_STRIPED_OPACITY*widget->mrn_gradient.opacity_ratio);
 		while (counter < width)
 		{
 			cairo_move_to (cr, counter, height);
@@ -723,7 +723,7 @@ murrine_rgba_draw_menubar (cairo_t *cr,
 	}
 	else /* Flat menubar */
 	{
-		murrine_set_color_rgba (cr, fill, MENUBAR_OPACITY);
+		murrine_set_color_rgba (cr, fill, MENUBAR_OPACITY*widget->mrn_gradient.opacity_ratio);
 		cairo_fill (cr);
 
 		cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
@@ -763,7 +763,7 @@ murrine_rgba_draw_toolbar (cairo_t *cr,
 	cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
 
 #ifdef HAVE_MACMENU
-	murrine_set_color_rgba (cr, fill, WINDOW_OPACITY);
+	murrine_set_color_rgba (cr, fill, WINDOW_OPACITY*widget->mrn_gradient.opacity_ratio);
 	cairo_fill (cr);
 	cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 #else
@@ -810,8 +810,8 @@ murrine_rgba_draw_toolbar (cairo_t *cr,
 		MurrineRGB lower;
 		murrine_shade (fill, 0.95, &lower);
 		pattern = cairo_pattern_create_linear (0, 0, 0, height);
-		cairo_pattern_add_color_stop_rgba (pattern, 0.0, fill->r, fill->g, fill->b, TOOLBAR_OPACITY);
-		cairo_pattern_add_color_stop_rgba (pattern, 1.0, lower.r, lower.g, lower.b, TOOLBAR_OPACITY);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.0, fill->r, fill->g, fill->b, TOOLBAR_OPACITY*widget->mrn_gradient.opacity_ratio);
+		cairo_pattern_add_color_stop_rgba (pattern, 1.0, lower.r, lower.g, lower.b, TOOLBAR_OPACITY*widget->mrn_gradient.opacity_ratio);
 		cairo_set_source (cr, pattern);
 		cairo_fill (cr);
 		cairo_pattern_destroy (pattern);
@@ -820,7 +820,7 @@ murrine_rgba_draw_toolbar (cairo_t *cr,
 	}
 	else /* Flat toolbar */
 	{
-		murrine_set_color_rgba (cr, fill, TOOLBAR_OPACITY);
+		murrine_set_color_rgba (cr, fill, TOOLBAR_OPACITY*widget->mrn_gradient.opacity_ratio);
 		cairo_fill (cr);
 
 		cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
@@ -1106,7 +1106,7 @@ murrine_rgba_draw_tab (cairo_t *cr,
 	/* Draw fill */
 	if (!widget->active)
 	{
-		murrine_set_color_rgba (cr, fill, NOTEBOOK_OPACITY);
+		murrine_set_color_rgba (cr, fill, NOTEBOOK_OPACITY*widget->mrn_gradient.opacity_ratio);
 		cairo_fill (cr);
 	}
 
@@ -1162,10 +1162,10 @@ murrine_rgba_draw_tab (cairo_t *cr,
 		else
 			clearlooks_rounded_rectangle (cr, 0, 0, width-1, height-1, widget->roundness, corners);
 
-		cairo_pattern_add_color_stop_rgba (pattern, 0.0, shade1.r, shade1.g, shade1.b, NOTEBOOK_OPACITY);
-		cairo_pattern_add_color_stop_rgba (pattern, 0.4, shade2.r, shade2.g, shade2.b, NOTEBOOK_OPACITY);
-		cairo_pattern_add_color_stop_rgba (pattern, 0.4, shade3.r, shade3.g, shade3.b, NOTEBOOK_OPACITY);
-		cairo_pattern_add_color_stop_rgba (pattern, 1.0, shade4.r, shade4.g, shade4.b, NOTEBOOK_OPACITY);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.0, shade1.r, shade1.g, shade1.b, NOTEBOOK_OPACITY*widget->mrn_gradient.opacity_ratio);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.4, shade2.r, shade2.g, shade2.b, NOTEBOOK_OPACITY*widget->mrn_gradient.opacity_ratio);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.4, shade3.r, shade3.g, shade3.b, NOTEBOOK_OPACITY*widget->mrn_gradient.opacity_ratio);
+		cairo_pattern_add_color_stop_rgba (pattern, 1.0, shade4.r, shade4.g, shade4.b, NOTEBOOK_OPACITY*widget->mrn_gradient.opacity_ratio);
 		cairo_set_source (cr, pattern);
 		cairo_fill (cr);
 		cairo_pattern_destroy (pattern);
@@ -1205,9 +1205,9 @@ murrine_rgba_draw_tab (cairo_t *cr,
 		else
 			clearlooks_rounded_rectangle (cr, 0, 0, width-1, height-1, widget->roundness, corners);
 
-		cairo_pattern_add_color_stop_rgba (pattern, 0.0,        stripe_fill->r, stripe_fill->g, stripe_fill->b, NOTEBOOK_OPACITY);
-		cairo_pattern_add_color_stop_rgba (pattern, strip_size, stripe_fill->r, stripe_fill->g, stripe_fill->b, NOTEBOOK_OPACITY);
-		cairo_pattern_add_color_stop_rgba (pattern, strip_size, fill->r, fill->g, fill->b, NOTEBOOK_OPACITY);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.0,        stripe_fill->r, stripe_fill->g, stripe_fill->b, NOTEBOOK_OPACITY*widget->mrn_gradient.opacity_ratio);
+		cairo_pattern_add_color_stop_rgba (pattern, strip_size, stripe_fill->r, stripe_fill->g, stripe_fill->b, NOTEBOOK_OPACITY*widget->mrn_gradient.opacity_ratio);
+		cairo_pattern_add_color_stop_rgba (pattern, strip_size, fill->r, fill->g, fill->b, NOTEBOOK_OPACITY*widget->mrn_gradient.opacity_ratio);
 		cairo_set_source (cr, pattern);
 		cairo_fill (cr);
 		cairo_pattern_destroy (pattern);
@@ -1873,7 +1873,7 @@ murrine_rgba_draw_menu_frame (cairo_t *cr,
 	cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 
 	clearlooks_rounded_rectangle (cr, 0.5, 0.5, width-1, height-1, widget->roundness, corners);
-	murrine_set_color_rgba (cr, &colors->bg[0], MENU_OPACITY);
+	murrine_set_color_rgba (cr, &colors->bg[0], MENU_OPACITY*widget->mrn_gradient.opacity_ratio);
 	cairo_fill (cr);
 
 	murrine_rounded_rectangle (cr, 0.5, 0.5, width-1, height-1, widget->roundness, corners);

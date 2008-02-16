@@ -161,8 +161,7 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	}
 	mrn_gradient.gradients = murrine_style->gradients;
 	mrn_gradient.use_rgba = (murrine_widget_is_rgba ((GtkWidget*) widget) && murrine_style->rgba);
-	mrn_gradient.opacity_ratio = murrine_style->opacity_ratio;
-	mrn_gradient.rgba_opacity = GRADIENT_OPACITY*murrine_style->opacity_ratio;
+	mrn_gradient.rgba_opacity = GRADIENT_OPACITY;
 
 	MurrineDrawStyles drawstyle = MRN_DRAW_STYLE_MURRINE;
 	if (mrn_gradient.use_rgba)
@@ -256,7 +255,7 @@ murrine_style_draw_flat_box (DRAW_ARGS)
 					cairo_paint (cr);
 					cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 
-					murrine_set_color_rgba (cr, &colors->base[state_type], ENTRY_OPACITY*murrine_style->opacity_ratio);
+					murrine_set_color_rgba (cr, &colors->base[state_type], ENTRY_OPACITY);
 					cairo_rectangle (cr, 0, 0, width, height);
 					cairo_fill (cr);
 				}
@@ -267,7 +266,7 @@ murrine_style_draw_flat_box (DRAW_ARGS)
 					cairo_paint (cr);
 					cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 
-					murrine_set_color_rgba (cr, &colors->bg[0], WINDOW_OPACITY*murrine_style->opacity_ratio);
+					murrine_set_color_rgba (cr, &colors->bg[0], WINDOW_OPACITY);
 					cairo_rectangle (cr, 0, 0, width, height);
 					cairo_fill (cr);
 				}
@@ -283,13 +282,13 @@ murrine_style_draw_flat_box (DRAW_ARGS)
 					pattern = cairo_pattern_create_linear (0, 0, width, 0);
 					cairo_pattern_add_color_stop_rgba (pattern, 0.0, colors->bg[0].r,
 					                                                 colors->bg[0].g,
-					                                                 colors->bg[0].b, WINDOW_OPACITY*murrine_style->opacity_ratio);
+					                                                 colors->bg[0].b, WINDOW_OPACITY);
 					cairo_pattern_add_color_stop_rgba (pattern, 0.5, colors->bg[0].r,
 					                                                 colors->bg[0].g,
-					                                                 colors->bg[0].b, 0.8*murrine_style->opacity_ratio);
+					                                                 colors->bg[0].b, 0.8);
 					cairo_pattern_add_color_stop_rgba (pattern, 1.0, colors->bg[0].r,
 					                                                 colors->bg[0].g,
-					                                                 colors->bg[0].b, WINDOW_OPACITY*murrine_style->opacity_ratio);
+					                                                 colors->bg[0].b, WINDOW_OPACITY);
 					cairo_set_source (cr, pattern);
 					cairo_rectangle  (cr, 0, 0, width, height);
 					cairo_fill       (cr);
@@ -526,7 +525,7 @@ murrine_style_draw_box_gap (DRAW_ARGS,
 		if (!params.mrn_gradient.use_rgba)
 			murrine_set_color_rgb (cr, &colors->bg[0]);
 		else
-			murrine_set_color_rgba (cr, &colors->bg[0], NOTEBOOK_OPACITY*murrine_style->opacity_ratio);
+			murrine_set_color_rgba (cr, &colors->bg[0], NOTEBOOK_OPACITY);
 		cairo_fill(cr);
 
 		if (params.mrn_gradient.use_rgba)
@@ -674,7 +673,7 @@ murrine_style_draw_box (DRAW_ARGS)
 
 		if (params.mrn_gradient.use_rgba)
 		{
-			params.mrn_gradient.rgba_opacity = MENUBAR_GLOSSY_OPACITY*murrine_style->opacity_ratio;
+			params.mrn_gradient.rgba_opacity = MENUBAR_GLOSSY_OPACITY;
 		}
 
 		horizontal = height < 2*width;
@@ -1602,7 +1601,6 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	murrine_style->has_gradient_stop  = MURRINE_RC_STYLE (rc_style)->has_gradient_stop;
 	murrine_style->highlight_ratio    = MURRINE_RC_STYLE (rc_style)->highlight_ratio;
 	murrine_style->innerborder_ratio  = MURRINE_RC_STYLE (rc_style)->innerborder_ratio;
-	murrine_style->opacity_ratio      = MURRINE_RC_STYLE (rc_style)->opacity_ratio;
 	murrine_style->glazestyle         = MURRINE_RC_STYLE (rc_style)->glazestyle;
 
 	if (murrine_style->has_gradient_stop &&
@@ -1623,20 +1621,20 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	}
 	else
 		murrine_style->roundness       = MURRINE_RC_STYLE (rc_style)->roundness;
+	murrine_style->menubarstyle        = MURRINE_RC_STYLE (rc_style)->menubarstyle;
+	murrine_style->menubaritemstyle    = MURRINE_RC_STYLE (rc_style)->menubaritemstyle;
+	murrine_style->menustyle           = MURRINE_RC_STYLE (rc_style)->menustyle;
+	murrine_style->menuitemstyle       = MURRINE_RC_STYLE (rc_style)->menuitemstyle;
 	murrine_style->listviewheaderstyle = MURRINE_RC_STYLE (rc_style)->listviewheaderstyle;
 	murrine_style->listviewstyle       = MURRINE_RC_STYLE (rc_style)->listviewstyle;
-	murrine_style->menubaritemstyle    = MURRINE_RC_STYLE (rc_style)->menubaritemstyle;
-	murrine_style->menubarstyle        = MURRINE_RC_STYLE (rc_style)->menubarstyle;
-	murrine_style->menuitemstyle       = MURRINE_RC_STYLE (rc_style)->menuitemstyle;
-	murrine_style->menustyle           = MURRINE_RC_STYLE (rc_style)->menustyle;
-	murrine_style->scrollbarstyle      = MURRINE_RC_STYLE (rc_style)->scrollbarstyle;
 	murrine_style->sliderstyle         = MURRINE_RC_STYLE (rc_style)->sliderstyle;
+	murrine_style->scrollbarstyle      = MURRINE_RC_STYLE (rc_style)->scrollbarstyle;
+	murrine_style->has_scrollbar_color = MURRINE_RC_STYLE (rc_style)->has_scrollbar_color;
 	murrine_style->stepperstyle        = MURRINE_RC_STYLE (rc_style)->stepperstyle;
 	murrine_style->toolbarstyle        = MURRINE_RC_STYLE (rc_style)->toolbarstyle;
 	murrine_style->animation           = MURRINE_RC_STYLE (rc_style)->animation;
 	murrine_style->gradients           = MURRINE_RC_STYLE (rc_style)->gradients;
 	murrine_style->colorize_scrollbar  = MURRINE_RC_STYLE (rc_style)->colorize_scrollbar;
-	murrine_style->has_scrollbar_color = MURRINE_RC_STYLE (rc_style)->has_scrollbar_color;
 	murrine_style->rgba                = MURRINE_RC_STYLE (rc_style)->rgba;
 
 	if (murrine_style->has_scrollbar_color)
@@ -1864,7 +1862,6 @@ murrine_style_copy (GtkStyle * style, GtkStyle * src)
 	mrn_style->menubarstyle        = mrn_src->menubarstyle;
 	mrn_style->menuitemstyle       = mrn_src->menuitemstyle;
 	mrn_style->menustyle           = mrn_src->menustyle;
-	mrn_style->opacity_ratio       = mrn_src->opacity_ratio;
 	mrn_style->rgba                = mrn_src->rgba;
 	mrn_style->roundness           = mrn_src->roundness;
 	mrn_style->scrollbar_color     = mrn_src->scrollbar_color;

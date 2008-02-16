@@ -58,7 +58,6 @@ enum
 	TOKEN_MENUBARSTYLE,
 	TOKEN_MENUITEMSTYLE,
 	TOKEN_MENUSTYLE,
-	TOKEN_OPACITY_RATIO,
 	TOKEN_RGBA,
 	TOKEN_ROUNDNESS,
 	TOKEN_SCROLLBAR_COLOR,
@@ -106,7 +105,6 @@ theme_symbols[] =
 	{ "menubarstyle",        TOKEN_MENUBARSTYLE },
 	{ "menuitemstyle",       TOKEN_MENUITEMSTYLE },
 	{ "menustyle",           TOKEN_MENUSTYLE },
-	{ "opacity_ratio",       TOKEN_OPACITY_RATIO },
 	{ "rgba",                TOKEN_RGBA },
 	{ "roundness",           TOKEN_ROUNDNESS },
 	{ "scrollbar_color",     TOKEN_SCROLLBAR_COLOR },
@@ -177,7 +175,6 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->menubarstyle = 0;
 	murrine_rc->menuitemstyle = 1;
 	murrine_rc->menustyle = 1;
-	murrine_rc->opacity_ratio = 1.0;
 	murrine_rc->rgba = TRUE;
 	murrine_rc->roundness = 1;
 	murrine_rc->scrollbarstyle = 0;
@@ -486,10 +483,6 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_int (settings, scanner, &murrine_style->menustyle);
 				murrine_style->flags |= MRN_FLAG_MENUSTYLE;
 				break;
-			case TOKEN_OPACITY_RATIO:
-				token = theme_parse_ratio (settings, scanner, &murrine_style->opacity_ratio);
-				murrine_style->flags |= MRN_FLAG_OPACITY_RATIO;
-				break;
 			case TOKEN_RGBA:
 				token = theme_parse_boolean (settings, scanner, &murrine_style->rgba);
 				murrine_style->flags |= MRN_FLAG_RGBA;
@@ -618,8 +611,6 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->menuitemstyle = src_w->menuitemstyle;
 	if (flags & MRN_FLAG_MENUSTYLE)
 		dest_w->menustyle = src_w->menustyle;
-	if (flags & MRN_FLAG_OPACITY_RATIO)
-		dest_w->opacity_ratio = src_w->opacity_ratio;
 	if (flags & MRN_FLAG_RGBA)
 		dest_w->rgba = src_w->rgba;
 	if (flags & MRN_FLAG_ROUNDNESS)

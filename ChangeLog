@@ -1,3 +1,8 @@
+2008-02-17  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/support.h:
+	Minor tweaks in transparency
+
 2008-02-16  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/support.h:

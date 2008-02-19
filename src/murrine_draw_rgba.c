@@ -1560,7 +1560,7 @@ murrine_rgba_draw_scrollbar_slider (cairo_t *cr,
 		}
 	}
 }
-/*
+
 static void
 murrine_rgba_draw_tooltip (cairo_t *cr,
                            const MurrineColors    *colors,
@@ -1583,25 +1583,27 @@ murrine_rgba_draw_tooltip (cairo_t *cr,
 
 	cairo_translate (cr, x, y);
 	cairo_set_line_width (cr, 1.0);
+	cairo_rectangle (cr, 0, 0, width, height);
 	cairo_set_operator (cr, CAIRO_OPERATOR_CLEAR);
-	cairo_paint (cr);
-	cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
+	cairo_fill (cr);
+	cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
 
 	murrine_set_gradient (cr, &colors->bg[widget->state_type], mrn_gradient_custom, 0, 0, 0, height, widget->mrn_gradient.gradients, FALSE);
-	murrine_rounded_rectangle (cr, 0, 0, width, height, widget->roundness, MRN_CORNER_ALL);
+	clearlooks_rounded_rectangle (cr, 0, 0, width, height, widget->roundness > 1 ? widget->roundness+1 : 0, widget->corners);
 	cairo_fill (cr);
 
 	murrine_set_gradient (cr, &highlight, mrn_gradient_custom, 0, 0, 0, height, widget->mrn_gradient.gradients, TRUE);
-	murrine_rounded_rectangle (cr, 0, 0, width, height/2, widget->roundness, MRN_CORNER_TOPLEFT | MRN_CORNER_TOPRIGHT);
+	clearlooks_rounded_rectangle (cr, 0, 0, width, height/2, widget->roundness > 1 ? widget->roundness+1 : 0, 
+	                              widget->corners == MRN_CORNER_ALL ? MRN_CORNER_TOPLEFT | MRN_CORNER_TOPRIGHT : MRN_CORNER_NONE);
 	cairo_fill (cr);
 
 	murrine_set_color_rgb (cr, &border);
-	murrine_rounded_rectangle (cr, 0.5, 0.5, width-1, height-1, widget->roundness, MRN_CORNER_ALL);
+	murrine_rounded_rectangle (cr, 0.5, 0.5, width-1, height-1, widget->roundness, widget->corners);
 	cairo_stroke (cr);
 
 	cairo_restore (cr);
 }
-*/
+
 static void
 murrine_rgba_draw_handle (cairo_t *cr,
                           const MurrineColors    *colors,
@@ -1872,7 +1874,7 @@ murrine_rgba_draw_menu_frame (cairo_t *cr,
 	cairo_paint (cr);
 	cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 
-	clearlooks_rounded_rectangle (cr, 0.5, 0.5, width-1, height-1, widget->roundness, corners);
+	clearlooks_rounded_rectangle (cr, 0, 0, width, height, widget->roundness > 1 ? widget->roundness+1 : 0, corners);
 	murrine_set_color_rgba (cr, &colors->bg[0], MENU_OPACITY);
 	cairo_fill (cr);
 
@@ -1935,7 +1937,7 @@ murrine_register_style_rgba (MurrineStyleFunctions *functions)
 	functions->draw_scrollbar_stepper  = murrine_rgba_draw_scrollbar_stepper;
 	functions->draw_scrollbar_slider   = murrine_rgba_draw_scrollbar_slider;
 	functions->draw_handle             = murrine_rgba_draw_handle;
-	/* functions->draw_tooltip            = murrine_rgba_draw_tooltip; */
+	functions->draw_tooltip            = murrine_rgba_draw_tooltip;
 	functions->draw_radiobutton        = murrine_rgba_draw_radiobutton;
 	functions->draw_checkbox           = murrine_rgba_draw_checkbox;
 	functions->draw_menu_frame         = murrine_rgba_draw_menu_frame;

@@ -42,6 +42,7 @@
 #define TOOLBAR_OPACITY 0.89
 #define TOOLBAR_GLOSSY_OPACITY 0.88
 #define MENU_OPACITY 0.90
+#define TOOLTIP_OPACITY 0.90
 
 /* From gtk-engines 20071109 */
 #define MRN_IS_WIDGET(object) ((object)  && murrine_object_is_a ((GObject*)(object), "GtkWidget"))

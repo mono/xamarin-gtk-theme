@@ -209,6 +209,7 @@ murrine_style_draw_flat_box (DRAW_ARGS)
 		MurrineStyle  *murrine_style = MURRINE_STYLE (style);
 		MurrineColors *colors = &murrine_style->colors;
 		cairo_t       *cr;
+/*		GtkWidget     *parent; */
 
 		CHECK_ARGS
 		SANITIZE_SIZE
@@ -218,6 +219,17 @@ murrine_style_draw_flat_box (DRAW_ARGS)
 		WidgetParameters params;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
+		if (params.mrn_gradient.use_rgba)
+		{
+			params.corners = MRN_CORNER_ALL;
+			params.mrn_gradient.rgba_opacity = TOOLTIP_OPACITY;
+		}
+
+/*		Not working...
+		parent = gtk_widget_get_parent (widget);
+		if (GTK_IS_TOOLTIP (parent))
+			params.corners = MRN_CORNER_NONE;
+*/
 
 		STYLE_FUNCTION(draw_tooltip) (cr, colors, &params, x, y, width, height);
 
@@ -357,7 +369,6 @@ murrine_style_draw_shadow (DRAW_ARGS)
 		WidgetParameters params;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
-		params.roundness = murrine_style->roundness;
 
 		if (widget && (MRN_IS_COMBO (widget->parent) ||
 		               MRN_IS_COMBO_BOX_ENTRY(widget->parent) ||

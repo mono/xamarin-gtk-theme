@@ -32,7 +32,7 @@
 #define CHECK_SIZE 13
 
 /* Opacity settings */
-#define GRADIENT_OPACITY 0.92
+#define GRADIENT_OPACITY 0.90
 #define WINDOW_OPACITY 0.86
 #define ENTRY_OPACITY 0.90
 #define NOTEBOOK_OPACITY 0.92
@@ -41,7 +41,7 @@
 #define MENUBAR_STRIPED_OPACITY 0.94
 #define TOOLBAR_OPACITY 0.89
 #define TOOLBAR_GLOSSY_OPACITY 0.88
-#define MENU_OPACITY 0.92
+#define MENU_OPACITY 0.90
 
 /* From gtk-engines 20071109 */
 #define MRN_IS_WIDGET(object) ((object)  && murrine_object_is_a ((GObject*)(object), "GtkWidget"))

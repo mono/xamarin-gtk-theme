@@ -1,3 +1,8 @@
+2008-02-26  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/murrine_style.c: (murrine_style_realize):
+	Fixed broken algorithm for the contrast option
+
 2008-02-19  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/murrine_draw_rgba.c: (murrine_rgba_draw_tooltip),

@@ -1717,7 +1717,8 @@ murrine_style_realize (GtkStyle * style)
 	/* Lighter to darker */
 	for (i = 0; i < 9; i++)
 	{
-		murrine_shade (&bg_normal, (shades[i]-0.9) * contrast + 0.9,
+		murrine_shade (&bg_normal, (shades[i] < 1.0) ?
+		               (shades[i]/contrast) : (shades[i]*contrast),
 		               &murrine_style->colors.shade[i]);
 	}
 

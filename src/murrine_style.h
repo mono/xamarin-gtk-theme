@@ -62,6 +62,7 @@ struct _MurrineStyle
 	guint8   menubarstyle;
 	guint8   menuitemstyle;
 	guint8   menustyle;
+	guint8   reliefstyle;
 	guint8   roundness;
 	guint8   scrollbarstyle;
 	guint8   sliderstyle;

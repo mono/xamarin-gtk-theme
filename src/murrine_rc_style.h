@@ -52,14 +52,15 @@ typedef enum
 	MRN_FLAG_MENUBARSTYLE = 1 << 15,
 	MRN_FLAG_MENUITEMSTYLE = 1 << 16,
 	MRN_FLAG_MENUSTYLE = 1 << 17,
-	MRN_FLAG_RGBA = 1 << 18,
-	MRN_FLAG_ROUNDNESS = 1 << 19,
-	MRN_FLAG_SCROLLBAR_COLOR = 1 << 20,
-	MRN_FLAG_SCROLLBARSTYLE = 1 << 21,
-	MRN_FLAG_SLIDERSTYLE = 1 << 22,
-	MRN_FLAG_STEPPERSTYLE = 1 << 23,
-	MRN_FLAG_STYLE = 1 << 24,
-	MRN_FLAG_TOOLBARSTYLE = 1 << 25
+	MRN_FLAG_RELIEFSTYLE = 1 << 18,
+	MRN_FLAG_RGBA = 1 << 19,
+	MRN_FLAG_ROUNDNESS = 1 << 20,
+	MRN_FLAG_SCROLLBAR_COLOR = 1 << 21,
+	MRN_FLAG_SCROLLBARSTYLE = 1 << 22,
+	MRN_FLAG_SLIDERSTYLE = 1 << 23,
+	MRN_FLAG_STEPPERSTYLE = 1 << 24,
+	MRN_FLAG_STYLE = 1 << 25,
+	MRN_FLAG_TOOLBARSTYLE = 1 << 26
 } MurrineRcFlags;
 
 struct _MurrineRcStyle
@@ -84,6 +85,7 @@ struct _MurrineRcStyle
 	guint8   menubarstyle;
 	guint8   menuitemstyle;
 	guint8   menustyle;
+	guint8   reliefstyle;
 	guint8   roundness;
 	guint8   scrollbarstyle;
 	guint8   sliderstyle;

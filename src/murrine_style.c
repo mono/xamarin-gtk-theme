@@ -135,6 +135,7 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	params->lightborder_ratio = murrine_style->lightborder_ratio;
 	params->lightborderstyle  = murrine_style->lightborderstyle;
 	params->glazestyle        = murrine_style->glazestyle;
+	params->reliefstyle       = murrine_style->reliefstyle;
 	params->roundness         = murrine_style->roundness;
 	params->highlight_ratio   = murrine_style->highlight_ratio;
 
@@ -1650,6 +1651,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	murrine_style->gradients           = MURRINE_RC_STYLE (rc_style)->gradients;
 	murrine_style->colorize_scrollbar  = MURRINE_RC_STYLE (rc_style)->colorize_scrollbar;
 	murrine_style->rgba                = MURRINE_RC_STYLE (rc_style)->rgba;
+	murrine_style->reliefstyle         = MURRINE_RC_STYLE (rc_style)->reliefstyle;
 
 	if (murrine_style->has_scrollbar_color)
 		murrine_style->scrollbar_color = MURRINE_RC_STYLE (rc_style)->scrollbar_color;
@@ -1674,6 +1676,14 @@ murrine_style_init_from_rc (GtkStyle   *style,
 			murrine_style->glazestyle = 0;
 			murrine_style->gradients = FALSE;
 			murrine_style->has_gradient_stop = FALSE;
+			murrine_style->lightborder_ratio = 1.00;
+			murrine_style->sliderstyle = 1;
+			murrine_style->scrollbarstyle = 0;
+			murrine_style->stepperstyle = 0;
+			murrine_style->colorize_scrollbar = FALSE;
+			murrine_style->has_scrollbar_color = FALSE;
+			murrine_style->reliefstyle = 0;
+			murrine_style->roundness = 0;
 			break;
 		case (MRN_STYLE_CANDIDO):
 			murrine_style->highlight_ratio = 1.0;
@@ -1685,6 +1695,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 			murrine_style->gradient_stop_3 = 0.99;
 			murrine_style->gradient_stop_4 = 0.97;
 			murrine_style->has_gradient_stop = TRUE;
+			murrine_style->reliefstyle = 0;
 			break;
 		case (MRN_STYLE_CLEARLOOKS):
 			murrine_style->glazestyle = 0;
@@ -1883,6 +1894,7 @@ murrine_style_copy (GtkStyle * style, GtkStyle * src)
 	mrn_style->menubarstyle        = mrn_src->menubarstyle;
 	mrn_style->menuitemstyle       = mrn_src->menuitemstyle;
 	mrn_style->menustyle           = mrn_src->menustyle;
+	mrn_style->reliefstyle         = mrn_src->reliefstyle;
 	mrn_style->rgba                = mrn_src->rgba;
 	mrn_style->roundness           = mrn_src->roundness;
 	mrn_style->scrollbar_color     = mrn_src->scrollbar_color;

@@ -181,12 +181,14 @@ murrine_rgba_draw_button (cairo_t *cr,
 	if (widget->ythickness > 1)
 		yoffset = 1;
 
-	if (!widget->active)
+	if (!widget->active && !widget->disabled && widget->reliefstyle > 1)
 	{
 		murrine_rounded_rectangle (cr, xoffset, yoffset, width-(xoffset*2), height-(yoffset*2), widget->roundness, widget->corners);
 		murrine_set_color_rgba (cr, widget->disabled ? &border_disabled : &border_normal, 0.16);
 		cairo_stroke (cr);
 	}
+	else if (widget->reliefstyle != 0)
+		murrine_draw_inset (cr, &widget->parentbg, 0.5, 0.5, width-1, height-1, widget->roundness+1, widget->corners);
 
 	murrine_mix_color (widget->disabled ? &border_disabled : &border_normal , &widget->parentbg, 0.2,
 	                   widget->disabled ? &border_disabled : &border_normal);
@@ -363,7 +365,8 @@ murrine_rgba_draw_entry (cairo_t *cr,
 
 	cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 
-	murrine_draw_inset (cr, &widget->parentbg, 0, 0, width-1, height-1, radius+1, widget->corners);
+	if (widget->reliefstyle != 0)
+		murrine_draw_inset (cr, &widget->parentbg, 0, 0, width-1, height-1, radius+1, widget->corners);
 
 	/* Draw the focused border */
 	if (widget->focus)
@@ -464,7 +467,8 @@ murrine_rgba_draw_scale_trough (cairo_t *cr,
 	cairo_set_line_width (cr, 1.0);
 	cairo_translate (cr, translate_x, translate_y);
 
-	murrine_draw_inset (cr, &widget->parentbg, 0, 0, trough_width+2, trough_height+2, 0, 0);
+	if (widget->reliefstyle != 0)
+		murrine_draw_inset (cr, &widget->parentbg, 0, 0, trough_width+2, trough_height+2, 0, 0);
 
 	cairo_translate (cr, 1, 1);
 
@@ -1683,10 +1687,13 @@ murrine_rgba_draw_radiobutton (cairo_t * cr,
 
 	cairo_translate (cr, x, y);
 
-	cairo_set_line_width (cr, 2);
-	cairo_arc (cr, 7, 7, 6, 0, M_PI*2);
-	murrine_set_color_rgba (cr, &colors->shade[8], 0.12);
-	cairo_stroke (cr);
+	if (widget->reliefstyle > 1)
+	{
+		cairo_set_line_width (cr, 2.0);
+		cairo_arc (cr, 7, 7, 6, 0, M_PI*2);
+		murrine_set_color_rgba (cr, &colors->shade[8], 0.12);
+		cairo_stroke (cr);
+	}
 
 	cairo_set_line_width (cr, 1.0);
 
@@ -1777,9 +1784,12 @@ murrine_rgba_draw_checkbox (cairo_t * cr,
 
 	if (widget->xthickness > 2 && widget->ythickness > 2)
 	{
-		cairo_rectangle (cr, 0.5, 0.5, width-1, height-1);
-		murrine_set_color_rgba (cr, &colors->shade[8], 0.12);
-		cairo_stroke (cr);
+		if (widget->reliefstyle > 1)
+		{
+			cairo_rectangle (cr, 0.5, 0.5, width-1, height-1);
+			murrine_set_color_rgba (cr, &colors->shade[8], 0.12);
+			cairo_stroke (cr);
+		}
 
 		/* Draw the rectangle for the checkbox itself */
 		cairo_rectangle (cr, 1.5, 1.5, width-3, height-3);

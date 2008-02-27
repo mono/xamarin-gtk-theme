@@ -202,6 +202,7 @@ typedef struct
 	/* Style */
 	int glazestyle;
 	int lightborderstyle;
+	int reliefstyle;
 	int roundness;
 	double highlight_ratio;
 	double lightborder_ratio;

@@ -1,5 +1,10 @@
 2008-02-27  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/murrine_style.c: (murrine_style_init_from_rc):
+	I accidentally broke NODOKA emulated style on rev 18, fixing
+
+2008-02-27  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_draw.c: (murrine_draw_button), (murrine_draw_entry),
 	(murrine_draw_scale_trough), (murrine_draw_radiobutton),
 	(murrine_draw_checkbox):

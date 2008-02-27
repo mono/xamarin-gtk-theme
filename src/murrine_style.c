@@ -1662,7 +1662,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	switch (murrine_style->style)
 	{
 		case (MRN_STYLE_NODOKA):
-			murrine_style->highlight_ratio = 1.1;
+			murrine_style->highlight_ratio = 1.0;
 			murrine_style->gradients = TRUE;
 			murrine_style->sliderstyle = 1;
 			murrine_style->scrollbarstyle = 2;

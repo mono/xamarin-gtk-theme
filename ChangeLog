@@ -1,5 +1,13 @@
 2008-02-27  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/murrine_draw.c: (murrine_draw_button):
+	* src/murrine_draw_rgba.c: (murrine_rgba_draw_button):
+	* src/murrine_style.c: (murrine_style_init_from_rc),
+	(murrine_style_realize):
+	Fixed contrast and inset on RGBA active buttons
+
+2008-02-27  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_style.c: (murrine_style_init_from_rc):
 	I accidentally broke NODOKA emulated style on rev 18, fixing
 

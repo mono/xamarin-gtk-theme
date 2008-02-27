@@ -191,7 +191,9 @@ murrine_draw_button (cairo_t *cr,
 		cairo_stroke (cr);
 	}
 	else if (widget->reliefstyle != 0)
-		murrine_draw_inset (cr, &widget->parentbg, 0.5, 0.5, width-1, height-1, widget->roundness+1, widget->corners);
+		murrine_draw_inset (cr, &widget->parentbg, xoffset-0.5, yoffset-0.5,
+		                    width-(xoffset*2)+1, height-(yoffset*2)+1,
+		                    widget->roundness+1, widget->corners);
 
 	murrine_mix_color (widget->disabled ? &border_disabled : &border_normal , &fill, 0.4,
 	                   widget->disabled ? &border_disabled : &border_normal);

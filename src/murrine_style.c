@@ -1607,7 +1607,6 @@ murrine_style_init_from_rc (GtkStyle   *style,
 
 	murrine_parent_class->init_from_rc (style, rc_style);
 
-	murrine_style->contrast           = MURRINE_RC_STYLE (rc_style)->contrast;
 	murrine_style->gradient_stop_1    = MURRINE_RC_STYLE (rc_style)->gradient_stop_1;
 	murrine_style->gradient_stop_2    = MURRINE_RC_STYLE (rc_style)->gradient_stop_2;
 	murrine_style->gradient_stop_3    = MURRINE_RC_STYLE (rc_style)->gradient_stop_3;
@@ -1727,7 +1726,7 @@ murrine_style_realize (GtkStyle * style)
 
 	murrine_parent_class->realize (style);
 
-	contrast = murrine_style->contrast;
+	contrast = MURRINE_RC_STYLE (style->rc_style)->contrast;
 
 	bg_normal.r = style->bg[0].red   / 65535.0;
 	bg_normal.g = style->bg[0].green / 65535.0;

@@ -1062,6 +1062,7 @@ murrine_style_draw_box (DRAW_ARGS)
 			params.state_type = MRN_STATE_SELECTED;
 			params.xthickness = 2;
 			params.ythickness = 2;
+			params.reliefstyle = 0;
 
 			if (murrine_style->roundness > 0)
 				params.corners = MRN_CORNER_TOPRIGHT | MRN_CORNER_TOPLEFT;

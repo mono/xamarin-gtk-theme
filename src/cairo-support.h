@@ -76,7 +76,8 @@ G_GNUC_INTERNAL void murrine_draw_lightborder (cairo_t *cr,
                                                MurrineGradients mrn_gradient,
                                                double x, double y, int width, int height,
                                                boolean gradients, boolean horizontal,
-                                               int glazestyle, int radius, uint8 corners);
+                                               int glazestyle, int lightborderstyle,
+                                               int radius, uint8 corners);
 
 G_GNUC_INTERNAL void murrine_set_gradient (cairo_t *cr,
                                            const MurrineRGB *color,

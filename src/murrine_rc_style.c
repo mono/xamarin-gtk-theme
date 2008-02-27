@@ -52,6 +52,7 @@ enum
 	TOKEN_GRADIENTS,
 	TOKEN_HIGHLIGHT_RATIO,
 	TOKEN_LIGHTBORDER_RATIO,
+	TOKEN_LIGHTBORDERSTYLE,
 	TOKEN_LISTVIEWHEADERSTYLE,
 	TOKEN_LISTVIEWSTYLE,
 	TOKEN_MENUBARITEMSTYLE,
@@ -99,6 +100,7 @@ theme_symbols[] =
 	{ "gradients",           TOKEN_GRADIENTS },
 	{ "highlight_ratio",     TOKEN_HIGHLIGHT_RATIO },
 	{ "lightborder_ratio",   TOKEN_LIGHTBORDER_RATIO },
+	{ "lightborderstyle",    TOKEN_LIGHTBORDERSTYLE },
 	{ "listviewheaderstyle", TOKEN_LISTVIEWHEADERSTYLE },
 	{ "listviewstyle",       TOKEN_LISTVIEWSTYLE },
 	{ "menubaritemstyle",    TOKEN_MENUBARITEMSTYLE },
@@ -169,6 +171,7 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->has_gradient_stop = FALSE;
 	murrine_rc->highlight_ratio = 1.1;
 	murrine_rc->lightborder_ratio = 1.1;
+	murrine_rc->lightborderstyle = 0;
 	murrine_rc->listviewheaderstyle = 1;
 	murrine_rc->listviewstyle = 0;
 	murrine_rc->menubaritemstyle = 0;
@@ -459,6 +462,10 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_ratio (settings, scanner, &murrine_style->lightborder_ratio);
 				murrine_style->flags |= MRN_FLAG_LIGHTBORDER_RATIO;
 				break;
+			case TOKEN_LIGHTBORDERSTYLE:
+				token = theme_parse_int (settings, scanner, &murrine_style->lightborderstyle);
+				murrine_style->flags |= MRN_FLAG_LIGHTBORDERSTYLE;
+				break;
 			case TOKEN_LISTVIEWHEADERSTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->listviewheaderstyle);
 				murrine_style->flags |= MRN_FLAG_LISTVIEWHEADERSTYLE;
@@ -599,6 +606,8 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->highlight_ratio = src_w->highlight_ratio;
 	if (flags & MRN_FLAG_LIGHTBORDER_RATIO)
 		dest_w->lightborder_ratio = src_w->lightborder_ratio;
+	if (flags & MRN_FLAG_LIGHTBORDERSTYLE)
+		dest_w->lightborderstyle = src_w->lightborderstyle;
 	if (flags & MRN_FLAG_LISTVIEWHEADERSTYLE)
 		dest_w->listviewheaderstyle = src_w->listviewheaderstyle;
 	if (flags & MRN_FLAG_LISTVIEWSTYLE)

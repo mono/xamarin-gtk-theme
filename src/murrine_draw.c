@@ -258,7 +258,8 @@ murrine_draw_button (cairo_t *cr,
 			                          xoffset + 1.5, yoffset + 1.5,
 			                          width-(xoffset*2)-3, height-(yoffset*2)-3,
 			                          widget->mrn_gradient.gradients, horizontal,
-			                          widget->glazestyle, widget->roundness, widget->corners);
+			                          widget->glazestyle, widget->lightborderstyle,
+			                          widget->roundness, widget->corners);
 		}
 		else
 		{
@@ -267,7 +268,8 @@ murrine_draw_button (cairo_t *cr,
 			                          xoffset + 1.5, yoffset + 1.5,
 			                          width-(xoffset*2)-3, height-(yoffset*2)-3,
 			                          widget->mrn_gradient.gradients, horizontal,
-			                          widget->glazestyle, widget->roundness, widget->corners);
+			                          widget->glazestyle, widget->lightborderstyle,
+			                          widget->roundness, widget->corners);
 			murrine_exchange_axis (cr, &x, &y, &width, &height);
 		}
 	}
@@ -628,7 +630,7 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 	                          2.5, 1.5,
 	                          width-5, height-3,
 	                          widget->mrn_gradient.gradients, TRUE,
-	                          widget->glazestyle, 0, MRN_CORNER_NONE);
+	                          widget->glazestyle, widget->lightborderstyle, 0, MRN_CORNER_NONE);
 
 	/* Draw strokes */
 	while (tile_pos <= width+x_step-2)
@@ -728,7 +730,8 @@ murrine_draw_menubar (cairo_t *cr,
 			                          1.5, 1.5,
 			                          width-3, height-3,
 			                          widget->mrn_gradient.gradients, TRUE,
-			                          widget->glazestyle, widget->roundness, widget->corners);
+			                          widget->glazestyle, widget->lightborderstyle,
+			                          widget->roundness, widget->corners);
 		}
 	}
 	else if (menubarstyle == 2) /* Gradient menubar */
@@ -1277,7 +1280,8 @@ murrine_draw_list_view_header (cairo_t *cr,
 				                              0.5, 0.5,
 				                              width-2, height-2,
 				                              widget->mrn_gradient.gradients, TRUE,
-				                              widget->glazestyle, widget->roundness, widget->corners);
+				                              widget->glazestyle, widget->lightborderstyle,
+				                              widget->roundness, widget->corners);
 			}
 		}
 		/* Raised */
@@ -1504,7 +1508,8 @@ murrine_draw_menuitem (cairo_t *cr,
 			                          1.5, 1.5,
 			                          width-3, height-3,
 			                          widget->mrn_gradient.gradients, TRUE,
-			                          widget->glazestyle, widget->roundness, widget->corners);
+			                          widget->glazestyle, widget->lightborderstyle,
+			                          widget->roundness, widget->corners);
 		}
 	}
 	else
@@ -1625,7 +1630,8 @@ murrine_draw_scrollbar_stepper (cairo_t *cr,
 		                              1.5, 1.5,
 		                              width-3, height-3,
 		                              widget->mrn_gradient.gradients, TRUE,
-		                              widget->glazestyle, widget->roundness, widget->corners);
+		                              widget->glazestyle, widget->lightborderstyle,
+		                              widget->roundness, widget->corners);
 	}
 
 	cairo_reset_clip (cr);
@@ -1740,7 +1746,8 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
 		                          1.5, 1.5,
 		                          width-3, height-3,
 		                          widget->mrn_gradient.gradients, TRUE,
-		                          widget->glazestyle, 0, MRN_CORNER_NONE);
+		                          widget->glazestyle, widget->lightborderstyle,
+		                          0, MRN_CORNER_NONE);
 	}
 
 	/* Draw the options */

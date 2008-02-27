@@ -459,7 +459,8 @@ murrine_draw_lightborder (cairo_t *cr,
                           MurrineGradients mrn_gradient,
                           double x, double y, int width, int height,
                           boolean gradients, boolean horizontal,
-                          int glazestyle, int radius, uint8 corners)
+                          int glazestyle, int lightborderstyle,
+                          int radius, uint8 corners)
 {
 	cairo_pattern_t *pattern;
 	MurrineRGB shade1, shade2, shade3, shade4;
@@ -496,8 +497,10 @@ murrine_draw_lightborder (cairo_t *cr,
 	cairo_pattern_add_color_stop_rgba (pattern, 0.5,      shade2.r, shade2.g, shade2.b, 0.5*alpha_value);
 	cairo_pattern_add_color_stop_rgba (pattern, 0.5,      shade3.r, shade3.g, shade3.b, 0.5*alpha_value);
 	cairo_pattern_add_color_stop_rgba (pattern, fill_pos, shade4.r, shade4.g, shade4.b, 0.5*alpha_value);
-	cairo_pattern_add_color_stop_rgba (pattern, fill_pos, shade4.r, shade4.g, shade4.b, 0.0);
-	cairo_pattern_add_color_stop_rgba (pattern, 1.0,      shade4.r, shade4.g, shade4.b, 0.0);
+	cairo_pattern_add_color_stop_rgba (pattern, fill_pos, shade4.r, shade4.g, shade4.b,
+	                                   lightborderstyle > 0 ? 0.5*alpha_value : 0.0);
+	cairo_pattern_add_color_stop_rgba (pattern, 1.0,      shade4.r, shade4.g, shade4.b,
+	                                   lightborderstyle > 0 ? 0.5*alpha_value : 0.0);
 	cairo_set_source (cr, pattern);
 	cairo_pattern_destroy (pattern);
 

@@ -133,6 +133,7 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	params->ythickness = style->ythickness;
 
 	params->lightborder_ratio = murrine_style->lightborder_ratio;
+	params->lightborderstyle  = murrine_style->lightborderstyle;
 	params->glazestyle        = murrine_style->glazestyle;
 	params->roundness         = murrine_style->roundness;
 	params->highlight_ratio   = murrine_style->highlight_ratio;
@@ -1605,6 +1606,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 
 	murrine_parent_class->init_from_rc (style, rc_style);
 
+	murrine_style->contrast           = MURRINE_RC_STYLE (rc_style)->contrast;
 	murrine_style->gradient_stop_1    = MURRINE_RC_STYLE (rc_style)->gradient_stop_1;
 	murrine_style->gradient_stop_2    = MURRINE_RC_STYLE (rc_style)->gradient_stop_2;
 	murrine_style->gradient_stop_3    = MURRINE_RC_STYLE (rc_style)->gradient_stop_3;
@@ -1612,8 +1614,8 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	murrine_style->has_gradient_stop  = MURRINE_RC_STYLE (rc_style)->has_gradient_stop;
 	murrine_style->highlight_ratio    = MURRINE_RC_STYLE (rc_style)->highlight_ratio;
 	murrine_style->lightborder_ratio  = MURRINE_RC_STYLE (rc_style)->lightborder_ratio;
-	murrine_style->glazestyle         = MURRINE_RC_STYLE (rc_style)->glazestyle;
 
+	murrine_style->glazestyle         = MURRINE_RC_STYLE (rc_style)->glazestyle;
 	if (murrine_style->has_gradient_stop &&
 	    murrine_style->glazestyle != 0)
 	{
@@ -1636,6 +1638,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	murrine_style->menubaritemstyle    = MURRINE_RC_STYLE (rc_style)->menubaritemstyle;
 	murrine_style->menustyle           = MURRINE_RC_STYLE (rc_style)->menustyle;
 	murrine_style->menuitemstyle       = MURRINE_RC_STYLE (rc_style)->menuitemstyle;
+	murrine_style->lightborderstyle    = MURRINE_RC_STYLE (rc_style)->lightborderstyle;
 	murrine_style->listviewheaderstyle = MURRINE_RC_STYLE (rc_style)->listviewheaderstyle;
 	murrine_style->listviewstyle       = MURRINE_RC_STYLE (rc_style)->listviewstyle;
 	murrine_style->sliderstyle         = MURRINE_RC_STYLE (rc_style)->sliderstyle;
@@ -1657,7 +1660,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	switch (murrine_style->style)
 	{
 		case (MRN_STYLE_NODOKA):
-			murrine_style->highlight_ratio = 1.0;
+			murrine_style->highlight_ratio = 1.1;
 			murrine_style->gradients = TRUE;
 			murrine_style->sliderstyle = 1;
 			murrine_style->scrollbarstyle = 2;
@@ -1668,18 +1671,23 @@ murrine_style_init_from_rc (GtkStyle   *style,
 			break;
 		case (MRN_STYLE_MIST):
 			murrine_style->highlight_ratio = 1.0;
+			murrine_style->glazestyle = 0;
 			murrine_style->gradients = FALSE;
+			murrine_style->has_gradient_stop = FALSE;
 			break;
 		case (MRN_STYLE_CANDIDO):
 			murrine_style->highlight_ratio = 1.0;
 			murrine_style->lightborder_ratio = 1.06;
+			murrine_style->glazestyle = 0;
 			murrine_style->gradients = TRUE;
 			murrine_style->gradient_stop_1 = 1.01;
 			murrine_style->gradient_stop_2 = 0.99;
 			murrine_style->gradient_stop_3 = 0.99;
 			murrine_style->gradient_stop_4 = 0.97;
+			murrine_style->has_gradient_stop = TRUE;
 			break;
 		case (MRN_STYLE_CLEARLOOKS):
+			murrine_style->glazestyle = 0;
 			murrine_style->gradient_stop_1 = 1.08;
 			murrine_style->gradient_stop_2 = 1.02;
 			murrine_style->gradient_stop_3 = 1.00;
@@ -1708,7 +1716,7 @@ murrine_style_realize (GtkStyle * style)
 
 	murrine_parent_class->realize (style);
 
-	contrast = MURRINE_RC_STYLE (style->rc_style)->contrast;
+	contrast = murrine_style->contrast;
 
 	bg_normal.r = style->bg[0].red   / 65535.0;
 	bg_normal.g = style->bg[0].green / 65535.0;
@@ -1868,6 +1876,7 @@ murrine_style_copy (GtkStyle * style, GtkStyle * src)
 	mrn_style->has_scrollbar_color = mrn_src->has_scrollbar_color;
 	mrn_style->highlight_ratio     = mrn_src->highlight_ratio;
 	mrn_style->lightborder_ratio   = mrn_src->lightborder_ratio;
+	mrn_style->lightborderstyle    = mrn_src->lightborderstyle;
 	mrn_style->listviewheaderstyle = mrn_src->listviewheaderstyle;
 	mrn_style->listviewstyle       = mrn_src->listviewstyle;
 	mrn_style->menubaritemstyle    = mrn_src->menubaritemstyle;

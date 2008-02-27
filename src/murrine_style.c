@@ -132,7 +132,7 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	params->xthickness = style->xthickness;
 	params->ythickness = style->ythickness;
 
-	params->innerborder_ratio = murrine_style->innerborder_ratio;
+	params->lightborder_ratio = murrine_style->lightborder_ratio;
 	params->glazestyle        = murrine_style->glazestyle;
 	params->roundness         = murrine_style->roundness;
 	params->highlight_ratio   = murrine_style->highlight_ratio;
@@ -1611,7 +1611,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	murrine_style->gradient_stop_4    = MURRINE_RC_STYLE (rc_style)->gradient_stop_4;
 	murrine_style->has_gradient_stop  = MURRINE_RC_STYLE (rc_style)->has_gradient_stop;
 	murrine_style->highlight_ratio    = MURRINE_RC_STYLE (rc_style)->highlight_ratio;
-	murrine_style->innerborder_ratio  = MURRINE_RC_STYLE (rc_style)->innerborder_ratio;
+	murrine_style->lightborder_ratio  = MURRINE_RC_STYLE (rc_style)->lightborder_ratio;
 	murrine_style->glazestyle         = MURRINE_RC_STYLE (rc_style)->glazestyle;
 
 	if (murrine_style->has_gradient_stop &&
@@ -1672,7 +1672,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 			break;
 		case (MRN_STYLE_CANDIDO):
 			murrine_style->highlight_ratio = 1.0;
-			murrine_style->innerborder_ratio = 1.06;
+			murrine_style->lightborder_ratio = 1.06;
 			murrine_style->gradients = TRUE;
 			murrine_style->gradient_stop_1 = 1.01;
 			murrine_style->gradient_stop_2 = 0.99;
@@ -1688,7 +1688,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 			murrine_style->gradients = TRUE;
 			murrine_style->highlight_ratio = 1.0;
 			murrine_style->toolbarstyle = 1;
-			murrine_style->innerborder_ratio = 1.02;
+			murrine_style->lightborder_ratio = 1.02;
 			murrine_style->menustyle = 0;
 			murrine_style->sliderstyle = 1;
 			murrine_style->scrollbarstyle = 2;
@@ -1867,7 +1867,7 @@ murrine_style_copy (GtkStyle * style, GtkStyle * src)
 	mrn_style->has_gradient_stop   = mrn_src->has_gradient_stop;
 	mrn_style->has_scrollbar_color = mrn_src->has_scrollbar_color;
 	mrn_style->highlight_ratio     = mrn_src->highlight_ratio;
-	mrn_style->innerborder_ratio   = mrn_src->innerborder_ratio;
+	mrn_style->lightborder_ratio   = mrn_src->lightborder_ratio;
 	mrn_style->listviewheaderstyle = mrn_src->listviewheaderstyle;
 	mrn_style->listviewstyle       = mrn_src->listviewstyle;
 	mrn_style->menubaritemstyle    = mrn_src->menubaritemstyle;

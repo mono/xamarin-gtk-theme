@@ -453,7 +453,7 @@ murrine_draw_curved_highlight_bottom (cairo_t *cr,
 }
 
 void
-murrine_draw_innerborder (cairo_t *cr,
+murrine_draw_lightborder (cairo_t *cr,
                           const MurrineRGB *highlight_color,
                           const MurrineRGB *fill,
                           MurrineGradients mrn_gradient,

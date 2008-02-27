@@ -51,7 +51,7 @@ enum
 	TOKEN_GRADIENT_STOP_4,
 	TOKEN_GRADIENTS,
 	TOKEN_HIGHLIGHT_RATIO,
-	TOKEN_INNERBORDER_RATIO,
+	TOKEN_LIGHTBORDER_RATIO,
 	TOKEN_LISTVIEWHEADERSTYLE,
 	TOKEN_LISTVIEWSTYLE,
 	TOKEN_MENUBARITEMSTYLE,
@@ -98,7 +98,7 @@ theme_symbols[] =
 	{ "gradient_stop_4",     TOKEN_GRADIENT_STOP_4 },
 	{ "gradients",           TOKEN_GRADIENTS },
 	{ "highlight_ratio",     TOKEN_HIGHLIGHT_RATIO },
-	{ "innerborder_ratio",   TOKEN_INNERBORDER_RATIO },
+	{ "lightborder_ratio",   TOKEN_LIGHTBORDER_RATIO },
 	{ "listviewheaderstyle", TOKEN_LISTVIEWHEADERSTYLE },
 	{ "listviewstyle",       TOKEN_LISTVIEWSTYLE },
 	{ "menubaritemstyle",    TOKEN_MENUBARITEMSTYLE },
@@ -168,7 +168,7 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->has_scrollbar_color = FALSE;
 	murrine_rc->has_gradient_stop = FALSE;
 	murrine_rc->highlight_ratio = 1.1;
-	murrine_rc->innerborder_ratio = 1.1;
+	murrine_rc->lightborder_ratio = 1.1;
 	murrine_rc->listviewheaderstyle = 1;
 	murrine_rc->listviewstyle = 0;
 	murrine_rc->menubaritemstyle = 0;
@@ -455,9 +455,9 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_ratio (settings, scanner, &murrine_style->highlight_ratio);
 				murrine_style->flags |= MRN_FLAG_HIGHLIGHT_RATIO;
 				break;
-			case TOKEN_INNERBORDER_RATIO:
-				token = theme_parse_ratio (settings, scanner, &murrine_style->innerborder_ratio);
-				murrine_style->flags |= MRN_FLAG_INNERBORDER_RATIO;
+			case TOKEN_LIGHTBORDER_RATIO:
+				token = theme_parse_ratio (settings, scanner, &murrine_style->lightborder_ratio);
+				murrine_style->flags |= MRN_FLAG_LIGHTBORDER_RATIO;
 				break;
 			case TOKEN_LISTVIEWHEADERSTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->listviewheaderstyle);
@@ -597,8 +597,8 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->gradients = src_w->gradients;
 	if (flags & MRN_FLAG_HIGHLIGHT_RATIO)
 		dest_w->highlight_ratio = src_w->highlight_ratio;
-	if (flags & MRN_FLAG_INNERBORDER_RATIO)
-		dest_w->innerborder_ratio = src_w->innerborder_ratio;
+	if (flags & MRN_FLAG_LIGHTBORDER_RATIO)
+		dest_w->lightborder_ratio = src_w->lightborder_ratio;
 	if (flags & MRN_FLAG_LISTVIEWHEADERSTYLE)
 		dest_w->listviewheaderstyle = src_w->listviewheaderstyle;
 	if (flags & MRN_FLAG_LISTVIEWSTYLE)

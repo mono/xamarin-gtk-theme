@@ -71,7 +71,7 @@ G_GNUC_INTERNAL void murrine_rounded_rectangle_fast (cairo_t *cr,
                                                      double x, double y, double w, double h,
                                                      uint8 corners);
 
-G_GNUC_INTERNAL void murrine_draw_innerborder (cairo_t *cr,
+G_GNUC_INTERNAL void murrine_draw_lightborder (cairo_t *cr,
                                                const MurrineRGB *highlight_color, const MurrineRGB *fill,
                                                MurrineGradients mrn_gradient,
                                                double x, double y, int width, int height,

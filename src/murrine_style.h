@@ -52,7 +52,7 @@ struct _MurrineStyle
 	double   gradient_stop_3;
 	double   gradient_stop_4;
 	double   highlight_ratio;
-	double   innerborder_ratio;
+	double   lightborder_ratio;
 
 	guint8   glazestyle;
 	guint8   listviewheaderstyle;

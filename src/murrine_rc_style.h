@@ -44,7 +44,7 @@ typedef enum
 	MRN_FLAG_GRADIENT_STOP_4 = 1 << 7,
 	MRN_FLAG_GRADIENTS = 1 << 8,
 	MRN_FLAG_HIGHLIGHT_RATIO = 1 << 9,
-	MRN_FLAG_INNERBORDER_RATIO = 1 << 10,
+	MRN_FLAG_LIGHTBORDER_RATIO = 1 << 10,
 	MRN_FLAG_LISTVIEWHEADERSTYLE = 1 << 11,
 	MRN_FLAG_LISTVIEWSTYLE = 1 << 12,
 	MRN_FLAG_MENUBARITEMSTYLE = 1 << 13,
@@ -73,7 +73,7 @@ struct _MurrineRcStyle
 	double   gradient_stop_3;
 	double   gradient_stop_4;
 	double   highlight_ratio;
-	double   innerborder_ratio;
+	double   lightborder_ratio;
 
 	guint8   glazestyle;
 	guint8   listviewheaderstyle;

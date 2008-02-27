@@ -203,7 +203,7 @@ typedef struct
 	int glazestyle;
 	int roundness;
 	double highlight_ratio;
-	double innerborder_ratio;
+	double lightborder_ratio;
 	MurrineGradients mrn_gradient;
 
 	MurrineDrawStyles drawstyle;

@@ -251,10 +251,10 @@ murrine_draw_button (cairo_t *cr,
 	/* Draw the white inner border */
 	if (widget->glazestyle != 4 && !widget->active)
 	{
-		murrine_shade (&fill, widget->innerborder_ratio*custom_highlight_ratio, &highlight);
+		murrine_shade (&fill, widget->lightborder_ratio*custom_highlight_ratio, &highlight);
 		if (horizontal)
 		{
-			murrine_draw_innerborder (cr, &highlight, &fill, mrn_gradient_custom,
+			murrine_draw_lightborder (cr, &highlight, &fill, mrn_gradient_custom,
 			                          xoffset + 1.5, yoffset + 1.5,
 			                          width-(xoffset*2)-3, height-(yoffset*2)-3,
 			                          widget->mrn_gradient.gradients, horizontal,
@@ -263,7 +263,7 @@ murrine_draw_button (cairo_t *cr,
 		else
 		{
 			murrine_exchange_axis (cr, &x, &y, &width, &height);
-			murrine_draw_innerborder (cr, &highlight, &fill, mrn_gradient_custom,
+			murrine_draw_lightborder (cr, &highlight, &fill, mrn_gradient_custom,
 			                          xoffset + 1.5, yoffset + 1.5,
 			                          width-(xoffset*2)-3, height-(yoffset*2)-3,
 			                          widget->mrn_gradient.gradients, horizontal,
@@ -623,8 +623,8 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 		cairo_fill (cr);
 	}
 
-	murrine_shade (fill, widget->highlight_ratio*widget->innerborder_ratio, &highlight);
-	murrine_draw_innerborder (cr, &highlight, fill, widget->mrn_gradient,
+	murrine_shade (fill, widget->highlight_ratio*widget->lightborder_ratio, &highlight);
+	murrine_draw_lightborder (cr, &highlight, fill, widget->mrn_gradient,
 	                          2.5, 1.5,
 	                          width-5, height-3,
 	                          widget->mrn_gradient.gradients, TRUE,
@@ -724,7 +724,7 @@ murrine_draw_menubar (cairo_t *cr,
 
 		if (widget->glazestyle == 2)
 		{
-			murrine_draw_innerborder (cr, &highlight, fill, widget->mrn_gradient,
+			murrine_draw_lightborder (cr, &highlight, fill, widget->mrn_gradient,
 			                          1.5, 1.5,
 			                          width-3, height-3,
 			                          widget->mrn_gradient.gradients, TRUE,
@@ -1273,7 +1273,7 @@ murrine_draw_list_view_header (cairo_t *cr,
 
 			if (widget->glazestyle == 2)
 			{
-				murrine_draw_innerborder (cr, &highlight, fill, widget->mrn_gradient,
+				murrine_draw_lightborder (cr, &highlight, fill, widget->mrn_gradient,
 				                              0.5, 0.5,
 				                              width-2, height-2,
 				                              widget->mrn_gradient.gradients, TRUE,
@@ -1500,7 +1500,7 @@ murrine_draw_menuitem (cairo_t *cr,
 
 		if (widget->glazestyle == 2)
 		{
-			murrine_draw_innerborder (cr, &highlight, fill, widget->mrn_gradient,
+			murrine_draw_lightborder (cr, &highlight, fill, widget->mrn_gradient,
 			                          1.5, 1.5,
 			                          width-3, height-3,
 			                          widget->mrn_gradient.gradients, TRUE,
@@ -1620,8 +1620,8 @@ murrine_draw_scrollbar_stepper (cairo_t *cr,
 	/* Draw the white inner border */
 	if (widget->glazestyle != 4)
 	{
-		murrine_shade (fill, widget->innerborder_ratio*widget->highlight_ratio, &highlight);
-		murrine_draw_innerborder (cr, &highlight, fill, widget->mrn_gradient,
+		murrine_shade (fill, widget->lightborder_ratio*widget->highlight_ratio, &highlight);
+		murrine_draw_lightborder (cr, &highlight, fill, widget->mrn_gradient,
 		                              1.5, 1.5,
 		                              width-3, height-3,
 		                              widget->mrn_gradient.gradients, TRUE,
@@ -1735,8 +1735,8 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
 
 	if (widget->glazestyle != 4)
 	{
-		murrine_shade (&fill, widget->innerborder_ratio*widget->highlight_ratio, &highlight);
-		murrine_draw_innerborder (cr, &highlight, &fill, widget->mrn_gradient,
+		murrine_shade (&fill, widget->lightborder_ratio*widget->highlight_ratio, &highlight);
+		murrine_draw_lightborder (cr, &highlight, &fill, widget->mrn_gradient,
 		                          1.5, 1.5,
 		                          width-3, height-3,
 		                          widget->mrn_gradient.gradients, TRUE,

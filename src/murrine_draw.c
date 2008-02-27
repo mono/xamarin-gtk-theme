@@ -178,9 +178,9 @@ murrine_draw_button (cairo_t *cr,
 	cairo_translate (cr, x, y);
 	cairo_set_line_width (cr, 1.0);
 
-	if (widget->xthickness > 1)
+	if (widget->xthickness > 2)
 		xoffset = 1;
-	if (widget->ythickness > 1)
+	if (widget->ythickness > 2)
 		yoffset = 1;
 
 	/* Start drawing the inset/shadow */

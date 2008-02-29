@@ -1,3 +1,9 @@
+2008-02-29  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/murrine_style.c: (murrine_style_draw_box):
+	Fixed this bug:
+	https://bugs.launchpad.net/ubuntu/+source/gtk2-engines-murrine/+bug/195929
+
 2008-02-27  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/murrine_draw.c: (murrine_draw_button):

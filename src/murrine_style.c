@@ -790,14 +790,7 @@ murrine_style_draw_box (DRAW_ARGS)
 		    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)))
 			params.active = TRUE;
 
-		/* Fix some firefox crap. */
-		if (MRN_IS_BUTTON (widget) && MRN_IS_FIXED (widget->parent) && widget->allocation.x == -1 &&  widget->allocation.y == -1)
-		{
-			gtk_style_apply_default_background (widget->parent->style, window, TRUE, GTK_STATE_NORMAL,
-			                                    area, x, y, width, height);
-		}
-
-			STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, x, y, width, height, horizontal);
+		STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, x, y, width, height, horizontal);
 	}
 	else if (DETAIL ("spinbutton_up") || DETAIL ("spinbutton_down"))
 	{

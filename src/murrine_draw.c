@@ -1631,11 +1631,11 @@ murrine_draw_scrollbar_stepper (cairo_t *cr,
 	{
 		murrine_shade (fill, widget->lightborder_ratio*widget->highlight_ratio, &highlight);
 		murrine_draw_lightborder (cr, &highlight, fill, widget->mrn_gradient,
-		                              1.5, 1.5,
-		                              width-3, height-3,
-		                              widget->mrn_gradient.gradients, TRUE,
-		                              widget->glazestyle, widget->lightborderstyle,
-		                              widget->roundness, widget->corners);
+		                          1.5, 1.5,
+		                          width-3, height-3,
+		                          widget->mrn_gradient.gradients, scrollbar->horizontal,
+		                          widget->glazestyle, widget->lightborderstyle,
+		                          widget->roundness, widget->corners);
 	}
 
 	cairo_reset_clip (cr);

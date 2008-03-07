@@ -99,9 +99,11 @@ boolean murrine_widget_is_rgba (GtkWidget *widget)
 	GdkScreen *screen = gtk_widget_get_screen (widget);
 	boolean use_rgba = FALSE;
 
+#ifdef HAVE_RGBA
 	if (gdk_screen_is_composited(screen) && gdk_screen_get_rgba_colormap (screen))
 		use_rgba = (gtk_widget_get_colormap (widget) ==
 		            gdk_screen_get_rgba_colormap (screen));
+#endif
 
 	return use_rgba;
 }
@@ -972,7 +974,7 @@ murrine_style_draw_box (DRAW_ARGS)
 		/* The x-1 and width+2 are to make the fill cover the left and
 		 * right-hand sides of the trough box */
 
-#ifndef HAVE_ANIMATIONTOLEFT
+#ifndef HAVE_ANIMATIONRTL
 		STYLE_FUNCTION(draw_progressbar_fill) (cr, colors, &params, &progressbar,
 		                                       x-1, y, width+2, height,
 		                                       10 - (int)(elapsed * 10.0) % 10);

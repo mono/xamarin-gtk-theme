@@ -16,12 +16,25 @@ AM_DISABLE_STATIC
 AC_LIBTOOL_WIN32_DLL
 AM_PROG_LIBTOOL
 
-AC_ARG_ENABLE(animation, [  --enable-animation      compile murrine with animation support], [animation=$enableval], 	[animation="no"], )
-AC_ARG_ENABLE(macmenu, [  --enable-macmenu        compile murrine with mac menubar patches], [macmenu=$enableval], 	[macmenu="no"], )
-AC_ARG_ENABLE(animationtoleft, [  --enable-animationtoleft        compile murrine with progressbar animation from right to left], [animationtoleft=$enableval], 	[animationtoleft="no"], )
+AC_ARG_ENABLE(animation,
+              [  --enable-animation      compile murrine with animation support],
+              [animation=$enableval],
+              [animation="no"], )
+AC_ARG_ENABLE(macmenu,
+              [  --enable-macmenu        compile murrine with mac menubar patches],
+              [macmenu=$enableval],
+              [macmenu="no"], )
+AC_ARG_ENABLE(animationrtl,
+              [  --enable-animationrtl   compile murrine with progressbar animation from right to left],
+              [animationrtl=$enableval],
+              [animationrtl="no"], )
+AC_ARG_ENABLE(rgba,
+              [  --disable-rgba          compile murrine without rgba support],
+              [rgba=$enableval],
+              [rgba="yes"], )
 
-PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.8.0,,
-                  AC_MSG_ERROR([GTK+-2.8 is required to compile murrine]))
+PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.10.0,,
+                  AC_MSG_ERROR([GTK+-2.10 is required to compile murrine]))
 
 AC_SUBST(GTK_CFLAGS)
 AC_SUBST(GTK_LIBS)
@@ -40,8 +53,12 @@ if test $macmenu = "yes"; then
 	AC_DEFINE_UNQUOTED(HAVE_MACMENU, 1, [Defines whether to compile with mac menubar patches])
 fi
 
-if test $animationtoleft = "yes"; then
-	AC_DEFINE_UNQUOTED(HAVE_ANIMATIONTOLEFT, 1, [Defines whether to compile with progressbar animation from right to left])
+if test $animationrtl = "yes"; then
+	AC_DEFINE_UNQUOTED(HAVE_ANIMATIONRTL, 1, [Defines whether to compile with progressbar animation from right to left])
+fi
+
+if test $rgba = "yes"; then
+	AC_DEFINE_UNQUOTED(HAVE_RGBA, 1, [Defines whether to compile with rgba support])
 fi
 
 AM_CONFIG_HEADER([src/config.h])

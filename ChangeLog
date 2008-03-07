@@ -1,5 +1,10 @@
 2008-03-08  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/murrine_style.c: (murrine_style_init_from_rc):
+	listviewheaderstyle = 1 for the CLEARLOOKS profile
+
+2008-03-08  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_draw.c: (murrine_draw_scrollbar_stepper):
 	* src/murrine_draw_rgba.c: (murrine_rgba_draw_scrollbar_stepper):
 	Fixed lightborder in scrollbar stepper

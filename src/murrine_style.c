@@ -1706,6 +1706,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 			murrine_style->highlight_ratio = 1.0;
 			murrine_style->toolbarstyle = 1;
 			murrine_style->lightborder_ratio = 1.02;
+			murrine_style->listviewheaderstyle = 1;
 			murrine_style->menustyle = 0;
 			murrine_style->sliderstyle = 1;
 			murrine_style->scrollbarstyle = 2;

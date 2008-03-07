@@ -75,7 +75,7 @@ murrine_draw_inset (cairo_t          *cr,
 		cairo_line_to (cr, x, y);
 
 	if (corners & MRN_CORNER_TOPRIGHT)
-	    cairo_arc (cr, x + w - radius, y + radius, radius, M_PI * 1.5, M_PI * 1.75);
+		cairo_arc (cr, x + w - radius, y + radius, radius, M_PI * 1.5, M_PI * 1.75);
 	else
 		cairo_line_to (cr, x + w, y);
 
@@ -257,7 +257,7 @@ murrine_rgba_draw_button (cairo_t *cr,
 	/* Draw the white inner border */
 	if (widget->glazestyle != 4 && !widget->active)
 	{
-		murrine_shade (&fill,  widget->lightborder_ratio*custom_highlight_ratio, &highlight);
+		murrine_shade (&fill, widget->lightborder_ratio*custom_highlight_ratio, &highlight);
 		if (horizontal)
 		{
 			murrine_draw_lightborder (cr, &highlight, &fill, mrn_gradient_custom,
@@ -1659,14 +1659,19 @@ murrine_rgba_draw_handle (cairo_t *cr,
 
 static void
 murrine_rgba_draw_radiobutton (cairo_t * cr,
-                               const MurrineColors    *colors,
-                               const WidgetParameters *widget,
-                               const OptionParameters *status,
+                               const MurrineColors      *colors,
+                               const WidgetParameters   *widget,
+                               const CheckboxParameters *checkbox,
                                int x, int y, int width, int height,
                                double trans)
 {
 	MurrineRGB border;
 	const MurrineRGB *dot;
+	gboolean inconsistent;
+	gboolean draw_bullet = (checkbox->shadow_type == GTK_SHADOW_IN);
+
+	inconsistent = (checkbox->shadow_type == GTK_SHADOW_ETCHED_IN);
+	draw_bullet |= inconsistent;
 
 	width = height = 15;
 
@@ -1678,12 +1683,12 @@ murrine_rgba_draw_radiobutton (cairo_t * cr,
 	else
 	{
 		border = colors->shade[6];
-		if (status->draw_bullet)
+		if (draw_bullet)
 			border = colors->spot[2];
 		dot    = &colors->text[widget->state_type];
 	}
 	murrine_mix_color (&border, widget->state_type != GTK_STATE_INSENSITIVE ?
-	                   status->draw_bullet ? &colors->spot[1] : &colors->bg[0] : &colors->bg[0], 0.2, &border);
+	                   draw_bullet ? &colors->spot[1] : &colors->bg[0] : &colors->bg[0], 0.2, &border);
 
 	cairo_translate (cr, x, y);
 
@@ -1702,7 +1707,7 @@ murrine_rgba_draw_radiobutton (cairo_t * cr,
 	if (widget->state_type != GTK_STATE_INSENSITIVE)
 	{
 		const MurrineRGB *bg = &colors->base[0];
-		if (status->draw_bullet)
+		if (draw_bullet)
 			bg = &colors->spot[1];
 		if (widget->glazestyle != 2)
 		{
@@ -1724,7 +1729,7 @@ murrine_rgba_draw_radiobutton (cairo_t * cr,
 	if (widget->state_type != GTK_STATE_INSENSITIVE)
 	{
 		const MurrineRGB *bg = &colors->base[0];
-		if (status->draw_bullet)
+		if (draw_bullet)
 			bg = &colors->spot[1];
 
 		cairo_rectangle (cr, 0, 7, width, height);
@@ -1739,13 +1744,25 @@ murrine_rgba_draw_radiobutton (cairo_t * cr,
 		cairo_fill (cr);
 	}
 
-	/* inconsistent state is missing? */
-	if (status->draw_bullet)
+	if (draw_bullet)
 	{
-		cairo_arc (cr, 7, 7, 2, 0, M_PI*2);
-		/* murrine_set_color_rgb (cr, dot); */
-		murrine_set_color_rgba (cr, dot, trans);
-		cairo_fill (cr);
+		if (inconsistent)
+		{
+			cairo_set_line_cap(cr, CAIRO_LINE_CAP_ROUND);
+			cairo_set_line_width (cr, 2);
+
+			cairo_move_to(cr, 5, 7);
+			cairo_line_to(cr, 9, 7);
+
+			murrine_set_color_rgba (cr, dot, trans);
+			cairo_stroke (cr);
+		}
+		else
+		{
+			cairo_arc (cr, 7, 7, 3, 0, G_PI*2);
+			murrine_set_color_rgba (cr, dot, trans);
+			cairo_fill (cr);
+		}
 	}
 
 	cairo_restore (cr);
@@ -1753,14 +1770,19 @@ murrine_rgba_draw_radiobutton (cairo_t * cr,
 
 static void
 murrine_rgba_draw_checkbox (cairo_t * cr,
-                            const MurrineColors    *colors,
-                            const WidgetParameters *widget,
-                            const OptionParameters *status,
+                            const MurrineColors      *colors,
+                            const WidgetParameters   *widget,
+                            const CheckboxParameters *checkbox,
                             int x, int y, int width, int height,
                             double trans)
 {
 	MurrineRGB border;
 	const MurrineRGB *dot;
+	gboolean inconsistent = FALSE;
+	gboolean draw_bullet = (checkbox->shadow_type == GTK_SHADOW_IN);
+
+	inconsistent = (checkbox->shadow_type == GTK_SHADOW_ETCHED_IN);
+	draw_bullet |= inconsistent;
 
 	width = height = 13;
 
@@ -1772,12 +1794,12 @@ murrine_rgba_draw_checkbox (cairo_t * cr,
 	else
 	{
 		border = colors->shade[6];
-		if (status->draw_bullet)
+		if (draw_bullet)
 			border = colors->spot[2];
 		dot    = &colors->text[widget->state_type];
 	}
 	murrine_mix_color (&border, widget->state_type != GTK_STATE_INSENSITIVE ?
-	                   status->draw_bullet ? &colors->spot[1] : &colors->bg[0] : &colors->bg[0], 0.24, &border);
+	                   draw_bullet ? &colors->spot[1] : &colors->bg[0] : &colors->bg[0], 0.24, &border);
 
 	cairo_translate (cr, x, y);
 	cairo_set_line_width (cr, 1.0);
@@ -1803,7 +1825,7 @@ murrine_rgba_draw_checkbox (cairo_t * cr,
 	if (widget->state_type != GTK_STATE_INSENSITIVE)
 	{
 		const MurrineRGB *bg = &colors->base[0];
-		if (status->draw_bullet)
+		if (draw_bullet)
 			bg = &colors->spot[1];
 
 		if (widget->glazestyle == 2)
@@ -1823,7 +1845,7 @@ murrine_rgba_draw_checkbox (cairo_t * cr,
 	if (widget->state_type != GTK_STATE_INSENSITIVE)
 	{
 		const MurrineRGB *bg = &colors->base[0];
-		if (status->draw_bullet)
+		if (draw_bullet)
 			bg = &colors->spot[1];
 
 		MurrineRGB highlight;
@@ -1845,9 +1867,9 @@ murrine_rgba_draw_checkbox (cairo_t * cr,
 	}
 
 	cairo_scale (cr, width / 13.0, height / 13.0);
-	if (status->draw_bullet)
+	if (draw_bullet)
 	{
-		if (status->inconsistent) /* Inconsistent */
+		if (inconsistent) /* Inconsistent */
 		{
 			cairo_set_line_width (cr, 2.0);
 			cairo_move_to (cr, 3, height*0.5);

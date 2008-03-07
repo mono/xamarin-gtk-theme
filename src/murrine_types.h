@@ -232,9 +232,10 @@ typedef struct
 
 typedef struct
 {
-	boolean inconsistent;
-	boolean draw_bullet;
-} OptionParameters;
+	MurrineShadowType shadow_type;
+	boolean           in_cell;
+	boolean           in_menu;
+} CheckboxParameters;
 
 typedef struct
 {
@@ -461,16 +462,16 @@ struct _MurrineStyleFunctions
 	                    int x, int y, int width, int height);
 
 	void (*draw_checkbox) (cairo_t *cr,
-	                       const MurrineColors    *colors,
-	                       const WidgetParameters *widget,
-	                       const OptionParameters *status,
+	                       const MurrineColors      *colors,
+	                       const WidgetParameters   *widget,
+	                       const CheckboxParameters *checkbox,
 	                       int x, int y, int width, int height,
 	                       double trans);
 
 	void (*draw_radiobutton) (cairo_t *cr,
-	                          const MurrineColors    *colors,
-	                          const WidgetParameters *widget,
-	                          const OptionParameters *status,
+	                          const MurrineColors      *colors,
+	                          const WidgetParameters   *widget,
+	                          const CheckboxParameters *checkbox,
 	                          int x, int y, int width, int height,
 	                          double trans);
 

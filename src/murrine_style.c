@@ -1219,29 +1219,30 @@ murrine_style_draw_option (DRAW_ARGS)
 	cr = murrine_begin_paint (window, area);
 
 	WidgetParameters params;
-	OptionParameters option;
+	CheckboxParameters checkbox;
 
-	option.draw_bullet = ((shadow_type == GTK_SHADOW_IN) || (shadow_type == GTK_SHADOW_ETCHED_IN));
-	option.inconsistent = (shadow_type == GTK_SHADOW_ETCHED_IN);
+	checkbox.shadow_type = shadow_type;
+	checkbox.in_menu = (widget && GTK_IS_MENU(widget->parent));
+
 	double trans = 1.0;
 
 	murrine_set_widget_parameters (widget, style, state_type, &params);
 
-	#ifdef HAVE_ANIMATION
-		if (murrine_style->animation)
-			murrine_animation_connect_checkbox (widget);
+#ifdef HAVE_ANIMATION
+	if (murrine_style->animation)
+		murrine_animation_connect_checkbox (widget);
 
-		if (murrine_style->animation &&
-		    MRN_IS_CHECK_BUTTON (widget) &&
-		    murrine_animation_is_animated (widget) &&
-		    !gtk_toggle_button_get_inconsistent (GTK_TOGGLE_BUTTON (widget)))
-		{
-			gfloat elapsed = murrine_animation_elapsed (widget);
-			trans = sqrt (sqrt (MIN(elapsed / CHECK_ANIMATION_TIME, 1.0)));
-		}
-	#endif
+	if (murrine_style->animation &&
+	    MRN_IS_CHECK_BUTTON (widget) &&
+	    murrine_animation_is_animated (widget) &&
+	    !gtk_toggle_button_get_inconsistent (GTK_TOGGLE_BUTTON (widget)))
+	{
+		gfloat elapsed = murrine_animation_elapsed (widget);
+		trans = sqrt (sqrt (MIN(elapsed / CHECK_ANIMATION_TIME, 1.0)));
+	}
+#endif
 
-	STYLE_FUNCTION(draw_radiobutton) (cr, colors, &params, &option, x, y, width, height, trans);
+	STYLE_FUNCTION(draw_radiobutton) (cr, colors, &params, &checkbox, x, y, width, height, trans);
 
 	cairo_destroy (cr);
 }
@@ -1259,28 +1260,30 @@ murrine_style_draw_check (DRAW_ARGS)
 	cr = murrine_begin_paint (window, area);
 
 	WidgetParameters params;
-	OptionParameters option;
+	CheckboxParameters checkbox;
 
-	option.draw_bullet = ((shadow_type == GTK_SHADOW_IN) || (shadow_type == GTK_SHADOW_ETCHED_IN));
-	option.inconsistent = (shadow_type == GTK_SHADOW_ETCHED_IN);
+	checkbox.shadow_type = shadow_type;
+	checkbox.in_cell = DETAIL("cellcheck");
+
+	checkbox.in_menu = (widget && widget->parent && GTK_IS_MENU(widget->parent));
 	double trans = 1.0;
 
 	murrine_set_widget_parameters (widget, style, state_type, &params);
 
-	#ifdef HAVE_ANIMATION
-		if (murrine_style->animation)
-			murrine_animation_connect_checkbox (widget);
+#ifdef HAVE_ANIMATION
+	if (murrine_style->animation)
+		murrine_animation_connect_checkbox (widget);
 
-		if (murrine_style->animation && MRN_IS_CHECK_BUTTON (widget) &&
-		    murrine_animation_is_animated (widget) &&
-		    !gtk_toggle_button_get_inconsistent (GTK_TOGGLE_BUTTON (widget)))
-		{
-			gfloat elapsed = murrine_animation_elapsed (widget);
-			trans = sqrt (sqrt (MIN(elapsed / CHECK_ANIMATION_TIME, 1.0)));
-		}
-	#endif
+	if (murrine_style->animation && MRN_IS_CHECK_BUTTON (widget) &&
+	    murrine_animation_is_animated (widget) &&
+	    !gtk_toggle_button_get_inconsistent (GTK_TOGGLE_BUTTON (widget)))
+	{
+		gfloat elapsed = murrine_animation_elapsed (widget);
+		trans = sqrt (sqrt (MIN(elapsed / CHECK_ANIMATION_TIME, 1.0)));
+	}
+#endif
 
-	STYLE_FUNCTION(draw_checkbox) (cr, colors, &params, &option, x, y, width, height, trans);
+	STYLE_FUNCTION(draw_checkbox) (cr, colors, &params, &checkbox, x, y, width, height, trans);
 
 	cairo_destroy (cr);
 }

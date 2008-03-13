@@ -1,6 +1,11 @@
 2008-03-13  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/cairo-support.c: (murrine_get_parent_bg):
+	Got the notebook check a bit wrong earlier
+
+2008-03-13  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/cairo-support.c: (murrine_get_parent_bg):
 	Various fixes to murrine_get_parent_bg.
 	Thanks to Benjamin Berg
 

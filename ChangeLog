@@ -1,3 +1,9 @@
+2008-03-13  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/cairo-support.c: (murrine_get_parent_bg):
+	Various fixes to murrine_get_parent_bg.
+	Thanks to Benjamin Berg
+
 2008-03-08  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/murrine_style.c: (murrine_style_init_from_rc):

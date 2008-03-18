@@ -1,3 +1,9 @@
+2008-03-18  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/murrine_draw.c: (murrine_draw_scale_trough):
+	* src/murrine_draw_rgba.c: (murrine_rgba_draw_scale_trough):
+	Use shade[2] taken from parentbg to draw the scale trough
+
 2008-03-13  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/cairo-support.c: (murrine_get_parent_bg):

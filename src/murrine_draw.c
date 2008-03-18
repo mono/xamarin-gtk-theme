@@ -434,6 +434,9 @@ murrine_draw_scale_trough (cairo_t *cr,
 	double  translate_x, translate_y;
 	int     fill_size = slider->fill_size;
 	int     TROUGH_SIZE = 6;
+	MurrineRGB fill;
+
+	murrine_shade (&widget->parentbg, 0.95, &fill);
 
 	if (slider->horizontal)
 	{
@@ -476,7 +479,7 @@ murrine_draw_scale_trough (cairo_t *cr,
 
 	cairo_translate (cr, 1, 1);
 
-	murrine_scale_draw_gradient (cr, &colors->shade[1],
+	murrine_scale_draw_gradient (cr, &fill,
 	                             &colors->shade[4], /* border */
 	                             0, 0, trough_width, trough_height,
 	                             TRUE);

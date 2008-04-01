@@ -683,19 +683,27 @@ murrine_style_draw_box (DRAW_ARGS)
 	{
 		WidgetParameters params;
 		gboolean horizontal;
+		int menubarstyle = murrine_style->menubarstyle;
+		int offset = 0;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 
 		if (params.mrn_gradient.use_rgba)
 		{
 			params.mrn_gradient.rgba_opacity = MENUBAR_GLOSSY_OPACITY;
+			if (shadow_type == GTK_SHADOW_NONE)
+			{
+				offset = 1;
+				menubarstyle = 0;
+			}
 		}
 
 		horizontal = height < 2*width;
+
 		/* This is not that great. Ideally we would have a nice vertical menubar. */
 		if (params.mrn_gradient.use_rgba || ((shadow_type != GTK_SHADOW_NONE) && horizontal))
-			STYLE_FUNCTION(draw_menubar) (cr, colors, &params, x, y, width, height,
-			                              murrine_style->menubarstyle);
+			STYLE_FUNCTION(draw_menubar) (cr, colors, &params, x, y,
+			                              width, height+offset, menubarstyle);
 	}
 	else if (DETAIL ("button") && widget && widget->parent &&
 	                 (MRN_IS_TREE_VIEW(widget->parent) ||

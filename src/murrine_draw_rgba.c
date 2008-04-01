@@ -734,8 +734,22 @@ murrine_rgba_draw_menubar (cairo_t *cr,
 	}
 	else /* Flat menubar */
 	{
-		murrine_set_color_rgba (cr, fill, MENUBAR_OPACITY);
-		cairo_fill (cr);
+		cairo_pattern_t *pattern;
+
+		pattern = cairo_pattern_create_linear (0, 0, width, 0);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.0, fill->r,
+		                                                 fill->g,
+		                                                 fill->b, MENUBAR_OPACITY);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.5, fill->r,
+		                                                 fill->g,
+		                                                 fill->b, (MENUBAR_OPACITY-0.04));
+		cairo_pattern_add_color_stop_rgba (pattern, 1.0, fill->r,
+		                                                 fill->g,
+		                                                 fill->b, MENUBAR_OPACITY);
+		cairo_set_source (cr, pattern);
+		cairo_rectangle  (cr, 0, 0, width, height);
+		cairo_fill       (cr);
+		cairo_pattern_destroy (pattern);
 
 		cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 	}

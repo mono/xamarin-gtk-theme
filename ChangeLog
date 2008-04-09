@@ -1,3 +1,8 @@
+2008-04-09  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* schema/murrine.xml.in.in:
+	Added a rough schema file
+
 2008-04-01  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/murrine_draw_rgba.c: (murrine_rgba_draw_menubar):

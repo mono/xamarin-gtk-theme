@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<engine schema_version="0.1" module_name="murrine" long_name="Murrine">
+
+	<metainfo>
+		<version>0.6.0</version>
+		<website>http://www.cimitan.com/murrine</website>
+		<author>
+			<name>Andrea Cimitan</name>
+			<email>andrea.cimitan@gmail.com</email>
+		</author>
+	</metainfo>
+
+	<option type="boolean" name="animation" default="TRUE">
+		<long_name>Animations</long_name>
+		<description>Enable animations on progressbars, radio and checkbuttons</description>
+		<section>General</section>
+	</option>
+
+	<option type="boolean" name="colorize_scrollbar" default="TRUE">
+		<long_name>Colorize scrollbar</long_name>
+		<description>Use colorized scrollbars</description>
+		<section>Scrolls and Lists</section>
+	</option>
+
+	<option type="real" name="contrast" default="1.0">
+		<long_name>Contrast</long_name>
+		<description>Dangerous, should be MODIFIED ONLY BY HAND in gtkrc into separated sections</description>
+		<section>General</section>
+		<minimum>0</minimum>
+		<maximum>2</maximum>
+		<precision>0.1</precision>
+	</option>
+
+	<option type="enumeration" name="glazestyle" default="0">
+		<long_name>Glaze Style</long_name>
+		<section>General</section>
+		<enumeration value="0">
+			<label>Flat hilight</label>
+		</enumeration>
+		<enumeration value="1">
+			<label>Curved hilight</label>
+		</enumeration>
+		<enumeration value="2">
+			<label>Concave style</label>
+		</enumeration>
+		<enumeration value="3">
+			<label>Top curved highlight</label>
+		</enumeration>
+		<enumeration value="4">
+			<label>Beryl style</label>
+		</enumeration>
+	</option>
+
+	<option type="real" name="gradient_stop_1" default="1.0">
+		<optional>Enable custom gradients</optional>
+		<long_name>Gradient Stop 1</long_name>
+		<long_name>First gradient stop</long_name>
+		<section>Gradients</section>
+		<minimum>0</minimum>
+		<maximum>2</maximum>
+		<precision>0.2</precision>
+	</option>
+	<option type="real" name="gradient_stop_2" default="1.0">
+		<optional>Enable custom gradients</optional>
+		<long_name>Gradients Stop 2</long_name>
+		<long_name>Second gradient stop</long_name>
+		<section>Gradients</section>
+		<minimum>0</minimum>
+		<maximum>2</maximum>
+		<precision>0.2</precision>
+	</option>
+	<option type="real" name="gradient_stop_3" default="1.0">
+		<optional>Enable custom gradients</optional>
+		<long_name>Gradient Stop 3</long_name>
+		<long_name>Third gradient stop</long_name>
+		<section>Gradients</section>
+		<minimum>0</minimum>
+		<maximum>2</maximum>
+		<precision>0.2</precision>
+	</option>
+	<option type="real" name="gradient_stop_4" default="1.0">
+		<optional>Enable custom gradients</optional>
+		<long_name>Gradient Stop 4</long_name>
+		<long_name>Fourth gradient stop</long_name>
+		<section>Gradients</section>
+		<minimum>0</minimum>
+		<maximum>2</maximum>
+		<precision>0.2</precision>
+	</option>
+
+	<option type="boolean" name="gradients" default="TRUE">
+		<long_name>Gradients</long_name>
+		<description>Enable/Disable gradients</description>
+		<section>Gradients</section>
+	</option>
+
+	<option type="real" name="highlight_ratio" default="1.1">
+		<long_name>Highlight Ratio</long_name>
+		<description>Increse/Decrease the highlight ratio</description>
+		<section>General</section>
+		<minimum>0</minimum>
+		<maximum>2</maximum>
+		<precision>0.01</precision>
+	</option>
+
+	<option type="real" name="lightborder_ratio" default="1.1">
+		<long_name>Lightborder Ratio</long_name>
+		<description>Increse/Decrease the lightborder ratio</description>
+		<section>General</section>
+		<minimum>0</minimum>
+		<maximum>2</maximum>
+		<precision>0.01</precision>
+	</option>
+
+	<option type="enumeration" name="lightborderstyle" default="0">
+		<long_name>Lightborder Style</long_name>
+		<section>General</section>
+		<enumeration value="0">
+			<label>Default</label>
+		</enumeration>
+		<enumeration value="1">
+			<label>Full</label>
+		</enumeration>
+	</option>
+
+	<option type="enumeration" name="listviewheaderstyle" default="0">
+		<long_name>Listview header style</long_name>
+		<section>Scrolls and Lists</section>
+		<enumeration value="0">
+			<label>Flat</label>
+		</enumeration>
+		<enumeration value="1">
+			<label>Glassy</label>
+		</enumeration>
+		<enumeration value="2">
+			<label>Raised</label>
+		</enumeration>
+	</option>
+
+	<option type="enumeration" name="listviewstyle" default="0">
+		<long_name>Listview seperators</long_name>
+		<section>Scrolls and Lists</section>
+		<enumeration value="0">
+			<label>No seperators</label>
+		</enumeration>
+		<enumeration value="1">
+			<label>Dotted seperators</label>
+		</enumeration>
+	</option>
+
+	<option type="enumeration" name="menubaritemstyle" default="0">
+		<long_name>MenubarItem Style</long_name>
+		<section>Menus and Toolbars</section>
+		<enumeration value="0">
+			<label>MenuItem look</label>
+		</enumeration>
+		<enumeration value="1">
+			<label>Button look</label>
+		</enumeration>
+	</option>
+
+	<option type="enumeration" name="menubarstyle" default="0">
+		<long_name>Menubar Style</long_name>
+		<section>Menus and Toolbars</section>
+		<enumeration value="0">
+			<label>Flat</label>
+		</enumeration>
+		<enumeration value="1">
+			<label>Glass</label>
+			<label xml:lang="en_GB">Glass</label>
+		</enumeration>
+		<enumeration value="2">
+			<label>Gradient</label>
+			<label xml:lang="en_GB">Gradient</label>
+		</enumeration>
+		<enumeration value="3">
+			<label>Striped</label>
+			<label xml:lang="en_GB">Striped</label>
+		</enumeration>
+	</option>
+
+	<option type="enumeration" name="menuitemstyle" default="0">
+		<long_name>MenuItem Style</long_name>
+		<section>Menus and Toolbars</section>
+		<enumeration value="0">
+			<label>Flat</label>
+		</enumeration>
+		<enumeration value="1">
+			<label>Glass</label>
+		</enumeration>
+		<enumeration value="2">
+			<label>Striped</label>
+		</enumeration>
+	</option>
+
+	<option type="enumeration" name="menustyle" default="1">
+		<long_name>Vertical bars in menus</long_name>
+		<section>Menus and Toolbars</section>
+		<enumeration value="0">
+			<label>Disable</label>
+		</enumeration>
+		<enumeration value="1">
+			<label>Enable</label>
+		</enumeration>
+	</option>
+
+	<option type="enumeration" name="reliefstyle" default="2">
+		<long_name>Relief style of widget</long_name>
+		<section>General</section>
+		<enumeration value="0">
+			<label>Flat</label>
+		</enumeration>
+		<enumeration value="1">
+			<label>Inset</label>
+		</enumeration>
+		<enumeration value="2">
+			<label>Shadow</label>
+		</enumeration>
+	</option>
+
+	<option type="boolean" name="rgba" default="TRUE">
+		<long_name>Enable/Disable RGBA support</long_name>
+		<section>General</section>
+	</option>
+
+	<option type="integer" name="roundness" default="1">
+		<long_name>Roundness</long_name>
+		<section>General</section>
+		<minimum>0</minimum>
+		<maximum>8</maximum>
+	</option>
+
+	<option type="color" name="scrollbar_color" default="#999999">
+		<long_name>Scrollbar Color</long_name>
+		<section>Scrolls and Lists</section>
+		<description>Override the color of scrollbars</description>
+	</option>
+
+	<option type="color" name="scrollbar_color" default="#999999">
+		<long_name>Scrollbar Color</long_name>
+		<section>Scrolls and Lists</section>
+		<description>Sets the Color of Scrollbars</description>
+	</option>
+
+	<option type="enumeration" name="scrollbarstyle" default="0">
+		<long_name>Additional scrollbar features</long_name>
+		<section>Scrolls and Lists</section>
+		<enumeration value="0">
+			<label>Nothing added</label>
+		</enumeration>
+		<enumeration value="1">
+			<label>Circles</label>
+		</enumeration>
+		<enumeration value="2">
+			<label>Handles</label>
+		</enumeration>
+		<enumeration value="3">
+			<label>Diagonal stripes</label>
+		</enumeration>
+		<enumeration value="4">
+			<label>Diagonal stripes and handles</label>
+		</enumeration>
+		<enumeration value="5">
+			<label>Horizontal stripes</label>
+		</enumeration>
+		<enumeration value="6">
+			<label>Horizontal stripes and handles</label>
+		</enumeration>
+	</option>
+
+	<option type="enumeration" name="sliderstyle" default="0">
+		<long_name>Slider style</long_name>
+		<section>Scrolls and Lists</section>
+		<enumeration value="0">
+			<label>None</label>
+		</enumeration>
+		<enumeration value="1">
+			<label>Add handles</label>
+		</enumeration>
+	</option>
+
+	<option type="enumeration" name="stepperstyle" default="0">
+		<long_name>Stepper style</long_name>
+		<section>Scrolls and Lists</section>
+		<enumeration value="0">
+			<label>Classic</label>
+		</enumeration>
+		<enumeration value="1">
+			<label>Unified</label>
+		</enumeration>
+	</option>
+
+	<option name="style" type="enumeration" default="MURRINE">
+		<long_name>Style</long_name>
+		<section>General</section>
+		<enumeration value="MURRINE">
+			<label>Murrine</label>
+		</enumeration>
+		<enumeration value="NODOKA">
+			<label>Nodoka</label>
+		</enumeration>
+		<enumeration value="MIST">
+			<label>Mist</label>
+		</enumeration>
+		<enumeration value="CANDIDO">
+			<label>Candido</label>
+		</enumeration>
+		<enumeration value="CLEARLOOKS">
+			<label>Clearlooks</label>
+		</enumeration>
+	</option>
+
+	<option type="enumeration" name="toolbarstyle" default="0">
+		<long_name>Toolbar style</long_name>
+		<section>Menus and Toolbars</section>
+		<enumeration value="0">
+			<label>Flat</label>
+		</enumeration>
+		<enumeration value="1">
+			<label>Draw with general gradient/glass effect</label>
+		</enumeration>
+	</option>
+</engine>

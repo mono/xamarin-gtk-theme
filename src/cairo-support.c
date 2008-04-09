@@ -490,20 +490,10 @@ murrine_draw_lightborder (cairo_t *cr,
 		alpha_value = mrn_gradient.rgba_opacity;
 	}
 
-	if (gradients)
-	{
-		murrine_shade (highlight_color, mrn_gradient.gradient_stop_1, &shade1);
-		murrine_shade (highlight_color, mrn_gradient.gradient_stop_2, &shade2);
-		murrine_shade (highlight_color, mrn_gradient.gradient_stop_3, &shade3);
-		murrine_shade (highlight_color, mrn_gradient.gradient_stop_4, &shade4);
-	}
-	else
-	{
-		murrine_shade (highlight_color, 1.0, &shade1);
-		murrine_shade (highlight_color, 1.0, &shade2);
-		murrine_shade (highlight_color, 1.0, &shade3);
-		murrine_shade (highlight_color, 1.0, &shade4);
-	}
+	murrine_shade (highlight_color, mrn_gradient.gradient_stop_1, &shade1);
+	murrine_shade (highlight_color, mrn_gradient.gradient_stop_2, &shade2);
+	murrine_shade (highlight_color, mrn_gradient.gradient_stop_3, &shade3);
+	murrine_shade (highlight_color, mrn_gradient.gradient_stop_4, &shade4);
 
 	double fill_pos = 1.0-(1.0/(!horizontal ? (double)(width) : (double)(height)));
 	if (corners == MRN_CORNER_ALL && radius > 2)

@@ -25,12 +25,12 @@ GtkTextDirection
 murrine_get_direction (GtkWidget *widget)
 {
 	GtkTextDirection dir;
-	
+
 	if (widget)
 		dir = gtk_widget_get_direction (widget);
 	else
 		dir = GTK_TEXT_DIR_LTR;
-	
+
 	return dir;
 }
 
@@ -62,7 +62,7 @@ void murrine_gtk_clist_get_header_index (GtkCList *clist, GtkWidget *button,
 {
 	int i;
 	*columns = clist->columns;
-	
+
 	for (i=0; i<*columns; i++)
 	{
 		if (clist->column[i].button == button)
@@ -83,11 +83,11 @@ murrine_option_menu_get_props (GtkWidget      *widget,
 {
 	GtkRequisition *tmp_size = NULL;
 	GtkBorder *tmp_spacing = NULL;
-	
+
 	if (widget)
 		gtk_widget_style_get (widget, "indicator_size", &tmp_size,
 		                      "indicator_spacing", &tmp_spacing, NULL);
-	
+
 	if (tmp_size)
 	{
 		*indicator_size = *tmp_size;
@@ -95,7 +95,7 @@ murrine_option_menu_get_props (GtkWidget      *widget,
 	}
 	else
 		*indicator_size = default_option_indicator_size;
-	
+
 	if (tmp_spacing)
 	{
 		*indicator_spacing = *tmp_spacing;
@@ -162,7 +162,7 @@ gboolean
 murrine_widget_is_ltr (GtkWidget *widget)
 {
 	GtkTextDirection dir = GTK_TEXT_DIR_NONE;
-	
+
 	if (MRN_IS_WIDGET (widget))
 		dir = gtk_widget_get_direction (widget);
 
@@ -179,7 +179,7 @@ GtkWidget *
 murrine_find_combo_box_widget (GtkWidget * widget)
 {
 	GtkWidget *result = NULL;
-	
+
 	if (widget && !GTK_IS_COMBO_BOX_ENTRY (widget))
 	{
 		if (GTK_IS_COMBO_BOX (widget))
@@ -187,7 +187,7 @@ murrine_find_combo_box_widget (GtkWidget * widget)
 		else
 			result = murrine_find_combo_box_widget(widget->parent);
 	}
-	
+
 	return result;
 }
 
@@ -212,12 +212,12 @@ murrine_scrollbar_get_stepper (GtkWidget    *widget,
 	check_rectangle.y      = widget->allocation.y;
 	check_rectangle.width  = stepper->width;
 	check_rectangle.height = stepper->height;
-	
+
 	orientation = GTK_RANGE (widget)->orientation;
-	
+
 	if (widget->allocation.x == -1 && widget->allocation.y == -1)
 		return MRN_STEPPER_UNKNOWN;
-		
+
 	if (gdk_rectangle_intersect (stepper, &check_rectangle, &tmp))
 		value = MRN_STEPPER_A;
 
@@ -227,7 +227,7 @@ murrine_scrollbar_get_stepper (GtkWidget    *widget,
 			check_rectangle.x = widget->allocation.x + stepper->width;
 		else
 			check_rectangle.y = widget->allocation.y + stepper->height;
-		
+
 		if (gdk_rectangle_intersect (stepper, &check_rectangle, &tmp))
 			value = MRN_STEPPER_B;
 	}
@@ -238,7 +238,7 @@ murrine_scrollbar_get_stepper (GtkWidget    *widget,
 			check_rectangle.x = widget->allocation.x + widget->allocation.width - (stepper->width * 2);
 		else
 			check_rectangle.y = widget->allocation.y + widget->allocation.height - (stepper->height * 2);
-		
+
 		if (gdk_rectangle_intersect (stepper, &check_rectangle, &tmp))
 			value = MRN_STEPPER_C;
 	}
@@ -249,11 +249,11 @@ murrine_scrollbar_get_stepper (GtkWidget    *widget,
 			check_rectangle.x = widget->allocation.x + widget->allocation.width - stepper->width;
 		else
 			check_rectangle.y = widget->allocation.y + widget->allocation.height - stepper->height;
-		
+
 		if (gdk_rectangle_intersect (stepper, &check_rectangle, &tmp))
 			value = MRN_STEPPER_D;
 	}
-	
+
 	return value;
 }
 
@@ -261,12 +261,12 @@ MurrineStepper
 murrine_scrollbar_visible_steppers (GtkWidget *widget)
 {
 	MurrineStepper steppers = 0;
-	
+
 	g_return_val_if_fail (GTK_IS_RANGE (widget), MRN_STEPPER_UNKNOWN);
-	
+
 	if (GTK_RANGE (widget)->has_stepper_a)
 		steppers |= MRN_STEPPER_A;
-	
+
 	if (GTK_RANGE (widget)->has_stepper_b)
 		steppers |= MRN_STEPPER_B;
 
@@ -279,26 +279,32 @@ murrine_scrollbar_visible_steppers (GtkWidget *widget)
 
 MurrineJunction
 murrine_scrollbar_get_junction (GtkWidget    *widget)
-{	
+{
 	GtkAdjustment *adj;
 	MurrineJunction junction = MRN_JUNCTION_NONE;
-	
+
 	g_return_val_if_fail (GTK_IS_RANGE (widget), MRN_JUNCTION_NONE);
 
 	adj = GTK_RANGE (widget)->adjustment;
-	
+
 	if (adj->value <= adj->lower &&
 	    (GTK_RANGE (widget)->has_stepper_a || GTK_RANGE (widget)->has_stepper_b))
 	{
-		junction |= MRN_JUNCTION_BEGIN;
+		if (!gtk_range_get_inverted (GTK_RANGE (widget)))
+			junction |= MRN_JUNCTION_BEGIN;
+		else
+			junction |= MRN_JUNCTION_END;
 	}
-	
+
 	if (adj->value >= adj->upper - adj->page_size &&
 	    (GTK_RANGE (widget)->has_stepper_c || GTK_RANGE (widget)->has_stepper_d))
 	{
-		junction |= MRN_JUNCTION_END;
+		if (!gtk_range_get_inverted (GTK_RANGE (widget)))
+			junction |= MRN_JUNCTION_END;
+		else
+			junction |= MRN_JUNCTION_BEGIN;
 	}
-	
+
 	return junction;
 }
 
@@ -364,7 +370,7 @@ murrine_get_notebook_tab_position (GtkWidget *widget,
 			GtkWidget *tab_label;
 			gboolean expand;
 			GtkPackType pack_type;
-						
+
 			tab_child = gtk_notebook_get_nth_page (notebook, i);
 
 			/* Skip invisible tabs */

@@ -164,13 +164,12 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->colorize_scrollbar = TRUE;
 	murrine_rc->contrast = 1.0;
 	murrine_rc->glazestyle = 1;
-	murrine_rc->gradient_stop_1 = 1.0;
+	murrine_rc->gradient_stop_1 = 1.1;
 	murrine_rc->gradient_stop_2 = 1.0;
 	murrine_rc->gradient_stop_3 = 1.0;
-	murrine_rc->gradient_stop_4 = 1.0;
+	murrine_rc->gradient_stop_4 = 1.1;
 	murrine_rc->gradients = TRUE;
 	murrine_rc->has_scrollbar_color = FALSE;
-	murrine_rc->has_gradient_stop = FALSE;
 	murrine_rc->highlight_ratio = 1.1;
 	murrine_rc->lightborder_ratio = 1.1;
 	murrine_rc->lightborderstyle = 0;
@@ -436,22 +435,18 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 			case TOKEN_GRADIENT_STOP_1:
 				token = theme_parse_ratio (settings, scanner, &murrine_style->gradient_stop_1);
 				murrine_style->flags |= MRN_FLAG_GRADIENT_STOP_1;
-				murrine_style->has_gradient_stop = TRUE;
 				break;
 			case TOKEN_GRADIENT_STOP_2:
 				token = theme_parse_ratio (settings, scanner, &murrine_style->gradient_stop_2);
 				murrine_style->flags |= MRN_FLAG_GRADIENT_STOP_2;
-				murrine_style->has_gradient_stop = TRUE;
 				break;
 			case TOKEN_GRADIENT_STOP_3:
 				token = theme_parse_ratio (settings, scanner, &murrine_style->gradient_stop_3);
 				murrine_style->flags |= MRN_FLAG_GRADIENT_STOP_3;
-				murrine_style->has_gradient_stop = TRUE;
 				break;
 			case TOKEN_GRADIENT_STOP_4:
 				token = theme_parse_ratio (settings, scanner, &murrine_style->gradient_stop_4);
-				murrine_style->flags |= MRN_FLAG_GRADIENT_STOP_4;
-				murrine_style->has_gradient_stop = TRUE;
+				murrine_style->flags |= MRN_FLAG_GRADIENT_STOP_4;;
 				break;
 			case TOKEN_GRADIENTS:
 				token = theme_parse_boolean (settings, scanner, &murrine_style->gradients);
@@ -588,25 +583,13 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 	if (flags & MRN_FLAG_GLAZESTYLE)
 		dest_w->glazestyle = src_w->glazestyle;
 	if (flags & MRN_FLAG_GRADIENT_STOP_1)
-	{
-		dest_w->has_gradient_stop = TRUE;
 		dest_w->gradient_stop_1 = src_w->gradient_stop_1;
-	}
 	if (flags & MRN_FLAG_GRADIENT_STOP_2)
-	{
-		dest_w->has_gradient_stop = TRUE;
 		dest_w->gradient_stop_2 = src_w->gradient_stop_2;
-	}
 	if (flags & MRN_FLAG_GRADIENT_STOP_3)
-	{
-		dest_w->has_gradient_stop = TRUE;
 		dest_w->gradient_stop_3 = src_w->gradient_stop_3;
-	}
 	if (flags & MRN_FLAG_GRADIENT_STOP_4)
-	{
-		dest_w->has_gradient_stop = TRUE;
 		dest_w->gradient_stop_4 = src_w->gradient_stop_4;
-	}
 	if (flags & MRN_FLAG_GRADIENTS)
 		dest_w->gradients = src_w->gradients;
 	if (flags & MRN_FLAG_HIGHLIGHT_RATIO)

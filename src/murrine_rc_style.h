@@ -95,7 +95,6 @@ struct _MurrineRcStyle
 	gboolean animation;
 	gboolean gradients;
 	gboolean colorize_scrollbar;
-	gboolean has_gradient_stop;
 	gboolean has_scrollbar_color;
 	gboolean rgba;
 

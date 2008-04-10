@@ -358,7 +358,7 @@ murrine_draw_entry (cairo_t *cr,
 		murrine_set_color_rgb (cr, &colors->spot[1]);
 		cairo_stroke(cr);
 	}
-	else
+	else if (widget->mrn_gradient.gradients)
 	{
 		MurrineRGB shadow;
 		murrine_shade (border, 0.925, &shadow);
@@ -410,7 +410,7 @@ murrine_scale_draw_gradient (cairo_t *cr,
                              boolean alpha)
 {
 	if (alpha)
-		murrine_set_color_rgba (cr, c1, 0.4);
+		murrine_set_color_rgba (cr, c1, 0.44);
 	else
 		murrine_set_color_rgb (cr, c1);
 
@@ -479,12 +479,12 @@ murrine_draw_scale_trough (cairo_t *cr,
 
 	cairo_translate (cr, 1, 1);
 
-	murrine_scale_draw_gradient (cr, &fill,
+	murrine_scale_draw_gradient (cr, &fill, /* fill */
 	                             &colors->shade[4], /* border */
 	                             0, 0, trough_width, trough_height,
 	                             TRUE);
 
-	murrine_scale_draw_gradient (cr, &colors->spot[1],
+	murrine_scale_draw_gradient (cr, &colors->spot[1], /* fill */
 	                             &colors->spot[2], /* border */
 	                             fill_x, fill_y, fill_width, fill_height,
 	                             FALSE);
@@ -509,7 +509,7 @@ murrine_draw_slider_handle (cairo_t *cr,
 	}
 
 	int num_handles = 2;
-	if (width%2 != 0)
+	if (width&1)
 		num_handles = 3;
 
 	int bar_x = width/2 - num_handles;
@@ -531,7 +531,7 @@ murrine_draw_progressbar_trough (cairo_t *cr,
                                  const WidgetParameters *widget,
                                  int x, int y, int width, int height)
 {
-	const MurrineRGB *border = &colors->shade[3];
+	const MurrineRGB *border = &colors->shade[4];
 
 	cairo_set_line_width (cr, 1.0);
 
@@ -542,13 +542,39 @@ murrine_draw_progressbar_trough (cairo_t *cr,
 
 	/* Create trough box */
 	cairo_rectangle (cr, x+1, y+1, width-2, height-2);
-	murrine_set_color_rgba (cr, &colors->shade[1], 0.4);
+	murrine_set_color_rgba (cr, &colors->shade[1], 0.46);
 	cairo_fill (cr);
 
 	/* Draw border */
 	cairo_rectangle (cr, x+0.5, y+0.5, width-1, height-1);
-	murrine_set_color_rgba (cr, border, 0.8);
+	murrine_set_color_rgba (cr, border, 0.74);
 	cairo_stroke (cr);
+
+	if (widget->mrn_gradient.gradients)
+	{
+		cairo_pattern_t  *pattern;
+		MurrineRGB        shadow;
+
+		murrine_shade (border, 0.94, &shadow);
+
+		/* Top shadow */
+		cairo_rectangle (cr, x+1, y+1, width-2, 4);
+		pattern = cairo_pattern_create_linear (x, y, x, y+4);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.0, shadow.r, shadow.g, shadow.b, 0.24);
+		cairo_pattern_add_color_stop_rgba (pattern, 1.0, shadow.r, shadow.g, shadow.b, 0.);
+		cairo_set_source (cr, pattern);
+		cairo_fill (cr);
+		cairo_pattern_destroy (pattern);
+
+		/* Left shadow */
+		cairo_rectangle (cr, x+1, y+1, 4, height-2);
+		pattern = cairo_pattern_create_linear (x, y, x+4, y);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.0, shadow.r, shadow.g, shadow.b, 0.24);
+		cairo_pattern_add_color_stop_rgba (pattern, 1.0, shadow.r, shadow.g, shadow.b, 0.);
+		cairo_set_source (cr, pattern);
+		cairo_fill (cr);
+		cairo_pattern_destroy (pattern);
+	}
 }
 
 static void

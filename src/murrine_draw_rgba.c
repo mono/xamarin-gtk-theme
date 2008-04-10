@@ -375,7 +375,7 @@ murrine_rgba_draw_entry (cairo_t *cr,
 		murrine_set_color_rgba (cr, &colors->spot[1], 0.6);
 		cairo_stroke(cr);
 	}
-	else
+	else if (widget->mrn_gradient.gradients)
 	{
 		MurrineRGB highlight;
 		murrine_shade (base, 1.15, &highlight);
@@ -406,7 +406,7 @@ murrine_scale_draw_gradient (cairo_t *cr,
                              boolean alpha)
 {
 	if (alpha)
-		murrine_set_color_rgba (cr, c1, 0.4);
+		murrine_set_color_rgba (cr, c1, 0.46);
 	else
 		murrine_set_color_rgb (cr, c1);
 
@@ -475,12 +475,12 @@ murrine_rgba_draw_scale_trough (cairo_t *cr,
 
 	cairo_translate (cr, 1, 1);
 
-	murrine_scale_draw_gradient (cr, &fill,
+	murrine_scale_draw_gradient (cr, &fill, /* fill */
 	                             &colors->shade[5], /* border */
 	                             0, 0, trough_width, trough_height,
 	                             TRUE);
 
-	murrine_scale_draw_gradient (cr, &colors->spot[1],
+	murrine_scale_draw_gradient (cr, &colors->spot[1], /* fill */
 	                             &colors->spot[2], /* border */
 	                             fill_x, fill_y, fill_width, fill_height,
 	                             FALSE);
@@ -499,7 +499,7 @@ murrine_rgba_draw_progressbar_trough (cairo_t *cr,
 
 	/* Fill with bg color */
 	cairo_rectangle (cr, x, y, width, height);
-	murrine_set_color_rgba (cr, &colors->bg[widget->state_type], 0.8);
+	murrine_set_color_rgba (cr, &colors->bg[widget->state_type], WINDOW_OPACITY);
 	cairo_fill (cr);
 
 	cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
@@ -513,6 +513,32 @@ murrine_rgba_draw_progressbar_trough (cairo_t *cr,
 	cairo_rectangle (cr, x+0.5, y+0.5, width-1, height-1);
 	murrine_set_color_rgba (cr, border, 0.8);
 	cairo_stroke (cr);
+
+	if (widget->mrn_gradient.gradients)
+	{
+		cairo_pattern_t  *pattern;
+		MurrineRGB        shadow;
+
+		murrine_shade (border, 0.94, &shadow);
+
+		/* Top shadow */
+		cairo_rectangle (cr, x+1, y+1, width-2, 4);
+		pattern = cairo_pattern_create_linear (x, y, x, y+4);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.0, shadow.r, shadow.g, shadow.b, 0.26);
+		cairo_pattern_add_color_stop_rgba (pattern, 1.0, shadow.r, shadow.g, shadow.b, 0.);
+		cairo_set_source (cr, pattern);
+		cairo_fill (cr);
+		cairo_pattern_destroy (pattern);
+
+		/* Left shadow */
+		cairo_rectangle (cr, x+1, y+1, 4, height-2);
+		pattern = cairo_pattern_create_linear (x, y, x+4, y);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.0, shadow.r, shadow.g, shadow.b, 0.26);
+		cairo_pattern_add_color_stop_rgba (pattern, 1.0, shadow.r, shadow.g, shadow.b, 0.);
+		cairo_set_source (cr, pattern);
+		cairo_fill (cr);
+		cairo_pattern_destroy (pattern);
+	}
 }
 
 static void

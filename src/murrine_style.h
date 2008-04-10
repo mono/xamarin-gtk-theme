@@ -47,10 +47,7 @@ struct _MurrineStyle
 	MurrineStyles style;
 
 	double   contrast;
-	double   gradient_stop_1;
-	double   gradient_stop_2;
-	double   gradient_stop_3;
-	double   gradient_stop_4;
+	double   gradient_shades[4];
 	double   highlight_ratio;
 	double   lightborder_ratio;
 

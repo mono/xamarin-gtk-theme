@@ -45,10 +45,7 @@ enum
 	TOKEN_COLORIZE_SCROLLBAR,
 	TOKEN_CONTRAST,
 	TOKEN_GLAZESTYLE,
-	TOKEN_GRADIENT_STOP_1,
-	TOKEN_GRADIENT_STOP_2,
-	TOKEN_GRADIENT_STOP_3,
-	TOKEN_GRADIENT_STOP_4,
+	TOKEN_GRADIENT_SHADES,
 	TOKEN_GRADIENTS,
 	TOKEN_HIGHLIGHT_RATIO,
 	TOKEN_LIGHTBORDER_RATIO,
@@ -94,10 +91,7 @@ theme_symbols[] =
 	{ "colorize_scrollbar",  TOKEN_COLORIZE_SCROLLBAR },
 	{ "contrast",            TOKEN_CONTRAST },
 	{ "glazestyle",          TOKEN_GLAZESTYLE },
-	{ "gradient_stop_1",     TOKEN_GRADIENT_STOP_1 },
-	{ "gradient_stop_2",     TOKEN_GRADIENT_STOP_2 },
-	{ "gradient_stop_3",     TOKEN_GRADIENT_STOP_3 },
-	{ "gradient_stop_4",     TOKEN_GRADIENT_STOP_4 },
+	{ "gradient_shades",     TOKEN_GRADIENT_SHADES },
 	{ "gradients",           TOKEN_GRADIENTS },
 	{ "highlight_ratio",     TOKEN_HIGHLIGHT_RATIO },
 	{ "lightborder_ratio",   TOKEN_LIGHTBORDER_RATIO },
@@ -164,10 +158,10 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->colorize_scrollbar = TRUE;
 	murrine_rc->contrast = 1.0;
 	murrine_rc->glazestyle = 1;
-	murrine_rc->gradient_stop_1 = 1.1;
-	murrine_rc->gradient_stop_2 = 1.0;
-	murrine_rc->gradient_stop_3 = 1.0;
-	murrine_rc->gradient_stop_4 = 1.1;
+	murrine_rc->gradient_shades[0] = 1.1;
+	murrine_rc->gradient_shades[1] = 1.0;
+	murrine_rc->gradient_shades[2] = 1.0;
+	murrine_rc->gradient_shades[3] = 1.1;
 	murrine_rc->gradients = TRUE;
 	murrine_rc->has_scrollbar_color = FALSE;
 	murrine_rc->highlight_ratio = 1.1;
@@ -298,7 +292,7 @@ theme_parse_int (GtkSettings  *settings,
 
 	token = g_scanner_get_next_token(scanner);
 	if (token != G_TOKEN_EQUAL_SIGN)
-	return G_TOKEN_EQUAL_SIGN;
+		return G_TOKEN_EQUAL_SIGN;
 
 	token = g_scanner_get_next_token(scanner);
 	if (token != G_TOKEN_INT)
@@ -347,6 +341,62 @@ theme_parse_style (GtkSettings   *settings,
 		default:
 		   return TOKEN_MURRINE;
 	}
+
+	return G_TOKEN_NONE;
+}
+
+static guint
+theme_parse_gradient (GtkSettings  *settings,
+                      GScanner     *scanner, 
+                      double       gradient_shades[4])
+{
+	guint               token;
+
+	/* Skip 'blah_border' */
+	token = g_scanner_get_next_token(scanner);
+
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_EQUAL_SIGN)
+		return G_TOKEN_EQUAL_SIGN;
+
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_LEFT_CURLY)
+		return G_TOKEN_LEFT_CURLY;
+
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_FLOAT)
+		return G_TOKEN_FLOAT;
+	gradient_shades[0] = scanner->value.v_float;
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_COMMA)
+		return G_TOKEN_COMMA;
+
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_FLOAT)
+		return G_TOKEN_FLOAT;
+	gradient_shades[1] = scanner->value.v_float;
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_COMMA)
+		return G_TOKEN_COMMA;
+
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_FLOAT)
+		return G_TOKEN_FLOAT;
+	gradient_shades[2] = scanner->value.v_float;
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_COMMA)
+		return G_TOKEN_COMMA;
+
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_FLOAT)
+		return G_TOKEN_FLOAT;
+	gradient_shades[3] = scanner->value.v_float;
+
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_RIGHT_CURLY)
+		return G_TOKEN_RIGHT_CURLY;
+
+	/* save those values */
 
 	return G_TOKEN_NONE;
 }
@@ -432,21 +482,9 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_int (settings, scanner, &murrine_style->glazestyle);
 				murrine_style->flags |= MRN_FLAG_GLAZESTYLE;
 				break;
-			case TOKEN_GRADIENT_STOP_1:
-				token = theme_parse_ratio (settings, scanner, &murrine_style->gradient_stop_1);
-				murrine_style->flags |= MRN_FLAG_GRADIENT_STOP_1;
-				break;
-			case TOKEN_GRADIENT_STOP_2:
-				token = theme_parse_ratio (settings, scanner, &murrine_style->gradient_stop_2);
-				murrine_style->flags |= MRN_FLAG_GRADIENT_STOP_2;
-				break;
-			case TOKEN_GRADIENT_STOP_3:
-				token = theme_parse_ratio (settings, scanner, &murrine_style->gradient_stop_3);
-				murrine_style->flags |= MRN_FLAG_GRADIENT_STOP_3;
-				break;
-			case TOKEN_GRADIENT_STOP_4:
-				token = theme_parse_ratio (settings, scanner, &murrine_style->gradient_stop_4);
-				murrine_style->flags |= MRN_FLAG_GRADIENT_STOP_4;;
+			case TOKEN_GRADIENT_SHADES:
+				token = theme_parse_gradient (settings, scanner, murrine_style->gradient_shades);
+				murrine_style->flags |= MRN_FLAG_GRADIENT_SHADES;
 				break;
 			case TOKEN_GRADIENTS:
 				token = theme_parse_boolean (settings, scanner, &murrine_style->gradients);
@@ -582,14 +620,13 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->contrast = src_w->contrast;
 	if (flags & MRN_FLAG_GLAZESTYLE)
 		dest_w->glazestyle = src_w->glazestyle;
-	if (flags & MRN_FLAG_GRADIENT_STOP_1)
-		dest_w->gradient_stop_1 = src_w->gradient_stop_1;
-	if (flags & MRN_FLAG_GRADIENT_STOP_2)
-		dest_w->gradient_stop_2 = src_w->gradient_stop_2;
-	if (flags & MRN_FLAG_GRADIENT_STOP_3)
-		dest_w->gradient_stop_3 = src_w->gradient_stop_3;
-	if (flags & MRN_FLAG_GRADIENT_STOP_4)
-		dest_w->gradient_stop_4 = src_w->gradient_stop_4;
+	if (flags & MRN_FLAG_GRADIENT_SHADES)
+	{
+		dest_w->gradient_shades[0] = src_w->gradient_shades[0];
+		dest_w->gradient_shades[1] = src_w->gradient_shades[1];
+		dest_w->gradient_shades[2] = src_w->gradient_shades[2];
+		dest_w->gradient_shades[3] = src_w->gradient_shades[3];
+	}
 	if (flags & MRN_FLAG_GRADIENTS)
 		dest_w->gradients = src_w->gradients;
 	if (flags & MRN_FLAG_HIGHLIGHT_RATIO)

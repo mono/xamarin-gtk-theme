@@ -157,10 +157,10 @@ murrine_rgba_draw_button (cairo_t *cr,
 
 	if (widget->disabled)
 	{
-		mrn_gradient_custom.gradient_stop_1 = get_decreased_ratio (widget->mrn_gradient.gradient_stop_1, 3.0);
-		mrn_gradient_custom.gradient_stop_2 = get_decreased_ratio (widget->mrn_gradient.gradient_stop_2, 3.0);
-		mrn_gradient_custom.gradient_stop_3 = get_decreased_ratio (widget->mrn_gradient.gradient_stop_3, 3.0);
-		mrn_gradient_custom.gradient_stop_4 = get_decreased_ratio (widget->mrn_gradient.gradient_stop_4, 3.0);
+		mrn_gradient_custom.gradient_shades[0] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[0], 3.0);
+		mrn_gradient_custom.gradient_shades[1] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[1], 3.0);
+		mrn_gradient_custom.gradient_shades[2] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[2], 3.0);
+		mrn_gradient_custom.gradient_shades[3] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[3], 3.0);
 		custom_highlight_ratio = get_decreased_ratio (widget->highlight_ratio, 2.0);
 	}
 
@@ -567,10 +567,10 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 	cairo_save (cr);
 	cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
 
-	cairo_rectangle (cr, 1.5, 0.5, width-2, height-1);
+	cairo_rectangle (cr, 1.5, 0.5, width-2, height);
 
 	/* Draw fill */
-	murrine_set_gradient (cr, fill, widget->mrn_gradient, 1.5, 0.5, 0, height-1, widget->mrn_gradient.gradients, FALSE);
+	murrine_set_gradient (cr, fill, widget->mrn_gradient, 1.5, 0.5, 0, height, widget->mrn_gradient.gradients, FALSE);
 
 	/* Draw the glass effect */
 	if (widget->glazestyle > 0)
@@ -587,7 +587,7 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 		murrine_draw_flat_highlight (cr, 1.5, 0.5, width-2, height);
 	}
 
-	murrine_set_gradient (cr, &highlight, widget->mrn_gradient, 1.5, 0.5, 0, height-1, widget->mrn_gradient.gradients, TRUE);
+	murrine_set_gradient (cr, &highlight, widget->mrn_gradient, 1.5, 0.5, 0, height, widget->mrn_gradient.gradients, TRUE);
 	cairo_fill (cr);
 
 	if (widget->glazestyle == 4)
@@ -595,7 +595,7 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 		murrine_draw_curved_highlight_bottom (cr, 1, width, height+1);
 		MurrineRGB shadow;
 		murrine_shade (fill, 1.0/widget->highlight_ratio, &shadow);
-		murrine_set_gradient (cr, &shadow, widget->mrn_gradient, 1.5, 0.5, 0, height-1, widget->mrn_gradient.gradients, TRUE);
+		murrine_set_gradient (cr, &shadow, widget->mrn_gradient, 1.5, 0.5, 0, height, widget->mrn_gradient.gradients, TRUE);
 		cairo_fill (cr);
 	}
 
@@ -1153,18 +1153,18 @@ murrine_rgba_draw_tab (cairo_t *cr,
 		MurrineRGB shade1, shade2, shade3, shade4;
 
 		MurrineGradients mrn_gradient_custom = widget->mrn_gradient;
-		mrn_gradient_custom.gradient_stop_1 = get_decreased_ratio (widget->mrn_gradient.gradient_stop_1, 3.0);
-		mrn_gradient_custom.gradient_stop_2 = get_decreased_ratio (widget->mrn_gradient.gradient_stop_2, 3.0);
-		mrn_gradient_custom.gradient_stop_3 = get_decreased_ratio (widget->mrn_gradient.gradient_stop_3, 3.0);
-		mrn_gradient_custom.gradient_stop_4 = get_decreased_ratio (widget->mrn_gradient.gradient_stop_4, 3.0);
+		mrn_gradient_custom.gradient_shades[0] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[0], 3.0);
+		mrn_gradient_custom.gradient_shades[1] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[1], 3.0);
+		mrn_gradient_custom.gradient_shades[2] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[2], 3.0);
+		mrn_gradient_custom.gradient_shades[3] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[3], 3.0);
 
 		double custom_highlight_ratio = widget->highlight_ratio;
 		custom_highlight_ratio = get_decreased_ratio (widget->highlight_ratio, 2.0);
 
-		murrine_shade (fill, mrn_gradient_custom.gradient_stop_1*custom_highlight_ratio, &shade1);
-		murrine_shade (fill, mrn_gradient_custom.gradient_stop_2*custom_highlight_ratio, &shade2);
-		murrine_shade (fill, mrn_gradient_custom.gradient_stop_3, &shade3);
-		murrine_shade (fill, mrn_gradient_custom.gradient_stop_4, &shade4);
+		murrine_shade (fill, mrn_gradient_custom.gradient_shades[0]*custom_highlight_ratio, &shade1);
+		murrine_shade (fill, mrn_gradient_custom.gradient_shades[1]*custom_highlight_ratio, &shade2);
+		murrine_shade (fill, mrn_gradient_custom.gradient_shades[2], &shade3);
+		murrine_shade (fill, mrn_gradient_custom.gradient_shades[3], &shade4);
 
 		switch (tab->gap_side)
 		{
@@ -1448,7 +1448,6 @@ murrine_rgba_draw_scrollbar_slider (cairo_t *cr,
 
 	if (scrollbar->horizontal)
 		cairo_translate (cr, x, y);
-
 	else
 	{
 		int tmp = height;
@@ -1598,10 +1597,10 @@ murrine_rgba_draw_tooltip (cairo_t *cr,
 
 	MurrineGradients mrn_gradient_custom = widget->mrn_gradient;
 
-	mrn_gradient_custom.gradient_stop_1 = get_decreased_ratio (widget->mrn_gradient.gradient_stop_1, 2.0);
-	mrn_gradient_custom.gradient_stop_2 = get_decreased_ratio (widget->mrn_gradient.gradient_stop_2, 2.0);
-	mrn_gradient_custom.gradient_stop_3 = get_decreased_ratio (widget->mrn_gradient.gradient_stop_3, 2.0);
-	mrn_gradient_custom.gradient_stop_4 = get_decreased_ratio (widget->mrn_gradient.gradient_stop_4, 2.0);
+	mrn_gradient_custom.gradient_shades[0] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[0], 2.0);
+	mrn_gradient_custom.gradient_shades[1] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[1], 2.0);
+	mrn_gradient_custom.gradient_shades[2] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[2], 2.0);
+	mrn_gradient_custom.gradient_shades[3] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[3], 2.0);
 
 	murrine_shade (&colors->bg[widget->state_type], 0.6, &border);
 	murrine_shade (&colors->bg[widget->state_type], 1.0, &highlight);

@@ -175,10 +175,7 @@ typedef struct
 
 typedef struct
 {
-	double  gradient_stop_1;
-	double  gradient_stop_2;
-	double  gradient_stop_3;
-	double  gradient_stop_4;
+	double  gradient_shades[4];
 	double  rgba_opacity;
 
 	boolean gradients;

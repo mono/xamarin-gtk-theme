@@ -542,7 +542,7 @@ murrine_draw_progressbar_trough (cairo_t *cr,
 
 	/* Create trough box */
 	cairo_rectangle (cr, x+1, y+1, width-2, height-2);
-	murrine_set_color_rgba (cr, &colors->shade[1], 0.46);
+	murrine_set_color_rgba (cr, &colors->shade[1], 0.44);
 	cairo_fill (cr);
 
 	/* Draw border */

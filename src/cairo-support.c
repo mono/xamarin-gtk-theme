@@ -504,13 +504,13 @@ murrine_draw_lightborder (cairo_t *cr,
 	             clearlooks_rounded_rectangle (cr, x, y, width, height, radius-1, corners);
 
 	pattern = cairo_pattern_create_linear (x, y, !horizontal ? width+x : x, !horizontal ? y : height+y);
-	cairo_pattern_add_color_stop_rgba (pattern, 0.0,      shade1.r, shade1.g, shade1.b, 0.5*alpha_value);
-	cairo_pattern_add_color_stop_rgba (pattern, 0.49,      shade2.r, shade2.g, shade2.b, 0.5*alpha_value);
-	cairo_pattern_add_color_stop_rgba (pattern, 0.49,      shade3.r, shade3.g, shade3.b, 0.5*alpha_value);
+	cairo_pattern_add_color_stop_rgba (pattern, 0.00,     shade1.r, shade1.g, shade1.b, 0.5*alpha_value);
+	cairo_pattern_add_color_stop_rgba (pattern, 0.49,     shade2.r, shade2.g, shade2.b, 0.5*alpha_value);
+	cairo_pattern_add_color_stop_rgba (pattern, 0.49,     shade3.r, shade3.g, shade3.b, 0.5*alpha_value);
 	cairo_pattern_add_color_stop_rgba (pattern, fill_pos, shade4.r, shade4.g, shade4.b, 0.5*alpha_value);
 	cairo_pattern_add_color_stop_rgba (pattern, fill_pos, shade4.r, shade4.g, shade4.b,
 	                                   lightborderstyle > 0 ? 0.5*alpha_value : 0.0);
-	cairo_pattern_add_color_stop_rgba (pattern, 1.0,      shade4.r, shade4.g, shade4.b,
+	cairo_pattern_add_color_stop_rgba (pattern, 1.00,     shade4.r, shade4.g, shade4.b,
 	                                   lightborderstyle > 0 ? 0.5*alpha_value : 0.0);
 	cairo_set_source (cr, pattern);
 	cairo_pattern_destroy (pattern);

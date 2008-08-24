@@ -1101,7 +1101,7 @@ murrine_rgba_draw_tab (cairo_t *cr,
 	if (!widget->active)
 		border = (MurrineRGB*)&colors->shade[5];
 	else
-		border = (MurrineRGB*)&colors->shade[4];
+		border = (MurrineRGB*)&colors->shade[3];
 
 	/* Set clip */
 	cairo_rectangle (cr, x, y, width, height);
@@ -1234,6 +1234,22 @@ murrine_rgba_draw_tab (cairo_t *cr,
 	}
 	else
 	{
+		MurrineRGB shade1, shade2, shade3, shade4;
+
+		MurrineGradients mrn_gradient_custom = widget->mrn_gradient;
+		mrn_gradient_custom.gradient_shades[0] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[0], 2.0);
+		mrn_gradient_custom.gradient_shades[1] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[1], 2.0);
+		mrn_gradient_custom.gradient_shades[2] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[2], 2.0);
+		mrn_gradient_custom.gradient_shades[3] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[3], 2.0);
+
+		double custom_highlight_ratio = widget->highlight_ratio;
+		custom_highlight_ratio = get_decreased_ratio (widget->highlight_ratio, 2.0);
+
+		murrine_shade (fill, mrn_gradient_custom.gradient_shades[0]*custom_highlight_ratio, &shade1);
+		murrine_shade (fill, mrn_gradient_custom.gradient_shades[1]*custom_highlight_ratio, &shade2);
+		murrine_shade (fill, mrn_gradient_custom.gradient_shades[2], &shade3);
+		murrine_shade (fill, 1.0, &shade4);
+
 		/* Draw shade */
 		switch (tab->gap_side)
 		{
@@ -1256,13 +1272,24 @@ murrine_rgba_draw_tab (cairo_t *cr,
 		else
 			clearlooks_rounded_rectangle (cr, 0, 0, width-1, height-1, widget->roundness, corners);
 
-		cairo_pattern_add_color_stop_rgba (pattern, 0.0,        stripe_fill->r, stripe_fill->g, stripe_fill->b, NOTEBOOK_OPACITY);
-		cairo_pattern_add_color_stop_rgba (pattern, strip_size, stripe_fill->r, stripe_fill->g, stripe_fill->b, NOTEBOOK_OPACITY);
-		cairo_pattern_add_color_stop_rgba (pattern, strip_size, fill->r, fill->g, fill->b, NOTEBOOK_OPACITY);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.00, shade1.r, shade1.g, shade1.b, NOTEBOOK_OPACITY);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.45, shade2.r, shade2.g, shade2.b, NOTEBOOK_OPACITY);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.45, shade3.r, shade3.g, shade3.b, NOTEBOOK_OPACITY);
+		cairo_pattern_add_color_stop_rgba (pattern, 1.00, shade4.r, shade4.g, shade4.b, NOTEBOOK_OPACITY);
 		cairo_set_source (cr, pattern);
 		cairo_fill (cr);
 		cairo_pattern_destroy (pattern);
+
+		cairo_set_line_width (cr, 1.0);
 		cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
+		murrine_set_color_rgba (cr, &colors->shade[0], 0.4);
+
+		if (widget->roundness < 2)
+			cairo_rectangle (cr, 1, 1, width-3, height-3);
+		else
+			clearlooks_rounded_rectangle (cr, 1, 1, width-3, height-3, widget->roundness, corners);
+
+		cairo_stroke (cr);
 	}
 
 	murrine_rounded_rectangle (cr, 0, 0, width-1, height-1, widget->roundness, corners);

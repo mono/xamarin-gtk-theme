@@ -1,3 +1,10 @@
+2008-08-24  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/murrine_draw.c (murrine_draw_tab):
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_tab):
+	New tabs, also I forgot to mention that in the previous commit 
+	I fixed disabled sliderbutton state
+
 2008-04-11  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/murrine_draw.c: (murrine_draw_entry),

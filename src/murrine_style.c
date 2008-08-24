@@ -1001,6 +1001,10 @@ murrine_style_draw_box (DRAW_ARGS)
 		else
 			params.corners = MRN_CORNER_NONE;
 
+		/* Use reliefstyle to remove inset on disabled slider button */
+		if (params.disabled)
+			params.reliefstyle = 0;
+
 		STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, x, y, width, height, horizontal);
 
 		if (murrine_style->sliderstyle == 1)

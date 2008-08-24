@@ -1213,10 +1213,10 @@ murrine_rgba_draw_tab (cairo_t *cr,
 		else
 			clearlooks_rounded_rectangle (cr, 0, 0, width-1, height-1, widget->roundness, corners);
 
-		cairo_pattern_add_color_stop_rgba (pattern, 0.0, shade1.r, shade1.g, shade1.b, NOTEBOOK_OPACITY);
-		cairo_pattern_add_color_stop_rgba (pattern, 0.4, shade2.r, shade2.g, shade2.b, NOTEBOOK_OPACITY);
-		cairo_pattern_add_color_stop_rgba (pattern, 0.4, shade3.r, shade3.g, shade3.b, NOTEBOOK_OPACITY);
-		cairo_pattern_add_color_stop_rgba (pattern, 1.0, shade4.r, shade4.g, shade4.b, NOTEBOOK_OPACITY);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.00, shade1.r, shade1.g, shade1.b, NOTEBOOK_OPACITY);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.45, shade2.r, shade2.g, shade2.b, NOTEBOOK_OPACITY);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.45, shade3.r, shade3.g, shade3.b, NOTEBOOK_OPACITY);
+		cairo_pattern_add_color_stop_rgba (pattern, 1.00, shade4.r, shade4.g, shade4.b, NOTEBOOK_OPACITY);
 		cairo_set_source (cr, pattern);
 		cairo_fill (cr);
 		cairo_pattern_destroy (pattern);

@@ -1,5 +1,10 @@
 2008-08-24  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/murrine_rc_style.c (murrine_rc_style_init):
+	RGBA = FALSE, new default
+
+2008-08-24  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* TODO:
 	Added TODO file
 

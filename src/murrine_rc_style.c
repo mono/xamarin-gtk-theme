@@ -174,7 +174,7 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->menuitemstyle = 1;
 	murrine_rc->menustyle = 1;
 	murrine_rc->reliefstyle = 2;
-	murrine_rc->rgba = TRUE;
+	murrine_rc->rgba = FALSE;
 	murrine_rc->roundness = 1;
 	murrine_rc->scrollbarstyle = 0;
 	murrine_rc->sliderstyle = 0;

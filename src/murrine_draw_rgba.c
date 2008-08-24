@@ -1101,7 +1101,7 @@ murrine_rgba_draw_tab (cairo_t *cr,
 	if (!widget->active)
 		border = (MurrineRGB*)&colors->shade[5];
 	else
-		border = (MurrineRGB*)&colors->shade[3];
+		border = (MurrineRGB*)&colors->shade[4];
 
 	/* Set clip */
 	cairo_rectangle (cr, x, y, width, height);
@@ -1293,38 +1293,8 @@ murrine_rgba_draw_tab (cairo_t *cr,
 	}
 
 	murrine_rounded_rectangle (cr, 0, 0, width-1, height-1, widget->roundness, corners);
-
-	if (widget->active)
-	{
-		murrine_set_color_rgb  (cr, border);
-		cairo_stroke (cr);
-	}
-	else
-	{
-		switch (tab->gap_side)
-		{
-			case MRN_GAP_TOP:
-				pattern = cairo_pattern_create_linear (2, height-2, 2, 2);
-				break;
-			case MRN_GAP_BOTTOM:
-				pattern = cairo_pattern_create_linear (2, 2, 2, height);
-				break;
-			case MRN_GAP_LEFT:
-				pattern = cairo_pattern_create_linear (width-2, 2, 2, 2);
-				break;
-			case MRN_GAP_RIGHT:
-				pattern = cairo_pattern_create_linear (2, 2, width, 2);
-				break;
-		}
-
-		cairo_pattern_add_color_stop_rgb (pattern, 0.0,        stripe_border->r, stripe_border->g, stripe_border->b);
-		cairo_pattern_add_color_stop_rgb (pattern, strip_size, stripe_border->r, stripe_border->g, stripe_border->b);
-		cairo_pattern_add_color_stop_rgb (pattern, strip_size, stripe_border->r, stripe_border->g, stripe_border->b);
-		cairo_pattern_add_color_stop_rgb (pattern, 0.8,        border->r,        border->g,        border->b);
-		cairo_set_source (cr, pattern);
-		cairo_stroke (cr);
-		cairo_pattern_destroy (pattern);
-	}
+	murrine_set_color_rgb  (cr, border);
+	cairo_stroke (cr);
 }
 
 static void

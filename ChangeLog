@@ -1,5 +1,10 @@
 2008-08-27  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/config.h.in:
+	Re-added
+
+2008-08-27  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* CREDITS:
 	Thanks to Werner Pantke
 

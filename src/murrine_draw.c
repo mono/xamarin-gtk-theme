@@ -1117,10 +1117,10 @@ murrine_draw_tab (cairo_t *cr,
 		MurrineRGB shade1, shade2, shade3, shade4;
 
 		MurrineGradients mrn_gradient_custom = widget->mrn_gradient;
-		mrn_gradient_custom.gradient_shades[0] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[0], 2.0);
-		mrn_gradient_custom.gradient_shades[1] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[1], 2.0);
-		mrn_gradient_custom.gradient_shades[2] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[2], 2.0);
-		mrn_gradient_custom.gradient_shades[3] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[3], 2.0);
+		mrn_gradient_custom.gradient_shades[0] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[0], 3.0);
+		mrn_gradient_custom.gradient_shades[1] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[1], 3.0);
+		mrn_gradient_custom.gradient_shades[2] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[2], 3.0);
+		mrn_gradient_custom.gradient_shades[3] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[3], 3.0);
 
 		double custom_highlight_ratio = widget->highlight_ratio;
 		custom_highlight_ratio = get_decreased_ratio (widget->highlight_ratio, 2.0);

@@ -38,14 +38,22 @@ fi
 
 (libtool --version) < /dev/null > /dev/null 2>&1 || {
 	echo
-	echo "You must have libtool installed to compile GTK+."
+	echo "You must have libtool installed to compile murrine."
 	echo "Get http://ftp.gnu.org/gnu/libtool/libtool-1.5.10.tar.gz"
 	echo "(or a newer version if it is available)"
 	DIE=1
 }
+
+(intltoolize --version) < /dev/null > /dev/null 2>&1 || {
+	echo
+	echo "You must have intltool installed to compile murrine."
+	DIE=1
+}
+                        
 if test "$DIE" -eq 1; then
 	exit 1
 fi
+
 
 if test -z "$*"; then
 	echo "I am going to run ./configure with no arguments - if you wish "
@@ -53,6 +61,7 @@ if test -z "$*"; then
 fi
 
 libtoolize --force --copy
+intltoolize --force --copy --automake
 
 $ACLOCAL $ACLOCAL_FLAGS
 autoconf
@@ -60,6 +69,3 @@ $AUTOMAKE --add-missing
 cd $THEDIR
 
 $srcdir/configure --enable-maintainer-mode "$@"
-
-echo 
-echo "Now type 'make' to compile themes"

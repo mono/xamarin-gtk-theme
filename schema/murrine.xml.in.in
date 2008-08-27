@@ -2,7 +2,7 @@
 <engine schema_version="0.1" module_name="murrine" long_name="Murrine">
 
 	<metainfo>
-		<version>0.6.0</version>
+		<version>@VERSION@</version>
 		<website>http://www.cimitan.com/murrine</website>
 		<author>
 			<name>Andrea Cimitan</name>
@@ -11,20 +11,20 @@
 	</metainfo>
 
 	<option type="boolean" name="animation" default="TRUE">
-		<long_name>Animations</long_name>
-		<description>Enable animations on progressbars, radio and checkbuttons</description>
+		<_long_name>Animations</_long_name>
+		<_description>Enable animations on progressbars, radio and checkbuttons</_description>
 		<section>General</section>
 	</option>
 
 	<option type="boolean" name="colorize_scrollbar" default="TRUE">
-		<long_name>Colorize scrollbar</long_name>
-		<description>Use colorized scrollbars</description>
+		<_long_name>Colorize scrollbar</_long_name>
+		<_description>Use colorized scrollbars</_description>
 		<section>Scrolls and Lists</section>
 	</option>
 
 	<option type="real" name="contrast" default="1.0">
-		<long_name>Contrast</long_name>
-		<description>Dangerous, should be MODIFIED ONLY BY HAND in gtkrc into separated sections</description>
+		<_long_name>Contrast</_long_name>
+		<_description>Dangerous, should be MODIFIED ONLY BY HAND in gtkrc into separated sections</_description>
 		<section>General</section>
 		<minimum>0</minimum>
 		<maximum>2</maximum>
@@ -32,7 +32,7 @@
 	</option>
 
 	<option type="enumeration" name="glazestyle" default="0">
-		<long_name>Glaze Style</long_name>
+		<_long_name>Glaze Style</_long_name>
 		<section>General</section>
 		<enumeration value="0">
 			<label>Flat hilight</label>
@@ -53,8 +53,7 @@
 
 	<option type="real" name="gradient_stop_1" default="1.0">
 		<optional>Enable custom gradients</optional>
-		<long_name>Gradient Stop 1</long_name>
-		<long_name>First gradient stop</long_name>
+		<_long_name>First gradient stop</_long_name>
 		<section>Gradients</section>
 		<minimum>0</minimum>
 		<maximum>2</maximum>
@@ -62,8 +61,7 @@
 	</option>
 	<option type="real" name="gradient_stop_2" default="1.0">
 		<optional>Enable custom gradients</optional>
-		<long_name>Gradients Stop 2</long_name>
-		<long_name>Second gradient stop</long_name>
+		<_long_name>Second gradient stop</_long_name>
 		<section>Gradients</section>
 		<minimum>0</minimum>
 		<maximum>2</maximum>
@@ -71,8 +69,7 @@
 	</option>
 	<option type="real" name="gradient_stop_3" default="1.0">
 		<optional>Enable custom gradients</optional>
-		<long_name>Gradient Stop 3</long_name>
-		<long_name>Third gradient stop</long_name>
+		<_long_name>Third gradient stop</_long_name>
 		<section>Gradients</section>
 		<minimum>0</minimum>
 		<maximum>2</maximum>
@@ -80,8 +77,7 @@
 	</option>
 	<option type="real" name="gradient_stop_4" default="1.0">
 		<optional>Enable custom gradients</optional>
-		<long_name>Gradient Stop 4</long_name>
-		<long_name>Fourth gradient stop</long_name>
+		<_long_name>Fourth gradient stop</_long_name>
 		<section>Gradients</section>
 		<minimum>0</minimum>
 		<maximum>2</maximum>
@@ -89,14 +85,14 @@
 	</option>
 
 	<option type="boolean" name="gradients" default="TRUE">
-		<long_name>Gradients</long_name>
-		<description>Enable/Disable gradients</description>
+		<_long_name>Gradients</_long_name>
+		<_description>Enable/Disable gradients</_description>
 		<section>Gradients</section>
 	</option>
 
 	<option type="real" name="highlight_ratio" default="1.1">
-		<long_name>Highlight Ratio</long_name>
-		<description>Increse/Decrease the highlight ratio</description>
+		<_long_name>Highlight Ratio</_long_name>
+		<_description>Increse/Decrease the highlight ratio</_description>
 		<section>General</section>
 		<minimum>0</minimum>
 		<maximum>2</maximum>
@@ -104,8 +100,8 @@
 	</option>
 
 	<option type="real" name="lightborder_ratio" default="1.1">
-		<long_name>Lightborder Ratio</long_name>
-		<description>Increse/Decrease the lightborder ratio</description>
+		<_long_name>Lightborder Ratio</_long_name>
+		<_description>Increse/Decrease the lightborder ratio</_description>
 		<section>General</section>
 		<minimum>0</minimum>
 		<maximum>2</maximum>
@@ -113,7 +109,7 @@
 	</option>
 
 	<option type="enumeration" name="lightborderstyle" default="0">
-		<long_name>Lightborder Style</long_name>
+		<_long_name>Lightborder Style</_long_name>
 		<section>General</section>
 		<enumeration value="0">
 			<label>Default</label>
@@ -124,7 +120,7 @@
 	</option>
 
 	<option type="enumeration" name="listviewheaderstyle" default="0">
-		<long_name>Listview header style</long_name>
+		<_long_name>Listview header style</_long_name>
 		<section>Scrolls and Lists</section>
 		<enumeration value="0">
 			<label>Flat</label>
@@ -138,7 +134,7 @@
 	</option>
 
 	<option type="enumeration" name="listviewstyle" default="0">
-		<long_name>Listview seperators</long_name>
+		<_long_name>Listview seperators</_long_name>
 		<section>Scrolls and Lists</section>
 		<enumeration value="0">
 			<label>No seperators</label>
@@ -149,7 +145,7 @@
 	</option>
 
 	<option type="enumeration" name="menubaritemstyle" default="0">
-		<long_name>MenubarItem Style</long_name>
+		<_long_name>MenubarItem Style</_long_name>
 		<section>Menus and Toolbars</section>
 		<enumeration value="0">
 			<label>MenuItem look</label>
@@ -160,7 +156,7 @@
 	</option>
 
 	<option type="enumeration" name="menubarstyle" default="0">
-		<long_name>Menubar Style</long_name>
+		<_long_name>Menubar Style</_long_name>
 		<section>Menus and Toolbars</section>
 		<enumeration value="0">
 			<label>Flat</label>
@@ -180,7 +176,7 @@
 	</option>
 
 	<option type="enumeration" name="menuitemstyle" default="0">
-		<long_name>MenuItem Style</long_name>
+		<_long_name>MenuItem Style</_long_name>
 		<section>Menus and Toolbars</section>
 		<enumeration value="0">
 			<label>Flat</label>
@@ -194,7 +190,7 @@
 	</option>
 
 	<option type="enumeration" name="menustyle" default="1">
-		<long_name>Vertical bars in menus</long_name>
+		<_long_name>Vertical bars in menus</_long_name>
 		<section>Menus and Toolbars</section>
 		<enumeration value="0">
 			<label>Disable</label>
@@ -205,7 +201,7 @@
 	</option>
 
 	<option type="enumeration" name="reliefstyle" default="2">
-		<long_name>Relief style of widget</long_name>
+		<_long_name>Relief style of widget</_long_name>
 		<section>General</section>
 		<enumeration value="0">
 			<label>Flat</label>
@@ -219,31 +215,31 @@
 	</option>
 
 	<option type="boolean" name="rgba" default="TRUE">
-		<long_name>Enable/Disable RGBA support</long_name>
+		<_long_name>Enable/Disable RGBA support</_long_name>
 		<section>General</section>
 	</option>
 
 	<option type="integer" name="roundness" default="1">
-		<long_name>Roundness</long_name>
+		<_long_name>Roundness</_long_name>
 		<section>General</section>
 		<minimum>0</minimum>
 		<maximum>8</maximum>
 	</option>
 
 	<option type="color" name="scrollbar_color" default="#999999">
-		<long_name>Scrollbar Color</long_name>
+		<_long_name>Scrollbar Color</_long_name>
 		<section>Scrolls and Lists</section>
-		<description>Override the color of scrollbars</description>
+		<_description>Override the color of scrollbars</_description>
 	</option>
 
 	<option type="color" name="scrollbar_color" default="#999999">
-		<long_name>Scrollbar Color</long_name>
+		<_long_name>Scrollbar Color</_long_name>
 		<section>Scrolls and Lists</section>
-		<description>Sets the Color of Scrollbars</description>
+		<_description>Sets the Color of Scrollbars</_description>
 	</option>
 
 	<option type="enumeration" name="scrollbarstyle" default="0">
-		<long_name>Additional scrollbar features</long_name>
+		<_long_name>Additional scrollbar features</_long_name>
 		<section>Scrolls and Lists</section>
 		<enumeration value="0">
 			<label>Nothing added</label>
@@ -269,7 +265,7 @@
 	</option>
 
 	<option type="enumeration" name="sliderstyle" default="0">
-		<long_name>Slider style</long_name>
+		<_long_name>Slider style</_long_name>
 		<section>Scrolls and Lists</section>
 		<enumeration value="0">
 			<label>None</label>
@@ -280,7 +276,7 @@
 	</option>
 
 	<option type="enumeration" name="stepperstyle" default="0">
-		<long_name>Stepper style</long_name>
+		<_long_name>Stepper style</_long_name>
 		<section>Scrolls and Lists</section>
 		<enumeration value="0">
 			<label>Classic</label>
@@ -291,7 +287,7 @@
 	</option>
 
 	<option name="style" type="enumeration" default="MURRINE">
-		<long_name>Style</long_name>
+		<_long_name>Style</_long_name>
 		<section>General</section>
 		<enumeration value="MURRINE">
 			<label>Murrine</label>
@@ -311,7 +307,7 @@
 	</option>
 
 	<option type="enumeration" name="toolbarstyle" default="0">
-		<long_name>Toolbar style</long_name>
+		<_long_name>Toolbar style</_long_name>
 		<section>Menus and Toolbars</section>
 		<enumeration value="0">
 			<label>Flat</label>

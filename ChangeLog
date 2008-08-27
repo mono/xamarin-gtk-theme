@@ -1,3 +1,51 @@
+2008-08-27  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* Makefile.am:
+	* autogen.sh:
+	* configure.ac:
+	* schema/Makefile.am:
+	* schema/murrine.xml.in.in:
+	Added murrine schema file installation
+
+	* src/config.h.in:
+	Deleted
+	
+	* src/murrine_draw.c (murrine_draw_tab):
+	Less shading on selected tab
+
+2008-08-27  Werner Pantke  <wpantke@punk-ass-bitch.org>
+
+	* Makefile.am:
+	added schema subdirectory for processing and installation, and po
+	subdirectory for processing only (no need to install gettext
+	catalogs as translations are only used inside the schema atm)
+
+	* autogen.sh:
+	added check for intltool(ize) (and run it),
+	removed "Now type 'make'[..]" sentence as it's already printed by
+	the configure script
+
+	* configure.ac:
+	added AC_PROG_INTLTOOL and AM_GLIB_GNU_GETTEXT macros,
+	this introduces gettext and intltool (>= 0.40.3) as dependency;
+	added generation of po/Makefile.in, schema/Makefile,
+	schema/murrine.xml.in
+
+	* po/POTFILES.in:
+	marked schema/murrine.xml.in translatable
+
+	* po/POTFILES.skip:
+	marked schema/murrine.xml.in.in to be ignored by gettext
+
+	* po/ChangeLog:
+	* po/LINGUAS:
+	added empty dummy files for translators
+
+	* schema/Makefile.am:
+	* schema/murrine.xml.in.in:
+	added substitution variables and i18n support, the schema file
+	murrine.xml gets installed to $prefix/share/gtk-engines
+
 2008-08-24  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/murrine_draw.c (murrine_draw_tab):
@@ -18,8 +66,8 @@
 
 	* src/murrine_draw.c (murrine_draw_tab):
 	* src/murrine_draw_rgba.c (murrine_rgba_draw_tab):
-	New tabs, also I forgot to mention that in the previous commit 
-	I fixed disabled sliderbutton state
+	New tabs. I forgot to mention that in the previous commit 
+	I fixed sliderbuttons in disabled state
 
 2008-04-11  Andrea Cimitan  <andrea.cimitan@gmail.com>
 

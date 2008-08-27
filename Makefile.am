@@ -1,5 +1,8 @@
 INCLUDES = $(GTK_CFLAGS)
 
+SUBDIRS = schema
+DIST_SUBDIRS = $(SUBDIRS) po
+
 enginedir = $(libdir)/gtk-2.0/$(GTK_VERSION)/engines
 engine_LTLIBRARIES = libmurrine.la
 

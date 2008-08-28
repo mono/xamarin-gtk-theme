@@ -114,9 +114,6 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
                                GtkStateType     state_type,
                                WidgetParameters *params)
 {
-	if (widget && MRN_IS_ENTRY (widget))
-		state_type = GTK_WIDGET_STATE (widget);
-
 	MurrineStyle *murrine_style = MURRINE_STYLE (style);
 
 	params->active     = (state_type == GTK_STATE_ACTIVE);
@@ -364,6 +361,11 @@ murrine_style_draw_shadow (DRAW_ARGS)
 	if (DETAIL ("entry") && !(widget && widget->parent && MRN_IS_TREE_VIEW (widget->parent)))
 	{
 		WidgetParameters params;
+
+		/* Override the entries state type, because we are too lame to handle this via
+		 * the focus ring, and GtkEntry doesn't even set the INSENSITIVE state ... */
+		if (state_type == GTK_STATE_NORMAL && widget && MRN_IS_ENTRY (widget))
+			state_type = GTK_WIDGET_STATE (widget);
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 
@@ -831,6 +833,11 @@ murrine_style_draw_box (DRAW_ARGS)
 	else if (DETAIL ("spinbutton"))
 	{
 		WidgetParameters params;
+
+		/* The "spinbutton" box is always drawn with state NORMAL, even if it is insensitive.
+		 * So work around this here. */
+		if (state_type == GTK_STATE_NORMAL && widget && MRN_IS_ENTRY (widget))
+			state_type = GTK_WIDGET_STATE (widget);
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 		params.roundness = murrine_style->roundness;

@@ -202,7 +202,6 @@ murrine_rgba_draw_button (cairo_t *cr,
 	if (widget->is_default)
 	{
 		murrine_rounded_rectangle (cr, xoffset, yoffset, width-(xoffset*2), height-(yoffset*2), widget->roundness, widget->corners);
-		murrine_set_color_rgba (cr, &colors->spot[1], 0.6);
 		cairo_stroke (cr);
 		murrine_shade (&border_normal, 0.8, &border_normal);
 	}

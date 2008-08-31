@@ -2,6 +2,12 @@
 
 	* src/murrine_draw.c (murrine_draw_button):
 	* src/murrine_draw_rgba.c (murrine_rgba_draw_button):
+	Do not colorize disabled default button
+
+2008-08-31  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/murrine_draw.c (murrine_draw_button):
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_button):
 	Removed colored shadow from default button
 
 2008-08-28  Andrea Cimitan  <andrea.cimitan@gmail.com>

@@ -166,7 +166,7 @@ murrine_draw_button (cairo_t *cr,
 		custom_highlight_ratio = get_decreased_ratio (widget->highlight_ratio, 2.0);
 	}
 
-	if (widget->is_default)
+	if (widget->is_default && !widget->disabled)
 		murrine_mix_color (&fill, &colors->spot[1], 0.2, &fill);
 
 	if (!horizontal)

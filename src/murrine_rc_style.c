@@ -23,21 +23,15 @@
 
 #include "animation.h"
 
-static void murrine_rc_style_init (MurrineRcStyle *style);
 #ifdef HAVE_ANIMATION
 static void murrine_rc_style_finalize (GObject *object);
 #endif
-static void murrine_rc_style_class_init (MurrineRcStyleClass *klass);
 static GtkStyle *murrine_rc_style_create_style (GtkRcStyle *rc_style);
 static guint murrine_rc_style_parse (GtkRcStyle  *rc_style,
                                      GtkSettings *settings,
                                      GScanner    *scanner);
 static void murrine_rc_style_merge (GtkRcStyle *dest,
                                     GtkRcStyle *src);
-
-static GtkRcStyleClass *parent_class;
-
-GType murrine_type_rc_style = 0;
 
 enum
 {
@@ -126,27 +120,12 @@ theme_symbols[] =
 	{ "squaredstyle",        TOKEN_SQUAREDSTYLE }
 };
 
-void
-murrine_rc_style_register_type (GTypeModule *module)
-{
-	static const GTypeInfo object_info =
-	{
-		sizeof (MurrineRcStyleClass),
-		(GBaseInitFunc) NULL,
-		(GBaseFinalizeFunc) NULL,
-		(GClassInitFunc) murrine_rc_style_class_init,
-		NULL, /* class_finalize */
-		NULL, /* class_data */
-		sizeof (MurrineRcStyle),
-		0, /* n_preallocs */
-		(GInstanceInitFunc) murrine_rc_style_init,
-		NULL
-	};
+G_DEFINE_DYNAMIC_TYPE (MurrineRcStyle, murrine_rc_style, GTK_TYPE_RC_STYLE)
 
-	murrine_type_rc_style = g_type_module_register_type (module,
-	                                                     GTK_TYPE_RC_STYLE,
-	                                                     "MurrineRcStyle",
-	                                                     &object_info, 0);
+void
+murrine_rc_style_register_types (GTypeModule *module)
+{
+	murrine_rc_style_register_type (module);
 }
 
 static void
@@ -190,8 +169,8 @@ murrine_rc_style_finalize (GObject *object)
 	/* cleanup all the animation stuff */
 	murrine_animation_cleanup ();
 
-	if (G_OBJECT_CLASS (parent_class)->finalize != NULL)
-		G_OBJECT_CLASS (parent_class)->finalize(object);
+	if (G_OBJECT_CLASS (murrine_rc_style_parent_class)->finalize != NULL)
+		G_OBJECT_CLASS (murrine_rc_style_parent_class)->finalize(object);
 }
 #endif
 
@@ -204,8 +183,6 @@ murrine_rc_style_class_init (MurrineRcStyleClass *klass)
 	GObjectClass    *g_object_class = G_OBJECT_CLASS (klass);
 #endif
 
-	parent_class = g_type_class_peek_parent (klass);
-
 	rc_style_class->parse = murrine_rc_style_parse;
 	rc_style_class->create_style = murrine_rc_style_create_style;
 	rc_style_class->merge = murrine_rc_style_merge;
@@ -213,6 +190,11 @@ murrine_rc_style_class_init (MurrineRcStyleClass *klass)
 #ifdef HAVE_ANIMATION
 	g_object_class->finalize = murrine_rc_style_finalize;
 #endif
+}
+
+static void
+murrine_rc_style_class_finalize (MurrineRcStyleClass *klass)
+{
 }
 
 static guint
@@ -602,7 +584,7 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 	MurrineRcStyle *dest_w, *src_w;
 	MurrineRcFlags flags;
 
-	parent_class->merge (dest, src);
+	GTK_RC_STYLE_CLASS (murrine_rc_style_parent_class)->merge (dest, src);
 
 	if (!MURRINE_IS_RC_STYLE (src))
 		return;

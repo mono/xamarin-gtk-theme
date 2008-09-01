@@ -1,5 +1,24 @@
 2008-09-01  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/murrine_rc_style.c (murrine_rc_style_register_types),
+	(murrine_rc_style_finalize), (murrine_rc_style_class_init),
+	(murrine_rc_style_class_finalize), (murrine_rc_style_merge):
+	* src/murrine_rc_style.h:
+	* src/murrine_style.c (murrine_set_widget_parameters),
+	(murrine_style_draw_flat_box), (murrine_style_draw_box_gap),
+	(murrine_style_draw_extension), (murrine_style_draw_box),
+	(murrine_style_draw_slider), (murrine_style_draw_shadow_gap),
+	(murrine_style_init_from_rc), (murrine_style_realize),
+	(murrine_style_copy), (murrine_style_unrealize),
+	(murrine_style_register_types), (murrine_style_class_init),
+	(murrine_style_class_finalize):
+	* src/murrine_style.h:
+	* src/murrine_theme_main.c (theme_init):
+	Use G_DEFINE_DYNAMIC_TYPE in murrine, similar patch to bug #549830.
+	I hope not to have broken anything :)
+
+2008-09-01  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_draw.c (murrine_draw_button):
 	* src/murrine_draw_rgba.c (murrine_rgba_draw_button):
 	Removed useless shadow on default button. Is it better?

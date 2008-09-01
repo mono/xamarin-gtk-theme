@@ -29,9 +29,7 @@
 typedef struct _MurrineStyle MurrineStyle;
 typedef struct _MurrineStyleClass MurrineStyleClass;
 
-G_GNUC_INTERNAL extern GType murrine_type_style;
-
-#define MURRINE_TYPE_STYLE              murrine_type_style
+#define MURRINE_TYPE_STYLE              (murrine_style_get_type())
 #define MURRINE_STYLE(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), MURRINE_TYPE_STYLE, MurrineStyle))
 #define MURRINE_STYLE_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST ((klass), MURRINE_TYPE_STYLE, MurrineStyleClass))
 #define MURRINE_IS_STYLE(object)        (G_TYPE_CHECK_INSTANCE_TYPE ((object), MURRINE_TYPE_STYLE))
@@ -82,6 +80,6 @@ struct _MurrineStyleClass
 	MurrineStyleFunctions style_functions[MRN_NUM_DRAW_STYLES];
 };
 
-G_GNUC_INTERNAL void murrine_style_register_type (GTypeModule *module);
+GType murrine_style_get_type (void);
 
 #endif /* MURRINE_STYLE_H */

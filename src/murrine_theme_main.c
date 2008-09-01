@@ -27,8 +27,8 @@
 G_MODULE_EXPORT void
 theme_init (GTypeModule *module)
 {
-	murrine_rc_style_register_type (module);
-	murrine_style_register_type (module);
+	murrine_rc_style_register_types (module);
+	murrine_style_register_types (module);
 }
 
 G_MODULE_EXPORT void

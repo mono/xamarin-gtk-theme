@@ -20,12 +20,13 @@
 
 #include <gtk/gtkrc.h>
 
+#ifndef MURRINE_RC_STYLE_H
+#define MURRINE_RC_STYLE_H
+
 typedef struct _MurrineRcStyle MurrineRcStyle;
 typedef struct _MurrineRcStyleClass MurrineRcStyleClass;
 
-G_GNUC_INTERNAL extern GType murrine_type_rc_style;
-
-#define MURRINE_TYPE_RC_STYLE              murrine_type_rc_style
+#define MURRINE_TYPE_RC_STYLE              (murrine_rc_style_get_type ())
 #define MURRINE_RC_STYLE(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), MURRINE_TYPE_RC_STYLE, MurrineRcStyle))
 #define MURRINE_RC_STYLE_CLASS(klass)      (G_TYPE_CHECK_CLASS_CAST ((klass), MURRINE_TYPE_RC_STYLE, MurrineRcStyleClass))
 #define MURRINE_IS_RC_STYLE(object)        (G_TYPE_CHECK_INSTANCE_TYPE ((object), MURRINE_TYPE_RC_STYLE))
@@ -102,4 +103,6 @@ struct _MurrineRcStyleClass
 	GtkRcStyleClass parent_class;
 };
 
-G_GNUC_INTERNAL void murrine_rc_style_register_type (GTypeModule *module);
+GType murrine_rc_style_get_type	(void);
+
+#endif /* MURRINE_RC_STYLE_H */

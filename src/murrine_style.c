@@ -1195,6 +1195,26 @@ murrine_style_draw_box (DRAW_ARGS)
 
 		STYLE_FUNCTION(draw_menu_frame) (cr, colors, &params, x, y, width, height, murrine_style->menustyle);
 	}
+	else if (DETAIL ("hseparator") || DETAIL ("vseparator"))
+	{
+		gchar *new_detail = (gchar*) detail;
+		/* Draw a normal separator, we just use this because it gives more control
+		 * over sizing (currently). */
+
+		/* This isn't nice ... but it seems like the best cleanest way to me right now.
+		 * It will get slightly nicer in the future hopefully. */
+		if (MRN_IS_MENU_ITEM (widget))
+			new_detail = "menuitem";
+
+		if (DETAIL ("hseparator"))
+		{
+			gtk_paint_hline (style, window, state_type, area, widget, new_detail,
+			                 x, x + width - 1, y + height/2);
+		}
+		else
+			gtk_paint_vline (style, window, state_type, area, widget, new_detail,
+			                 y, y + height - 1, x + width/2);
+	}
 	else
 	{
 		GTK_STYLE_CLASS (murrine_style_parent_class)->draw_box (style, window, state_type, shadow_type, area,

@@ -1,5 +1,14 @@
 2008-09-03  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/cairo-support.c (get_contrast):
+	* src/cairo-support.h:
+	* src/murrine_style.c (murrine_style_init_from_rc),
+	(murrine_style_realize):
+	Completed contrast function: now it shades progressbars borders 
+	and other widgets
+
+2008-09-03  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_draw.c (murrine_draw_tab), (murrine_draw_separator),
 	(murrine_draw_toolbar), (murrine_draw_statusbar),
 	(murrine_draw_resize_grip):

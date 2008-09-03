@@ -637,3 +637,25 @@ get_increased_ratio (double old, double factor)
 
 	return old;
 }
+
+double
+get_contrast (double old, double factor)
+{
+	if (factor == 1.0)
+		return old;
+
+	if (factor < 1.0)
+	{
+		if (old < 1.0)
+			return old+(1.0-old)*(1.0-factor);
+		else
+			return old-(old-1.0)*(1.0-factor);
+	}
+	else
+	{
+		if (old < 1.0)
+			return old-old*(factor-1.0);
+		else
+			return old+(old-1.0)*(factor-1.0);
+	}
+}

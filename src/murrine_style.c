@@ -1637,25 +1637,26 @@ murrine_style_init_from_rc (GtkStyle   *style,
 
 	GTK_STYLE_CLASS (murrine_style_parent_class)->init_from_rc (style, rc_style);
 
+	/* Shades/Colors/Ratio */
+	murrine_style->highlight_ratio    = MURRINE_RC_STYLE (rc_style)->highlight_ratio;
 	murrine_style->gradient_shades[0] = MURRINE_RC_STYLE (rc_style)->gradient_shades[0];
 	murrine_style->gradient_shades[1] = MURRINE_RC_STYLE (rc_style)->gradient_shades[1];
 	murrine_style->gradient_shades[2] = MURRINE_RC_STYLE (rc_style)->gradient_shades[2];
 	murrine_style->gradient_shades[3] = MURRINE_RC_STYLE (rc_style)->gradient_shades[3];
-	murrine_style->highlight_ratio    = MURRINE_RC_STYLE (rc_style)->highlight_ratio;
-	murrine_style->lightborder_ratio  = MURRINE_RC_STYLE (rc_style)->lightborder_ratio;
-
-	murrine_style->glazestyle         = MURRINE_RC_STYLE (rc_style)->glazestyle;
-
 	/* This is required to avoid glitches on different glazestyles */
-	if (murrine_style->glazestyle != 0)
+	if (MURRINE_RC_STYLE (rc_style)->glazestyle != 0)
 	{
 		double gradient_stop_mid = ((murrine_style->gradient_shades[1])+
 		                            (murrine_style->gradient_shades[2]))/2.0;
 		murrine_style->gradient_shades[1] = gradient_stop_mid;
 		murrine_style->gradient_shades[2] = gradient_stop_mid;
 	}
+	/* Adjust lightborder_ratio reading contrast */
+	murrine_style->lightborder_ratio = get_contrast(MURRINE_RC_STYLE (rc_style)->lightborder_ratio,
+	                                                MURRINE_RC_STYLE (rc_style)->contrast);
 
-	/* Ignore roundness > 1 with glazestyle = 2 */
+	/* Widget styles */
+	murrine_style->glazestyle         = MURRINE_RC_STYLE (rc_style)->glazestyle;
 	if (murrine_style->glazestyle == 2)
 	{
 		if (MURRINE_RC_STYLE (rc_style)->roundness > 0)
@@ -1686,7 +1687,8 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	if (murrine_style->has_scrollbar_color)
 		murrine_style->scrollbar_color = MURRINE_RC_STYLE (rc_style)->scrollbar_color;
 
-	g_assert ((MURRINE_RC_STYLE (rc_style)->style >= 0) && (MURRINE_RC_STYLE (rc_style)->style < MRN_NUM_STYLES));
+	g_assert ((MURRINE_RC_STYLE (rc_style)->style >= 0) &&
+	          (MURRINE_RC_STYLE (rc_style)->style < MRN_NUM_STYLES));
 	murrine_style->style               = MURRINE_RC_STYLE (rc_style)->style;
 
 	switch (murrine_style->style)
@@ -1755,6 +1757,7 @@ murrine_style_realize (GtkStyle * style)
 {
 	MurrineStyle *murrine_style = MURRINE_STYLE (style);
 	double shades[] = {1.065, 0.95, 0.896, 0.82, 0.75, 0.665, 0.5, 0.45, 0.4};
+	double spots[] = {1.42, 1.00, 0.65};
 	MurrineRGB spot_color;
 	MurrineRGB bg_normal;
 	double contrast;
@@ -1768,32 +1771,22 @@ murrine_style_realize (GtkStyle * style)
 	bg_normal.g = style->bg[0].green / 65535.0;
 	bg_normal.b = style->bg[0].blue  / 65535.0;
 
-	/* Lighter to darker */
+	/* Apply contrast */
 	for (i = 0; i < 9; i++)
 	{
-		if (contrast < 1.0)
-			murrine_shade (&bg_normal, (shades[i] < 1.0) ?
-			               shades[i]+(1.0-shades[i])*(1.0-contrast) :
-			               shades[i]-(shades[i]-1.0)*(1.0-contrast),
-			               &murrine_style->colors.shade[i]);
-		else if (contrast > 1.0)
-			murrine_shade (&bg_normal, (shades[i] < 1.0) ?
-			               shades[i]-shades[i]*(contrast-1.0) :
-			               shades[i]+(shades[i]-1.0)*(contrast-1.0),
-			               &murrine_style->colors.shade[i]);
-		else
-			murrine_shade (&bg_normal,
-			               shades[i],
-			               &murrine_style->colors.shade[i]);
+		murrine_shade (&bg_normal,
+		               get_contrast(shades[i], contrast),
+		               &murrine_style->colors.shade[i]);
 	}
+	spots[2]=get_contrast(spots[2], contrast);
 
 	spot_color.r = style->bg[GTK_STATE_SELECTED].red   / 65535.0;
 	spot_color.g = style->bg[GTK_STATE_SELECTED].green / 65535.0;
 	spot_color.b = style->bg[GTK_STATE_SELECTED].blue  / 65535.0;
 
-	murrine_shade (&spot_color, 1.42, &murrine_style->colors.spot[0]);
-	murrine_shade (&spot_color, 1.00, &murrine_style->colors.spot[1]);
-	murrine_shade (&spot_color, 0.65, &murrine_style->colors.spot[2]);
+	murrine_shade (&spot_color, spots[0], &murrine_style->colors.spot[0]);
+	murrine_shade (&spot_color, spots[1], &murrine_style->colors.spot[1]);
+	murrine_shade (&spot_color, spots[2], &murrine_style->colors.spot[2]);
 
 	for (i=0; i<5; i++)
 	{

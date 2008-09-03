@@ -49,6 +49,8 @@ G_GNUC_INTERNAL double get_decreased_ratio (double old, double factor);
 
 G_GNUC_INTERNAL double get_increased_ratio (double old, double factor);
 
+G_GNUC_INTERNAL double get_contrast (double old, double factor);
+
 G_GNUC_INTERNAL void murrine_exchange_axis (cairo_t  *cr,
                                             gint     *x,
                                             gint     *y,

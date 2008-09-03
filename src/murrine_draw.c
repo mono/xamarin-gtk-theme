@@ -1098,7 +1098,7 @@ murrine_draw_tab (cairo_t *cr,
 		cairo_pattern_destroy (pattern);
 
 		cairo_set_line_width (cr, 1.0);
-		murrine_set_color_rgba (cr, &colors->shade[0], 0.2);
+		murrine_set_color_rgba (cr, &colors->shade[0], 0.24);
 
 		if (widget->roundness < 2)
 			cairo_rectangle (cr, 1, 1, width-3, height-3);
@@ -1156,7 +1156,7 @@ murrine_draw_tab (cairo_t *cr,
 		cairo_pattern_destroy (pattern);
 
 		cairo_set_line_width (cr, 1.0);
-		murrine_set_color_rgba (cr, &colors->shade[0], 0.4);
+		murrine_set_color_rgba (cr, &colors->shade[0], 0.48);
 
 		if (widget->roundness < 2)
 			cairo_rectangle (cr, 1, 1, width-3, height-3);
@@ -1178,9 +1178,8 @@ murrine_draw_separator (cairo_t *cr,
                         const SeparatorParameters *separator,
                         int x, int y, int width, int height)
 {
-	const MurrineRGB *dark   = &colors->shade[3];
-	MurrineRGB highlight;
-	murrine_shade (dark, 1.3, &highlight);
+	const MurrineRGB *dark = &colors->shade[3];
+	const MurrineRGB *highlight = &colors->shade[0];
 
 	if (separator->horizontal)
 	{
@@ -1195,7 +1194,7 @@ murrine_draw_separator (cairo_t *cr,
 #ifndef HAVE_MACMENU
 		cairo_move_to         (cr, 0.0,   1.0);
 		cairo_line_to         (cr, width, 1.0);
-		murrine_set_color_rgb (cr, &highlight);
+		murrine_set_color_rgb (cr, highlight);
 		cairo_stroke          (cr);
 #endif
 	}
@@ -1212,7 +1211,7 @@ murrine_draw_separator (cairo_t *cr,
 #ifndef HAVE_MACMENU
 		cairo_move_to         (cr, 1.0, 0.0);
 		cairo_line_to         (cr, 1.0, height);
-		murrine_set_color_rgb (cr, &highlight);
+		murrine_set_color_rgb (cr, highlight);
 		cairo_stroke          (cr);
 #endif
 	}
@@ -1374,8 +1373,7 @@ murrine_draw_toolbar (cairo_t *cr,
 {
 	const MurrineRGB *dark = &colors->shade[3];
 	const MurrineRGB *fill = &colors->bg[0];
-	MurrineRGB top;
-	murrine_shade (dark, 1.3, &top);
+	const MurrineRGB *top  = &colors->shade[0];
 
 	cairo_set_line_width (cr, 1.0);
 	cairo_translate      (cr, x, y);
@@ -1439,7 +1437,7 @@ murrine_draw_toolbar (cairo_t *cr,
 		{
 			cairo_move_to         (cr, 0, 0.5);
 			cairo_line_to         (cr, width, 0.5);
-			murrine_set_color_rgb (cr, &top);
+			murrine_set_color_rgb (cr, top);
 			cairo_stroke          (cr);
 		}
 	}
@@ -1898,9 +1896,8 @@ murrine_draw_statusbar (cairo_t *cr,
                         const WidgetParameters *widget,
                         int x, int y, int width, int height)
 {
-	const MurrineRGB *dark   = &colors->shade[3];
-	MurrineRGB highlight;
-	murrine_shade (dark, 1.3, &highlight);
+	const MurrineRGB *dark = &colors->shade[3];
+	const MurrineRGB *highlight = &colors->shade[0];
 
 	cairo_set_line_width  (cr, 1);
 	cairo_translate       (cr, x, y+0.5);
@@ -1912,7 +1909,7 @@ murrine_draw_statusbar (cairo_t *cr,
 	cairo_translate       (cr, 0, 1);
 	cairo_move_to         (cr, 0, 0);
 	cairo_line_to         (cr, width, 0);
-	murrine_set_color_rgb (cr, &highlight);
+	murrine_set_color_rgb (cr, highlight);
 	cairo_stroke          (cr);
 }
 
@@ -2379,9 +2376,8 @@ murrine_draw_resize_grip (cairo_t *cr,
                           const ResizeGripParameters *grip,
                           int x, int y, int width, int height)
 {
-	const MurrineRGB *dark   = &colors->shade[3];
-	MurrineRGB highlight;
-	murrine_shade (dark, 1.3, &highlight);
+	const MurrineRGB *dark = &colors->shade[3];
+	const MurrineRGB *highlight = &colors->shade[0];
 	int lx, ly;
 
 	cairo_set_line_width (cr, 1.0);
@@ -2393,7 +2389,7 @@ murrine_draw_resize_grip (cairo_t *cr,
 			int ny = (3.5-ly) * 3;
 			int nx = lx * 3;
 
-			murrine_set_color_rgb (cr, &highlight);
+			murrine_set_color_rgb (cr, highlight);
 			cairo_rectangle (cr, x+width-nx-1, y+height-ny-1, 2, 2);
 			cairo_fill (cr);
 

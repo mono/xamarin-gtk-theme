@@ -1218,7 +1218,7 @@ murrine_rgba_draw_tab (cairo_t *cr,
 
 		cairo_set_line_width (cr, 1.0);
 		cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
-		murrine_set_color_rgba (cr, &colors->shade[0], 0.2);
+		murrine_set_color_rgba (cr, &colors->shade[0], 0.24);
 
 		if (widget->roundness < 2)
 			cairo_rectangle (cr, 1, 1, width-3, height-3);
@@ -1277,7 +1277,7 @@ murrine_rgba_draw_tab (cairo_t *cr,
 
 		cairo_set_line_width (cr, 1.0);
 		cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
-		murrine_set_color_rgba (cr, &colors->shade[0], 0.4);
+		murrine_set_color_rgba (cr, &colors->shade[0], 0.48);
 
 		if (widget->roundness < 2)
 			cairo_rectangle (cr, 1, 1, width-3, height-3);

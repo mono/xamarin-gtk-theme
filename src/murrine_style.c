@@ -1754,7 +1754,7 @@ static void
 murrine_style_realize (GtkStyle * style)
 {
 	MurrineStyle *murrine_style = MURRINE_STYLE (style);
-	double shades[] = {1.15, 0.95, 0.896, 0.82, 0.75, 0.665, 0.5, 0.45, 0.4};
+	double shades[] = {1.065, 0.95, 0.896, 0.82, 0.75, 0.665, 0.5, 0.45, 0.4};
 	MurrineRGB spot_color;
 	MurrineRGB bg_normal;
 	double contrast;
@@ -1774,12 +1774,12 @@ murrine_style_realize (GtkStyle * style)
 		if (contrast < 1.0)
 			murrine_shade (&bg_normal, (shades[i] < 1.0) ?
 			               shades[i]+(1.0-shades[i])*(1.0-contrast) :
-			               /* shades[i]-(shades[i]-1.0)*(1.0-contrast) */ 1.0,
+			               shades[i]-(shades[i]-1.0)*(1.0-contrast),
 			               &murrine_style->colors.shade[i]);
 		else if (contrast > 1.0)
 			murrine_shade (&bg_normal, (shades[i] < 1.0) ?
 			               shades[i]-shades[i]*(contrast-1.0) :
-			               /* shades[i]+(shades[i]-1.0)*(contrast-1.0) */ 1.0,
+			               shades[i]+(shades[i]-1.0)*(contrast-1.0),
 			               &murrine_style->colors.shade[i]);
 		else
 			murrine_shade (&bg_normal,

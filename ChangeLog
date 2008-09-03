@@ -1,5 +1,14 @@
 2008-09-03  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/murrine_draw.c (murrine_draw_tab), (murrine_draw_separator),
+	(murrine_draw_toolbar), (murrine_draw_statusbar),
+	(murrine_draw_resize_grip):
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_tab):
+	* src/murrine_style.c (murrine_style_realize):
+	More fixes for the contrast function
+
+2008-09-03  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_style.c (murrine_style_realize):
 	Reworked contrast function, your themes may change
 

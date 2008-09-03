@@ -1771,9 +1771,20 @@ murrine_style_realize (GtkStyle * style)
 	/* Lighter to darker */
 	for (i = 0; i < 9; i++)
 	{
-		murrine_shade (&bg_normal, (shades[i] < 1.0) ?
-		               (shades[i]/contrast) : (shades[i]*contrast),
-		               &murrine_style->colors.shade[i]);
+		if (contrast < 1.0)
+			murrine_shade (&bg_normal, (shades[i] < 1.0) ?
+			               shades[i]+(1.0-shades[i])*(1.0-contrast) :
+			               /* shades[i]-(shades[i]-1.0)*(1.0-contrast) */ 1.0,
+			               &murrine_style->colors.shade[i]);
+		else if (contrast > 1.0)
+			murrine_shade (&bg_normal, (shades[i] < 1.0) ?
+			               shades[i]-shades[i]*(contrast-1.0) :
+			               /* shades[i]+(shades[i]-1.0)*(contrast-1.0) */ 1.0,
+			               &murrine_style->colors.shade[i]);
+		else
+			murrine_shade (&bg_normal,
+			               shades[i],
+			               &murrine_style->colors.shade[i]);
 	}
 
 	spot_color.r = style->bg[GTK_STATE_SELECTED].red   / 65535.0;

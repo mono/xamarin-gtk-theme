@@ -95,11 +95,17 @@ murrine_begin_paint (GdkDrawable *window, GdkRectangle *area)
 static
 boolean murrine_widget_is_rgba (GtkWidget *widget)
 {
-	GdkScreen *screen = gtk_widget_get_screen (widget);
 	boolean use_rgba = FALSE;
+	GdkScreen *screen;
+
+	if (widget)
+		screen = gtk_widget_get_screen (widget);
+	else
+		return use_rgba;
 
 #ifdef HAVE_RGBA
-	if (gdk_screen_is_composited(screen) && gdk_screen_get_rgba_colormap (screen))
+	if (gdk_screen_is_composited(screen) &&
+	    gdk_screen_get_rgba_colormap (screen))
 		use_rgba = (gtk_widget_get_colormap (widget) ==
 		            gdk_screen_get_rgba_colormap (screen));
 #endif
@@ -153,7 +159,8 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 		mrn_gradient.gradient_shades[3] = 1.0;
 	}
 	mrn_gradient.gradients = murrine_style->gradients;
-	mrn_gradient.use_rgba = (murrine_widget_is_rgba ((GtkWidget*) widget) && murrine_style->rgba);
+	mrn_gradient.use_rgba = (murrine_widget_is_rgba ((GtkWidget*) widget) &&
+	                         murrine_style->rgba);
 	mrn_gradient.rgba_opacity = GRADIENT_OPACITY;
 
 	MurrineDrawStyles drawstyle = MRN_DRAW_STYLE_MURRINE;

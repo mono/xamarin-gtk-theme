@@ -1,3 +1,9 @@
+2008-09-05  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/murrine_style.c (murrine_widget_is_rgba),
+	(murrine_set_widget_parameters):
+	Check if widget is not null before proceed asking for the screen
+
 2008-09-03  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/cairo-support.c (get_contrast):

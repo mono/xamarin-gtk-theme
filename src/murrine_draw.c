@@ -527,6 +527,9 @@ murrine_draw_progressbar_trough (cairo_t *cr,
                                  int x, int y, int width, int height)
 {
 	const MurrineRGB *border = &colors->shade[4];
+	MurrineRGB fill; 
+
+	murrine_shade (&widget->parentbg, 0.95, &fill);
 
 	cairo_set_line_width (cr, 1.0);
 
@@ -537,7 +540,7 @@ murrine_draw_progressbar_trough (cairo_t *cr,
 
 	/* Create trough box */
 	cairo_rectangle (cr, x+1, y+1, width-2, height-2);
-	murrine_set_color_rgba (cr, &colors->shade[1], 0.44);
+	murrine_set_color_rgba (cr, &fill, 0.44);
 	cairo_fill (cr);
 
 	/* Draw border */
@@ -1554,8 +1557,10 @@ murrine_draw_scrollbar_trough (cairo_t *cr,
                                const ScrollBarParameters *scrollbar,
                                int x, int y, int width, int height)
 {
-	const MurrineRGB *bg     = &colors->shade[scrollbar->stepperstyle < 1 ? 1 : 0];
 	const MurrineRGB *border = &colors->shade[scrollbar->stepperstyle < 1 ? 3 : 4];
+	MurrineRGB fill;
+
+	murrine_shade (&widget->parentbg, scrollbar->stepperstyle < 1 ? 0.95 : 1.065, &fill);
 
 	cairo_set_line_width (cr, 1.0);
 
@@ -1573,7 +1578,7 @@ murrine_draw_scrollbar_trough (cairo_t *cr,
 
 	/* Draw fill */
 	clearlooks_rounded_rectangle (cr, 1, 0, width-2, height, widget->roundness, widget->corners);
-	murrine_set_color_rgba (cr, bg, 0.4);
+	murrine_set_color_rgba (cr, &fill, 0.4);
 	cairo_fill (cr);
 
 	/* Draw border */

@@ -1785,7 +1785,7 @@ murrine_style_realize (GtkStyle * style)
 		               get_contrast(shades[i], contrast),
 		               &murrine_style->colors.shade[i]);
 	}
-	spots[2]=get_contrast(spots[2], contrast);
+	spots[2] = get_contrast(spots[2], contrast);
 
 	spot_color.r = style->bg[GTK_STATE_SELECTED].red   / 65535.0;
 	spot_color.g = style->bg[GTK_STATE_SELECTED].green / 65535.0;

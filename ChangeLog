@@ -1,3 +1,12 @@
+2008-09-09  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/murrine_draw.c (murrine_draw_progressbar_trough),
+	(murrine_draw_scrollbar_trough):
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_progressbar_trough),
+	(murrine_rgba_draw_scrollbar_trough):
+	* src/murrine_style.c (murrine_style_realize):
+	Do not change progressbar/scrollbar trough with the contrast function
+
 2008-09-05  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/murrine_style.c (murrine_widget_is_rgba),

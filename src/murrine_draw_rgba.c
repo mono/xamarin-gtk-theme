@@ -84,62 +84,6 @@ murrine_draw_inset (cairo_t          *cr,
 }
 
 static void
-murrine_draw_highlight_and_shade (cairo_t *cr,
-                                  const MurrineColors *colors,
-                                  const ShadowParameters *widget,
-                                  int width, int height, int radius)
-{
-	MurrineRGB highlight;
-	MurrineRGB shadow;
-	uint8 corners = widget->corners;
-	double x = 1.0;
-	double y = 1.0;
-
-	murrine_shade (&colors->bg[0], 1.15, &highlight);
-	murrine_shade (&colors->bg[0], 0.4, &shadow);
-
-	width  -= 3;
-	height -= 3;
-
-	cairo_save (cr);
-
-	/* Top/Left highlight */
-	if (corners & MRN_CORNER_BOTTOMLEFT)
-		cairo_move_to (cr, x, y+height-radius);
-	else
-		cairo_move_to (cr, x, y+height);
-
-	murrine_rounded_corner (cr, x, y, radius, corners & MRN_CORNER_TOPLEFT);
-
-	if (corners & MRN_CORNER_TOPRIGHT)
-		cairo_line_to (cr, x+width-radius, y);
-	else
-		cairo_line_to (cr, x+width, y);
-
-	if (widget->shadow & MRN_SHADOW_OUT)
-		murrine_set_color_rgba (cr, &highlight, 0.5);
-	else
-		murrine_set_color_rgba (cr, &shadow, 0.13);
-
-	cairo_stroke (cr);
-
-	/* Bottom/Right highlight -- this includes the corners */
-	cairo_move_to (cr, x+width-radius, y); /* topright and by radius to the left */
-	murrine_rounded_corner (cr, x+width, y, radius, corners & MRN_CORNER_TOPRIGHT);
-	murrine_rounded_corner (cr, x+width, y+height, radius, corners & MRN_CORNER_BOTTOMRIGHT);
-	murrine_rounded_corner (cr, x, y+height, radius, corners & MRN_CORNER_BOTTOMLEFT);
-
-	if (widget->shadow & MRN_SHADOW_OUT)
-		murrine_set_color_rgba (cr, &shadow, 0.13);
-	else
-		murrine_set_color_rgba (cr, &highlight, 0.5);
-
-	cairo_stroke (cr);
-
-	cairo_restore (cr);
-}
-
-static void
 murrine_rgba_draw_button (cairo_t *cr,
                           const MurrineColors    *colors,
                           const WidgetParameters *widget,
@@ -1087,19 +1031,11 @@ murrine_rgba_draw_tab (cairo_t *cr,
 {
 	const float      RADIUS = 3.0;
 	int              corners;
-	double           strip_size;
 	const MurrineRGB *stripe_fill = &colors->spot[1];
 	const MurrineRGB *stripe_border = &colors->spot[2];
-	const MurrineRGB *fill;
-	MurrineRGB       *border;
+	const MurrineRGB *fill = &colors->bg[widget->state_type];
+	MurrineRGB       *border = (MurrineRGB*)&colors->shade[!widget->active ? 5 : 4];
 	cairo_pattern_t* pattern;
-
-	fill = &colors->bg[widget->state_type];
-
-	if (!widget->active)
-		border = (MurrineRGB*)&colors->shade[5];
-	else
-		border = (MurrineRGB*)&colors->shade[4];
 
 	/* Set clip */
 	cairo_rectangle (cr, x, y, width, height);
@@ -1117,7 +1053,6 @@ murrine_rgba_draw_tab (cairo_t *cr,
 	if (tab->gap_side == MRN_GAP_TOP || tab->gap_side == MRN_GAP_BOTTOM)
 	{
 		height += RADIUS;
-		strip_size = (tab->gap_side == MRN_GAP_TOP ? 2.0/height : 2.0/(height-2));
 
 		if (tab->gap_side == MRN_GAP_TOP)
 		{
@@ -1130,7 +1065,6 @@ murrine_rgba_draw_tab (cairo_t *cr,
 	else
 	{
 		width += RADIUS;
-		strip_size = (tab->gap_side == MRN_GAP_LEFT ? 2.0/width : 2.0/(width-2));
 
 		if (tab->gap_side == MRN_GAP_LEFT)
 		{
@@ -1159,31 +1093,16 @@ murrine_rgba_draw_tab (cairo_t *cr,
 		cairo_fill (cr);
 	}
 
-	/* Draw highlight */
-/*	if (!widget->active)
-	{
-		ShadowParameters shadow;
-
-		shadow.shadow  = MRN_SHADOW_OUT;
-		shadow.corners = widget->corners;
-
-		murrine_draw_highlight_and_shade (cr, colors, &shadow,
-		                                  width,
-		                                  height, widget->roundness-1);
-	}
-*/
 	if (widget->active)
 	{
-		MurrineRGB shade1, shade2, shade3, shade4;
-
+		MurrineRGB shade1, shade2, shade3, shade4, highlight;
 		MurrineGradients mrn_gradient_custom = widget->mrn_gradient;
+		double custom_highlight_ratio = get_decreased_ratio (widget->highlight_ratio, 2.0);
+
 		mrn_gradient_custom.gradient_shades[0] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[0], 3.0);
 		mrn_gradient_custom.gradient_shades[1] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[1], 3.0);
 		mrn_gradient_custom.gradient_shades[2] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[2], 3.0);
 		mrn_gradient_custom.gradient_shades[3] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[3], 3.0);
-
-		double custom_highlight_ratio = widget->highlight_ratio;
-		custom_highlight_ratio = get_decreased_ratio (widget->highlight_ratio, 2.0);
 
 		murrine_shade (fill, mrn_gradient_custom.gradient_shades[0]*custom_highlight_ratio, &shade1);
 		murrine_shade (fill, mrn_gradient_custom.gradient_shades[1]*custom_highlight_ratio, &shade2);
@@ -1219,34 +1138,59 @@ murrine_rgba_draw_tab (cairo_t *cr,
 		cairo_fill (cr);
 		cairo_pattern_destroy (pattern);
 
-		cairo_set_line_width (cr, 1.0);
+		/* Draw lightborder */
 		cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
-		murrine_set_color_rgba (cr, &colors->shade[0], 0.24);
+
+		murrine_shade (fill, widget->lightborder_ratio*custom_highlight_ratio, &highlight);
+		murrine_shade (&highlight, mrn_gradient_custom.gradient_shades[0]*custom_highlight_ratio, &shade1);
+		murrine_shade (&highlight, mrn_gradient_custom.gradient_shades[1]*custom_highlight_ratio, &shade2);
+		murrine_shade (&highlight, mrn_gradient_custom.gradient_shades[2], &shade3);
+		murrine_shade (&highlight, mrn_gradient_custom.gradient_shades[3], &shade4);
+
+		switch (tab->gap_side)
+		{
+			case MRN_GAP_TOP:
+				pattern = cairo_pattern_create_linear (0, height-2, 0, 0);
+				break;
+			case MRN_GAP_BOTTOM:
+				pattern = cairo_pattern_create_linear (0, 1, 0, height);
+				break;
+			case MRN_GAP_LEFT:
+				pattern = cairo_pattern_create_linear (width-2, 0, 1, 0);
+				break;
+			case MRN_GAP_RIGHT:
+				pattern = cairo_pattern_create_linear (1, 0, width-2, 0);
+				break;
+		}
 
 		if (widget->roundness < 2)
 			cairo_rectangle (cr, 1, 1, width-3, height-3);
 		else
 			clearlooks_rounded_rectangle (cr, 1, 1, width-3, height-3, widget->roundness, corners);
 
+		cairo_pattern_add_color_stop_rgba (pattern, 0.00, shade1.r, shade1.g, shade1.b, 0.5*NOTEBOOK_OPACITY);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.45, shade2.r, shade2.g, shade2.b, 0.5*NOTEBOOK_OPACITY);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.45, shade3.r, shade3.g, shade3.b, 0.5*NOTEBOOK_OPACITY);
+		cairo_pattern_add_color_stop_rgba (pattern, 1.00, shade4.r, shade4.g, shade4.b, 0.5*NOTEBOOK_OPACITY);
+		cairo_set_source (cr, pattern);
 		cairo_stroke (cr);
+		cairo_pattern_destroy (pattern);
 	}
 	else
 	{
-		MurrineRGB shade1, shade2, shade3, shade4;
-
+		MurrineRGB shade1, shade2, shade3, shade4, highlight;
 		MurrineGradients mrn_gradient_custom = widget->mrn_gradient;
-		mrn_gradient_custom.gradient_shades[0] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[0], 2.0);
-		mrn_gradient_custom.gradient_shades[1] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[1], 2.0);
-		mrn_gradient_custom.gradient_shades[2] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[2], 2.0);
-		mrn_gradient_custom.gradient_shades[3] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[3], 2.0);
+		double custom_highlight_ratio = get_decreased_ratio (widget->highlight_ratio, 2.0);
 
-		double custom_highlight_ratio = widget->highlight_ratio;
-		custom_highlight_ratio = get_decreased_ratio (widget->highlight_ratio, 2.0);
+		mrn_gradient_custom.gradient_shades[0] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[0], 3.0);
+		mrn_gradient_custom.gradient_shades[1] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[1], 3.0);
+		mrn_gradient_custom.gradient_shades[2] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[2], 3.0);
+		mrn_gradient_custom.gradient_shades[3] = get_decreased_ratio (widget->mrn_gradient.gradient_shades[3], 3.0);
 
 		murrine_shade (fill, mrn_gradient_custom.gradient_shades[0]*custom_highlight_ratio, &shade1);
 		murrine_shade (fill, mrn_gradient_custom.gradient_shades[1]*custom_highlight_ratio, &shade2);
 		murrine_shade (fill, mrn_gradient_custom.gradient_shades[2], &shade3);
-		murrine_shade (fill, 1.0, &shade4);
+		murrine_shade (fill, 1.15, &shade4); /* this value should change as draw_frame */
 
 		/* Draw shade */
 		switch (tab->gap_side)
@@ -1278,16 +1222,43 @@ murrine_rgba_draw_tab (cairo_t *cr,
 		cairo_fill (cr);
 		cairo_pattern_destroy (pattern);
 
-		cairo_set_line_width (cr, 1.0);
+		/* Draw lightborder */
 		cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
-		murrine_set_color_rgba (cr, &colors->shade[0], 0.48);
+
+		murrine_shade (fill, widget->lightborder_ratio*custom_highlight_ratio, &highlight);
+		murrine_shade (&highlight, mrn_gradient_custom.gradient_shades[0]*custom_highlight_ratio, &shade1);
+		murrine_shade (&highlight, mrn_gradient_custom.gradient_shades[1]*custom_highlight_ratio, &shade2);
+		murrine_shade (&highlight, mrn_gradient_custom.gradient_shades[2], &shade3);
+		murrine_shade (fill, 0.96, &shade4); /* this value should change as draw_frame */
+
+		switch (tab->gap_side)
+		{
+			case MRN_GAP_TOP:
+				pattern = cairo_pattern_create_linear (0, height-2, 0, 0);
+				break;
+			case MRN_GAP_BOTTOM:
+				pattern = cairo_pattern_create_linear (0, 0, 0, height);
+				break;
+			case MRN_GAP_LEFT:
+				pattern = cairo_pattern_create_linear (width-2, 0, 0, 0);
+				break;
+			case MRN_GAP_RIGHT:
+				pattern = cairo_pattern_create_linear (0, 0, width, 0);
+				break;
+		}
 
 		if (widget->roundness < 2)
 			cairo_rectangle (cr, 1, 1, width-3, height-3);
 		else
 			clearlooks_rounded_rectangle (cr, 1, 1, width-3, height-3, widget->roundness, corners);
 
+		cairo_pattern_add_color_stop_rgba (pattern, 0.00, shade1.r, shade1.g, shade1.b, 0.5*NOTEBOOK_OPACITY);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.45, shade2.r, shade2.g, shade2.b, 0.5*NOTEBOOK_OPACITY);
+		cairo_pattern_add_color_stop_rgba (pattern, 0.45, shade3.r, shade3.g, shade3.b, 0.5*NOTEBOOK_OPACITY);
+		cairo_pattern_add_color_stop_rgba (pattern, 1.00, shade4.r, shade4.g, shade4.b, 0.5*NOTEBOOK_OPACITY);
+		cairo_set_source (cr, pattern);
 		cairo_stroke (cr);
+		cairo_pattern_destroy (pattern);
 	}
 
 	murrine_rounded_rectangle (cr, 0, 0, width-1, height-1, widget->roundness, corners);

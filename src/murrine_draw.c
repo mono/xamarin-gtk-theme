@@ -1106,7 +1106,7 @@ murrine_draw_tab (cairo_t *cr,
 		murrine_shade (&highlight, mrn_gradient_custom.gradient_shades[0]*custom_highlight_ratio, &shade1);
 		murrine_shade (&highlight, mrn_gradient_custom.gradient_shades[1]*custom_highlight_ratio, &shade2);
 		murrine_shade (&highlight, mrn_gradient_custom.gradient_shades[2], &shade3);
-		murrine_shade (fill, 0.96, &shade4); /* this value should change as draw_frame */
+		murrine_shade (fill, 1.04, &shade4); /* this value should change as draw_frame */
 
 		switch (tab->gap_side)
 		{

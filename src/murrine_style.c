@@ -537,7 +537,7 @@ murrine_style_draw_box_gap (DRAW_ARGS,
 			cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
 
 		/* Fill the background with bg[NORMAL] */
-		murrine_rounded_rectangle (cr, x, y, width, height, params.roundness, params.corners);
+		clearlooks_rounded_rectangle (cr, x, y, width, height, params.roundness, params.corners);
 		if (!params.mrn_gradient.use_rgba)
 			murrine_set_color_rgb (cr, &colors->bg[0]);
 		else

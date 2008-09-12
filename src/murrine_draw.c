@@ -860,7 +860,7 @@ murrine_draw_frame (cairo_t *cr,
 			murrine_rounded_rectangle (cr, 0, 0, width-2, height-2, widget->roundness, widget->corners);
 		cairo_stroke (cr);
 	}
-	else if (frame->shadow != MRN_SHADOW_NONE && frame->shadow != MRN_SHADOW_FLAT)
+	else if (frame->shadow != MRN_SHADOW_FLAT)
 	{
 		ShadowParameters shadow;
 		shadow.corners = widget->corners;
@@ -921,7 +921,6 @@ murrine_draw_tab (cairo_t *cr,
                   int x, int y, int width, int height)
 {
 	const float      RADIUS = 3.0;
-	int              corners;
 	const MurrineRGB *stripe_fill = &colors->spot[1];
 	const MurrineRGB *stripe_border = &colors->spot[2];
 	const MurrineRGB *fill = &colors->bg[widget->state_type];
@@ -944,31 +943,21 @@ murrine_draw_tab (cairo_t *cr,
 		height += RADIUS;
 
 		if (tab->gap_side == MRN_GAP_TOP)
-		{
 			cairo_translate (cr, 0.0, -3.0); /* gap at the other side */
-			corners = MRN_CORNER_BOTTOMLEFT | MRN_CORNER_BOTTOMRIGHT;
-		}
-		else
-			corners = MRN_CORNER_TOPLEFT | MRN_CORNER_TOPRIGHT;
 	}
 	else
 	{
 		width += RADIUS;
 
 		if (tab->gap_side == MRN_GAP_LEFT)
-		{
 			cairo_translate (cr, -3.0, 0.0); /* gap at the other side */
-			corners = MRN_CORNER_TOPRIGHT | MRN_CORNER_BOTTOMRIGHT;
-		}
-		else
-			corners = MRN_CORNER_TOPLEFT | MRN_CORNER_BOTTOMLEFT;
 	}
 
 	/* Set tab shape */
 	if (widget->roundness < 2)
 		cairo_rectangle (cr, 0, 0, width-1, height-1);
 	else
-		clearlooks_rounded_rectangle (cr, 0, 0, width-1, height-1, widget->roundness, corners);
+		clearlooks_rounded_rectangle (cr, 0, 0, width-1, height-1, widget->roundness, widget->corners);
 
 	/* Draw fill */
 	murrine_set_color_rgb (cr, fill);
@@ -1009,7 +998,7 @@ murrine_draw_tab (cairo_t *cr,
 		if (widget->roundness < 2)
 			cairo_rectangle (cr, 0, 0, width-1, height-1);
 		else
-			clearlooks_rounded_rectangle (cr, 0, 0, width-1, height-1, widget->roundness, corners);
+			clearlooks_rounded_rectangle (cr, 0, 0, width-1, height-1, widget->roundness, widget->corners);
 
 		cairo_pattern_add_color_stop_rgb (pattern, 0.00, shade1.r, shade1.g, shade1.b);
 		cairo_pattern_add_color_stop_rgb (pattern, 0.45, shade2.r, shade2.g, shade2.b);
@@ -1045,7 +1034,7 @@ murrine_draw_tab (cairo_t *cr,
 		if (widget->roundness < 2)
 			cairo_rectangle (cr, 1, 1, width-3, height-3);
 		else
-			clearlooks_rounded_rectangle (cr, 1, 1, width-3, height-3, widget->roundness, corners);
+			clearlooks_rounded_rectangle (cr, 1, 1, width-3, height-3, widget->roundness, widget->corners);
 
 		cairo_pattern_add_color_stop_rgba (pattern, 0.00, shade1.r, shade1.g, shade1.b, 0.5);
 		cairo_pattern_add_color_stop_rgba (pattern, 0.45, shade2.r, shade2.g, shade2.b, 0.5);
@@ -1091,7 +1080,7 @@ murrine_draw_tab (cairo_t *cr,
 		if (widget->roundness < 2)
 			cairo_rectangle (cr, 0, 0, width-1, height-1);
 		else
-			clearlooks_rounded_rectangle (cr, 0, 0, width-1, height-1, widget->roundness, corners);
+			clearlooks_rounded_rectangle (cr, 0, 0, width-1, height-1, widget->roundness, widget->corners);
 
 		cairo_pattern_add_color_stop_rgb (pattern, 0.00, shade1.r, shade1.g, shade1.b);
 		cairo_pattern_add_color_stop_rgb (pattern, 0.45, shade2.r, shade2.g, shade2.b);
@@ -1127,7 +1116,7 @@ murrine_draw_tab (cairo_t *cr,
 		if (widget->roundness < 2)
 			cairo_rectangle (cr, 1, 1, width-3, height-3);
 		else
-			clearlooks_rounded_rectangle (cr, 1, 1, width-3, height-3, widget->roundness, corners);
+			clearlooks_rounded_rectangle (cr, 1, 1, width-3, height-3, widget->roundness, widget->corners);
 
 		cairo_pattern_add_color_stop_rgba (pattern, 0.00, shade1.r, shade1.g, shade1.b, 0.5);
 		cairo_pattern_add_color_stop_rgba (pattern, 0.45, shade2.r, shade2.g, shade2.b, 0.5);
@@ -1138,7 +1127,7 @@ murrine_draw_tab (cairo_t *cr,
 		cairo_pattern_destroy (pattern);
 	}
 
-	murrine_rounded_rectangle (cr, 0, 0, width-1, height-1, widget->roundness, corners);
+	murrine_rounded_rectangle (cr, 0, 0, width-1, height-1, widget->roundness, widget->corners);
 	murrine_set_color_rgb (cr, border);
 	cairo_stroke (cr);
 }

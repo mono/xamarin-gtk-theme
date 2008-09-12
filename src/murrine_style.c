@@ -68,7 +68,7 @@
 #include "animation.h"
 #endif
 
-#define STYLE_FUNCTION(function) (MURRINE_STYLE_GET_CLASS (style)->style_functions[params.drawstyle].function)
+#define STYLE_FUNCTION(function) (MURRINE_STYLE_GET_CLASS (style)->style_functions[params.style].function)
 
 G_DEFINE_DYNAMIC_TYPE (MurrineStyle, murrine_style, GTK_TYPE_STYLE)
 
@@ -163,14 +163,14 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	                         murrine_style->rgba);
 	mrn_gradient.rgba_opacity = GRADIENT_OPACITY;
 
-	MurrineDrawStyles drawstyle = MRN_DRAW_STYLE_MURRINE;
+	MurrineStyles mrn_style = MRN_STYLE_MURRINE;
 	if (mrn_gradient.use_rgba)
 	{
-		drawstyle = MRN_DRAW_STYLE_RGBA;
+		mrn_style = MRN_STYLE_RGBA;
 	}
 	params->mrn_gradient = mrn_gradient;
-	params->drawstyle = drawstyle;
-	params->style_functions = &(MURRINE_STYLE_GET_CLASS (style)->style_functions[drawstyle]);
+	params->style = mrn_style;
+	params->style_functions = &(MURRINE_STYLE_GET_CLASS (style)->style_functions[mrn_style]);
 
 	/* I want to avoid to have to do this. I need it for GtkEntry, unless I
 	   find out why it doesn't behave the way I expect it to. */
@@ -1379,10 +1379,10 @@ murrine_style_draw_vline (GtkStyle     *style,
 
 	WidgetParameters params;
 
-	params.drawstyle = MRN_DRAW_STYLE_MURRINE;
+	params.style = MRN_STYLE_MURRINE;
 	if (murrine_widget_is_rgba (toplevel))
 	{
-		params.drawstyle = MRN_DRAW_STYLE_RGBA;
+		params.style = MRN_STYLE_RGBA;
 	}
 
 	if (!(widget &&
@@ -1425,10 +1425,10 @@ murrine_style_draw_hline (GtkStyle     *style,
 
 	WidgetParameters params;
 
-	params.drawstyle = MRN_DRAW_STYLE_MURRINE;
+	params.style = MRN_STYLE_MURRINE;
 	if (murrine_widget_is_rgba (toplevel))
 	{
-		params.drawstyle = MRN_DRAW_STYLE_RGBA;
+		params.style = MRN_STYLE_RGBA;
 	}
 
 	STYLE_FUNCTION(draw_separator) (cr, colors, NULL, &separator, x1, y, x2-x1, 2);
@@ -1694,13 +1694,13 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	if (murrine_style->has_scrollbar_color)
 		murrine_style->scrollbar_color = MURRINE_RC_STYLE (rc_style)->scrollbar_color;
 
-	g_assert ((MURRINE_RC_STYLE (rc_style)->style >= 0) &&
-	          (MURRINE_RC_STYLE (rc_style)->style < MRN_NUM_STYLES));
-	murrine_style->style               = MURRINE_RC_STYLE (rc_style)->style;
+	g_assert ((MURRINE_RC_STYLE (rc_style)->profile >= 0) &&
+	          (MURRINE_RC_STYLE (rc_style)->profile < MRN_NUM_PROFILES));
+	murrine_style->profile             = MURRINE_RC_STYLE (rc_style)->profile;
 
-	switch (murrine_style->style)
+	switch (murrine_style->profile)
 	{
-		case (MRN_STYLE_NODOKA):
+		case (MRN_PROFILE_NODOKA):
 			murrine_style->highlight_ratio = 1.0;
 			murrine_style->gradients = TRUE;
 			murrine_style->gradient_shades[0] = 1.1;
@@ -1713,7 +1713,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 			murrine_style->colorize_scrollbar = FALSE;
 			murrine_style->has_scrollbar_color = FALSE;
 			break;
-		case (MRN_STYLE_MIST):
+		case (MRN_PROFILE_MIST):
 			murrine_style->highlight_ratio = 1.0;
 			murrine_style->glazestyle = 0;
 			murrine_style->gradients = FALSE;
@@ -1730,7 +1730,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 			murrine_style->reliefstyle = 0;
 			murrine_style->roundness = 0;
 			break;
-		case (MRN_STYLE_CANDIDO):
+		case (MRN_PROFILE_CANDIDO):
 			murrine_style->highlight_ratio = 1.0;
 			murrine_style->lightborder_ratio = 1.06;
 			murrine_style->glazestyle = 0;
@@ -1741,7 +1741,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 			murrine_style->gradient_shades[3] = 0.97;
 			murrine_style->reliefstyle = 0;
 			break;
-		case (MRN_STYLE_CLEARLOOKS):
+		case (MRN_PROFILE_CLEARLOOKS):
 			murrine_style->glazestyle = 0;
 			murrine_style->gradient_shades[0] = 1.08;
 			murrine_style->gradient_shades[1] = 1.02;
@@ -1939,6 +1939,7 @@ murrine_style_copy (GtkStyle * style, GtkStyle * src)
 	mrn_style->menubarstyle        = mrn_src->menubarstyle;
 	mrn_style->menuitemstyle       = mrn_src->menuitemstyle;
 	mrn_style->menustyle           = mrn_src->menustyle;
+	mrn_style->profile             = mrn_src->profile;
 	mrn_style->reliefstyle         = mrn_src->reliefstyle;
 	mrn_style->rgba                = mrn_src->rgba;
 	mrn_style->roundness           = mrn_src->roundness;
@@ -1946,7 +1947,6 @@ murrine_style_copy (GtkStyle * style, GtkStyle * src)
 	mrn_style->scrollbarstyle      = mrn_src->scrollbarstyle;
 	mrn_style->sliderstyle 	       = mrn_src->sliderstyle;
 	mrn_style->stepperstyle        = mrn_src->stepperstyle;
-	mrn_style->style               = mrn_src->style;
 	mrn_style->toolbarstyle        = mrn_src->toolbarstyle;
 
 	GTK_STYLE_CLASS (murrine_style_parent_class)->copy (style, src);
@@ -2146,9 +2146,9 @@ murrine_style_class_init (MurrineStyleClass * klass)
 	style_class->draw_layout      = murrine_style_draw_layout;
 	style_class->render_icon      = murrine_style_draw_render_icon;
 
-	murrine_register_style_murrine (&klass->style_functions[MRN_DRAW_STYLE_MURRINE]);
-	klass->style_functions[MRN_DRAW_STYLE_RGBA] = klass->style_functions[MRN_DRAW_STYLE_MURRINE];
-	murrine_register_style_rgba (&klass->style_functions[MRN_DRAW_STYLE_RGBA]);
+	murrine_register_style_murrine (&klass->style_functions[MRN_STYLE_MURRINE]);
+	klass->style_functions[MRN_STYLE_RGBA] = klass->style_functions[MRN_STYLE_MURRINE];
+	murrine_register_style_rgba (&klass->style_functions[MRN_STYLE_RGBA]);
 }
 
 static void

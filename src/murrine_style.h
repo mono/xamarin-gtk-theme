@@ -42,7 +42,7 @@ struct _MurrineStyle
 
 	MurrineColors colors;
 
-	MurrineStyles style;
+	MurrineProfiles profile;
 
 	double   contrast;
 	double   gradient_shades[4];

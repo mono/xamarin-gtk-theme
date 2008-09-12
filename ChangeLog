@@ -1,5 +1,21 @@
 2008-09-12  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* schema/murrine.xml.in.in:
+	* src/murrine_rc_style.c (murrine_rc_style_init),
+	(theme_parse_profile), (murrine_rc_style_parse),
+	(murrine_rc_style_merge):
+	* src/murrine_rc_style.h:
+	* src/murrine_style.c (murrine_set_widget_parameters),
+	(murrine_style_draw_vline), (murrine_style_draw_hline),
+	(murrine_style_init_from_rc), (murrine_style_copy),
+	(murrine_style_class_init):
+	* src/murrine_style.h:
+	* src/murrine_types.h:
+	Renamed "style" to "profile", since it reflects what this option
+	does: loading a profile for the style.
+
+2008-09-12  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_draw.c (murrine_draw_highlight_and_shade),
 	(murrine_draw_frame):
 	* src/murrine_draw_rgba.c (murrine_draw_highlight_and_shade),

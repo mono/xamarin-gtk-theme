@@ -50,6 +50,7 @@ enum
 	TOKEN_MENUBARSTYLE,
 	TOKEN_MENUITEMSTYLE,
 	TOKEN_MENUSTYLE,
+	TOKEN_PROFILE,
 	TOKEN_RELIEFSTYLE,
 	TOKEN_RGBA,
 	TOKEN_ROUNDNESS,
@@ -57,7 +58,6 @@ enum
 	TOKEN_SCROLLBARSTYLE,
 	TOKEN_SLIDERSTYLE,
 	TOKEN_STEPPERSTYLE,
-	TOKEN_STYLE,
 	TOKEN_TOOLBARSTYLE,
 
 	TOKEN_CANDIDO,
@@ -96,6 +96,7 @@ theme_symbols[] =
 	{ "menubarstyle",        TOKEN_MENUBARSTYLE },
 	{ "menuitemstyle",       TOKEN_MENUITEMSTYLE },
 	{ "menustyle",           TOKEN_MENUSTYLE },
+	{ "profile",             TOKEN_PROFILE },
 	{ "reliefstyle",         TOKEN_RELIEFSTYLE },
 	{ "rgba",                TOKEN_RGBA },
 	{ "roundness",           TOKEN_ROUNDNESS },
@@ -103,7 +104,6 @@ theme_symbols[] =
 	{ "scrollbarstyle",      TOKEN_SCROLLBARSTYLE },
 	{ "sliderstyle",         TOKEN_SLIDERSTYLE },
 	{ "stepperstyle",        TOKEN_STEPPERSTYLE },
-	{ "style",               TOKEN_STYLE },
 	{ "toolbarstyle",        TOKEN_TOOLBARSTYLE },
 
 	{ "CANDIDO",             TOKEN_CANDIDO },
@@ -158,7 +158,7 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->scrollbarstyle = 0;
 	murrine_rc->sliderstyle = 0;
 	murrine_rc->stepperstyle = 0;
-	murrine_rc->style = MRN_STYLE_MURRINE;
+	murrine_rc->profile = MRN_PROFILE_MURRINE;
 	murrine_rc->toolbarstyle = 0;
 }
 
@@ -286,15 +286,15 @@ theme_parse_int (GtkSettings  *settings,
 }
 
 static guint
-theme_parse_style (GtkSettings   *settings,
-                   GScanner      *scanner,
-                   MurrineStyles *style)
+theme_parse_profile (GtkSettings     *settings,
+                     GScanner        *scanner,
+                     MurrineProfiles *profile)
 {
 	guint token;
 
-	g_assert (MRN_NUM_STYLES == MRN_STYLE_CLEARLOOKS + 1); /* so that people don't forget ;-) */
+	g_assert (MRN_NUM_PROFILES == MRN_PROFILE_CLEARLOOKS + 1); /* so that people don't forget ;-) */
 
-	/* Skip 'style' */
+	/* Skip 'profile' */
 	token = g_scanner_get_next_token (scanner);
 
 	token = g_scanner_get_next_token (scanner);
@@ -306,19 +306,19 @@ theme_parse_style (GtkSettings   *settings,
 	switch (token)
 	{
 		case TOKEN_MURRINE:
-		   *style = MRN_STYLE_MURRINE;
+		   *profile = MRN_PROFILE_MURRINE;
 		   break;
 		case TOKEN_NODOKA:
-		   *style = MRN_STYLE_NODOKA;
+		   *profile = MRN_PROFILE_NODOKA;
 		   break;
 		case TOKEN_MIST:
-		   *style = MRN_STYLE_MIST;
+		   *profile = MRN_PROFILE_MIST;
 		   break;
 		case TOKEN_CANDIDO:
-		   *style = MRN_STYLE_CANDIDO;
+		   *profile = MRN_PROFILE_CANDIDO;
 		   break;
 		case TOKEN_CLEARLOOKS:
-		   *style = MRN_STYLE_CLEARLOOKS;
+		   *profile = MRN_PROFILE_CLEARLOOKS;
 		   break;
 		default:
 		   return TOKEN_MURRINE;
@@ -508,6 +508,10 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_int (settings, scanner, &murrine_style->menustyle);
 				murrine_style->flags |= MRN_FLAG_MENUSTYLE;
 				break;
+			case TOKEN_PROFILE:
+				token = theme_parse_profile (settings, scanner, &murrine_style->profile);
+				murrine_style->flags |= MRN_FLAG_PROFILE;
+				break;
 			case TOKEN_RELIEFSTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->reliefstyle);
 				murrine_style->flags |= MRN_FLAG_RELIEFSTYLE;
@@ -536,10 +540,6 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 			case TOKEN_STEPPERSTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->stepperstyle);
 				murrine_style->flags |= MRN_FLAG_STEPPERSTYLE;
-				break;
-			case TOKEN_STYLE:
-				token = theme_parse_style (settings, scanner, &murrine_style->style);
-				murrine_style->flags |= MRN_FLAG_STYLE;
 				break;
 			case TOKEN_TOOLBARSTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->toolbarstyle);
@@ -629,6 +629,8 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->menuitemstyle = src_w->menuitemstyle;
 	if (flags & MRN_FLAG_MENUSTYLE)
 		dest_w->menustyle = src_w->menustyle;
+	if (flags & MRN_FLAG_PROFILE)
+		dest_w->profile = src_w->profile;
 	if (flags & MRN_FLAG_RELIEFSTYLE)
 		dest_w->reliefstyle = src_w->reliefstyle;
 	if (flags & MRN_FLAG_RGBA)
@@ -646,8 +648,6 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->sliderstyle = src_w->sliderstyle;
 	if (flags & MRN_FLAG_STEPPERSTYLE)
 		dest_w->stepperstyle = src_w->stepperstyle;
-	if (flags & MRN_FLAG_STYLE)
-		dest_w->style = src_w->style;
 	if (flags & MRN_FLAG_TOOLBARSTYLE)
 		dest_w->toolbarstyle = src_w->toolbarstyle;
 

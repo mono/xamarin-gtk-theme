@@ -27,20 +27,20 @@ typedef struct _MurrineStyleFunctions MurrineStyleFunctions;
 
 typedef enum
 {
-	MRN_STYLE_MURRINE = 0,
-	MRN_STYLE_NODOKA = 1,
-	MRN_STYLE_MIST = 2,
-	MRN_STYLE_CANDIDO = 3,
-	MRN_STYLE_CLEARLOOKS = 4,
-	MRN_NUM_STYLES = 5
-} MurrineStyles;
+	MRN_PROFILE_MURRINE = 0,
+	MRN_PROFILE_NODOKA = 1,
+	MRN_PROFILE_MIST = 2,
+	MRN_PROFILE_CANDIDO = 3,
+	MRN_PROFILE_CLEARLOOKS = 4,
+	MRN_NUM_PROFILES = 5
+} MurrineProfiles;
 
 typedef enum
 {
-	MRN_DRAW_STYLE_MURRINE = 0,
-	MRN_DRAW_STYLE_RGBA = 1,
+	MRN_STYLE_MURRINE = 0,
+	MRN_STYLE_RGBA = 1,
 	MRN_NUM_DRAW_STYLES = 2
-} MurrineDrawStyles;
+} MurrineStyles;
 
 typedef enum
 {
@@ -205,7 +205,7 @@ typedef struct
 	double lightborder_ratio;
 	MurrineGradients mrn_gradient;
 
-	MurrineDrawStyles drawstyle;
+	MurrineStyles style;
 	MurrineStyleFunctions *style_functions;
 } WidgetParameters;
 

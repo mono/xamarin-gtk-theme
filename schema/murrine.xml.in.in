@@ -200,6 +200,26 @@
 		</enumeration>
 	</option>
 
+	<option name="profile" type="enumeration" default="MURRINE">
+		<_long_name>Style</_long_name>
+		<section>General</section>
+		<enumeration value="MURRINE">
+			<label>Murrine</label>
+		</enumeration>
+		<enumeration value="NODOKA">
+			<label>Nodoka</label>
+		</enumeration>
+		<enumeration value="MIST">
+			<label>Mist</label>
+		</enumeration>
+		<enumeration value="CANDIDO">
+			<label>Candido</label>
+		</enumeration>
+		<enumeration value="CLEARLOOKS">
+			<label>Clearlooks</label>
+		</enumeration>
+	</option>
+
 	<option type="enumeration" name="reliefstyle" default="2">
 		<_long_name>Relief style of widget</_long_name>
 		<section>General</section>
@@ -283,26 +303,6 @@
 		</enumeration>
 		<enumeration value="1">
 			<label>Unified</label>
-		</enumeration>
-	</option>
-
-	<option name="style" type="enumeration" default="MURRINE">
-		<_long_name>Style</_long_name>
-		<section>General</section>
-		<enumeration value="MURRINE">
-			<label>Murrine</label>
-		</enumeration>
-		<enumeration value="NODOKA">
-			<label>Nodoka</label>
-		</enumeration>
-		<enumeration value="MIST">
-			<label>Mist</label>
-		</enumeration>
-		<enumeration value="CANDIDO">
-			<label>Candido</label>
-		</enumeration>
-		<enumeration value="CLEARLOOKS">
-			<label>Clearlooks</label>
 		</enumeration>
 	</option>
 

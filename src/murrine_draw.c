@@ -86,6 +86,62 @@ murrine_draw_inset (cairo_t          *cr,
 }
 
 static void
+murrine_draw_highlight_and_shade (cairo_t *cr,
+                                  const MurrineColors *colors,
+                                  const ShadowParameters *widget,
+                                  int width, int height, int radius)
+{
+	MurrineRGB highlight;
+	MurrineRGB shadow;
+	uint8 corners = widget->corners;
+	double x = 1.0;
+	double y = 1.0;
+
+	murrine_shade (&colors->bg[0], 1.04, &highlight);
+	murrine_shade (&colors->bg[0], 0.96, &shadow);
+
+	width  -= 3;
+	height -= 3;
+
+	cairo_save (cr);
+
+	/* Top/Left highlight */
+	if (corners & MRN_CORNER_BOTTOMLEFT)
+		cairo_move_to (cr, x, y+height-radius);
+	else
+		cairo_move_to (cr, x, y+height);
+
+	murrine_rounded_corner (cr, x, y, radius, corners & MRN_CORNER_TOPLEFT);
+
+	if (corners & MRN_CORNER_TOPRIGHT)
+		cairo_line_to (cr, x+width-radius, y);
+	else
+		cairo_line_to (cr, x+width, y);
+
+	if (widget->shadow & MRN_SHADOW_OUT)
+		murrine_set_color_rgb (cr, &highlight);
+	else
+		murrine_set_color_rgb (cr, &shadow);
+
+	cairo_stroke (cr);
+
+	/* Bottom/Right highlight -- this includes the corners */
+	cairo_move_to (cr, x+width-radius, y); /* topright and by radius to the left */
+	murrine_rounded_corner (cr, x+width, y, radius, corners & MRN_CORNER_TOPRIGHT);
+	murrine_rounded_corner (cr, x+width, y+height, radius, corners & MRN_CORNER_BOTTOMRIGHT);
+	murrine_rounded_corner (cr, x, y+height, radius, corners & MRN_CORNER_BOTTOMLEFT);
+
+	if (widget->shadow & MRN_SHADOW_OUT)
+		murrine_set_color_rgb (cr, &shadow);
+	else
+		murrine_set_color_rgb (cr, &highlight);
+
+	cairo_stroke (cr);
+
+	cairo_restore (cr);
+}
+
+static void
 murrine_draw_button (cairo_t *cr,
                      const MurrineColors    *colors,
                      const WidgetParameters *widget,
@@ -865,22 +921,7 @@ murrine_draw_frame (cairo_t *cr,
 		ShadowParameters shadow;
 		shadow.corners = widget->corners;
 		shadow.shadow  = frame->shadow;
-		cairo_move_to (cr, 1, height-2);
-		cairo_line_to (cr, 1, 1);
-		cairo_line_to (cr, width-1.5, 1);
-		if (frame->shadow & MRN_SHADOW_OUT)
-			murrine_set_color_rgb (cr, &highlight);
-		else
-			murrine_set_color_rgb (cr, &shadow_color);
-		cairo_stroke (cr);
-		cairo_move_to (cr, width-2, 1.5);
-		cairo_line_to (cr, width-2, height-2);
-		cairo_line_to (cr, 0, height-2);
-		if (frame->shadow & MRN_SHADOW_OUT)
-			murrine_set_color_rgb (cr, &shadow_color);
-		else
-			murrine_set_color_rgb (cr, &highlight);
-		cairo_stroke (cr);
+		murrine_draw_highlight_and_shade (cr, colors, &shadow, width, height, 0);
 	}
 
 	/* restore the previous clip region */

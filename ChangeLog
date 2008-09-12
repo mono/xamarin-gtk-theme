@@ -1,5 +1,13 @@
 2008-09-12  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/murrine_draw.c (murrine_draw_highlight_and_shade),
+	(murrine_draw_frame):
+	* src/murrine_draw_rgba.c (murrine_draw_highlight_and_shade),
+	(murrine_rgba_draw_frame):
+	Better code for frames
+
+2008-09-12  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_draw.c (murrine_draw_frame), (murrine_draw_tab):
 	* src/murrine_draw_rgba.c (murrine_rgba_draw_frame),
 	(murrine_rgba_draw_tab):

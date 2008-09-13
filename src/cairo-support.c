@@ -1,5 +1,5 @@
 /* Murrine theme engine
- * Copyright (C) 2007 Andrea Cimitan
+ * Copyright (C) 2006-2007-2008 Andrea Cimitan
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -18,10 +18,10 @@
  *
  */
 
-#include "cairo-support.h"
-#include "support.h"
 #include <math.h>
 
+#include "cairo-support.h"
+#include "support.h"
 #include "murrine_types.h"
 
 G_GNUC_INTERNAL void
@@ -658,4 +658,17 @@ get_contrast (double old, double factor)
 		else
 			return old+(old-1.0)*(factor-1.0);
 	}
+}
+
+MurrineGradients
+get_decreased_gradient_shades (MurrineGradients mrn_gradient, double factor)
+{
+	MurrineGradients mrn_gradient_custom;
+
+	mrn_gradient_custom.gradient_shades[0] = get_decreased_ratio (mrn_gradient.gradient_shades[0], factor);
+	mrn_gradient_custom.gradient_shades[1] = get_decreased_ratio (mrn_gradient.gradient_shades[1], factor);
+	mrn_gradient_custom.gradient_shades[2] = get_decreased_ratio (mrn_gradient.gradient_shades[2], factor);
+	mrn_gradient_custom.gradient_shades[3] = get_decreased_ratio (mrn_gradient.gradient_shades[3], factor);
+
+	return mrn_gradient_custom;
 }

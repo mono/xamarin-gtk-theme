@@ -1,5 +1,5 @@
 /* Murrine theme engine
- * Copyright (C) 2007 Andrea Cimitan
+ * Copyright (C) 2006-2007-2008 Andrea Cimitan
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public
@@ -50,6 +50,8 @@ G_GNUC_INTERNAL double get_decreased_ratio (double old, double factor);
 G_GNUC_INTERNAL double get_increased_ratio (double old, double factor);
 
 G_GNUC_INTERNAL double get_contrast (double old, double factor);
+
+G_GNUC_INTERNAL MurrineGradients get_decreased_gradient_shades (MurrineGradients mrn_gradient, double factor);
 
 G_GNUC_INTERNAL void murrine_exchange_axis (cairo_t  *cr,
                                             gint     *x,

@@ -663,7 +663,7 @@ get_contrast (double old, double factor)
 MurrineGradients
 get_decreased_gradient_shades (MurrineGradients mrn_gradient, double factor)
 {
-	MurrineGradients mrn_gradient_custom;
+	MurrineGradients mrn_gradient_custom = mrn_gradient;
 
 	mrn_gradient_custom.gradient_shades[0] = get_decreased_ratio (mrn_gradient.gradient_shades[0], factor);
 	mrn_gradient_custom.gradient_shades[1] = get_decreased_ratio (mrn_gradient.gradient_shades[1], factor);

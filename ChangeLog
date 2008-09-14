@@ -1,3 +1,8 @@
+2008-09-14  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/cairo-support.c (get_decreased_gradient_shades):
+	Fixed a bug in gradients introduced in rev 65 :)
+
 2008-09-13  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/animation.c:

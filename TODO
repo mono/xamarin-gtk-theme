@@ -4,8 +4,8 @@ Arrows:
 Notebooks:
 - adjust highlight, doesn't look perfectly with dark themes
 
-Tabs:
-- adjust highlight, use something like the Clearlooks's topleft_highlight
+Entry:
+- add patch to support firefox's rounded corners
 
 Focus:
 - draw focus

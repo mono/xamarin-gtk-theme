@@ -1210,32 +1210,30 @@ murrine_style_draw_box (DRAW_ARGS)
 	}
 	else if (DETAIL ("toolbar") || DETAIL ("handlebox_bin") || DETAIL ("dockitem_bin"))
 	{
-		/* Only draw the shadows on horizontal toolbars */
-		if (shadow_type != GTK_SHADOW_NONE && height < 2*width )
+		WidgetParameters params;
+		ToolbarParameters toolbar;
+		gboolean horizontal;
+
+		murrine_set_widget_parameters (widget, style, state_type, &params);
+
+		murrine_set_toolbar_parameters (&toolbar, widget, window, x, y);
+		toolbar.style = murrine_style->toolbarstyle;
+
+		if ((DETAIL ("handlebox_bin") || DETAIL ("dockitem_bin")) && MRN_IS_BIN (widget))
 		{
-			WidgetParameters params;
-			ToolbarParameters toolbar;
-			gboolean horizontal;
-
-			murrine_set_widget_parameters (widget, style, state_type, &params);
-
-			murrine_set_toolbar_parameters (&toolbar, widget, window, x, y);
-			toolbar.style = murrine_style->toolbarstyle;
-			if ((DETAIL ("handlebox_bin") || DETAIL ("dockitem_bin")) && MRN_IS_BIN (widget))
-			{
-				GtkWidget* child = gtk_bin_get_child ((GtkBin*) widget);
-				/* This is to draw the correct shadow on the handlebox.
-				 * We need to draw it here, as otherwise the handle will not get the
-				 * background. */
-				if (MRN_IS_TOOLBAR (child))
-					gtk_widget_style_get (child, "shadow-type", &shadow_type, NULL);
-			}
-
-			horizontal = height < 2*width;
-			/* This is not that great. Ideally we would have a nice vertical toolbar. */
-			if ((shadow_type != GTK_SHADOW_NONE) && horizontal)
-				STYLE_FUNCTION(draw_toolbar) (cr, colors, &params, &toolbar, x, y, width, height);
+			GtkWidget* child = gtk_bin_get_child ((GtkBin*) widget);
+			/* This is to draw the correct shadow on the handlebox.
+			 * We need to draw it here, as otherwise the handle will not get the
+			 * background. */
+			if (MRN_IS_TOOLBAR (child))
+				gtk_widget_style_get (child, "shadow-type", &shadow_type, NULL);
 		}
+
+		horizontal = height < 2*width;
+
+		/* This is not that great. Ideally we would have a nice vertical toolbar. */
+		if ((shadow_type != GTK_SHADOW_NONE) && horizontal)
+			STYLE_FUNCTION(draw_toolbar) (cr, colors, &params, &toolbar, x, y, width, height);
 	}
 	else if (DETAIL ("trough"))
 	{

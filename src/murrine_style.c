@@ -393,7 +393,7 @@ murrine_style_draw_shadow (DRAW_ARGS)
 		 * Relevant GTK+ bug: http://bugzilla.gnome.org/show_bug.cgi?id=513471
 		 * The fill only happens if no hint has been added by some application
 		 * that is faking GTK+ widgets. */
-		if (widget && !g_object_get_data(G_OBJECT (widget), "transparent-bg-hint"))
+		if (!widget || !g_object_get_data(G_OBJECT (widget), "transparent-bg-hint"))
 		{
 			cairo_rectangle (cr, 0, 0, width, height);
 			if (!params.mrn_gradient.use_rgba)
@@ -936,7 +936,7 @@ murrine_style_draw_box (DRAW_ARGS)
 		 * Relevant GTK+ bug: http://bugzilla.gnome.org/show_bug.cgi?id=513471
 		 * The fill only happens if no hint has been added by some application
 		 * that is faking GTK+ widgets. */
-		if (widget && !g_object_get_data(G_OBJECT (widget), "transparent-bg-hint"))
+		if (!widget || !g_object_get_data(G_OBJECT (widget), "transparent-bg-hint"))
 		{
 			cairo_rectangle (cr, 0, 0, width, height);
 			if (!params.mrn_gradient.use_rgba)

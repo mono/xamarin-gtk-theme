@@ -1,5 +1,14 @@
 2008-09-27  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/murrine_draw.c (murrine_draw_button),
+	(murrine_draw_scrollbar_stepper):
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_button),
+	(murrine_rgba_draw_scrollbar_stepper):
+	Speed improvement in buttons and scrollbar steppers rendering.
+	Maybe unnoticeable but there is ;)
+
+2008-09-27  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_style.c (murrine_style_draw_box):
 	Better code
 

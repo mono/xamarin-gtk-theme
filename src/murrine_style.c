@@ -389,6 +389,25 @@ murrine_style_draw_shadow (DRAW_ARGS)
 				params.corners = MRN_CORNER_TOPRIGHT | MRN_CORNER_BOTTOMRIGHT;
 		}
 
+		/* Fill the background as it is initilized to base[NORMAL].
+		 * Relevant GTK+ bug: http://bugzilla.gnome.org/show_bug.cgi?id=513471
+		 * The fill only happens if no hint has been added by some application
+		 * that is faking GTK+ widgets. */
+		if (widget && !g_object_get_data(G_OBJECT (widget), "transparent-bg-hint"))
+		{
+			cairo_rectangle (cr, 0, 0, width, height);
+			if (!params.mrn_gradient.use_rgba)
+				murrine_set_color_rgb (cr, &params.parentbg);
+			else
+			{
+				cairo_set_operator (cr, CAIRO_OPERATOR_CLEAR);
+				cairo_paint(cr);
+				cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
+				murrine_set_color_rgba (cr, &params.parentbg, WINDOW_OPACITY);
+			}
+			cairo_fill (cr);
+		}
+
 		STYLE_FUNCTION(draw_entry) (cr, &murrine_style->colors, &params,
 		                    x, y, width, height);
 	}
@@ -912,6 +931,25 @@ murrine_style_draw_box (DRAW_ARGS)
 		WidgetParameters params;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
+
+		/* Fill the background as it is initilized to base[NORMAL].
+		 * Relevant GTK+ bug: http://bugzilla.gnome.org/show_bug.cgi?id=513471
+		 * The fill only happens if no hint has been added by some application
+		 * that is faking GTK+ widgets. */
+		if (widget && !g_object_get_data(G_OBJECT (widget), "transparent-bg-hint"))
+		{
+			cairo_rectangle (cr, 0, 0, width, height);
+			if (!params.mrn_gradient.use_rgba)
+				murrine_set_color_rgb (cr, &params.parentbg);
+			else
+			{
+				cairo_set_operator (cr, CAIRO_OPERATOR_CLEAR);
+				cairo_paint(cr);
+				cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
+				murrine_set_color_rgba (cr, &params.parentbg, WINDOW_OPACITY);
+			}
+			cairo_fill (cr);
+		}
 
 		STYLE_FUNCTION(draw_progressbar_trough) (cr, colors, &params, x, y, width, height);
 	}

@@ -1,3 +1,13 @@
+2008-09-27  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/murrine_draw.c (murrine_draw_entry),
+	(murrine_draw_progressbar_trough):
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_entry),
+	(murrine_rgba_draw_progressbar_trough):
+	* src/murrine_style.c (murrine_style_draw_shadow),
+	(murrine_style_draw_box):
+	Add support for the "transparent-bg-hint" for entries and progressbars.
+
 2008-09-26  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/murrine_style.c (murrine_style_draw_shadow):

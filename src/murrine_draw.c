@@ -327,12 +327,7 @@ murrine_draw_entry (cairo_t *cr,
 	cairo_translate (cr, x+0.5, y+0.5);
 	cairo_set_line_width (cr, 1.0);
 
-	/* Fill the background (shouldn't have to) */
-	cairo_rectangle (cr, -0.5, -0.5, width, height);
-	murrine_set_color_rgb (cr, &widget->parentbg);
-	cairo_fill (cr);
-
-	/* Fill the entry's base color (why isn't is large enough by default?) */
+	/* Fill the entry's base color */
 	cairo_rectangle (cr, 1.5, 1.5, width-4, height-4);
 	murrine_set_color_rgb (cr, base);
 	cairo_fill (cr);
@@ -526,11 +521,6 @@ murrine_draw_progressbar_trough (cairo_t *cr,
 	murrine_shade (&widget->parentbg, 0.95, &fill);
 
 	cairo_set_line_width (cr, 1.0);
-
-	/* Fill with bg color */
-	cairo_rectangle (cr, x, y, width, height);
-	murrine_set_color_rgb (cr, &colors->bg[widget->state_type]);
-	cairo_fill (cr);
 
 	/* Create trough box */
 	cairo_rectangle (cr, x+1, y+1, width-2, height-2);

@@ -717,6 +717,10 @@ murrine_style_draw_box (DRAW_ARGS)
 		gint columns, column_index;
 		gboolean resizable = TRUE;
 
+		/* XXX: This makes unknown treeview header "middle", in need for something nicer */
+		columns = 3;
+		column_index = 1;
+
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 		params.corners = MRN_CORNER_NONE;
 
@@ -734,12 +738,11 @@ murrine_style_draw_box (DRAW_ARGS)
 
 		header.resizable = resizable;
 
+		header.order = 0;
 		if (column_index == 0)
-			header.order = params.ltr ? MRN_ORDER_FIRST : MRN_ORDER_LAST;
-		else if (column_index == columns-1)
-			header.order = params.ltr ? MRN_ORDER_LAST : MRN_ORDER_FIRST;
-		else
-			header.order = MRN_ORDER_MIDDLE;
+			header.order |= params.ltr ? MRN_ORDER_FIRST : MRN_ORDER_LAST;
+		if (column_index == columns-1)
+			header.order |= params.ltr ? MRN_ORDER_LAST : MRN_ORDER_FIRST;
 
 		gtk_style_apply_default_background (style, window, FALSE, state_type, area, x, y, width, height);
 

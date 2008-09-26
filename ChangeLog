@@ -1,5 +1,13 @@
 2008-09-26  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/murrine_draw.c (murrine_draw_list_view_header):
+	* src/murrine_style.c (murrine_style_draw_box):
+	* src/murrine_types.h:
+	Change the header button position enum to be a bitfield.
+	(Bug #511958 of gtk-engines, Marcus Brinkmann)
+
+2008-09-26  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_draw.c (murrine_draw_highlight_and_shade),
 	(murrine_draw_frame):
 	* src/murrine_draw_rgba.c (murrine_draw_highlight_and_shade),

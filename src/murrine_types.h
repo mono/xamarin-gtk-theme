@@ -78,9 +78,8 @@ typedef enum
 
 typedef enum
 {
-	MRN_ORDER_FIRST,
-	MRN_ORDER_MIDDLE,
-	MRN_ORDER_LAST
+	MRN_ORDER_FIRST = 1 << 0,
+	MRN_ORDER_LAST = 1 << 1
 } MurrineOrder;
 
 typedef enum

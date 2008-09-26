@@ -1233,7 +1233,7 @@ murrine_draw_list_view_header (cairo_t *cr,
 	cairo_translate (cr, x, y);
 	cairo_set_line_width (cr, 1.0);
 
-	if (header->order == MRN_ORDER_FIRST)
+	if (header->order & MRN_ORDER_FIRST)
 	{
 		cairo_move_to (cr, 0.5, height-1);
 		cairo_line_to (cr, 0.5, 0.5);
@@ -1323,7 +1323,8 @@ murrine_draw_list_view_header (cairo_t *cr,
 	cairo_stroke (cr);
 
 	/* Draw resize grip */
-	if (header->order != MRN_ORDER_LAST || header->resizable)
+	if ((widget->ltr && !(header->order & MRN_ORDER_LAST)) ||
+	    (!widget->ltr && !(header->order & MRN_ORDER_FIRST)) || header->resizable)
 	{
 		if (header->style == 1 && widget->glazestyle > 0)
 		{

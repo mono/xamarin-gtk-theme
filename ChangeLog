@@ -1,5 +1,11 @@
 2008-09-26  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/murrine_style.c (murrine_style_draw_shadow):
+	Removes unnecessary MurrineRGB cast to fix build on solaris.
+	(Bug #535456 of gtk-engines, patch by Damien Carbery)
+
+2008-09-26  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_draw.c (murrine_draw_list_view_header):
 	* src/murrine_style.c (murrine_style_draw_box):
 	* src/murrine_types.h:

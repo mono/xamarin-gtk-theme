@@ -424,7 +424,7 @@ murrine_style_draw_shadow (DRAW_ARGS)
 	}
 	else if (DETAIL ("scrolled_window") || DETAIL ("viewport") || detail == NULL)
 	{
-		MurrineRGB *border = (MurrineRGB*)&colors->shade[5];
+		MurrineRGB *border = &colors->shade[5];
 		cairo_rectangle (cr, x+0.5, y+0.5, width-1, height-1);
 		murrine_set_color_rgb (cr, border);
 		cairo_set_line_width (cr, 1);

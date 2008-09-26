@@ -95,6 +95,9 @@ murrine_draw_highlight_and_shade (cairo_t *cr,
 	murrine_shade (&colors->bg[0], 1.15, &highlight);
 	murrine_shade (&colors->bg[0], 0.4, &shadow);
 
+	if (radius < 0)
+		radius = 0;
+
 	width  -= 3;
 	height -= 3;
 
@@ -973,7 +976,7 @@ murrine_rgba_draw_frame (cairo_t *cr,
 		ShadowParameters shadow;
 		shadow.corners = widget->corners;
 		shadow.shadow  = frame->shadow;
-		murrine_draw_highlight_and_shade (cr, colors, &shadow, width, height, 0);
+		murrine_draw_highlight_and_shade (cr, colors, &shadow, width, height, widget->roundness-1);
 	}
 
 	/* restore the previous clip region */

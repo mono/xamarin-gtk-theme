@@ -1,5 +1,13 @@
 2008-09-26  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/murrine_draw.c (murrine_draw_highlight_and_shade),
+	(murrine_draw_frame):
+	* src/murrine_draw_rgba.c (murrine_draw_highlight_and_shade),
+	(murrine_rgba_draw_frame):
+	Fixes bugs with rounded shadows
+
+2008-09-26  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_style.c (murrine_style_draw_box):
 	Fixed a leak and a bug for rtl (right to left) progressbar's orientation
 

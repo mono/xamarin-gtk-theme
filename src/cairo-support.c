@@ -431,6 +431,15 @@ murrine_rounded_rectangle (cairo_t *cr,
 }
 
 void
+murrine_rounded_rectangle_closed (cairo_t *cr,
+                                  double x, double y, double w, double h,
+                                  int radius, uint8 corners)
+{
+	radius < 2 ? cairo_rectangle (cr, x, y, w, h) :
+	             clearlooks_rounded_rectangle (cr, x, y, w, h, radius, corners);
+}
+
+void
 murrine_draw_flat_highlight (cairo_t *cr,
                              int x, int y, int width, int height)
 {

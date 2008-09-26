@@ -4,8 +4,5 @@ Arrows:
 Notebooks:
 - adjust highlight, doesn't look perfectly with dark themes
 
-Entry:
-- add patch to support firefox's rounded corners
-
 Focus:
 - draw focus

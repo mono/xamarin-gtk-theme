@@ -199,10 +199,7 @@ murrine_rgba_draw_button (cairo_t *cr,
 		murrine_shade (&border_normal, 0.8, &border_normal);
 
 	/* Draw the bg */
-	if (widget->roundness < 2)
-		cairo_rectangle (cr, xos+1, yos+1, width-(xos*2)-2, height-(yos*2)-2);
-	else
-		clearlooks_rounded_rectangle (cr, xos+1, yos+1, width-(xos*2)-2, height-(yos*2)-2, widget->roundness, widget->corners);
+	murrine_rounded_rectangle_closed (cr, xos+1, yos+1, width-(xos*2)-2, height-(yos*2)-2, widget->roundness, widget->corners);
 	murrine_set_gradient (cr, &fill, mrn_gradient_custom, xos+1, yos+1, 0, height-(yos*2)-2, widget->mrn_gradient.gradients, FALSE);
 
 	cairo_save (cr);
@@ -281,11 +278,8 @@ murrine_rgba_draw_button (cairo_t *cr,
 
 		cairo_save (cr);
 
-		if (widget->roundness < 2)
-			cairo_rectangle (cr, xos + 1, yos + 1, width-(xos*2)-2, height-(yos*2)-2);
-		else
-			clearlooks_rounded_rectangle (cr, xos+1, yos+1, width-(xos*2)-2, height-(yos*2)-2, widget->roundness-1,
-			                              widget->corners & (MRN_CORNER_TOPLEFT | MRN_CORNER_TOPRIGHT | MRN_CORNER_BOTTOMLEFT));
+		murrine_rounded_rectangle_closed (cr, xos+1, yos+1, width-(xos*2)-2, height-(yos*2)-2, widget->roundness-1,
+		                                  widget->corners & (MRN_CORNER_TOPLEFT | MRN_CORNER_TOPRIGHT | MRN_CORNER_BOTTOMLEFT));
 
 		cairo_clip (cr);
 
@@ -1090,10 +1084,7 @@ murrine_rgba_draw_tab (cairo_t *cr,
 	cairo_paint (cr); */
 
 	/* Set tab shape */
-	if (widget->roundness < 2)
-		cairo_rectangle (cr, 0, 0, width-1, height-1);
-	else
-		clearlooks_rounded_rectangle (cr, 0, 0, width-1, height-1, widget->roundness, widget->corners);
+	murrine_rounded_rectangle_closed (cr, 0, 0, width-1, height-1, widget->roundness, widget->corners);
 
 	/* Draw fill */
 	if (!widget->active)
@@ -1129,10 +1120,7 @@ murrine_rgba_draw_tab (cairo_t *cr,
 				break;
 		}
 
-		if (widget->roundness < 2)
-			cairo_rectangle (cr, 0, 0, width-1, height-1);
-		else
-			clearlooks_rounded_rectangle (cr, 0, 0, width-1, height-1, widget->roundness, widget->corners);
+		murrine_rounded_rectangle_closed (cr, 0, 0, width-1, height-1, widget->roundness, widget->corners);
 
 		cairo_pattern_add_color_stop_rgba (pattern, 0.00, shade1.r, shade1.g, shade1.b, NOTEBOOK_OPACITY);
 		cairo_pattern_add_color_stop_rgba (pattern, 0.45, shade2.r, shade2.g, shade2.b, NOTEBOOK_OPACITY);
@@ -1167,10 +1155,7 @@ murrine_rgba_draw_tab (cairo_t *cr,
 				break;
 		}
 
-		if (widget->roundness < 2)
-			cairo_rectangle (cr, 1, 1, width-3, height-3);
-		else
-			clearlooks_rounded_rectangle (cr, 1, 1, width-3, height-3, widget->roundness, widget->corners);
+		murrine_rounded_rectangle_closed (cr, 1, 1, width-3, height-3, widget->roundness, widget->corners);
 
 		cairo_pattern_add_color_stop_rgba (pattern, 0.00, shade1.r, shade1.g, shade1.b, 0.5*NOTEBOOK_OPACITY);
 		cairo_pattern_add_color_stop_rgba (pattern, 0.45, shade2.r, shade2.g, shade2.b, 0.5*NOTEBOOK_OPACITY);
@@ -1208,10 +1193,7 @@ murrine_rgba_draw_tab (cairo_t *cr,
 				break;
 		}
 
-		if (widget->roundness < 2)
-			cairo_rectangle (cr, 0, 0, width-1, height-1);
-		else
-			clearlooks_rounded_rectangle (cr, 0, 0, width-1, height-1, widget->roundness, widget->corners);
+		murrine_rounded_rectangle_closed (cr, 0, 0, width-1, height-1, widget->roundness, widget->corners);
 
 		cairo_pattern_add_color_stop_rgba (pattern, 0.00, shade1.r, shade1.g, shade1.b, NOTEBOOK_OPACITY);
 		cairo_pattern_add_color_stop_rgba (pattern, 0.45, shade2.r, shade2.g, shade2.b, NOTEBOOK_OPACITY);
@@ -1246,10 +1228,7 @@ murrine_rgba_draw_tab (cairo_t *cr,
 				break;
 		}
 
-		if (widget->roundness < 2)
-			cairo_rectangle (cr, 1, 1, width-3, height-3);
-		else
-			clearlooks_rounded_rectangle (cr, 1, 1, width-3, height-3, widget->roundness, widget->corners);
+		murrine_rounded_rectangle_closed (cr, 1, 1, width-3, height-3, widget->roundness, widget->corners);
 
 		cairo_pattern_add_color_stop_rgba (pattern, 0.00, shade1.r, shade1.g, shade1.b, 0.5*NOTEBOOK_OPACITY);
 		cairo_pattern_add_color_stop_rgba (pattern, 0.45, shade2.r, shade2.g, shade2.b, 0.5*NOTEBOOK_OPACITY);
@@ -1327,10 +1306,7 @@ murrine_rgba_draw_scrollbar_stepper (cairo_t *cr,
 	cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
 
 	/* Draw the bg */
-	if (widget->roundness < 2)
-		cairo_rectangle (cr, 1, 1, width-2, height-2);
-	else
-		clearlooks_rounded_rectangle (cr, 1, 1, width-2, height-2, widget->roundness, widget->corners);
+	murrine_rounded_rectangle_closed (cr, 1, 1, width-2, height-2, widget->roundness, widget->corners);
 	murrine_set_gradient (cr, fill, widget->mrn_gradient, 1, 1, 0, height-2, widget->mrn_gradient.gradients, FALSE);
 
 	cairo_save (cr);

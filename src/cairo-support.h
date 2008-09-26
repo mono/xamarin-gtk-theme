@@ -71,6 +71,10 @@ G_GNUC_INTERNAL void murrine_rounded_rectangle (cairo_t *cr,
                                                 double x, double y, double w, double h,
                                                 int radius, uint8 corners);
 
+G_GNUC_INTERNAL void murrine_rounded_rectangle_closed (cairo_t *cr,
+                                                       double x, double y, double w, double h,
+                                                       int radius, uint8 corners);
+
 G_GNUC_INTERNAL void murrine_rounded_rectangle_fast (cairo_t *cr,
                                                      double x, double y, double w, double h,
                                                      uint8 corners);

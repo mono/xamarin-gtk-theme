@@ -1,5 +1,16 @@
 2008-09-27  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* TODO:
+	* src/cairo-support.c (murrine_rounded_rectangle_closed):
+	* src/cairo-support.h:
+	* src/murrine_draw.c (murrine_draw_button), (murrine_draw_tab),
+	(murrine_draw_menuitem), (murrine_draw_scrollbar_stepper):
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_button),
+	(murrine_rgba_draw_tab), (murrine_rgba_draw_scrollbar_stepper):
+	Less code, updated TODO
+
+2008-09-27  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_draw.c (murrine_draw_button),
 	(murrine_draw_scrollbar_stepper):
 	* src/murrine_draw_rgba.c (murrine_rgba_draw_button),

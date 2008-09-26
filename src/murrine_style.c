@@ -397,15 +397,17 @@ murrine_style_draw_shadow (DRAW_ARGS)
 		{
 			cairo_rectangle (cr, 0, 0, width, height);
 			if (!params.mrn_gradient.use_rgba)
+			{
 				murrine_set_color_rgb (cr, &params.parentbg);
+				cairo_fill(cr);
+			}
 			else
 			{
-				cairo_set_operator (cr, CAIRO_OPERATOR_CLEAR);
-				cairo_paint(cr);
-				cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
+				cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
 				murrine_set_color_rgba (cr, &params.parentbg, WINDOW_OPACITY);
+				cairo_fill(cr);
+				cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 			}
-			cairo_fill (cr);
 		}
 
 		STYLE_FUNCTION(draw_entry) (cr, &murrine_style->colors, &params,
@@ -552,19 +554,21 @@ murrine_style_draw_box_gap (DRAW_ARGS,
 		if (params.roundness < 2)
 			params.corners = MRN_CORNER_NONE;
 
-		if (params.mrn_gradient.use_rgba)
-			cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
-
 		/* Fill the background with bg[NORMAL] */
 		clearlooks_rounded_rectangle (cr, x, y, width, height, params.roundness, params.corners);
-		if (!params.mrn_gradient.use_rgba)
-			murrine_set_color_rgb (cr, &colors->bg[0]);
-		else
-			murrine_set_color_rgba (cr, &colors->bg[0], NOTEBOOK_OPACITY);
-		cairo_fill(cr);
 
-		if (params.mrn_gradient.use_rgba)
+		if (!params.mrn_gradient.use_rgba)
+		{
+			murrine_set_color_rgb (cr, &colors->bg[0]);
+			cairo_fill (cr);
+		}
+		else
+		{
+			cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
+			murrine_set_color_rgba (cr, &colors->bg[0], NOTEBOOK_OPACITY);
+			cairo_fill(cr);
 			cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
+		}
 
 		STYLE_FUNCTION(draw_frame) (cr, colors, &params, &frame,
 		                            x, y, width, height);
@@ -940,15 +944,17 @@ murrine_style_draw_box (DRAW_ARGS)
 		{
 			cairo_rectangle (cr, 0, 0, width, height);
 			if (!params.mrn_gradient.use_rgba)
+			{
 				murrine_set_color_rgb (cr, &params.parentbg);
+				cairo_fill(cr);
+			}
 			else
 			{
-				cairo_set_operator (cr, CAIRO_OPERATOR_CLEAR);
-				cairo_paint(cr);
-				cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
+				cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
 				murrine_set_color_rgba (cr, &params.parentbg, WINDOW_OPACITY);
+				cairo_fill(cr);
+				cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 			}
-			cairo_fill (cr);
 		}
 
 		STYLE_FUNCTION(draw_progressbar_trough) (cr, colors, &params, x, y, width, height);

@@ -509,7 +509,7 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 	double     stroke_width;
 	int        x_step;
 	const      MurrineRGB *fill = &colors->spot[1];
-	const      MurrineRGB *border = &colors->spot[2];
+	MurrineRGB border = colors->spot[2];
 	MurrineRGB highlight;
 
 	murrine_shade (fill, widget->highlight_ratio, &highlight);
@@ -548,10 +548,10 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 	cairo_save (cr);
 	cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
 
-	cairo_rectangle (cr, 1.5, 0.5, width-2, height);
+	cairo_rectangle (cr, 1, 0, width-2, height);
 
 	/* Draw fill */
-	murrine_set_gradient (cr, fill, widget->mrn_gradient, 1.5, 0.5, 0, height, widget->mrn_gradient.gradients, FALSE);
+	murrine_set_gradient (cr, fill, widget->mrn_gradient, 1, 0, 0, height, widget->mrn_gradient.gradients, FALSE);
 
 	/* Draw the glass effect */
 	if (widget->glazestyle > 0)
@@ -565,30 +565,32 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 	else
 	{
 		cairo_fill (cr);
-		murrine_draw_flat_highlight (cr, 1.5, 0.5, width-2, height);
+		murrine_draw_flat_highlight (cr, 1, 0, width-2, height);
 	}
 
-	murrine_set_gradient (cr, &highlight, widget->mrn_gradient, 1.5, 0.5, 0, height, widget->mrn_gradient.gradients, TRUE);
+	murrine_set_gradient (cr, &highlight, widget->mrn_gradient, 1, 0, 0, height, widget->mrn_gradient.gradients, TRUE);
 	cairo_fill (cr);
 
 	if (widget->glazestyle == 4)
 	{
-		murrine_draw_curved_highlight_bottom (cr, 1, width, height+1);
+		murrine_draw_curved_highlight_bottom (cr, 1, width, height);
 		MurrineRGB shadow;
 		murrine_shade (fill, 1.0/widget->highlight_ratio, &shadow);
-		murrine_set_gradient (cr, &shadow, widget->mrn_gradient, 1.5, 0.5, 0, height, widget->mrn_gradient.gradients, TRUE);
+		murrine_set_gradient (cr, &shadow, widget->mrn_gradient, 1, 0, 0, height, widget->mrn_gradient.gradients, TRUE);
 		cairo_fill (cr);
 	}
 
 	cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 
-	murrine_shade (fill, widget->highlight_ratio*widget->lightborder_ratio, &highlight);
-	murrine_draw_lightborder (cr, &highlight, fill, widget->mrn_gradient,
-	                          2.5, 1.5, width-5, height-3,
-	                          widget->mrn_gradient.gradients, TRUE,
-	                          widget->glazestyle, widget->lightborderstyle,
-	                          0, MRN_CORNER_NONE);
-
+	if (widget->glazestyle != 4)
+	{
+		murrine_shade (fill, widget->highlight_ratio*widget->lightborder_ratio, &highlight);
+		murrine_draw_lightborder (cr, &highlight, fill, widget->mrn_gradient,
+		                          2.5, 1.5, width-5, height-3,
+		                          widget->mrn_gradient.gradients, TRUE,
+		                          widget->glazestyle, widget->lightborderstyle,
+		                          0, MRN_CORNER_NONE);
+	}
 	/* Draw strokes */
 	while (tile_pos <= width+x_step-2)
 	{
@@ -601,12 +603,13 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 		tile_pos += stroke_width;
 	}
 
-	murrine_set_color_rgba (cr, border, 0.15);
+	murrine_set_color_rgba (cr, &colors->spot[2], 0.15);
 	cairo_fill (cr);
 	cairo_restore (cr);
 
 	/* Draw the border */
-	murrine_set_color_rgba (cr, border, 0.8);
+	murrine_mix_color (&border, fill, 0.28, &border);
+	murrine_set_color_rgb (cr, &border);
 	cairo_rectangle (cr, 1.5, 0.5, width-3, height-1);
 	cairo_stroke (cr);
 }
@@ -834,18 +837,18 @@ murrine_rgba_draw_toolbar (cairo_t *cr,
 		/* Draw highlight */
 		if (!toolbar->topmost)
 		{
+			murrine_set_color_rgba (cr, top, 0.5);
 			cairo_move_to          (cr, 0, 0.5);
 			cairo_line_to          (cr, width, 0.5);
-			murrine_set_color_rgba (cr, top, 0.5);
 			cairo_stroke           (cr);
 		}
 	}
 #endif
 
 	/* Draw shadow */
+	murrine_set_color_rgb (cr, dark);
 	cairo_move_to         (cr, 0, height-0.5);
 	cairo_line_to         (cr, width, height-0.5);
-	murrine_set_color_rgb (cr, dark);
 	cairo_stroke          (cr);
 }
 

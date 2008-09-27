@@ -551,7 +551,7 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 	double     stroke_width;
 	int        x_step;
 	const      MurrineRGB *fill = &colors->spot[1];
-	const      MurrineRGB *border = &colors->spot[2];
+	MurrineRGB border = colors->spot[2];
 	MurrineRGB highlight;
 
 	murrine_shade (fill, widget->highlight_ratio, &highlight);
@@ -587,10 +587,10 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 	x_step = (((float)stroke_width/10)*offset);
 	cairo_set_line_width (cr, 1.0);
 	cairo_save (cr);
-	cairo_rectangle (cr, 1.5, 0.5, width-2, height);
+	cairo_rectangle (cr, 1, 0, width-2, height);
 
 	/* Draw fill */
-	murrine_set_gradient (cr, fill, widget->mrn_gradient, 1.5, 0.5, 0, height, widget->mrn_gradient.gradients, FALSE);
+	murrine_set_gradient (cr, fill, widget->mrn_gradient, 1, 0, 0, height, widget->mrn_gradient.gradients, FALSE);
 
 	/* Draw the glass effect */
 	if (widget->glazestyle > 0)
@@ -604,27 +604,29 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 	else
 	{
 		cairo_fill (cr);
-		murrine_draw_flat_highlight (cr, 1.5, 0.5, width-2, height);
+		murrine_draw_flat_highlight (cr, 1, 0, width-2, height);
 	}
 
-	murrine_set_gradient (cr, &highlight, widget->mrn_gradient, 1.5, 0.5, 0, height, widget->mrn_gradient.gradients, TRUE);
+	murrine_set_gradient (cr, &highlight, widget->mrn_gradient, 1, 0, 0, height, widget->mrn_gradient.gradients, TRUE);
 	cairo_fill (cr);
 
 	if (widget->glazestyle == 4)
 	{
-		murrine_draw_curved_highlight_bottom (cr, 1, width, height+1);
+		murrine_draw_curved_highlight_bottom (cr, 1, width, height);
 		MurrineRGB shadow;
 		murrine_shade (fill, 1.0/widget->highlight_ratio, &shadow);
-		murrine_set_gradient (cr, &shadow, widget->mrn_gradient, 1.5, 0.5, 0, height, widget->mrn_gradient.gradients, TRUE);
+		murrine_set_gradient (cr, &shadow, widget->mrn_gradient, 1, 0, 0, height, widget->mrn_gradient.gradients, TRUE);
 		cairo_fill (cr);
 	}
 
-	murrine_shade (fill, widget->highlight_ratio*widget->lightborder_ratio, &highlight);
-	murrine_draw_lightborder (cr, &highlight, fill, widget->mrn_gradient,
-	                          2.5, 1.5, width-5, height-3,
-	                          widget->mrn_gradient.gradients, TRUE,
-	                          widget->glazestyle, widget->lightborderstyle, 0, MRN_CORNER_NONE);
-
+	if (widget->glazestyle != 4)
+	{
+		murrine_shade (fill, widget->highlight_ratio*widget->lightborder_ratio, &highlight);
+		murrine_draw_lightborder (cr, &highlight, fill, widget->mrn_gradient,
+		                          2.5, 1.5, width-5, height-3,
+		                          widget->mrn_gradient.gradients, TRUE,
+		                          widget->glazestyle, widget->lightborderstyle, 0, MRN_CORNER_NONE);
+	}
 	/* Draw strokes */
 	while (tile_pos <= width+x_step-2)
 	{
@@ -637,12 +639,13 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 		tile_pos += stroke_width;
 	}
 
-	murrine_set_color_rgba (cr, border, 0.15);
+	murrine_set_color_rgba (cr, &colors->spot[2], 0.15);
 	cairo_fill (cr);
 	cairo_restore (cr);
 
 	/* Draw the border */
-	murrine_set_color_rgba (cr, border, 0.8);
+	murrine_mix_color (&border, fill, 0.28, &border);
+	murrine_set_color_rgb (cr, &border);
 	cairo_rectangle (cr, 1.5, 0.5, width-3, height-1);
 	cairo_stroke (cr);
 }
@@ -1106,8 +1109,8 @@ murrine_draw_tab (cairo_t *cr,
 		cairo_pattern_destroy (pattern);
 	}
 
-	murrine_rounded_rectangle (cr, 0, 0, width-1, height-1, widget->roundness, widget->corners);
 	murrine_set_color_rgb (cr, border);
+	murrine_rounded_rectangle (cr, 0, 0, width-1, height-1, widget->roundness, widget->corners);
 	cairo_stroke (cr);
 }
 
@@ -1126,15 +1129,15 @@ murrine_draw_separator (cairo_t *cr,
 		cairo_set_line_width  (cr, 1.0);
 		cairo_translate       (cr, x, y+0.5);
 
+		murrine_set_color_rgb (cr, dark);
 		cairo_move_to         (cr, 0.0,     0.0);
 		cairo_line_to         (cr, width+1, 0.0);
-		murrine_set_color_rgb (cr, dark);
 		cairo_stroke          (cr);
 
 #ifndef HAVE_MACMENU
+		murrine_set_color_rgb (cr, highlight);
 		cairo_move_to         (cr, 0.0,   1.0);
 		cairo_line_to         (cr, width, 1.0);
-		murrine_set_color_rgb (cr, highlight);
 		cairo_stroke          (cr);
 #endif
 	}
@@ -1143,15 +1146,15 @@ murrine_draw_separator (cairo_t *cr,
 		cairo_set_line_width  (cr, 1.0);
 		cairo_translate       (cr, x+0.5, y);
 
+		murrine_set_color_rgb (cr, dark);
 		cairo_move_to         (cr, 0.0, 0.0);
 		cairo_line_to         (cr, 0.0, height);
-		murrine_set_color_rgb (cr, dark);
 		cairo_stroke          (cr);
 
 #ifndef HAVE_MACMENU
+		murrine_set_color_rgb (cr, highlight);
 		cairo_move_to         (cr, 1.0, 0.0);
 		cairo_line_to         (cr, 1.0, height);
-		murrine_set_color_rgb (cr, highlight);
 		cairo_stroke          (cr);
 #endif
 	}
@@ -1168,9 +1171,9 @@ murrine_draw_combo_separator (cairo_t *cr,
 	cairo_set_line_width   (cr, 1.0);
 	cairo_translate        (cr, x+0.5, y);
 
+	murrine_set_color_rgba (cr, dark, 0.4);
 	cairo_move_to          (cr, 0.0, 0.0);
 	cairo_line_to          (cr, 0.0, height+1);
-	murrine_set_color_rgba (cr, dark, 0.4);
 	cairo_stroke           (cr);
 }
 
@@ -1274,9 +1277,9 @@ murrine_draw_list_view_header (cairo_t *cr,
 		}
 	}
 	/* Draw bottom border */
+	murrine_set_color_rgb (cr, border);
 	cairo_move_to (cr, 0.0, height-0.5);
 	cairo_line_to (cr, width, height-0.5);
-	murrine_set_color_rgb (cr, border);
 	cairo_stroke (cr);
 
 	/* Draw resize grip */
@@ -1387,9 +1390,9 @@ murrine_draw_toolbar (cairo_t *cr,
 #endif
 
 	/* Draw shadow */
+	murrine_set_color_rgb (cr, dark);
 	cairo_move_to         (cr, 0, height-0.5);
 	cairo_line_to         (cr, width, height-0.5);
-	murrine_set_color_rgb (cr, dark);
 	cairo_stroke          (cr);
 }
 
@@ -1482,8 +1485,8 @@ murrine_draw_menuitem (cairo_t *cr,
 		murrine_rounded_rectangle (cr, 0.5, 0.5, width-1, height-1, widget->roundness, widget->corners);
 		cairo_fill_preserve (cr);
 	}
-	murrine_rounded_rectangle (cr, 0.5, 0.5, width-1, height-1, widget->roundness, widget->corners);
 	murrine_set_color_rgba (cr, border, 0.8);
+	murrine_rounded_rectangle (cr, 0.5, 0.5, width-1, height-1, widget->roundness, widget->corners);
 	cairo_stroke (cr);
 }
 

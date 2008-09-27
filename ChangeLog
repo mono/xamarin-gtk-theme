@@ -1,5 +1,17 @@
 2008-09-27  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/murrine_draw.c (murrine_draw_progressbar_fill),
+	(murrine_draw_tab), (murrine_draw_separator),
+	(murrine_draw_combo_separator), (murrine_draw_list_view_header),
+	(murrine_draw_toolbar), (murrine_draw_menuitem):
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_progressbar_fill),
+	(murrine_rgba_draw_toolbar):
+	Polishing code - Part 2
+	Changed (more speed) progressbars borders, please check if the style is
+	equal to the old one.
+
+2008-09-27  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_draw.c (murrine_draw_highlight_and_shade),
 	(murrine_draw_button), (murrine_draw_entry),
 	(murrine_draw_spinbutton_down), (murrine_scale_draw_gradient),

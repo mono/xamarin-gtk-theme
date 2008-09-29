@@ -1112,6 +1112,8 @@ murrine_rgba_draw_scrollbar_stepper (cairo_t *cr,
 	murrine_rounded_rectangle_closed (cr, 1, 1, width-2, height-2, widget->roundness-1, widget->corners);
 
 	cairo_save (cr);
+	if (widget->roundness > 1)
+		cairo_clip_preserve(cr);
 
 	murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->lightborder_ratio,
 	                    widget->mrn_gradient, widget, 1, 1, width-2, height-2,

@@ -27,10 +27,6 @@ AC_ARG_ENABLE(animation,
               [  --enable-animation      compile murrine with animation support],
               [animation=$enableval],
               [animation="no"], )
-AC_ARG_ENABLE(macmenu,
-              [  --enable-macmenu        compile murrine with mac menubar patches],
-              [macmenu=$enableval],
-              [macmenu="no"], )
 AC_ARG_ENABLE(animationrtl,
               [  --enable-animationrtl   compile murrine with progressbar animation from right to left],
               [animationrtl=$enableval],
@@ -54,10 +50,6 @@ AC_SUBST(BUILD_THEMES)
 
 if test $animation = "yes"; then
 	AC_DEFINE_UNQUOTED(HAVE_ANIMATION, 1, [Defines whether to compile with animation support])
-fi
-
-if test $macmenu = "yes"; then
-	AC_DEFINE_UNQUOTED(HAVE_MACMENU, 1, [Defines whether to compile with mac menubar patches])
 fi
 
 if test $animationrtl = "yes"; then

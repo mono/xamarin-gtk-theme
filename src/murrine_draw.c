@@ -697,7 +697,6 @@ murrine_draw_menubar (cairo_t *cr,
 	/* Draw bottom line */
 	if (menubarstyle == 1 && widget->glazestyle == 2)
 		cairo_rectangle (cr, 0.5, 0.5, width-1, height-1);
-#ifndef HAVE_MACMENU
 	else
 	{
 		cairo_set_line_width (cr, 1.0);
@@ -706,7 +705,6 @@ murrine_draw_menubar (cairo_t *cr,
 	}
 	murrine_set_color_rgb (cr, &colors->shade[3]);
 	cairo_stroke          (cr);
-#endif
 }
 
 /* We can't draw transparent things here, since it will be called on the same
@@ -726,10 +724,6 @@ murrine_draw_toolbar (cairo_t *cr,
 	cairo_translate      (cr, x, y);
 	cairo_rectangle (cr, 0, 0, width, height);
 
-#ifdef HAVE_MACMENU
-	murrine_set_color_rgb (cr, fill);
-	cairo_fill (cr);
-#else
 	/* Glass toolbar */
 	if (toolbar->style == 1)
 	{
@@ -760,7 +754,6 @@ murrine_draw_toolbar (cairo_t *cr,
 			cairo_stroke          (cr);
 		}
 	}
-#endif
 
 	/* Draw shadow */
 	murrine_set_color_rgb (cr, dark);
@@ -1106,12 +1099,10 @@ murrine_draw_separator (cairo_t *cr,
 		cairo_line_to         (cr, width+1, 0.0);
 		cairo_stroke          (cr);
 
-#ifndef HAVE_MACMENU
 		murrine_set_color_rgb (cr, highlight);
 		cairo_move_to         (cr, 0.0,   1.0);
 		cairo_line_to         (cr, width, 1.0);
 		cairo_stroke          (cr);
-#endif
 	}
 	else
 	{
@@ -1123,12 +1114,10 @@ murrine_draw_separator (cairo_t *cr,
 		cairo_line_to         (cr, 0.0, height);
 		cairo_stroke          (cr);
 
-#ifndef HAVE_MACMENU
 		murrine_set_color_rgb (cr, highlight);
 		cairo_move_to         (cr, 1.0, 0.0);
 		cairo_line_to         (cr, 1.0, height);
 		cairo_stroke          (cr);
-#endif
 	}
 }
 

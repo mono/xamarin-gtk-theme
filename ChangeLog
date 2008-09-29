@@ -1,5 +1,14 @@
 2008-09-29  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* configure.ac:
+	* src/murrine_draw.c (murrine_draw_menubar),
+	(murrine_draw_toolbar), (murrine_draw_separator):
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_menubar),
+	(murrine_rgba_draw_toolbar), (murrine_rgba_draw_separator):
+	Removed --enable-macmenu. You can use other options.
+
+2008-09-29  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/cairo-support.c (murrine_draw_curved_highlight),
 	(murrine_draw_curved_highlight_top),
 	(murrine_draw_curved_highlight_bottom), (murrine_draw_glaze):

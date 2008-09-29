@@ -94,17 +94,21 @@ G_GNUC_INTERNAL void murrine_set_gradient (cairo_t *cr,
                                            boolean gradients, boolean alpha);
 
 G_GNUC_INTERNAL void murrine_draw_flat_highlight (cairo_t *cr,
-                                                int x, int y, int width, int height);
+                                                  int x, int y, int width, int height);
 
 G_GNUC_INTERNAL void murrine_draw_curved_highlight (cairo_t *cr,
-                                                  double curve_pos,
-                                                  int width, int height);
+                                                    int x, int y, int width, int height);
 
 G_GNUC_INTERNAL void murrine_draw_curved_highlight_top (cairo_t *cr,
-                                                      double curve_pos,
-                                                      int width, int height);
+                                                        int x, int y, int width, int height);
 
 G_GNUC_INTERNAL void murrine_draw_curved_highlight_bottom (cairo_t *cr,
-                                                         double curve_pos,
-                                                         int width, int height);
+                                                           int x, int y, int width, int height);
+
+G_GNUC_INTERNAL void murrine_draw_glaze (cairo_t *cr,
+                                         const MurrineRGB *fill,
+                                         double highlight_ratio,
+                                         MurrineGradients mrn_gradient,
+                                         const WidgetParameters *widget,
+                                         int x, int y, int width, int height);
 

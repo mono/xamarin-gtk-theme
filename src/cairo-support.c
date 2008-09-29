@@ -448,38 +448,132 @@ murrine_draw_flat_highlight (cairo_t *cr,
 
 void
 murrine_draw_curved_highlight (cairo_t *cr,
-                               double curve_pos, int width, int height)
+                               int x, int y, int width, int height)
 {
-	cairo_move_to (cr, curve_pos, height-curve_pos);
-	cairo_curve_to (cr, curve_pos, height/2+height/5, height/5, height/2, height/2, height/2);
-	cairo_line_to (cr, width-height/2, height/2);
-	cairo_curve_to (cr, width-curve_pos-height/5, height/2, width-curve_pos-0.5, height/2-height/5, width-curve_pos, curve_pos);
-	cairo_line_to (cr, curve_pos, curve_pos);
-	cairo_line_to (cr, curve_pos, height-curve_pos);
+	int w = width+x*2;
+	int h = height+y*2;
+
+	cairo_move_to (cr, x, h-y);
+	cairo_curve_to (cr, x, h/2+h/5, h/5, h/2, h/2, h/2);
+	cairo_line_to (cr, w-h/2, h/2);
+	cairo_curve_to (cr, w-x-h/5, h/2, w-x-0.5, h/2-h/5, w-x, y);
+	cairo_line_to (cr, x, y);
+	cairo_line_to (cr, x, h-y);
 	cairo_close_path (cr);
 }
 
 void
 murrine_draw_curved_highlight_top (cairo_t *cr,
-                                   double curve_pos, int width, int height)
+                                   int x, int y, int width, int height)
 {
-	cairo_move_to (cr, curve_pos, curve_pos);
-	cairo_curve_to (cr, curve_pos, height/2-height/5, height/5, height/2, height/2, height/2);
-	cairo_line_to (cr, width-height/2, height/2);
-	cairo_curve_to (cr, width-curve_pos-height/5, height/2, width-curve_pos-0.5, height/2-height/5, width-curve_pos, curve_pos);
+	int w = width+x*2;
+	int h = height+y*2;
+
+	cairo_move_to (cr, x, y);
+	cairo_curve_to (cr, x, h/2-h/5, h/5, h/2, h/2, h/2);
+	cairo_line_to (cr, w-h/2, h/2);
+	cairo_curve_to (cr, w-x-h/5, h/2, w-x-0.5, h/2-h/5, w-x, y);
 	cairo_close_path (cr);
 }
 
 void
 murrine_draw_curved_highlight_bottom (cairo_t *cr,
-                                      double curve_pos, int width, int height)
+                                      int x, int y, int width, int height)
 {
-	cairo_move_to (cr, curve_pos, height-curve_pos);
-	cairo_curve_to (cr, curve_pos, height/2+height/5, height/5, height/2, height/2, height/2);
-	cairo_line_to (cr, width-height/2, height/2);
-	cairo_curve_to (cr, width-curve_pos-height/5, height/2, width-curve_pos-0.5, height/2+height/5, width-curve_pos, height-curve_pos);
+	int w = width+x*2;
+	int h = height+y*2;
+
+	cairo_move_to (cr, x, h-y);
+	cairo_curve_to (cr, x, h/2+h/5, h/5, h/2, h/2, h/2);
+	cairo_line_to (cr, w-h/2, h/2);
+	cairo_curve_to (cr, w-x-h/5, h/2, w-x-0.5, h/2+h/5, w-x, h-y);
 	cairo_close_path (cr);
 }
+
+void
+murrine_draw_glaze (cairo_t *cr,
+                    const MurrineRGB *fill,
+                    double highlight_ratio,
+                    MurrineGradients mrn_gradient,
+                    const WidgetParameters *widget,
+                    int x, int y, int width, int height)
+{
+	MurrineRGB highlight;
+	murrine_shade (fill, highlight_ratio, &highlight);
+
+	murrine_set_gradient (cr, fill, mrn_gradient, x, y, 0, height, mrn_gradient.gradients, FALSE);
+	switch (widget->glazestyle)
+	{
+		default:
+		case 0:
+			cairo_fill (cr);
+			murrine_draw_flat_highlight (cr, x, y, width, height);
+			break;
+		case 1:
+			cairo_set_fill_rule (cr, CAIRO_FILL_RULE_EVEN_ODD);
+			cairo_fill (cr);
+			murrine_draw_curved_highlight (cr, x, y, width, height);
+			break;
+		case 2:
+			cairo_set_fill_rule (cr, CAIRO_FILL_RULE_EVEN_ODD);
+			cairo_fill_preserve (cr);
+			murrine_draw_curved_highlight (cr, x, y, width, height);
+			break;
+		case 3:
+		case 4:
+			cairo_set_fill_rule (cr, CAIRO_FILL_RULE_EVEN_ODD);
+			cairo_fill (cr);
+			murrine_draw_curved_highlight_top (cr, x, y, width, height);
+			break;
+	}
+
+	murrine_set_gradient (cr, &highlight, mrn_gradient, x, y, 0, height, mrn_gradient.gradients, TRUE);
+	cairo_fill (cr);
+
+	if (widget->glazestyle == 4)
+	{
+		MurrineRGB shadow;
+		murrine_shade (fill, 1.0/highlight_ratio, &shadow);
+
+		murrine_draw_curved_highlight_bottom (cr, x, y, width, height);
+		murrine_set_gradient (cr, &shadow, mrn_gradient, x, y, 0, height, mrn_gradient.gradients, TRUE);
+		cairo_fill (cr);
+	}
+}
+
+/* Old one */
+/*
+static void
+murrine_draw_glaze (cairo_t *cr,
+                    const WidgetParameters *widget,
+                    int x, int y, int width, int height)
+{
+	switch (widget->glazestyle)
+	{
+		default:
+		case 0:
+			cairo_fill (cr);
+			murrine_draw_flat_highlight (cr, x, y, width, height);
+			break;
+		case 1:
+			cairo_set_fill_rule (cr, CAIRO_FILL_RULE_EVEN_ODD);
+			cairo_fill (cr);
+			murrine_draw_curved_highlight (cr, x, y, width, height);
+			break;
+		case 2:
+			cairo_set_fill_rule (cr, CAIRO_FILL_RULE_EVEN_ODD);
+			cairo_fill_preserve (cr);
+			murrine_draw_curved_highlight (cr, x, y, width, height);
+			break;
+		case 3:
+		case 4:
+			cairo_set_fill_rule (cr, CAIRO_FILL_RULE_EVEN_ODD);
+			cairo_fill (cr);
+			murrine_draw_curved_highlight_top (cr, x, y, width, height);
+			break;
+	}
+}
+*/
 
 void
 murrine_draw_lightborder (cairo_t *cr,

@@ -152,7 +152,7 @@ murrine_draw_button (cairo_t *cr,
 	MurrineRGB fill = colors->bg[widget->state_type];
 	MurrineRGB border_disabled = colors->shade[5];
 	MurrineRGB border_normal;
-	MurrineRGB highlight;
+
 	double custom_highlight_ratio = widget->highlight_ratio;
 	MurrineGradients mrn_gradient_custom = widget->mrn_gradient;
 
@@ -166,7 +166,6 @@ murrine_draw_button (cairo_t *cr,
 		murrine_mix_color (&fill, &colors->spot[1], 0.2, &fill);
 
 	murrine_shade (&colors->shade[6], 0.95, &border_normal);
-	murrine_shade (&fill, custom_highlight_ratio, &highlight);
 
 	if (!horizontal)
 		murrine_exchange_axis (cr, &x, &y, &width, &height);
@@ -195,48 +194,21 @@ murrine_draw_button (cairo_t *cr,
 
 	/* Draw the bg */
 	murrine_rounded_rectangle_closed (cr, xos+1, yos+1, width-(xos*2)-2, height-(yos*2)-2, widget->roundness, widget->corners);
-	murrine_set_gradient (cr, &fill, mrn_gradient_custom, xos+1, yos+1, 0, height-(yos*2)-2, widget->mrn_gradient.gradients, FALSE);
 
 	cairo_save (cr);
 	if (widget->roundness > 1)
 		cairo_clip_preserve (cr);
 
-	int curve_pos = 1;
-	if (widget->glazestyle != 4)
-		curve_pos = 2;
-
-	/* Draw the glass effect */
-	if (widget->glazestyle > 0)
-	{
-		cairo_set_fill_rule (cr, CAIRO_FILL_RULE_EVEN_ODD);
-		widget->glazestyle == 2 ? cairo_fill_preserve (cr) : cairo_fill (cr);
-		if (widget->glazestyle < 3)
-			murrine_draw_curved_highlight (cr, curve_pos, width, height);
-		else
-			murrine_draw_curved_highlight_top (cr, curve_pos, width, height);
-	}
-	else
-	{
-		cairo_fill (cr);
-		murrine_draw_flat_highlight (cr, xos+1, yos+1, width-(xos*2)-2, height-(yos*2)-2);
-	}
-
-	murrine_set_gradient (cr, &highlight, mrn_gradient_custom, xos+1, yos+1, 0, height-(yos*2)-2, widget->mrn_gradient.gradients, TRUE);
-	cairo_fill (cr);
-
-	if (widget->glazestyle == 4)
-	{
-		murrine_draw_curved_highlight_bottom (cr, curve_pos, width, height);
-		MurrineRGB shadow;
-		murrine_shade (&fill, 1.0/custom_highlight_ratio, &shadow);
-		murrine_set_gradient (cr, &shadow, mrn_gradient_custom, xos+1, yos+1, 0, height-(yos*2)-2, widget->mrn_gradient.gradients, TRUE);
-		cairo_fill (cr);
-	}
+	murrine_draw_glaze (cr, &fill, custom_highlight_ratio, mrn_gradient_custom, widget, xos+1, yos+1, width-(xos*2)-2, height-(yos*2)-2);
 
 	/* Draw the white inner border */
 	if (widget->glazestyle != 4 && !widget->active)
 	{
+		MurrineRGB highlight;
+
+		murrine_shade (&fill, custom_highlight_ratio, &highlight);
 		murrine_shade (&fill, widget->lightborder_ratio*custom_highlight_ratio, &highlight);
+
 		if (horizontal)
 		{
 			murrine_draw_lightborder (cr, &highlight, &fill, mrn_gradient_custom,
@@ -552,9 +524,6 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 	int        x_step;
 	const      MurrineRGB *fill = &colors->spot[1];
 	MurrineRGB border = colors->spot[2];
-	MurrineRGB highlight;
-
-	murrine_shade (fill, widget->highlight_ratio, &highlight);
 
 	cairo_rectangle (cr, x, y, width, height);
 
@@ -569,10 +538,7 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 	{
 		int tmp = height; height = width; width = tmp;
 
-		x = x + 1;
-		y = y - 1;
-		width = width + 2;
-		height = height - 2;
+		x = x + 1; y = y - 1; width = width + 2; height = height - 2;
 
 		if (progressbar->orientation == MRN_ORIENTATION_TOP_TO_BOTTOM)
 			rotate_mirror_translate (cr, M_PI/2, x, y, FALSE, FALSE);
@@ -589,39 +555,15 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 	cairo_save (cr);
 	cairo_rectangle (cr, 1, 0, width-2, height);
 
-	/* Draw fill */
-	murrine_set_gradient (cr, fill, widget->mrn_gradient, 1, 0, 0, height, widget->mrn_gradient.gradients, FALSE);
-
-	/* Draw the glass effect */
-	if (widget->glazestyle > 0)
-	{
-		widget->glazestyle == 2 ? cairo_fill_preserve (cr) : cairo_fill (cr);
-		if (widget->glazestyle < 3)
-			murrine_draw_curved_highlight (cr, 1, width, height);
-		else
-			murrine_draw_curved_highlight_top (cr, 1, width, height);
-	}
-	else
-	{
-		cairo_fill (cr);
-		murrine_draw_flat_highlight (cr, 1, 0, width-2, height);
-	}
-
-	murrine_set_gradient (cr, &highlight, widget->mrn_gradient, 1, 0, 0, height, widget->mrn_gradient.gradients, TRUE);
-	cairo_fill (cr);
-
-	if (widget->glazestyle == 4)
-	{
-		murrine_draw_curved_highlight_bottom (cr, 1, width, height);
-		MurrineRGB shadow;
-		murrine_shade (fill, 1.0/widget->highlight_ratio, &shadow);
-		murrine_set_gradient (cr, &shadow, widget->mrn_gradient, 1, 0, 0, height, widget->mrn_gradient.gradients, TRUE);
-		cairo_fill (cr);
-	}
+	murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->mrn_gradient, widget, 1, 0, width-2, height);
 
 	if (widget->glazestyle != 4)
 	{
+		MurrineRGB highlight;
+
+		murrine_shade (fill, widget->highlight_ratio, &highlight);
 		murrine_shade (fill, widget->highlight_ratio*widget->lightborder_ratio, &highlight);
+
 		murrine_draw_lightborder (cr, &highlight, fill, widget->mrn_gradient,
 		                          2.5, 1.5, width-5, height-3,
 		                          widget->mrn_gradient.gradients, TRUE,
@@ -691,40 +633,13 @@ murrine_draw_menubar (cairo_t *cr,
 
 	if (menubarstyle == 1) /* Glass menubar */
 	{
-		MurrineRGB highlight;
-
-		murrine_shade (fill, widget->highlight_ratio, &highlight);
-
-		murrine_set_gradient (cr, fill, widget->mrn_gradient, 0, 0, 0, height, widget->mrn_gradient.gradients, FALSE);
-		/* The glass effect */
-		if (widget->glazestyle > 0)
-		{
-			widget->glazestyle == 2 ? cairo_fill_preserve (cr) : cairo_fill (cr);
-			if (widget->glazestyle < 3)
-				murrine_draw_curved_highlight (cr, 0, width, height);
-			else
-				murrine_draw_curved_highlight_top (cr, 0, width, height);
-		}
-		else
-		{
-			cairo_fill (cr);
-			murrine_draw_flat_highlight (cr, 0, 0, width, height);
-		}
-
-		murrine_set_gradient (cr, &highlight, widget->mrn_gradient, 0, 0, 0, height, widget->mrn_gradient.gradients, TRUE);
-		cairo_fill (cr);
-
-		if (widget->glazestyle == 4)
-		{
-			murrine_draw_curved_highlight_bottom (cr, 0, width, height);
-			MurrineRGB shadow;
-			murrine_shade (fill, 1.0/widget->highlight_ratio, &shadow);
-			murrine_set_color_rgb (cr, &shadow);
-			cairo_fill (cr);
-		}
+		murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->mrn_gradient, widget, 0, 0, width, height);
 
 		if (widget->glazestyle == 2)
 		{
+			MurrineRGB highlight;
+			murrine_shade (fill, widget->highlight_ratio, &highlight);
+
 			murrine_draw_lightborder (cr, &highlight, fill, widget->mrn_gradient,
 			                          1.5, 1.5, width-3, height-3,
 			                          widget->mrn_gradient.gradients, TRUE,
@@ -735,19 +650,13 @@ murrine_draw_menubar (cairo_t *cr,
 	else if (menubarstyle == 2) /* Gradient menubar */
 	{
 		cairo_pattern_t *pattern;
+		double alpha = !widget->mrn_gradient.use_rgba ? 1.0 : 0.7;
 		MurrineRGB lower;
 		murrine_shade (fill, 0.95, &lower);
+
 		pattern = cairo_pattern_create_linear (0, 0, 0, height);
-		if (!widget->mrn_gradient.use_rgba)
-		{
-			cairo_pattern_add_color_stop_rgb (pattern, 0.0, fill->r, fill->g, fill->b);
-			cairo_pattern_add_color_stop_rgb (pattern, 1.0, lower.r, lower.g, lower.b);
-		}
-		else
-		{
-			cairo_pattern_add_color_stop_rgba (pattern, 0.0, fill->r, fill->g, fill->b, 0.7);
-			cairo_pattern_add_color_stop_rgba (pattern, 1.0, lower.r, lower.g, lower.b, 0.7);
-		}
+		cairo_pattern_add_color_stop_rgba (pattern, 0.0, fill->r, fill->g, fill->b, alpha);
+		cairo_pattern_add_color_stop_rgba (pattern, 1.0, lower.r, lower.g, lower.b, alpha);
 		cairo_set_source (cr, pattern);
 		cairo_fill (cr);
 		cairo_pattern_destroy (pattern);
@@ -755,17 +664,20 @@ murrine_draw_menubar (cairo_t *cr,
 	else if (menubarstyle == 3) /* Striped menubar */
 	{
 		cairo_pattern_t *pattern;
+		int counter = -height;
 		MurrineRGB low, top;
 		murrine_shade (fill, 0.9, &top);
 		murrine_shade (fill, 1.1, &low);
+
 		pattern = cairo_pattern_create_linear (0, 0, 0, height);
 		cairo_pattern_add_color_stop_rgb (pattern, 0.0, top.r, top.g, top.b);
 		cairo_pattern_add_color_stop_rgb (pattern, 1.0, low.r, low.g, low.b);
 		cairo_set_source (cr, pattern);
 		cairo_fill (cr);
 		cairo_pattern_destroy (pattern);
-		int counter = -height;
+
 		cairo_set_line_width  (cr, 1.0);
+
 		murrine_shade (&low, 0.9, &low);
 		murrine_set_color_rgb (cr, &low);
 		while (counter < width)
@@ -795,6 +707,66 @@ murrine_draw_menubar (cairo_t *cr,
 	murrine_set_color_rgb (cr, &colors->shade[3]);
 	cairo_stroke          (cr);
 #endif
+}
+
+/* We can't draw transparent things here, since it will be called on the same
+ * surface multiple times, when placed on a handlebox_bin or dockitem_bin */
+static void
+murrine_draw_toolbar (cairo_t *cr,
+                      const MurrineColors    *colors,
+                      const WidgetParameters *widget,
+                      const ToolbarParameters *toolbar,
+                      int x, int y, int width, int height)
+{
+	const MurrineRGB *dark = &colors->shade[3];
+	const MurrineRGB *fill = &colors->bg[0];
+	const MurrineRGB *top  = &colors->shade[0];
+
+	cairo_set_line_width (cr, 1.0);
+	cairo_translate      (cr, x, y);
+	cairo_rectangle (cr, 0, 0, width, height);
+
+#ifdef HAVE_MACMENU
+	murrine_set_color_rgb (cr, fill);
+	cairo_fill (cr);
+#else
+	/* Glass toolbar */
+	if (toolbar->style == 1)
+	{
+		murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->mrn_gradient, widget, 0, 0, width, height);
+	}
+	else if (toolbar->style == 2)
+	{
+		cairo_pattern_t *pattern;
+		MurrineRGB lower;
+		murrine_shade (fill, 0.95, &lower);
+		pattern = cairo_pattern_create_linear (0, 0, 0, height);
+		cairo_pattern_add_color_stop_rgb (pattern, 0.0, fill->r, fill->g, fill->b);
+		cairo_pattern_add_color_stop_rgb (pattern, 1.0, lower.r, lower.g, lower.b);
+		cairo_set_source (cr, pattern);
+		cairo_fill (cr);
+		cairo_pattern_destroy (pattern);
+	}
+	else /* Flat toolbar */
+	{
+		murrine_set_color_rgb (cr, fill);
+		cairo_fill (cr);
+		/* Draw highlight */
+		if (!toolbar->topmost)
+		{
+			cairo_move_to         (cr, 0, 0.5);
+			cairo_line_to         (cr, width, 0.5);
+			murrine_set_color_rgb (cr, top);
+			cairo_stroke          (cr);
+		}
+	}
+#endif
+
+	/* Draw shadow */
+	murrine_set_color_rgb (cr, dark);
+	cairo_move_to         (cr, 0, height-0.5);
+	cairo_line_to         (cr, width, height-0.5);
+	cairo_stroke          (cr);
 }
 
 static void
@@ -1207,40 +1179,12 @@ murrine_draw_list_view_header (cairo_t *cr,
 	/* Effects */
 	if (header->style > 0)
 	{
-		MurrineRGB highlight_header;
-
-		murrine_shade (fill, widget->highlight_ratio, &highlight_header);
 		/* Glassy header */
 		if (header->style == 1)
 		{
 			cairo_rectangle (cr, 0, 0, width, height);
-			murrine_set_gradient (cr, fill, widget->mrn_gradient, 0, 0, 0, height-1, widget->mrn_gradient.gradients, FALSE);
-			/* Glass effect */
-			if (widget->glazestyle > 0)
-			{
-				widget->glazestyle == 2 ? cairo_fill_preserve (cr) : cairo_fill (cr);
-				if (widget->glazestyle < 3)
-					murrine_draw_curved_highlight (cr, 0, width, height);
-				else
-					murrine_draw_curved_highlight_top (cr, 0, width, height);
-			}
-			else
-			{
-				cairo_fill (cr);
-				murrine_draw_flat_highlight (cr, 0 , 0 , width, height);
-			}
 
-			murrine_set_gradient (cr, &highlight_header, widget->mrn_gradient, 0, 0, 0, height-1, widget->mrn_gradient.gradients, TRUE);
-			cairo_fill (cr);
-
-			if (widget->glazestyle == 4)
-			{
-				murrine_draw_curved_highlight_bottom (cr, 0, width, height);
-				MurrineRGB shadow;
-				murrine_shade (fill, 1.0/widget->highlight_ratio, &shadow);
-				murrine_set_gradient (cr, &shadow, widget->mrn_gradient, 0, 0, 0, height-1, widget->mrn_gradient.gradients, TRUE);
-				cairo_fill (cr);
-			}
+			murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->mrn_gradient, widget, 0, 0, width, height-1);
 
 			if (widget->glazestyle == 2)
 			{
@@ -1306,96 +1250,6 @@ murrine_draw_list_view_header (cairo_t *cr,
 	}
 }
 
-/* We can't draw transparent things here, since it will be called on the same
- * surface multiple times, when placed on a handlebox_bin or dockitem_bin */
-static void
-murrine_draw_toolbar (cairo_t *cr,
-                      const MurrineColors    *colors,
-                      const WidgetParameters *widget,
-                      const ToolbarParameters *toolbar,
-                      int x, int y, int width, int height)
-{
-	const MurrineRGB *dark = &colors->shade[3];
-	const MurrineRGB *fill = &colors->bg[0];
-	const MurrineRGB *top  = &colors->shade[0];
-
-	cairo_set_line_width (cr, 1.0);
-	cairo_translate      (cr, x, y);
-	cairo_rectangle (cr, 0, 0, width, height);
-
-#ifdef HAVE_MACMENU
-	murrine_set_color_rgb (cr, fill);
-	cairo_fill (cr);
-#else
-	/* Glass toolbar */
-	if (toolbar->style == 1)
-	{
-		MurrineRGB highlight;
-
-		murrine_shade (fill, widget->highlight_ratio, &highlight);
-
-		murrine_set_gradient (cr, fill, widget->mrn_gradient, 0, 0, 0, height, widget->mrn_gradient.gradients, FALSE);
-		/* Glass effect */
-		if (widget->glazestyle > 0)
-		{
-			widget->glazestyle == 2 ? cairo_fill_preserve (cr) : cairo_fill (cr);
-			if (widget->glazestyle < 3)
-				murrine_draw_curved_highlight (cr, 0, width, height);
-			else
-				murrine_draw_curved_highlight_top (cr, 0, width, height);
-		}
-		else
-		{
-			cairo_fill (cr);
-			murrine_draw_flat_highlight (cr, 0, 0, width, height);
-		}
-
-		murrine_set_gradient (cr, &highlight, widget->mrn_gradient, 0, 0, 0, height, widget->mrn_gradient.gradients, TRUE);
-		cairo_fill (cr);
-
-		if (widget->glazestyle == 4)
-		{
-			murrine_draw_curved_highlight_bottom (cr, 0, width, height);
-			MurrineRGB shadow;
-			murrine_shade (fill, 1.0/widget->highlight_ratio, &shadow);
-			murrine_set_color_rgb (cr, &shadow);
-			cairo_fill (cr);
-		}
-	}
-	else if (toolbar->style == 2)
-	{
-		cairo_pattern_t *pattern;
-		MurrineRGB lower;
-		murrine_shade (fill, 0.95, &lower);
-		pattern = cairo_pattern_create_linear (0, 0, 0, height);
-		cairo_pattern_add_color_stop_rgb (pattern, 0.0, fill->r, fill->g, fill->b);
-		cairo_pattern_add_color_stop_rgb (pattern, 1.0, lower.r, lower.g, lower.b);
-		cairo_set_source (cr, pattern);
-		cairo_fill (cr);
-		cairo_pattern_destroy (pattern);
-	}
-	else /* Flat toolbar */
-	{
-		murrine_set_color_rgb (cr, fill);
-		cairo_fill (cr);
-		/* Draw highlight */
-		if (!toolbar->topmost)
-		{
-			cairo_move_to         (cr, 0, 0.5);
-			cairo_line_to         (cr, width, 0.5);
-			murrine_set_color_rgb (cr, top);
-			cairo_stroke          (cr);
-		}
-	}
-#endif
-
-	/* Draw shadow */
-	murrine_set_color_rgb (cr, dark);
-	cairo_move_to         (cr, 0, height-0.5);
-	cairo_line_to         (cr, width, height-0.5);
-	cairo_stroke          (cr);
-}
-
 static void
 murrine_draw_menuitem (cairo_t *cr,
                        const MurrineColors    *colors,
@@ -1405,8 +1259,6 @@ murrine_draw_menuitem (cairo_t *cr,
 {
 	const MurrineRGB *fill   = &colors->spot[1];
 	const MurrineRGB *border = &colors->spot[2];
-	MurrineRGB highlight;
-	murrine_shade (fill, widget->highlight_ratio, &highlight);
 
 	cairo_translate      (cr, x, y);
 	cairo_set_line_width (cr, 1.0);
@@ -1442,34 +1294,15 @@ murrine_draw_menuitem (cairo_t *cr,
 	{
 		if (widget->roundness > 1)
 			cairo_clip_preserve (cr);
-		/* Glass effect */
-		if (widget->glazestyle > 0)
-		{
-			widget->glazestyle == 2 ? cairo_fill_preserve (cr) : cairo_fill (cr);
-			if (widget->glazestyle < 3)
-				murrine_draw_curved_highlight (cr, 0, width, height);
-			else
-				murrine_draw_curved_highlight_top (cr, 0, width, height);
-		}
-		else
-		{
-			cairo_fill (cr);
-			murrine_draw_flat_highlight (cr, 0, 0, width, height);
-		}
-		murrine_set_gradient (cr, &highlight, widget->mrn_gradient, 0, 0, 0, height, widget->mrn_gradient.gradients, TRUE);
-		cairo_fill (cr);
 
-		if (widget->glazestyle == 4)
-		{
-			murrine_draw_curved_highlight_bottom (cr, 0, width, height);
-			MurrineRGB shadow;
-			murrine_shade (&colors->spot[1], 1.0/widget->highlight_ratio, &shadow);
-			murrine_set_gradient (cr, &shadow, widget->mrn_gradient, 0, 0, 0, height, widget->mrn_gradient.gradients, TRUE);
-			cairo_fill (cr);
-		}
+		murrine_draw_glaze (cr, &colors->spot[1], widget->highlight_ratio, widget->mrn_gradient, widget, 0, 0, width, height);
 
 		if (widget->glazestyle == 2)
 		{
+			MurrineRGB highlight;
+
+			murrine_shade (fill, widget->highlight_ratio, &highlight);
+
 			murrine_draw_lightborder (cr, &highlight, fill, widget->mrn_gradient,
 			                          1.5, 1.5, width-3, height-3,
 			                          widget->mrn_gradient.gradients, TRUE,
@@ -1536,10 +1369,9 @@ murrine_draw_scrollbar_stepper (cairo_t *cr,
 {
 	const MurrineRGB *fill  = &colors->bg[widget->state_type];
 	MurrineRGB border_normal;
-	MurrineRGB highlight;
+
 
 	murrine_shade (&colors->shade[6], 0.95, &border_normal);
-	murrine_shade (fill, widget->highlight_ratio, &highlight);
 
 	if (!scrollbar->horizontal)
 		murrine_exchange_axis (cr, &x, &y, &width, &height);
@@ -1552,45 +1384,19 @@ murrine_draw_scrollbar_stepper (cairo_t *cr,
 
 	/* Draw the bg */
 	murrine_rounded_rectangle_closed (cr, 1, 1, width-2, height-2, widget->roundness, widget->corners);
-	murrine_set_gradient (cr, fill, widget->mrn_gradient, 1, 1, 0, height-2, widget->mrn_gradient.gradients, FALSE);
 
 	cairo_save (cr);
 
-	int curve_pos = 1;
-	if (widget->glazestyle != 4)
-		curve_pos = 2;
-	/* Draw the glass effect */
-	if (widget->glazestyle > 0)
-	{
-		cairo_set_fill_rule (cr, CAIRO_FILL_RULE_EVEN_ODD);
-		widget->glazestyle == 2 ? cairo_fill_preserve (cr) : cairo_fill (cr);
-		if (widget->glazestyle < 3)
-			murrine_draw_curved_highlight (cr, curve_pos, width, height);
-		else
-			murrine_draw_curved_highlight_top (cr, curve_pos, width, height);
-	}
-	else
-	{
-		cairo_fill (cr);
-		murrine_draw_flat_highlight (cr, 1, 1, width-2, height-2);
-	}
-
-	murrine_set_gradient (cr, &highlight, widget->mrn_gradient, 1, 1, 0, height-2, widget->mrn_gradient.gradients, TRUE);
-	cairo_fill (cr);
-
-	if (widget->glazestyle == 4)
-	{
-		murrine_draw_curved_highlight_bottom (cr, curve_pos, width, height);
-		MurrineRGB shadow;
-		murrine_shade (fill, 1.0/widget->highlight_ratio, &shadow);
-		murrine_set_gradient (cr, &shadow, widget->mrn_gradient, 1, 1, 0, height-2, widget->mrn_gradient.gradients, TRUE);
-		cairo_fill (cr);
-	}
+	murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->mrn_gradient, widget, 1, 1, width-2, height-2);
 
 	/* Draw the white inner border */
 	if (widget->glazestyle != 4)
 	{
+		MurrineRGB highlight;
+
+		murrine_shade (fill, widget->highlight_ratio, &highlight);
 		murrine_shade (fill, widget->lightborder_ratio*widget->highlight_ratio, &highlight);
+
 		murrine_draw_lightborder (cr, &highlight, fill, widget->mrn_gradient,
 		                          1.5, 1.5, width-3, height-3,
 		                          widget->mrn_gradient.gradients, scrollbar->horizontal,
@@ -1640,14 +1446,13 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
 	/* Set colors */
 	MurrineRGB fill = scrollbar->has_color ? scrollbar->color : colors->bg[0];
 	MurrineRGB border;
-	MurrineRGB highlight;
+
 
 	murrine_shade (&colors->shade[6], 0.95, &border);
 
 	if (widget->prelight)
 		murrine_shade (&fill, 1.06, &fill);
 
-	murrine_shade (&fill, widget->highlight_ratio, &highlight);
 	/* Draw the border */
 	murrine_mix_color (&border, &fill, 0.4, &border);
 
@@ -1668,38 +1473,16 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
 	cairo_stroke (cr);
 
 	cairo_rectangle (cr, 1, 1, width-2, height-2);
-	murrine_set_gradient (cr, &fill, widget->mrn_gradient, 1, 1, 0, height-2, widget->mrn_gradient.gradients, FALSE);
 
-	/* Draw the glass effect */
-	if (widget->glazestyle > 0)
-	{
-		widget->glazestyle == 2 ? cairo_fill_preserve (cr) : cairo_fill (cr);
-		if (widget->glazestyle < 3)
-			murrine_draw_curved_highlight (cr, 1, width, height);
-		else
-			murrine_draw_curved_highlight_top (cr, 1, width, height);
-	}
-	else
-	{
-		cairo_fill (cr);
-		murrine_draw_flat_highlight (cr, 1, 1, width-2, height-2);
-	}
-
-	murrine_set_gradient (cr, &highlight, widget->mrn_gradient, 1, 1, 0, height-2, widget->mrn_gradient.gradients, TRUE);
-	cairo_fill (cr);
-
-	if (widget->glazestyle == 4)
-	{
-		murrine_draw_curved_highlight_bottom (cr, 1, width, height);
-		MurrineRGB shadow;
-		murrine_shade (&fill, 1.0/widget->highlight_ratio, &shadow);
-		murrine_set_color_rgb (cr, &shadow);
-		cairo_fill (cr);
-	}
+	murrine_draw_glaze (cr, &fill, widget->highlight_ratio, widget->mrn_gradient, widget, 1, 1, width-2, height-2);
 
 	if (widget->glazestyle != 4)
 	{
+		MurrineRGB highlight;
+
+		murrine_shade (&fill, widget->highlight_ratio, &highlight);
 		murrine_shade (&fill, widget->lightborder_ratio*widget->highlight_ratio, &highlight);
+
 		murrine_draw_lightborder (cr, &highlight, &fill, widget->mrn_gradient,
 		                          1.5, 1.5, width-3, height-3,
 		                          widget->mrn_gradient.gradients, TRUE,
@@ -1801,7 +1584,6 @@ murrine_draw_selected_cell (cairo_t *cr,
 	MurrineRGB border;
 
 	cairo_save (cr);
-
 	cairo_translate (cr, x, y);
 
 	murrine_set_gradient (cr, &fill, widget->mrn_gradient, 0, 0, 0, height, widget->mrn_gradient.gradients, FALSE);
@@ -1810,12 +1592,11 @@ murrine_draw_selected_cell (cairo_t *cr,
 
 	murrine_shade (&fill, (!widget->mrn_gradient.gradients ? 0.9 : 0.95), &border);
 
+	murrine_set_color_rgb (cr, &border);
 	cairo_move_to  (cr, 0, 0.5);
 	cairo_rel_line_to (cr, width, 0);
 	cairo_move_to (cr, 0, height-0.5);
 	cairo_rel_line_to (cr, width, 0);
-
-	murrine_set_color_rgb (cr, &border);
 	cairo_stroke (cr);
 
 	cairo_restore (cr);
@@ -1832,15 +1613,15 @@ murrine_draw_statusbar (cairo_t *cr,
 
 	cairo_set_line_width  (cr, 1);
 	cairo_translate       (cr, x, y+0.5);
+
+	murrine_set_color_rgb (cr, dark);
 	cairo_move_to         (cr, 0, 0);
 	cairo_line_to         (cr, width, 0);
-	murrine_set_color_rgb (cr, dark);
 	cairo_stroke          (cr);
 
-	cairo_translate       (cr, 0, 1);
-	cairo_move_to         (cr, 0, 0);
-	cairo_line_to         (cr, width, 0);
 	murrine_set_color_rgb (cr, highlight);
+	cairo_move_to         (cr, 0, 1);
+	cairo_line_to         (cr, width, 1);
 	cairo_stroke          (cr);
 }
 

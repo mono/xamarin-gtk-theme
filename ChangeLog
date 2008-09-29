@@ -1,3 +1,19 @@
+2008-09-30  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/cairo-support.c (murrine_draw_glaze):
+	* src/murrine_draw.c (murrine_draw_inset), (murrine_draw_button),
+	(murrine_draw_menubar), (murrine_draw_toolbar),
+	(murrine_get_frame_gap_clip), (murrine_draw_list_view_header),
+	(murrine_draw_menuitem), (murrine_draw_scrollbar_trough),
+	(murrine_draw_scrollbar_stepper), (murrine_draw_scrollbar_slider):
+	* src/murrine_draw_rgba.c (murrine_draw_inset),
+	(murrine_rgba_draw_button), (murrine_rgba_draw_menubar),
+	(murrine_rgba_draw_toolbar), (murrine_get_frame_gap_clip),
+	(murrine_rgba_draw_scrollbar_trough),
+	(murrine_rgba_draw_scrollbar_stepper),
+	(murrine_rgba_draw_scrollbar_slider):
+	Using switch instead of "else if"
+
 2008-09-29  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/murrine_draw.c (murrine_draw_scrollbar_stepper):

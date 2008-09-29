@@ -513,7 +513,6 @@ murrine_draw_glaze (cairo_t *cr,
 			murrine_draw_flat_highlight (cr, x, y, width, height);
 			break;
 		case 1:
-			
 			cairo_fill (cr);
 			murrine_draw_curved_highlight (cr, x, y, width, height);
 			break;

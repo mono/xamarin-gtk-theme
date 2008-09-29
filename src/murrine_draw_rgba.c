@@ -189,7 +189,7 @@ murrine_rgba_draw_button (cairo_t *cr,
 		murrine_shade (&border, 0.8, &border);
 
 	/* Draw the bg */
-	murrine_rounded_rectangle_closed (cr, xos+1, yos+1, width-(xos*2)-2, height-(yos*2)-2, widget->roundness, widget->corners);
+	murrine_rounded_rectangle_closed (cr, xos+1, yos+1, width-(xos*2)-2, height-(yos*2)-2, widget->roundness-1, widget->corners);
 
 	cairo_save (cr);
 	cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
@@ -1109,7 +1109,7 @@ murrine_rgba_draw_scrollbar_stepper (cairo_t *cr,
 	cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
 
 	/* Draw the bg */
-	murrine_rounded_rectangle_closed (cr, 1, 1, width-2, height-2, widget->roundness, widget->corners);
+	murrine_rounded_rectangle_closed (cr, 1, 1, width-2, height-2, widget->roundness-1, widget->corners);
 
 	cairo_save (cr);
 

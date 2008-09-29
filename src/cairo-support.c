@@ -541,40 +541,6 @@ murrine_draw_glaze (cairo_t *cr,
 	}
 }
 
-/* Old one */
-/*
-static void
-murrine_draw_glaze (cairo_t *cr,
-                    const WidgetParameters *widget,
-                    int x, int y, int width, int height)
-{
-	switch (widget->glazestyle)
-	{
-		default:
-		case 0:
-			cairo_fill (cr);
-			murrine_draw_flat_highlight (cr, x, y, width, height);
-			break;
-		case 1:
-			cairo_set_fill_rule (cr, CAIRO_FILL_RULE_EVEN_ODD);
-			cairo_fill (cr);
-			murrine_draw_curved_highlight (cr, x, y, width, height);
-			break;
-		case 2:
-			cairo_set_fill_rule (cr, CAIRO_FILL_RULE_EVEN_ODD);
-			cairo_fill_preserve (cr);
-			murrine_draw_curved_highlight (cr, x, y, width, height);
-			break;
-		case 3:
-		case 4:
-			cairo_set_fill_rule (cr, CAIRO_FILL_RULE_EVEN_ODD);
-			cairo_fill (cr);
-			murrine_draw_curved_highlight_top (cr, x, y, width, height);
-			break;
-	}
-}
-*/
-
 void
 murrine_draw_lightborder (cairo_t *cr,
                           const MurrineRGB *highlight_color,

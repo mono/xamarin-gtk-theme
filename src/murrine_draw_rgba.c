@@ -147,11 +147,9 @@ murrine_rgba_draw_button (cairo_t *cr,
 {
 	double xos = widget->xthickness > 2 ? 1 : 0;
 	double yos = widget->ythickness > 2 ? 1 : 0;
-	MurrineRGB fill = colors->bg[widget->state_type];
-	MurrineRGB border_disabled = colors->shade[6];
-	MurrineRGB border_normal;
-	MurrineRGB highlight;
 	double custom_highlight_ratio = widget->highlight_ratio;
+	MurrineRGB fill = colors->bg[widget->state_type];
+	MurrineRGB border = colors->shade[!widget->disabled ? 8 : 6];
 	MurrineGradients mrn_gradient_custom = widget->mrn_gradient;
 
 	if (widget->disabled)
@@ -163,8 +161,8 @@ murrine_rgba_draw_button (cairo_t *cr,
 	if (widget->is_default && !widget->disabled)
 		murrine_mix_color (&fill, &colors->spot[1], 0.2, &fill);
 
-	murrine_shade (&colors->shade[8], 0.95, &border_normal);
-	murrine_shade (&fill, custom_highlight_ratio, &highlight);
+	if (!widget->disabled)
+		murrine_shade (&colors->shade[8], 0.95, &border);
 
 	if (!horizontal)
 		murrine_exchange_axis (cr, &x, &y, &width, &height);
@@ -175,7 +173,7 @@ murrine_rgba_draw_button (cairo_t *cr,
 	if (!widget->active && !widget->disabled && widget->reliefstyle > 1)
 	{
 		murrine_rounded_rectangle (cr, xos, yos, width-(xos*2), height-(yos*2), widget->roundness, widget->corners);
-		murrine_set_color_rgba (cr, widget->disabled ? &border_disabled : &border_normal, 0.16);
+		murrine_set_color_rgba (cr, &border, 0.16);
 		cairo_stroke (cr);
 	}
 	else if (widget->reliefstyle != 0)
@@ -183,15 +181,12 @@ murrine_rgba_draw_button (cairo_t *cr,
 		                    width-(xos*2)+1, height-(yos*2)+1,
 		                    widget->roundness+1, widget->corners);
 
-	murrine_mix_color (widget->disabled ? &border_disabled : &border_normal , &widget->parentbg, 0.2,
-	                   widget->disabled ? &border_disabled : &border_normal);
-
-	murrine_mix_color (widget->disabled ? &border_disabled : &border_normal , &fill, 0.25,
-	                   widget->disabled ? &border_disabled : &border_normal);
+	murrine_mix_color (&border, &widget->parentbg, 0.2, &border);
+	murrine_mix_color (&border, &fill, 0.25, &border);
 
 	/* Default button */
 	if (widget->is_default)
-		murrine_shade (&border_normal, 0.8, &border_normal);
+		murrine_shade (&border, 0.8, &border);
 
 	/* Draw the bg */
 	murrine_rounded_rectangle_closed (cr, xos+1, yos+1, width-(xos*2)-2, height-(yos*2)-2, widget->roundness, widget->corners);
@@ -209,7 +204,11 @@ murrine_rgba_draw_button (cairo_t *cr,
 	/* Draw the white inner border */
 	if (widget->glazestyle != 4 && !widget->active)
 	{
+		MurrineRGB highlight;
+
+		murrine_shade (&fill, custom_highlight_ratio, &highlight);
 		murrine_shade (&fill, widget->lightborder_ratio*custom_highlight_ratio, &highlight);
+
 		if (horizontal)
 		{
 			murrine_draw_lightborder (cr, &highlight, &fill, mrn_gradient_custom,
@@ -267,7 +266,7 @@ murrine_rgba_draw_button (cairo_t *cr,
 	}
 
 	/* Draw the border */
-	murrine_set_color_rgb (cr, widget->disabled ? &border_disabled : &border_normal);
+	murrine_set_color_rgb (cr, &border);
 	murrine_rounded_rectangle (cr, xos+0.5, yos+0.5, width-(xos*2)-1, height-(yos*2)-1, widget->roundness, widget->corners);
 	cairo_stroke (cr);
 }

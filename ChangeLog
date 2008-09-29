@@ -1,5 +1,12 @@
 2008-09-29  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/cairo-support.c:
+	* src/murrine_draw.c (murrine_draw_button):
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_button):
+	Button's code simplified
+
+2008-09-29  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* configure.ac:
 	* src/murrine_draw.c (murrine_draw_menubar),
 	(murrine_draw_toolbar), (murrine_draw_separator):

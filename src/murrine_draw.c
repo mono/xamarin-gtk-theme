@@ -197,35 +197,12 @@ murrine_draw_button (cairo_t *cr,
 	if (widget->roundness > 1)
 		cairo_clip_preserve (cr);
 
-	murrine_draw_glaze (cr, &fill, custom_highlight_ratio, mrn_gradient_custom, widget, xos+1, yos+1, width-(xos*2)-2, height-(yos*2)-2);
+	murrine_draw_glaze (cr, &fill, custom_highlight_ratio,
+	                    !widget->active ? widget->lightborder_ratio : 1.0,
+	                    mrn_gradient_custom, widget,
+	                    xos+1, yos+1, width-(xos*2)-2, height-(yos*2)-2,
+	                    widget->roundness, widget->corners, horizontal);
 
-	/* Draw the white inner border */
-	if (widget->glazestyle != 4 && !widget->active)
-	{
-		MurrineRGB highlight;
-
-		murrine_shade (&fill, custom_highlight_ratio, &highlight);
-		murrine_shade (&fill, widget->lightborder_ratio*custom_highlight_ratio, &highlight);
-
-		if (horizontal)
-		{
-			murrine_draw_lightborder (cr, &highlight, &fill, mrn_gradient_custom,
-			                          xos+1.5, yos+1.5, width-(xos*2)-3, height-(yos*2)-3,
-			                          widget->mrn_gradient.gradients, horizontal,
-			                          widget->glazestyle, widget->lightborderstyle,
-			                          widget->roundness, widget->corners);
-		}
-		else
-		{
-			murrine_exchange_axis (cr, &x, &y, &width, &height);
-			murrine_draw_lightborder (cr, &highlight, &fill, mrn_gradient_custom,
-			                          xos+1.5, yos+1.5, width-(xos*2)-3, height-(yos*2)-3,
-			                          widget->mrn_gradient.gradients, horizontal,
-			                          widget->glazestyle, widget->lightborderstyle,
-			                          widget->roundness, widget->corners);
-			murrine_exchange_axis (cr, &x, &y, &width, &height);
-		}
-	}
 	cairo_restore (cr);
 
 	/* Draw pressed button shadow */
@@ -551,22 +528,12 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 	x_step = (((float)stroke_width/10)*offset);
 	cairo_set_line_width (cr, 1.0);
 	cairo_save (cr);
-	cairo_rectangle (cr, 1, 0, width-2, height);
+	cairo_rectangle (cr, 2, 1, width-4, height-2);
 
-	murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->mrn_gradient, widget, 1, 0, width-2, height);
+	murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->lightborder_ratio,
+	                    widget->mrn_gradient, widget, 2, 1, width-4, height-2,
+	                    widget->roundness, widget->corners, TRUE);
 
-	if (widget->glazestyle != 4)
-	{
-		MurrineRGB highlight;
-
-		murrine_shade (fill, widget->highlight_ratio, &highlight);
-		murrine_shade (fill, widget->highlight_ratio*widget->lightborder_ratio, &highlight);
-
-		murrine_draw_lightborder (cr, &highlight, fill, widget->mrn_gradient,
-		                          2.5, 1.5, width-5, height-3,
-		                          widget->mrn_gradient.gradients, TRUE,
-		                          widget->glazestyle, widget->lightborderstyle, 0, MRN_CORNER_NONE);
-	}
 	/* Draw strokes */
 	while (tile_pos <= width+x_step-2)
 	{
@@ -631,19 +598,10 @@ murrine_draw_menubar (cairo_t *cr,
 
 	if (menubarstyle == 1) /* Glass menubar */
 	{
-		murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->mrn_gradient, widget, 0, 0, width, height);
-
-		if (widget->glazestyle == 2)
-		{
-			MurrineRGB highlight;
-			murrine_shade (fill, widget->highlight_ratio, &highlight);
-
-			murrine_draw_lightborder (cr, &highlight, fill, widget->mrn_gradient,
-			                          1.5, 1.5, width-3, height-3,
-			                          widget->mrn_gradient.gradients, TRUE,
-			                          widget->glazestyle, widget->lightborderstyle,
-			                          widget->roundness, widget->corners);
-		}
+		int os = (widget->glazestyle == 2) ? 1 : 0;
+		murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->glazestyle == 2 ? widget->lightborder_ratio : 1.0,
+		                    widget->mrn_gradient, widget, os, os, width-os*2, height-os*2,
+		                    widget->roundness, widget->corners, TRUE);
 	}
 	else if (menubarstyle == 2) /* Gradient menubar */
 	{
@@ -725,7 +683,10 @@ murrine_draw_toolbar (cairo_t *cr,
 	/* Glass toolbar */
 	if (toolbar->style == 1)
 	{
-		murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->mrn_gradient, widget, 0, 0, width, height);
+		int os = (widget->glazestyle == 2) ? 1 : 0;
+		murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->glazestyle == 2 ? widget->lightborder_ratio : 1.0,
+		                    widget->mrn_gradient, widget, os, os, width-os*2, height-os*2,
+		                    widget->roundness, widget->corners, TRUE);
 	}
 	else if (toolbar->style == 2)
 	{
@@ -755,8 +716,13 @@ murrine_draw_toolbar (cairo_t *cr,
 
 	/* Draw shadow */
 	murrine_set_color_rgb (cr, dark);
-	cairo_move_to         (cr, 0, height-0.5);
-	cairo_line_to         (cr, width, height-0.5);
+	if (toolbar->style == 1 && widget->glazestyle == 2)
+		cairo_rectangle (cr, 0.5, 0.5, width-1, height-1);
+	else
+	{
+		cairo_move_to         (cr, 0, height-0.5);
+		cairo_line_to         (cr, width, height-0.5);
+	}
 	cairo_stroke          (cr);
 }
 
@@ -1171,16 +1137,9 @@ murrine_draw_list_view_header (cairo_t *cr,
 		{
 			cairo_rectangle (cr, 0, 0, width, height);
 
-			murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->mrn_gradient, widget, 0, 0, width, height-1);
-
-			if (widget->glazestyle == 2)
-			{
-				murrine_draw_lightborder (cr, &highlight, fill, widget->mrn_gradient,
-				                              0.5, 0.5, width-2, height-2,
-				                              widget->mrn_gradient.gradients, TRUE,
-				                              widget->glazestyle, widget->lightborderstyle,
-				                              widget->roundness, widget->corners);
-			}
+			murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->glazestyle == 2 ? widget->lightborder_ratio : 1.0,
+			                    widget->mrn_gradient, widget, 0, 0, width, height-1,
+			                    widget->roundness, widget->corners, TRUE);
 		}
 		/* Raised */
 		else if (header->style == 2)
@@ -1250,11 +1209,11 @@ murrine_draw_menuitem (cairo_t *cr,
 	cairo_translate      (cr, x, y);
 	cairo_set_line_width (cr, 1.0);
 	murrine_rounded_rectangle_closed (cr, 0, 0, width, height, widget->roundness, widget->corners);
-	murrine_set_gradient (cr, fill, widget->mrn_gradient, 0, 0, 0, height, widget->mrn_gradient.gradients, FALSE);
 
 	/* Striped */
 	if (menuitemstyle == 2)
 	{
+		murrine_set_gradient (cr, fill, widget->mrn_gradient, 0, 0, 0, height, widget->mrn_gradient.gradients, FALSE);
 		cairo_fill (cr);
 		double tile_pos = 0;
 		double stroke_width;
@@ -1282,23 +1241,13 @@ murrine_draw_menuitem (cairo_t *cr,
 		if (widget->roundness > 1)
 			cairo_clip_preserve (cr);
 
-		murrine_draw_glaze (cr, &colors->spot[1], widget->highlight_ratio, widget->mrn_gradient, widget, 0, 0, width, height);
-
-		if (widget->glazestyle == 2)
-		{
-			MurrineRGB highlight;
-
-			murrine_shade (fill, widget->highlight_ratio, &highlight);
-
-			murrine_draw_lightborder (cr, &highlight, fill, widget->mrn_gradient,
-			                          1.5, 1.5, width-3, height-3,
-			                          widget->mrn_gradient.gradients, TRUE,
-			                          widget->glazestyle, widget->lightborderstyle,
-			                          widget->roundness, widget->corners);
-		}
+		murrine_draw_glaze (cr, &colors->spot[1], widget->highlight_ratio, widget->glazestyle == 2 ? widget->lightborder_ratio : 1.0,
+		                    widget->mrn_gradient, widget, 1, 1, width-2, height-2,
+		                    widget->roundness, widget->corners, TRUE);
 	}
 	else
 	{
+		murrine_set_gradient (cr, fill, widget->mrn_gradient, 0, 0, 0, height, widget->mrn_gradient.gradients, FALSE);
 		cairo_fill (cr);
 
 		murrine_set_color_rgba (cr, border, 0.15);
@@ -1355,16 +1304,16 @@ murrine_draw_scrollbar_stepper (cairo_t *cr,
                                 int x, int y, int width, int height)
 {
 	const MurrineRGB *fill  = &colors->bg[widget->state_type];
-	MurrineRGB border_normal;
+	MurrineRGB border;
 
 
-	murrine_shade (&colors->shade[6], 0.95, &border_normal);
+	murrine_shade (&colors->shade[6], 0.95, &border);
 
 	if (!scrollbar->horizontal)
 		murrine_exchange_axis (cr, &x, &y, &width, &height);
 
 	/* Border color */
-	murrine_mix_color (&border_normal, fill, 0.4, &border_normal);
+	murrine_mix_color (&border, fill, 0.4, &border);
 
 	cairo_translate (cr, x, y);
 	cairo_set_line_width (cr, 1.0);
@@ -1374,27 +1323,14 @@ murrine_draw_scrollbar_stepper (cairo_t *cr,
 
 	cairo_save (cr);
 
-	murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->mrn_gradient, widget, 1, 1, width-2, height-2);
-
-	/* Draw the white inner border */
-	if (widget->glazestyle != 4)
-	{
-		MurrineRGB highlight;
-
-		murrine_shade (fill, widget->highlight_ratio, &highlight);
-		murrine_shade (fill, widget->lightborder_ratio*widget->highlight_ratio, &highlight);
-
-		murrine_draw_lightborder (cr, &highlight, fill, widget->mrn_gradient,
-		                          1.5, 1.5, width-3, height-3,
-		                          widget->mrn_gradient.gradients, scrollbar->horizontal,
-		                          widget->glazestyle, widget->lightborderstyle,
-		                          widget->roundness, widget->corners);
-	}
+	murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->lightborder_ratio,
+	                    widget->mrn_gradient, widget, 1, 1, width-2, height-2,
+	                    widget->roundness, widget->corners, TRUE);
 
 	cairo_reset_clip (cr);
 	cairo_restore (cr);
 
-	murrine_set_color_rgb (cr, &border_normal);
+	murrine_set_color_rgb (cr, &border);
 	murrine_rounded_rectangle (cr, 0.5, 0.5, width-1, height-1, widget->roundness, widget->corners);
 	cairo_stroke (cr);
 }
@@ -1434,7 +1370,6 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
 	MurrineRGB fill = scrollbar->has_color ? scrollbar->color : colors->bg[0];
 	MurrineRGB border;
 
-
 	murrine_shade (&colors->shade[6], 0.95, &border);
 
 	if (widget->prelight)
@@ -1461,21 +1396,9 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
 
 	cairo_rectangle (cr, 1, 1, width-2, height-2);
 
-	murrine_draw_glaze (cr, &fill, widget->highlight_ratio, widget->mrn_gradient, widget, 1, 1, width-2, height-2);
-
-	if (widget->glazestyle != 4)
-	{
-		MurrineRGB highlight;
-
-		murrine_shade (&fill, widget->highlight_ratio, &highlight);
-		murrine_shade (&fill, widget->lightborder_ratio*widget->highlight_ratio, &highlight);
-
-		murrine_draw_lightborder (cr, &highlight, &fill, widget->mrn_gradient,
-		                          1.5, 1.5, width-3, height-3,
-		                          widget->mrn_gradient.gradients, TRUE,
-		                          widget->glazestyle, widget->lightborderstyle,
-		                          0, MRN_CORNER_NONE);
-	}
+	murrine_draw_glaze (cr, &fill, widget->highlight_ratio, widget->lightborder_ratio,
+	                    widget->mrn_gradient, widget, 1, 1, width-2, height-2,
+	                    widget->roundness, widget->corners, TRUE);
 
 	/* Draw the options */
 	MurrineRGB style;

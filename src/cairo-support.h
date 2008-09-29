@@ -108,7 +108,9 @@ G_GNUC_INTERNAL void murrine_draw_curved_highlight_bottom (cairo_t *cr,
 G_GNUC_INTERNAL void murrine_draw_glaze (cairo_t *cr,
                                          const MurrineRGB *fill,
                                          double highlight_ratio,
+                                         double lightborder_ratio,
                                          MurrineGradients mrn_gradient,
                                          const WidgetParameters *widget,
-                                         int x, int y, int width, int height);
+                                         int x, int y, int width, int height,
+                                         int radius, uint8 corners, boolean horizontal);
 

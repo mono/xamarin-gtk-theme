@@ -494,14 +494,17 @@ void
 murrine_draw_glaze (cairo_t *cr,
                     const MurrineRGB *fill,
                     double highlight_ratio,
+                    double lightborder_ratio,
                     MurrineGradients mrn_gradient,
                     const WidgetParameters *widget,
-                    int x, int y, int width, int height)
+                    int x, int y, int width, int height,
+                    int radius, uint8 corners, boolean horizontal)
 {
 	MurrineRGB highlight;
 	murrine_shade (fill, highlight_ratio, &highlight);
 
 	murrine_set_gradient (cr, fill, mrn_gradient, x, y, 0, height, mrn_gradient.gradients, FALSE);
+	cairo_set_fill_rule (cr, CAIRO_FILL_RULE_EVEN_ODD);
 	switch (widget->glazestyle)
 	{
 		default:
@@ -510,18 +513,16 @@ murrine_draw_glaze (cairo_t *cr,
 			murrine_draw_flat_highlight (cr, x, y, width, height);
 			break;
 		case 1:
-			cairo_set_fill_rule (cr, CAIRO_FILL_RULE_EVEN_ODD);
+			
 			cairo_fill (cr);
 			murrine_draw_curved_highlight (cr, x, y, width, height);
 			break;
 		case 2:
-			cairo_set_fill_rule (cr, CAIRO_FILL_RULE_EVEN_ODD);
 			cairo_fill_preserve (cr);
 			murrine_draw_curved_highlight (cr, x, y, width, height);
 			break;
 		case 3:
 		case 4:
-			cairo_set_fill_rule (cr, CAIRO_FILL_RULE_EVEN_ODD);
 			cairo_fill (cr);
 			murrine_draw_curved_highlight_top (cr, x, y, width, height);
 			break;
@@ -538,6 +539,32 @@ murrine_draw_glaze (cairo_t *cr,
 		murrine_draw_curved_highlight_bottom (cr, x, y, width, height);
 		murrine_set_gradient (cr, &shadow, mrn_gradient, x, y, 0, height, mrn_gradient.gradients, TRUE);
 		cairo_fill (cr);
+	}
+	else if (lightborder_ratio != 1.0)
+	{
+		murrine_shade (fill, lightborder_ratio*highlight_ratio, &highlight);
+
+		if (mrn_gradient.use_rgba)
+			cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
+
+		if (horizontal)
+		{
+			murrine_draw_lightborder (cr, &highlight, fill, mrn_gradient,
+			                          x+0.5, y+0.5, width-1, height-1,
+			                          mrn_gradient.gradients, horizontal,
+			                          widget->glazestyle, widget->lightborderstyle,
+			                          radius, corners);
+		}
+		else
+		{
+			murrine_exchange_axis (cr, &x, &y, &width, &height);
+			murrine_draw_lightborder (cr, &highlight, fill, mrn_gradient,
+			                          x+0.5, y+0.5, width-1, height-1,
+			                          mrn_gradient.gradients, horizontal,
+			                          widget->glazestyle, widget->lightborderstyle,
+			                          radius, corners);
+			murrine_exchange_axis (cr, &x, &y, &width, &height);
+		}
 	}
 }
 

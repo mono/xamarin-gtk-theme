@@ -1,5 +1,11 @@
 2008-09-30  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/murrine_draw.c (murrine_draw_button):
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_button):
+	Fixes a bug when drawing inset on buttons with thickness < 2
+
+2008-09-30  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/cairo-support.c (murrine_pattern_add_color_stop_rgb),
 	(murrine_pattern_add_color_stop_rgba), (murrine_rounded_corner),
 	(clearlooks_rounded_rectangle), (murrine_draw_lightborder),

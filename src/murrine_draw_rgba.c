@@ -179,7 +179,7 @@ murrine_rgba_draw_button (cairo_t *cr,
 		murrine_set_color_rgba (cr, &border, 0.16);
 		cairo_stroke (cr);
 	}
-	else if (widget->reliefstyle != 0)
+	else if (widget->reliefstyle != 0 && xos >= 0.5 && yos >= 0.5)
 		murrine_draw_inset (cr, &widget->parentbg, xos-0.5, yos-0.5,
 		                    width-(xos*2)+1, height-(yos*2)+1,
 		                    widget->roundness+1, widget->corners);

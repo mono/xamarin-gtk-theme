@@ -220,16 +220,16 @@ murrine_draw_button (cairo_t *cr,
 
 		cairo_rectangle (cr, xos+1, yos+1, width-(xos*2)-2, 3);
 		pattern = cairo_pattern_create_linear (xos+1, yos+1, xos+1, yos+4);
-		cairo_pattern_add_color_stop_rgba (pattern, 0.0, shadow.r, shadow.g, shadow.b, 0.58);
-		cairo_pattern_add_color_stop_rgba (pattern, 1.0, shadow.r, shadow.g, shadow.b, 0.0);
+		murrine_pattern_add_color_stop_rgba (pattern, 0.0, &shadow, 0.58);
+		murrine_pattern_add_color_stop_rgba (pattern, 1.0, &shadow, 0.0);
 		cairo_set_source (cr, pattern);
 		cairo_fill (cr);
 		cairo_pattern_destroy (pattern);
 
 		cairo_rectangle (cr, xos+1, yos+1, 3, height-(yos*2)-2);
 		pattern = cairo_pattern_create_linear (xos+1, yos+1, xos+4, yos+1);
-		cairo_pattern_add_color_stop_rgba (pattern, 0.0, shadow.r, shadow.g, shadow.b, 0.58);
-		cairo_pattern_add_color_stop_rgba (pattern, 1.0, shadow.r, shadow.g, shadow.b, 0.0);
+		murrine_pattern_add_color_stop_rgba (pattern, 0.0, &shadow, 0.58);
+		murrine_pattern_add_color_stop_rgba (pattern, 1.0, &shadow, 0.0);
 		cairo_set_source (cr, pattern);
 		cairo_fill (cr);
 		cairo_pattern_destroy (pattern);
@@ -306,8 +306,8 @@ murrine_draw_spinbutton_down (cairo_t *cr,
 	cairo_rectangle (cr, 1, 1, width-4, height-4);
 
 	pattern = cairo_pattern_create_linear (0, 0, 0, height);
-	cairo_pattern_add_color_stop_rgb (pattern, 0.0, shadow.r, shadow.g, shadow.b);
-	cairo_pattern_add_color_stop_rgba (pattern, 1.0, shadow.r, shadow.g, shadow.b, 0.0);
+	murrine_pattern_add_color_stop_rgb (pattern, 0.0, &shadow);
+	murrine_pattern_add_color_stop_rgba (pattern, 1.0, &shadow, 0.0);
 	cairo_set_source (cr, pattern);
 	cairo_fill (cr);
 
@@ -465,8 +465,8 @@ murrine_draw_progressbar_trough (cairo_t *cr,
 		/* Top shadow */
 		cairo_rectangle (cr, x+1, y+1, width-2, 4);
 		pattern = cairo_pattern_create_linear (x, y, x, y+4);
-		cairo_pattern_add_color_stop_rgba (pattern, 0.0, shadow.r, shadow.g, shadow.b, 0.24);
-		cairo_pattern_add_color_stop_rgba (pattern, 1.0, shadow.r, shadow.g, shadow.b, 0.);
+		murrine_pattern_add_color_stop_rgba (pattern, 0.0, &shadow, 0.24);
+		murrine_pattern_add_color_stop_rgba (pattern, 1.0, &shadow, 0.);
 		cairo_set_source (cr, pattern);
 		cairo_fill (cr);
 		cairo_pattern_destroy (pattern);
@@ -474,8 +474,8 @@ murrine_draw_progressbar_trough (cairo_t *cr,
 		/* Left shadow */
 		cairo_rectangle (cr, x+1, y+1, 4, height-2);
 		pattern = cairo_pattern_create_linear (x, y, x+4, y);
-		cairo_pattern_add_color_stop_rgba (pattern, 0.0, shadow.r, shadow.g, shadow.b, 0.24);
-		cairo_pattern_add_color_stop_rgba (pattern, 1.0, shadow.r, shadow.g, shadow.b, 0.);
+		murrine_pattern_add_color_stop_rgba (pattern, 0.0, &shadow, 0.24);
+		murrine_pattern_add_color_stop_rgba (pattern, 1.0, &shadow, 0.);
 		cairo_set_source (cr, pattern);
 		cairo_fill (cr);
 		cairo_pattern_destroy (pattern);
@@ -616,8 +616,8 @@ murrine_draw_menubar (cairo_t *cr,
 			murrine_shade (fill, 0.95, &lower);
 
 			pattern = cairo_pattern_create_linear (0, 0, 0, height);
-			cairo_pattern_add_color_stop_rgba (pattern, 0.0, fill->r, fill->g, fill->b, alpha);
-			cairo_pattern_add_color_stop_rgba (pattern, 1.0, lower.r, lower.g, lower.b, alpha);
+			murrine_pattern_add_color_stop_rgba (pattern, 0.0, fill, alpha);
+			murrine_pattern_add_color_stop_rgba (pattern, 1.0, &lower, alpha);
 			cairo_set_source (cr, pattern);
 			cairo_fill (cr);
 			cairo_pattern_destroy (pattern);
@@ -632,8 +632,8 @@ murrine_draw_menubar (cairo_t *cr,
 			murrine_shade (fill, 1.1, &low);
 
 			pattern = cairo_pattern_create_linear (0, 0, 0, height);
-			cairo_pattern_add_color_stop_rgb (pattern, 0.0, top.r, top.g, top.b);
-			cairo_pattern_add_color_stop_rgb (pattern, 1.0, low.r, low.g, low.b);
+			murrine_pattern_add_color_stop_rgb (pattern, 0.0, &top);
+			murrine_pattern_add_color_stop_rgb (pattern, 1.0, &low);
 			cairo_set_source (cr, pattern);
 			cairo_fill (cr);
 			cairo_pattern_destroy (pattern);
@@ -713,8 +713,8 @@ murrine_draw_toolbar (cairo_t *cr,
 			MurrineRGB lower;
 			murrine_shade (fill, 0.95, &lower);
 			pattern = cairo_pattern_create_linear (0, 0, 0, height);
-			cairo_pattern_add_color_stop_rgb (pattern, 0.0, fill->r, fill->g, fill->b);
-			cairo_pattern_add_color_stop_rgb (pattern, 1.0, lower.r, lower.g, lower.b);
+			murrine_pattern_add_color_stop_rgb (pattern, 0.0, fill);
+			murrine_pattern_add_color_stop_rgb (pattern, 1.0, &lower);
 			cairo_set_source (cr, pattern);
 			cairo_fill (cr);
 			cairo_pattern_destroy (pattern);
@@ -932,10 +932,10 @@ murrine_draw_tab (cairo_t *cr,
 
 		murrine_rounded_rectangle_closed (cr, 0, 0, width-1, height-1, widget->roundness, widget->corners);
 
-		cairo_pattern_add_color_stop_rgb (pattern, 0.00, shade1.r, shade1.g, shade1.b);
-		cairo_pattern_add_color_stop_rgb (pattern, 0.45, shade2.r, shade2.g, shade2.b);
-		cairo_pattern_add_color_stop_rgb (pattern, 0.45, shade3.r, shade3.g, shade3.b);
-		cairo_pattern_add_color_stop_rgb (pattern, 1.00, shade4.r, shade4.g, shade4.b);
+		murrine_pattern_add_color_stop_rgb (pattern, 0.00, &shade1);
+		murrine_pattern_add_color_stop_rgb (pattern, 0.45, &shade2);
+		murrine_pattern_add_color_stop_rgb (pattern, 0.45, &shade3);
+		murrine_pattern_add_color_stop_rgb (pattern, 1.00, &shade4);
 		cairo_set_source (cr, pattern);
 		cairo_fill (cr);
 		cairo_pattern_destroy (pattern);
@@ -965,10 +965,10 @@ murrine_draw_tab (cairo_t *cr,
 
 		murrine_rounded_rectangle_closed (cr, 1, 1, width-3, height-3, widget->roundness, widget->corners);
 
-		cairo_pattern_add_color_stop_rgba (pattern, 0.00, shade1.r, shade1.g, shade1.b, 0.5);
-		cairo_pattern_add_color_stop_rgba (pattern, 0.45, shade2.r, shade2.g, shade2.b, 0.5);
-		cairo_pattern_add_color_stop_rgba (pattern, 0.45, shade3.r, shade3.g, shade3.b, 0.5);
-		cairo_pattern_add_color_stop_rgba (pattern, 1.00, shade4.r, shade4.g, shade4.b, 0.5);
+		murrine_pattern_add_color_stop_rgba (pattern, 0.00, &shade1, 0.5);
+		murrine_pattern_add_color_stop_rgba (pattern, 0.45, &shade2, 0.5);
+		murrine_pattern_add_color_stop_rgba (pattern, 0.45, &shade3, 0.5);
+		murrine_pattern_add_color_stop_rgba (pattern, 1.00, &shade4, 0.5);
 		cairo_set_source (cr, pattern);
 		cairo_stroke (cr);
 		cairo_pattern_destroy (pattern);
@@ -1003,10 +1003,10 @@ murrine_draw_tab (cairo_t *cr,
 
 		murrine_rounded_rectangle_closed (cr, 0, 0, width-1, height-1, widget->roundness, widget->corners);
 
-		cairo_pattern_add_color_stop_rgb (pattern, 0.00, shade1.r, shade1.g, shade1.b);
-		cairo_pattern_add_color_stop_rgb (pattern, 0.45, shade2.r, shade2.g, shade2.b);
-		cairo_pattern_add_color_stop_rgb (pattern, 0.45, shade3.r, shade3.g, shade3.b);
-		cairo_pattern_add_color_stop_rgb (pattern, 1.00, shade4.r, shade4.g, shade4.b);
+		murrine_pattern_add_color_stop_rgb (pattern, 0.00, &shade1);
+		murrine_pattern_add_color_stop_rgb (pattern, 0.45, &shade2);
+		murrine_pattern_add_color_stop_rgb (pattern, 0.45, &shade3);
+		murrine_pattern_add_color_stop_rgb (pattern, 1.00, &shade4);
 		cairo_set_source (cr, pattern);
 		cairo_fill (cr);
 		cairo_pattern_destroy (pattern);
@@ -1036,10 +1036,10 @@ murrine_draw_tab (cairo_t *cr,
 
 		murrine_rounded_rectangle_closed (cr, 1, 1, width-3, height-3, widget->roundness, widget->corners);
 
-		cairo_pattern_add_color_stop_rgba (pattern, 0.00, shade1.r, shade1.g, shade1.b, 0.5);
-		cairo_pattern_add_color_stop_rgba (pattern, 0.45, shade2.r, shade2.g, shade2.b, 0.5);
-		cairo_pattern_add_color_stop_rgba (pattern, 0.45, shade3.r, shade3.g, shade3.b, 0.5);
-		cairo_pattern_add_color_stop_rgb  (pattern, 1.00, shade4.r, shade4.g, shade4.b);
+		murrine_pattern_add_color_stop_rgba (pattern, 0.00, &shade1, 0.5);
+		murrine_pattern_add_color_stop_rgba (pattern, 0.45, &shade2, 0.5);
+		murrine_pattern_add_color_stop_rgba (pattern, 0.45, &shade3, 0.5);
+		murrine_pattern_add_color_stop_rgb  (pattern, 1.00, &shade4);
 		cairo_set_source (cr, pattern);
 		cairo_stroke (cr);
 		cairo_pattern_destroy (pattern);
@@ -1160,8 +1160,8 @@ murrine_draw_list_view_header (cairo_t *cr,
 			{
 				cairo_pattern_t *pattern;
 				pattern = cairo_pattern_create_linear (0.0, height-4.0, 0.0, height-1.0);
-				cairo_pattern_add_color_stop_rgba (pattern, 0.0, shadow_header.r, shadow_header.g, shadow_header.b, 0.0);
-				cairo_pattern_add_color_stop_rgb (pattern, 1.0, shadow_header.r, shadow_header.g, shadow_header.b);
+				murrine_pattern_add_color_stop_rgba (pattern, 0.0, &shadow_header, 0.0);
+				murrine_pattern_add_color_stop_rgb (pattern, 1.0, &shadow_header);
 				cairo_set_source      (cr, pattern);
 				cairo_pattern_destroy (pattern);
 				cairo_rectangle       (cr, 0.0, height-4.0, width, 3.0);

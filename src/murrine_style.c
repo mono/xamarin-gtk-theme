@@ -292,15 +292,9 @@ murrine_style_draw_flat_box (DRAW_ARGS)
 					cairo_pattern_t *pattern;
 
 					pattern = cairo_pattern_create_linear (0, 0, width, 0);
-					cairo_pattern_add_color_stop_rgba (pattern, 0.0, colors->bg[0].r,
-					                                                 colors->bg[0].g,
-					                                                 colors->bg[0].b, WINDOW_OPACITY);
-					cairo_pattern_add_color_stop_rgba (pattern, 0.5, colors->bg[0].r,
-					                                                 colors->bg[0].g,
-					                                                 colors->bg[0].b, (WINDOW_OPACITY-0.04));
-					cairo_pattern_add_color_stop_rgba (pattern, 1.0, colors->bg[0].r,
-					                                                 colors->bg[0].g,
-					                                                 colors->bg[0].b, WINDOW_OPACITY);
+					murrine_pattern_add_color_stop_rgba (pattern, 0.0, &colors->bg[0], WINDOW_OPACITY);
+					murrine_pattern_add_color_stop_rgba (pattern, 0.5, &colors->bg[0], (WINDOW_OPACITY-0.04));
+					murrine_pattern_add_color_stop_rgba (pattern, 1.0, &colors->bg[0], WINDOW_OPACITY);
 					cairo_set_source (cr, pattern);
 					cairo_rectangle  (cr, 0, 0, width, height);
 					cairo_fill       (cr);
@@ -695,13 +689,6 @@ murrine_style_draw_box (DRAW_ARGS)
 
 	cr = murrine_begin_paint (window, area);
 
-	if ((width == -1) && (height == -1))
-		gdk_window_get_size (window, &width, &height);
-	else if (width == -1)
-		gdk_window_get_size (window, &width, NULL);
-	else if (height == -1)
-		gdk_window_get_size (window, NULL, &height);
-
 	if (DETAIL ("menubar") &&
 	    !(widget && (murrine_is_panel_widget (widget->parent))))
 	{
@@ -802,14 +789,6 @@ murrine_style_draw_box (DRAW_ARGS)
 			else
 				params.corners = MRN_CORNER_NONE;
 
-			/* Seriously, why can't non-gtk-apps at least try to be decent citizens?
-			   Take this fucking OpenOffice.org 1.9 for example. The morons responsible
-			   for this utter piece of crap gave the clip size wrong values! :'(  */
-/*			cairo_reset_clip (cr);
-			cairo_rectangle (cr, x+ 0.5, y+ 0.5, 10, 10);
-			cairo_clip (cr);
-			cairo_new_path (cr);
-*/
 			if (params.xthickness > 1)
 			{
 				if (params.ltr)

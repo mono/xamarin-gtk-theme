@@ -1,5 +1,24 @@
 2008-09-30  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/cairo-support.c (murrine_pattern_add_color_stop_rgb),
+	(murrine_pattern_add_color_stop_rgba), (murrine_draw_lightborder),
+	(murrine_set_gradient):
+	* src/cairo-support.h:
+	* src/murrine_draw.c (murrine_draw_button),
+	(murrine_draw_spinbutton_down), (murrine_draw_progressbar_trough),
+	(murrine_draw_menubar), (murrine_draw_toolbar), (murrine_draw_tab),
+	(murrine_draw_list_view_header):
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_button),
+	(murrine_rgba_draw_progressbar_trough),
+	(murrine_rgba_draw_menubar), (murrine_rgba_draw_toolbar),
+	(murrine_rgba_draw_tab):
+	* src/murrine_style.c (murrine_style_draw_flat_box),
+	(murrine_style_draw_box):
+	Bypass cairo_pattern_add_color_stop_rgb/rgba with
+	murrine_pattern_add_color_stop_rgb/rgba
+
+2008-09-30  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* TODO:
 	* src/cairo-support.c (murrine_draw_glaze),
 	(murrine_draw_lightborder):

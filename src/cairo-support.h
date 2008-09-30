@@ -41,6 +41,12 @@ G_GNUC_INTERNAL void murrine_set_color_rgba (cairo_t *cr,
                                              const MurrineRGB *color,
                                              double alpha);
 
+G_GNUC_INTERNAL void murrine_pattern_add_color_stop_rgb (cairo_pattern_t *pattern, double pos,
+                                                         const MurrineRGB *color);
+
+G_GNUC_INTERNAL void murrine_pattern_add_color_stop_rgba (cairo_pattern_t *pattern, double pos,
+                                                          const MurrineRGB *color, double alpha);
+
 G_GNUC_INTERNAL void rotate_mirror_translate (cairo_t *cr,
                                               double radius, double x, double y,
                                               boolean mirror_horizontally, boolean mirror_vertically);

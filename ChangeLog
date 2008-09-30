@@ -1,6 +1,11 @@
 2008-09-30  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/murrine_draw.c (murrine_draw_button):
+	Trailing spaces
+
+2008-09-30  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/murrine_draw.c (murrine_draw_button):
 	* src/murrine_draw_rgba.c (murrine_rgba_draw_button):
 	Fixes a bug when drawing inset on buttons with thickness < 2
 

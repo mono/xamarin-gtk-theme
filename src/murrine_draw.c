@@ -175,8 +175,6 @@ murrine_draw_button (cairo_t *cr,
 	cairo_translate (cr, x, y);
 	cairo_set_line_width (cr, 1.0);
 
-	/* Start drawing the inset/shadow */
-
 	if (!widget->active && !widget->disabled && widget->reliefstyle > 1)
 	{
 		murrine_rounded_rectangle (cr, xos, yos, width-(xos*2), height-(yos*2), widget->roundness, widget->corners);
@@ -187,7 +185,7 @@ murrine_draw_button (cairo_t *cr,
 		murrine_draw_inset (cr, &widget->parentbg, xos-0.5, yos-0.5,
 		                    width-(xos*2)+1, height-(yos*2)+1,
 		                    widget->roundness+1, widget->corners);
-	
+
 	murrine_mix_color (&border, &fill, 0.4, &border);
 
 	/* Draw the bg */
@@ -439,7 +437,7 @@ murrine_draw_progressbar_trough (cairo_t *cr,
                                  int x, int y, int width, int height)
 {
 	const MurrineRGB *border = &colors->shade[4];
-	MurrineRGB fill; 
+	MurrineRGB fill;
 
 	murrine_shade (&widget->parentbg, 0.95, &fill);
 
@@ -608,7 +606,7 @@ murrine_draw_menubar (cairo_t *cr,
 			                    widget->roundness, widget->corners, TRUE);
 			break;
 		}
-		case 2: 
+		case 2:
 		{
 			cairo_pattern_t *pat;
 			double alpha = !widget->mrn_gradient.use_rgba ? 1.0 : 0.7;
@@ -1859,7 +1857,7 @@ murrine_draw_radiobutton (cairo_t * cr,
 		}
 		else
 		{
-		
+
 			murrine_set_color_rgba (cr, dot, trans);
 			cairo_arc (cr, 7, 7, 3, 0, G_PI*2);
 			cairo_fill (cr);

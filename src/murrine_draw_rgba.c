@@ -389,7 +389,7 @@ murrine_rgba_draw_progressbar_trough (cairo_t *cr,
                                       int x, int y, int width, int height)
 {
 	const MurrineRGB *border = &colors->shade[4];
-	MurrineRGB fill; 
+	MurrineRGB fill;
 
 	murrine_shade (&widget->parentbg, 0.95, &fill);
 
@@ -1306,7 +1306,7 @@ murrine_rgba_draw_tooltip (cairo_t *cr,
 	cairo_fill (cr);
 
 	murrine_set_gradient (cr, &highlight, mrn_gradient_custom, 0, 0, 0, height, widget->mrn_gradient.gradients, TRUE);
-	clearlooks_rounded_rectangle (cr, 0, 0, width, height/2, widget->roundness > 1 ? widget->roundness+1 : 0, 
+	clearlooks_rounded_rectangle (cr, 0, 0, width, height/2, widget->roundness > 1 ? widget->roundness+1 : 0,
 	                              widget->corners == MRN_CORNER_ALL ? MRN_CORNER_TOPLEFT | MRN_CORNER_TOPRIGHT : MRN_CORNER_NONE);
 	cairo_fill (cr);
 

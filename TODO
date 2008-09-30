@@ -6,3 +6,9 @@ Notebooks:
 
 Focus:
 - draw focus
+
+Menu:
+- fix menustyle = 1 with rtl
+
+Scrollbars:
+- try to use spot[2] for handles and border when colorize_scrollbar is enabled

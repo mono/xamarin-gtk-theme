@@ -1,5 +1,19 @@
 2008-09-30  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* TODO:
+	* src/cairo-support.c (murrine_draw_glaze),
+	(murrine_draw_lightborder):
+	* src/murrine_draw.c (murrine_draw_button),
+	(murrine_draw_scale_trough), (murrine_draw_slider_handle),
+	(murrine_draw_progressbar_fill), (murrine_draw_tab),
+	(murrine_draw_handle):
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_button),
+	(murrine_rgba_draw_scale_trough),
+	(murrine_rgba_draw_progressbar_fill), (murrine_rgba_draw_tab):
+	Updated TODO, trying to use a new algorithm for vertical lightborder
+
+2008-09-30  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/cairo-support.c (murrine_draw_glaze):
 	* src/murrine_draw.c (murrine_draw_inset), (murrine_draw_button),
 	(murrine_draw_menubar), (murrine_draw_toolbar),

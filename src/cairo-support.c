@@ -526,7 +526,6 @@ murrine_draw_glaze (cairo_t *cr,
 			murrine_draw_curved_highlight_top (cr, x, y, width, height);
 			break;
 	}
-
 	murrine_set_gradient (cr, &highlight, mrn_gradient, x, y, 0, height, mrn_gradient.gradients, TRUE);
 	cairo_fill (cr);
 
@@ -546,24 +545,11 @@ murrine_draw_glaze (cairo_t *cr,
 		if (mrn_gradient.use_rgba)
 			cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 
-		if (horizontal)
-		{
-			murrine_draw_lightborder (cr, &highlight, fill, mrn_gradient,
-			                          x+0.5, y+0.5, width-1, height-1,
-			                          mrn_gradient.gradients, horizontal,
-			                          widget->glazestyle, widget->lightborderstyle,
-			                          radius, corners);
-		}
-		else
-		{
-			murrine_exchange_axis (cr, &x, &y, &width, &height);
-			murrine_draw_lightborder (cr, &highlight, fill, mrn_gradient,
-			                          x+0.5, y+0.5, width-1, height-1,
-			                          mrn_gradient.gradients, horizontal,
-			                          widget->glazestyle, widget->lightborderstyle,
-			                          radius, corners);
-			murrine_exchange_axis (cr, &x, &y, &width, &height);
-		}
+		murrine_draw_lightborder (cr, &highlight, fill, mrn_gradient,
+		                          x+0.5, y+0.5, width-1, height-1,
+		                          mrn_gradient.gradients, horizontal,
+		                          widget->glazestyle, widget->lightborderstyle,
+		                          radius, corners);
 	}
 }
 
@@ -579,21 +565,22 @@ murrine_draw_lightborder (cairo_t *cr,
 {
 	cairo_pattern_t *pattern;
 	MurrineRGB shade1, shade2, shade3, shade4;
-	double alpha_value = 1.0;
-	if (mrn_gradient.use_rgba)
-	{
-		alpha_value = mrn_gradient.rgba_opacity;
-	}
+	double alpha_value = mrn_gradient.use_rgba ? mrn_gradient.rgba_opacity : 1.0;
 
 	murrine_shade (highlight_color, mrn_gradient.gradient_shades[0], &shade1);
 	murrine_shade (highlight_color, mrn_gradient.gradient_shades[1], &shade2);
 	murrine_shade (highlight_color, mrn_gradient.gradient_shades[2], &shade3);
 	murrine_shade (highlight_color, mrn_gradient.gradient_shades[3], &shade4);
 
-	double fill_pos = 1.0-(1.0/(!horizontal ? (double)(width) : (double)(height)));
+	cairo_save (cr);
+
+	if (!horizontal)
+		murrine_exchange_axis (cr, (int*)&x, (int*)&y, &width, &height);
+
+	double fill_pos = 1.0-1.0/(!horizontal ? (double)width : (double)height);
 	if (corners == MRN_CORNER_ALL && radius > 2)
-		fill_pos = 1.0-((((double)radius-1.0)/2.0)/
-		                 (!horizontal ? (double)(width) : (double)(height)));
+		fill_pos = 1.0-(((double)radius-1.0)/2.0)/
+		                 (!horizontal ? (double)width : (double)height);
 
 	radius < 2 ? cairo_rectangle (cr, x, y, width, height) :
 	             clearlooks_rounded_rectangle (cr, x, y, width, height, radius-1, corners);
@@ -620,6 +607,8 @@ murrine_draw_lightborder (cairo_t *cr,
 		cairo_line_to (cr, x-0.5, height+y);
 		cairo_stroke (cr);
 	}
+
+	cairo_restore (cr);
 }
 
 void

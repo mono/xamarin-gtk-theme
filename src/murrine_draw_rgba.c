@@ -38,43 +38,43 @@ murrine_draw_inset (cairo_t          *cr,
 	murrine_shade (bg_color, 0.4, &shadow);
 
 	/* highlight */
-	cairo_move_to (cr, x + w + (radius * -0.2928932188), y - (radius * -0.2928932188));
+	cairo_move_to (cr, x+w+(radius*-0.2928932188), y-(radius*-0.2928932188));
 
 	if (corners & MRN_CORNER_TOPRIGHT)
-		cairo_arc (cr, x + w - radius, y + radius, radius, M_PI * 1.75, M_PI * 2);
+		cairo_arc (cr, x+w-radius, y+radius, radius, M_PI*1.75, M_PI*2);
 	else
-		cairo_line_to (cr, x + w, y);
+		cairo_line_to (cr, x+w, y);
 
 	if (corners & MRN_CORNER_BOTTOMRIGHT)
-		cairo_arc (cr, x + w - radius, y + h - radius, radius, 0, M_PI * 0.5);
+		cairo_arc (cr, x+w-radius, y+h-radius, radius, 0, M_PI*0.5);
 	else
-		cairo_line_to (cr, x + w, y + h);
+		cairo_line_to (cr, x+w, y+h);
 
 	if (corners & MRN_CORNER_BOTTOMLEFT)
-		cairo_arc (cr, x + radius, y + h - radius, radius, M_PI * 0.5, M_PI * 0.75);
+		cairo_arc (cr, x+radius, y+h-radius, radius, M_PI*0.5, M_PI*0.75);
 	else
-		cairo_line_to (cr, x, y + h);
+		cairo_line_to (cr, x, y+h);
 
 	murrine_set_color_rgba (cr, &highlight, 0.48);
 	cairo_stroke (cr);
 
 	/* shadow */
-	cairo_move_to (cr, x + (radius * 0.2928932188), y + h + (radius * -0.2928932188));
+	cairo_move_to (cr, x+(radius*0.2928932188), y+h+(radius*-0.2928932188));
 
 	if (corners & MRN_CORNER_BOTTOMLEFT)
-		cairo_arc (cr, x + radius, y + h - radius, radius, M_PI * 0.75, M_PI);
+		cairo_arc (cr, x+radius, y+h-radius, radius, M_PI*0.75, M_PI);
 	else
-		cairo_line_to (cr, x, y + h);
+		cairo_line_to (cr, x, y+h);
 
 	if (corners & MRN_CORNER_TOPLEFT)
-		cairo_arc (cr, x + radius, y + radius, radius, M_PI, M_PI * 1.5);
+		cairo_arc (cr, x+radius, y+radius, radius, M_PI, M_PI*1.5);
 	else
 		cairo_line_to (cr, x, y);
 
 	if (corners & MRN_CORNER_TOPRIGHT)
-		cairo_arc (cr, x + w - radius, y + radius, radius, M_PI * 1.5, M_PI * 1.75);
+		cairo_arc (cr, x+w-radius, y+radius, radius, M_PI*1.5, M_PI*1.75);
 	else
-		cairo_line_to (cr, x + w, y);
+		cairo_line_to (cr, x+w, y);
 
 	murrine_set_color_rgba (cr, &shadow, 0.12);
 	cairo_stroke (cr);
@@ -171,7 +171,6 @@ murrine_rgba_draw_button (cairo_t *cr,
 		murrine_exchange_axis (cr, &x, &y, &width, &height);
 
 	cairo_translate (cr, x, y);
-	cairo_set_line_width (cr, 1.0);
 
 	if (!widget->active && !widget->disabled && widget->reliefstyle > 1)
 	{
@@ -259,7 +258,6 @@ murrine_rgba_draw_entry (cairo_t *cr,
 	murrine_shade (&border, 0.92, &border);
 
 	cairo_translate (cr, x+0.5, y+0.5);
-	cairo_set_line_width (cr, 1.0);
 
 	cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
 
@@ -335,7 +333,7 @@ murrine_rgba_draw_scale_trough (cairo_t *cr,
 		if (fill_size > width-3)
 			fill_size = width-3;
 
-		fill_x        = slider->inverted ? width - fill_size - 3 : 0;
+		fill_x        = slider->inverted ? width-fill_size-3 : 0;
 		fill_y        = 0;
 		fill_width    = fill_size;
 		fill_height   = TROUGH_SIZE-2;
@@ -343,8 +341,8 @@ murrine_rgba_draw_scale_trough (cairo_t *cr,
 		trough_width  = width-3;
 		trough_height = TROUGH_SIZE-2;
 
-		translate_x   = x + 0.5;
-		translate_y   = y + 0.5 + (height/2) - (TROUGH_SIZE/2);
+		translate_x   = x+0.5;
+		translate_y   = y+0.5+(height/2)-(TROUGH_SIZE/2);
 	}
 	else
 	{
@@ -352,18 +350,17 @@ murrine_rgba_draw_scale_trough (cairo_t *cr,
 			fill_size = height-3;
 
 		fill_x        = 0;
-		fill_y        = slider->inverted ? height - fill_size - 3 : 0;
+		fill_y        = slider->inverted ? height-fill_size-3 : 0;
 		fill_width    = TROUGH_SIZE-2;
 		fill_height   = fill_size;
 
 		trough_width  = TROUGH_SIZE-2;
 		trough_height = height-3;
 
-		translate_x   = x + 0.5 + (width/2) - (TROUGH_SIZE/2);
-		translate_y   = y + 0.5;
+		translate_x   = x+0.5+(width/2)-(TROUGH_SIZE/2);
+		translate_y   = y+0.5;
 	}
 
-	cairo_set_line_width (cr, 1.0);
 	cairo_translate (cr, translate_x, translate_y);
 
 	if (widget->reliefstyle != 0)
@@ -392,8 +389,6 @@ murrine_rgba_draw_progressbar_trough (cairo_t *cr,
 	MurrineRGB fill;
 
 	murrine_shade (&widget->parentbg, 0.95, &fill);
-
-	cairo_set_line_width (cr, 1.0);
 
 	/* Create trough box */
 	murrine_set_color_rgba (cr, &fill, 0.8);
@@ -473,7 +468,6 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 
 	stroke_width = height*2;
 	x_step = (((float)stroke_width/10)*offset);
-	cairo_set_line_width (cr, 1.0);
 
 	cairo_save (cr);
 	cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
@@ -488,7 +482,7 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 	while (tile_pos <= width+x_step-2)
 	{
 		cairo_move_to (cr, stroke_width/2-x_step, 0);
-		cairo_line_to (cr, stroke_width-x_step,   0);
+		cairo_line_to (cr, stroke_width-x_step, 0);
 		cairo_line_to (cr, stroke_width/2-x_step, height);
 		cairo_line_to (cr, -x_step, height);
 
@@ -582,7 +576,6 @@ murrine_rgba_draw_menubar (cairo_t *cr,
 
 			cairo_pattern_destroy (pat);
 			int counter = -height;
-			cairo_set_line_width  (cr, 1.0);
 			murrine_shade (&low, 0.9, &low);
 			murrine_set_color_rgba (cr, &low, MENUBAR_STRIPED_OPACITY);
 			while (counter < width)
@@ -601,7 +594,6 @@ murrine_rgba_draw_menubar (cairo_t *cr,
 		cairo_rectangle (cr, 0.5, 0.5, width-1, height-1);
 	else
 	{
-		cairo_set_line_width (cr, 1.0);
 		cairo_move_to        (cr, 0, height-0.5);
 		cairo_line_to        (cr, width, height-0.5);
 	}
@@ -624,7 +616,6 @@ murrine_rgba_draw_toolbar (cairo_t *cr,
 	cairo_translate (cr, x, y);
 	cairo_rectangle (cr, 0, 0, width, height);
 
-	cairo_set_line_width (cr, 1.0);
 	cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
 
 	/* Glass toolbar */
@@ -680,7 +671,6 @@ murrine_rgba_draw_toolbar (cairo_t *cr,
 		cairo_rectangle (cr, 0.5, 0.5, width-1, height-1);
 	else
 	{
-		cairo_set_line_width (cr, 1.0);
 		cairo_move_to        (cr, 0, height-0.5);
 		cairo_line_to        (cr, width, height-0.5);
 	}
@@ -745,7 +735,6 @@ murrine_rgba_draw_frame (cairo_t *cr,
 		murrine_get_frame_gap_clip (x, y, width, height,
 		                            frame, &bevel_clip, &frame_clip);
 
-	cairo_set_line_width (cr, 1.0);
 	cairo_translate      (cr, x+0.5, y+0.5);
 
 	/* save everything */
@@ -821,7 +810,6 @@ murrine_rgba_draw_separator (cairo_t *cr,
 
 	if (separator->horizontal)
 	{
-		cairo_set_line_width  (cr, 1.0);
 		cairo_translate       (cr, x, y+0.5);
 
 		cairo_move_to         (cr, 0.0,     0.0);
@@ -836,7 +824,6 @@ murrine_rgba_draw_separator (cairo_t *cr,
 	}
 	else
 	{
-		cairo_set_line_width  (cr, 1.0);
 		cairo_translate       (cr, x+0.5, y);
 
 		cairo_move_to         (cr, 0.0, 0.0);
@@ -870,8 +857,6 @@ murrine_rgba_draw_tab (cairo_t *cr,
 	cairo_clip      (cr);
 	cairo_new_path  (cr);
 
-	/* Translate and set line width */
-	cairo_set_line_width (cr, 1.0);
 	cairo_translate      (cr, x+0.5, y+0.5);
 
 	cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
@@ -1066,8 +1051,6 @@ murrine_rgba_draw_scrollbar_trough (cairo_t *cr,
 
 	murrine_shade (&widget->parentbg, scrollbar->stepperstyle < 1 ? 0.95 : 1.065, &fill);
 
-	cairo_set_line_width (cr, 1.0);
-
 	if (!scrollbar->horizontal)
 	{
 		cairo_translate (cr, x, y);
@@ -1110,7 +1093,7 @@ murrine_rgba_draw_scrollbar_stepper (cairo_t *cr,
 	murrine_mix_color (&border_normal, fill, 0.45, &border_normal);
 
 	cairo_translate (cr, x, y);
-	cairo_set_line_width (cr, 1.0);
+
 	cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
 
 	/* Draw the bg */
@@ -1184,7 +1167,6 @@ murrine_rgba_draw_scrollbar_slider (cairo_t *cr,
 		width = tmp;
 	}
 
-	cairo_set_line_width (cr, 1.0);
 	cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
 
 	murrine_set_color_rgb (cr, &border);
@@ -1232,7 +1214,7 @@ murrine_rgba_draw_scrollbar_slider (cairo_t *cr,
 			cairo_rectangle (cr, 1, 1, width-2, height-2);
 			cairo_clip (cr);
 			cairo_new_path (cr);
-			cairo_set_line_width (cr, 5); /* stroke width */
+			cairo_set_line_width (cr, 5.0); /* stroke width */
 			murrine_set_color_rgba (cr, &style, 0.08);
 			while (counter < height)
 			{
@@ -1263,7 +1245,7 @@ murrine_rgba_draw_scrollbar_slider (cairo_t *cr,
 		}
 	}
 	/* Draw the handle */
-	if (scrollbar->style > 0 && scrollbar->style % 2 == 0 )
+	if (scrollbar->style > 0 && scrollbar->style % 2 == 0)
 	{
 		int bar_x = width/2 - 4;
 		cairo_translate (cr, 0.5, 0.5);
@@ -1295,7 +1277,7 @@ murrine_rgba_draw_tooltip (cairo_t *cr,
 	cairo_save (cr);
 
 	cairo_translate (cr, x, y);
-	cairo_set_line_width (cr, 1.0);
+
 	cairo_rectangle (cr, 0, 0, width, height);
 	cairo_set_operator (cr, CAIRO_OPERATOR_CLEAR);
 	cairo_fill (cr);
@@ -1332,21 +1314,19 @@ murrine_rgba_draw_handle (cairo_t *cr,
 	int num_bars, bar_spacing;
 	num_bars    = 3;
 	bar_spacing = 3;
-	bar_height = num_bars * bar_spacing;
+	bar_height = num_bars*bar_spacing;
 
 	if (handle->horizontal)
 	{
 		int tmp = height;
-		rotate_mirror_translate (cr, M_PI/2, x + 0.5 + width/2 - bar_height/2, y + height/2 - bar_width/2, FALSE, FALSE);
+		rotate_mirror_translate (cr, M_PI/2, x+0.5+width/2-bar_height/2, y+height/2-bar_width/2, FALSE, FALSE);
 		height = width;
 		width = tmp;
 	}
 	else
 	{
-		cairo_translate (cr, x + width/2 - bar_width/2, y + height/2 - bar_height/2 + 0.5);
+		cairo_translate (cr, x+width/2-bar_width/2, y+height/2-bar_height/2+0.5);
 	}
-
-	cairo_set_line_width (cr, 1.0);
 
 	for (i=0; i<num_bars; i++)
 	{
@@ -1361,7 +1341,7 @@ murrine_rgba_draw_handle (cairo_t *cr,
 
 
 static void
-murrine_rgba_draw_radiobutton (cairo_t * cr,
+murrine_rgba_draw_radiobutton (cairo_t *cr,
                                const MurrineColors      *colors,
                                const WidgetParameters   *widget,
                                const CheckboxParameters *checkbox,
@@ -1397,13 +1377,13 @@ murrine_rgba_draw_radiobutton (cairo_t * cr,
 
 	if (widget->reliefstyle > 1)
 	{
+		cairo_save (cr);
 		cairo_set_line_width (cr, 2.0);
 		cairo_arc (cr, 7, 7, 6, 0, M_PI*2);
 		murrine_set_color_rgba (cr, &colors->shade[8], 0.12);
 		cairo_stroke (cr);
+		cairo_restore (cr);
 	}
-
-	cairo_set_line_width (cr, 1.0);
 
 	cairo_arc (cr, 7, 7, 5.5, 0, M_PI*2);
 
@@ -1451,13 +1431,14 @@ murrine_rgba_draw_radiobutton (cairo_t * cr,
 	{
 		if (inconsistent)
 		{
+			cairo_save (cr);
 			cairo_set_line_cap(cr, CAIRO_LINE_CAP_ROUND);
-			cairo_set_line_width (cr, 2);
-
+			cairo_set_line_width (cr, 2.0);
 			murrine_set_color_rgba (cr, dot, trans);
 			cairo_move_to(cr, 5, 7);
 			cairo_line_to(cr, 9, 7);
 			cairo_stroke (cr);
+			cairo_restore (cr);
 		}
 		else
 		{
@@ -1471,7 +1452,7 @@ murrine_rgba_draw_radiobutton (cairo_t * cr,
 }
 
 static void
-murrine_rgba_draw_checkbox (cairo_t * cr,
+murrine_rgba_draw_checkbox (cairo_t *cr,
                             const MurrineColors      *colors,
                             const WidgetParameters   *widget,
                             const CheckboxParameters *checkbox,
@@ -1504,7 +1485,6 @@ murrine_rgba_draw_checkbox (cairo_t * cr,
 	                   draw_bullet ? &colors->spot[1] : &colors->bg[0] : &colors->bg[0], 0.24, &border);
 
 	cairo_translate (cr, x, y);
-	cairo_set_line_width (cr, 1.0);
 
 	if (widget->xthickness > 2 && widget->ythickness > 2)
 	{
@@ -1568,14 +1548,16 @@ murrine_rgba_draw_checkbox (cairo_t * cr,
 		cairo_fill (cr);
 	}
 
-	cairo_scale (cr, width / 13.0, height / 13.0);
+	cairo_scale (cr, width/13.0, height/13.0);
 	if (draw_bullet)
 	{
 		if (inconsistent) /* Inconsistent */
 		{
+			cairo_save (cr);
 			cairo_set_line_width (cr, 2.0);
 			cairo_move_to (cr, 3, height*0.5);
 			cairo_line_to (cr, width-3, height*0.5);
+			cairo_restore (cr);
 		}
 		else
 		{
@@ -1609,7 +1591,7 @@ murrine_rgba_draw_menu_frame (cairo_t *cr,
 	                                  MRN_CORNER_BOTTOMLEFT | MRN_CORNER_BOTTOMRIGHT);
 
 	cairo_translate      (cr, x, y);
-	cairo_set_line_width (cr, 1.0);
+
 	cairo_set_operator   (cr, CAIRO_OPERATOR_CLEAR);
 	cairo_paint (cr);
 	cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
@@ -1646,7 +1628,6 @@ murrine_rgba_draw_statusbar (cairo_t *cr,
 	const MurrineRGB *dark = &colors->shade[4];
 	const MurrineRGB *highlight = &colors->shade[0];
 
-	cairo_set_line_width  (cr, 1);
 	cairo_translate       (cr, x, y+0.5);
 
 	murrine_set_color_rgb (cr, dark);

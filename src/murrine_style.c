@@ -442,7 +442,6 @@ murrine_style_draw_shadow (DRAW_ARGS)
 		MurrineRGB *border = &colors->shade[5];
 		cairo_rectangle (cr, x+0.5, y+0.5, width-1, height-1);
 		murrine_set_color_rgb (cr, border);
-		cairo_set_line_width (cr, 1);
 		cairo_stroke (cr);
 	}
 	else
@@ -896,9 +895,9 @@ murrine_style_draw_box (DRAW_ARGS)
 
 		slider.inverted   = gtk_range_get_inverted (GTK_RANGE (widget));
 		slider.horizontal = (GTK_RANGE (widget)->orientation == GTK_ORIENTATION_HORIZONTAL);
-		slider.fill_size  = ((slider.horizontal ? width : height) - slider_length) *
-		                     (1 / ((adjustment->upper - adjustment->lower) / (adjustment->value - adjustment->lower)))
-		                     + slider_length / 2;
+		slider.fill_size  = ((slider.horizontal ? width : height)-slider_length) *
+		                     (1/((adjustment->upper-adjustment->lower)/(adjustment->value-adjustment->lower)))
+		                     +slider_length/2;
 		if (slider.horizontal)
 			slider.inverted = slider.inverted != (murrine_get_direction (widget) == GTK_TEXT_DIR_RTL);
 
@@ -1017,11 +1016,11 @@ murrine_style_draw_box (DRAW_ARGS)
 #ifndef HAVE_ANIMATIONRTL
 		STYLE_FUNCTION(draw_progressbar_fill) (cr, colors, &params, &progressbar,
 		                                       x-1, y, width+2, height,
-		                                       10 - (int)(elapsed * 10.0) % 10);
+		                                       10-(int)(elapsed*10.0) % 10);
 #else
 		STYLE_FUNCTION(draw_progressbar_fill) (cr, colors, &params, &progressbar,
 		                                       x-1, y, width+2, height,
-		                                       10 + (int)(elapsed * 10.0) % 10);
+		                                       10+(int)(elapsed*10.0) % 10);
 #endif
 	}
 	else if (DETAIL ("hscale") || DETAIL ("vscale"))
@@ -1060,9 +1059,9 @@ murrine_style_draw_box (DRAW_ARGS)
 		murrine_option_menu_get_props (widget, &indicator_size, &indicator_spacing);
 
 		if (widget && murrine_get_direction (widget) == GTK_TEXT_DIR_RTL)
-			optionmenu.linepos = (indicator_size.width + indicator_spacing.left + indicator_spacing.right) + style->xthickness;
+			optionmenu.linepos = (indicator_size.width+indicator_spacing.left+indicator_spacing.right)+style->xthickness;
 		else
-			optionmenu.linepos = width - (indicator_size.width + indicator_spacing.left + indicator_spacing.right) - style->xthickness;
+			optionmenu.linepos = width-(indicator_size.width+indicator_spacing.left+indicator_spacing.right)-style->xthickness;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 
@@ -1240,11 +1239,11 @@ murrine_style_draw_box (DRAW_ARGS)
 		if (DETAIL ("hseparator"))
 		{
 			gtk_paint_hline (style, window, state_type, area, widget, new_detail,
-			                 x, x + width - 1, y + height/2);
+			                 x, x+width-1, y+height/2);
 		}
 		else
 			gtk_paint_vline (style, window, state_type, area, widget, new_detail,
-			                 y, y + height - 1, x + width/2);
+			                 y, y+height-1, x+width/2);
 	}
 	else
 	{
@@ -1300,7 +1299,7 @@ murrine_style_draw_option (DRAW_ARGS)
 	    !gtk_toggle_button_get_inconsistent (GTK_TOGGLE_BUTTON (widget)))
 	{
 		gfloat elapsed = murrine_animation_elapsed (widget);
-		trans = sqrt (sqrt (MIN(elapsed / CHECK_ANIMATION_TIME, 1.0)));
+		trans = sqrt (sqrt (MIN (elapsed/CHECK_ANIMATION_TIME, 1.0)));
 	}
 #endif
 
@@ -1341,7 +1340,7 @@ murrine_style_draw_check (DRAW_ARGS)
 	    !gtk_toggle_button_get_inconsistent (GTK_TOGGLE_BUTTON (widget)))
 	{
 		gfloat elapsed = murrine_animation_elapsed (widget);
-		trans = sqrt (sqrt (MIN(elapsed / CHECK_ANIMATION_TIME, 1.0)));
+		trans = sqrt (sqrt (MIN (elapsed/CHECK_ANIMATION_TIME, 1.0)));
 	}
 #endif
 
@@ -1644,11 +1643,11 @@ murrine_style_draw_layout (GtkStyle     *style,
 		else
 			murrine_shade (&colors->bg[widget->state], 1.2, &temp);
 
-		etched.red = (int) (temp.r * 65535);
-		etched.green = (int) (temp.g * 65535);
-		etched.blue = (int) (temp.b * 65535);
+		etched.red = (int) (temp.r*65535);
+		etched.green = (int) (temp.g*65535);
+		etched.blue = (int) (temp.b*65535);
 
-		gdk_draw_layout_with_colors (window, gc, x + 1, y + 1, layout, &etched, NULL);
+		gdk_draw_layout_with_colors (window, gc, x+1, y+1, layout, &etched, NULL);
 		gdk_draw_layout (window, gc, x, y, layout);
 	}
 	else
@@ -1784,7 +1783,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 }
 
 static void
-murrine_style_realize (GtkStyle * style)
+murrine_style_realize (GtkStyle *style)
 {
 	MurrineStyle *murrine_style = MURRINE_STYLE (style);
 	double shades[] = {1.065, 0.95, 0.896, 0.82, 0.75, 0.665, 0.5, 0.45, 0.4};
@@ -1798,9 +1797,9 @@ murrine_style_realize (GtkStyle * style)
 
 	contrast = MURRINE_RC_STYLE (style->rc_style)->contrast;
 
-	bg_normal.r = style->bg[0].red   / 65535.0;
-	bg_normal.g = style->bg[0].green / 65535.0;
-	bg_normal.b = style->bg[0].blue  / 65535.0;
+	bg_normal.r = style->bg[0].red/65535.0;
+	bg_normal.g = style->bg[0].green/65535.0;
+	bg_normal.b = style->bg[0].blue/65535.0;
 
 	/* Apply contrast */
 	for (i = 0; i < 9; i++)
@@ -1811,9 +1810,9 @@ murrine_style_realize (GtkStyle * style)
 	}
 	spots[2] = get_contrast(spots[2], contrast);
 
-	spot_color.r = style->bg[GTK_STATE_SELECTED].red   / 65535.0;
-	spot_color.g = style->bg[GTK_STATE_SELECTED].green / 65535.0;
-	spot_color.b = style->bg[GTK_STATE_SELECTED].blue  / 65535.0;
+	spot_color.r = style->bg[GTK_STATE_SELECTED].red/65535.0;
+	spot_color.g = style->bg[GTK_STATE_SELECTED].green/65535.0;
+	spot_color.b = style->bg[GTK_STATE_SELECTED].blue/65535.0;
 
 	murrine_shade (&spot_color, spots[0], &murrine_style->colors.spot[0]);
 	murrine_shade (&spot_color, spots[1], &murrine_style->colors.spot[1]);
@@ -1852,9 +1851,9 @@ gdk_cairo_set_source_color_alpha (cairo_t  *cr,
 	g_return_if_fail (color != NULL);
 
 	cairo_set_source_rgba (cr,
-	                       color->red / 65535.,
-	                       color->green / 65535.,
-	                       color->blue / 65535.,
+	                       color->red/65535.,
+	                       color->green/65535.,
+	                       color->blue/65535.,
 	                       alpha);
 }
 
@@ -1916,7 +1915,7 @@ murrine_style_draw_focus (GtkStyle *style, GdkWindow *window, GtkStateType state
 			total_length += dash_list[i];
 		}
 
-		dash_offset = -line_width / 2.;
+		dash_offset = -line_width/2.;
 		while (dash_offset < 0)
 			dash_offset += total_length;
 
@@ -1930,7 +1929,7 @@ murrine_style_draw_focus (GtkStyle *style, GdkWindow *window, GtkStateType state
 		cairo_clip (cr);
 	}
 
-	cairo_rectangle (cr, x + line_width / 2., y + line_width / 2., width - line_width, height - line_width);
+	cairo_rectangle (cr, x+line_width/2., y+line_width/2., width-line_width, height-line_width);
 	cairo_stroke (cr);
 	cairo_destroy (cr);
 
@@ -1939,10 +1938,10 @@ murrine_style_draw_focus (GtkStyle *style, GdkWindow *window, GtkStateType state
 }
 
 static void
-murrine_style_copy (GtkStyle * style, GtkStyle * src)
+murrine_style_copy (GtkStyle *style, GtkStyle *src)
 {
-	MurrineStyle * mrn_style = MURRINE_STYLE (style);
-	MurrineStyle * mrn_src = MURRINE_STYLE (src);
+	MurrineStyle *mrn_style = MURRINE_STYLE (style);
+	MurrineStyle *mrn_src = MURRINE_STYLE (src);
 
 	mrn_style->animation           = mrn_src->animation;
 	mrn_style->colorize_scrollbar  = mrn_src->colorize_scrollbar;
@@ -1977,7 +1976,7 @@ murrine_style_copy (GtkStyle * style, GtkStyle * src)
 }
 
 static void
-murrine_style_unrealize (GtkStyle * style)
+murrine_style_unrealize (GtkStyle *style)
 {
 	GTK_STYLE_CLASS (murrine_style_parent_class)->unrealize (style);
 }
@@ -2010,8 +2009,8 @@ set_transparency (const GdkPixbuf *pixbuf, gdouble alpha_percent)
 		{
 			/* The "4" is the number of chars per pixel, in this case, RGBA,
 			   the 3 means "skip to the alpha" */
-			current = data + (y * rowstride) + (x * 4) + 3;
-			*(current) = (guchar) (*(current) * alpha_percent);
+			current = data+(y*rowstride)+(x*4)+3;
+			*(current) = (guchar) (*(current)*alpha_percent);
 		}
 	}
 
@@ -2138,12 +2137,12 @@ murrine_style_register_types (GTypeModule *module)
 
 
 static void
-murrine_style_init (MurrineStyle * style)
+murrine_style_init (MurrineStyle *style)
 {
 }
 
 static void
-murrine_style_class_init (MurrineStyleClass * klass)
+murrine_style_class_init (MurrineStyleClass *klass)
 {
 	GtkStyleClass *style_class = GTK_STYLE_CLASS (klass);
 

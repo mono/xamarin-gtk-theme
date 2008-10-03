@@ -66,8 +66,8 @@ murrine_rgb_to_hls (gdouble *r,
 			min = blue;
 	}
 
-	l = (max + min) / 2;
-	if (fabs(max - min) < 0.0001)
+	l = (max+min)/2;
+	if (fabs (max-min) < 0.0001)
 	{
 		h = 0;
 		s = 0;
@@ -75,17 +75,17 @@ murrine_rgb_to_hls (gdouble *r,
 	else
 	{
 		if (l <= 0.5)
-			s = (max - min) / (max + min);
+			s = (max-min)/(max+min);
 		else
-			s = (max - min) / (2 - max - min);
+			s = (max-min)/(2-max-min);
 
 		delta = max -min;
 		if (red == max)
-			h = (green - blue) / delta;
+			h = (green-blue)/delta;
 		else if (green == max)
-			h = 2 + (blue - red) / delta;
+			h = 2+(blue-red)/delta;
 		else if (blue == max)
-			h = 4 + (red - green) / delta;
+			h = 4+(red-green)/delta;
 
 		h *= 60;
 		if (h < 0.0)
@@ -112,11 +112,11 @@ murrine_hls_to_rgb (gdouble *h,
 	saturation = *s;
 
 	if (lightness <= 0.5)
-		m2 = lightness * (1 + saturation);
+		m2 = lightness*(1+saturation);
 	else
-		m2 = lightness + saturation - lightness * saturation;
+		m2 = lightness+saturation-lightness*saturation;
 
-	m1 = 2 * lightness - m2;
+	m1 = 2*lightness-m2;
 
 	if (saturation == 0)
 	{
@@ -126,18 +126,18 @@ murrine_hls_to_rgb (gdouble *h,
 	}
 	else
 	{
-		hue = *h + 120;
+		hue = *h+120;
 		while (hue > 360)
 			hue -= 360;
 		while (hue < 0)
 			hue += 360;
 
 		if (hue < 60)
-			r = m1 + (m2 - m1) * hue / 60;
+			r = m1+(m2-m1)*hue/60;
 		else if (hue < 180)
 			r = m2;
 		else if (hue < 240)
-			r = m1 + (m2 - m1) * (240 - hue) / 60;
+			r = m1+(m2-m1)*(240-hue)/60;
 		else
 			r = m1;
 
@@ -148,26 +148,26 @@ murrine_hls_to_rgb (gdouble *h,
 			hue += 360;
 
 		if (hue < 60)
-			g = m1 + (m2 - m1) * hue / 60;
+			g = m1+(m2-m1)*hue/60;
 		else if (hue < 180)
 			g = m2;
 		else if (hue < 240)
-			g = m1 + (m2 - m1) * (240 - hue) / 60;
+			g = m1+(m2-m1)*(240-hue)/60;
 		else
 			g = m1;
 
-		hue = *h - 120;
+		hue = *h-120;
 		while (hue > 360)
 			hue -= 360;
 		while (hue < 0)
 			hue += 360;
 
 		if (hue < 60)
-			b = m1 + (m2 - m1) * hue / 60;
+			b = m1+(m2-m1)*hue/60;
 		else if (hue < 180)
 			b = m2;
 		else if (hue < 240)
-			b = m1 + (m2 - m1) * (240 - hue) / 60;
+			b = m1+(m2-m1)*(240-hue)/60;
 		else
 			b = m1;
 
@@ -178,7 +178,7 @@ murrine_hls_to_rgb (gdouble *h,
 }
 
 void
-murrine_shade (const MurrineRGB * a, float k, MurrineRGB * b)
+murrine_shade (const MurrineRGB *a, float k, MurrineRGB *b)
 {
 	double red;
 	double green;
@@ -223,17 +223,17 @@ murrine_mix_color (const MurrineRGB *color1, const MurrineRGB *color2,
 {
 	g_return_if_fail (color1 && color2 && composite);
 
-	composite->r = color1->r * (1-mix_factor) + color2->r * mix_factor;
-	composite->g = color1->g * (1-mix_factor) + color2->g * mix_factor;
-	composite->b = color1->b * (1-mix_factor) + color2->b * mix_factor;
+	composite->r = color1->r*(1-mix_factor)+color2->r*mix_factor;
+	composite->g = color1->g*(1-mix_factor)+color2->g*mix_factor;
+	composite->b = color1->b*(1-mix_factor)+color2->b*mix_factor;
 }
 
 void
 murrine_gdk_color_to_rgb (GdkColor *c, double *r, double *g, double *b)
 {
-	*r = (double)c->red   / (double)65535;
-	*g = (double)c->green / (double)65535;
-	*b = (double)c->blue  / (double)65535;
+	*r = (double)c->red/(double)65535;
+	*g = (double)c->green/(double)65535;
+	*b = (double)c->blue/(double)65535;
 }
 
 void
@@ -249,7 +249,7 @@ murrine_get_parent_bg (const GtkWidget *widget, MurrineRGB *color)
 
 	parent = widget->parent;
 	stop = FALSE;
-	
+
 	while (parent && !stop)
 	{
 		stop = FALSE;
@@ -263,7 +263,7 @@ murrine_get_parent_bg (const GtkWidget *widget, MurrineRGB *color)
 		{
 			GtkShadowType shadow = GTK_SHADOW_OUT;
 			gtk_widget_style_get (GTK_WIDGET (parent), "shadow-type", &shadow, NULL);
-			
+
 			stop |= (shadow != GTK_SHADOW_NONE);
 		}
 
@@ -722,9 +722,9 @@ double
 get_decreased_ratio (double old, double factor)
 {
 	if (old > 1.0)
-		return ((old-1.0)/factor + 1.0);
+		return ((old-1.0)/factor+1.0);
 	else if (old < 1.0)
-		return (1.0 - (1.0-old)/factor);
+		return (1.0-(1.0-old)/factor);
 
 	return old;
 }
@@ -733,9 +733,9 @@ double
 get_increased_ratio (double old, double factor)
 {
 	if (old > 1.0)
-		return ((old-1.0)*factor + 1.0);
+		return ((old-1.0)*factor+1.0);
 	else if (old < 1.0)
-		return (1.0 - (1.0-old)*factor);
+		return (1.0-(1.0-old)*factor);
 
 	return old;
 }

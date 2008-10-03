@@ -329,7 +329,7 @@ theme_parse_profile (GtkSettings     *settings,
 
 static guint
 theme_parse_gradient (GtkSettings  *settings,
-                      GScanner     *scanner, 
+                      GScanner     *scanner,
                       double       gradient_shades[4])
 {
 	guint               token;

@@ -1,5 +1,13 @@
 2008-10-03  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/cairo-support.c (murrine_draw_new_glossy_highlight),
+	(murrine_draw_glow), (murrine_draw_glaze):
+	* src/cairo-support.h:
+	New glazestyle (5, let's test), declared some methods as static,
+	removing them from the header file
+
+2008-10-03  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/cairo-support.c (murrine_rgb_to_hls), (murrine_hls_to_rgb),
 	(murrine_shade), (murrine_mix_color), (murrine_gdk_color_to_rgb),
 	(get_decreased_ratio), (get_increased_ratio):

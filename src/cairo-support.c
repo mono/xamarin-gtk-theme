@@ -457,14 +457,14 @@ murrine_rounded_rectangle_closed (cairo_t *cr,
 	             clearlooks_rounded_rectangle (cr, x, y, w, h, radius, corners);
 }
 
-void
+static void
 murrine_draw_flat_highlight (cairo_t *cr,
                              int x, int y, int width, int height)
 {
 	cairo_rectangle (cr, x, y, width, height/2);
 }
 
-void
+static void
 murrine_draw_curved_highlight (cairo_t *cr,
                                int x, int y, int width, int height)
 {
@@ -480,7 +480,7 @@ murrine_draw_curved_highlight (cairo_t *cr,
 	cairo_close_path (cr);
 }
 
-void
+static void
 murrine_draw_curved_highlight_top (cairo_t *cr,
                                    int x, int y, int width, int height)
 {
@@ -494,7 +494,7 @@ murrine_draw_curved_highlight_top (cairo_t *cr,
 	cairo_close_path (cr);
 }
 
-void
+static void
 murrine_draw_curved_highlight_bottom (cairo_t *cr,
                                       int x, int y, int width, int height)
 {
@@ -508,70 +508,47 @@ murrine_draw_curved_highlight_bottom (cairo_t *cr,
 	cairo_close_path (cr);
 }
 
-void
-murrine_draw_glaze (cairo_t *cr,
-                    const MurrineRGB *fill,
-                    double highlight_ratio,
-                    double lightborder_ratio,
-                    MurrineGradients mrn_gradient,
-                    const WidgetParameters *widget,
-                    int x, int y, int width, int height,
-                    int radius, uint8 corners, boolean horizontal)
+/*
+ * Test new glazestyles here :)
+ */
+static void
+murrine_draw_new_glossy_highlight (cairo_t *cr,
+                                   int x, int y, int width, int height)
 {
-	MurrineRGB highlight;
-	murrine_shade (fill, highlight_ratio, &highlight);
+	double gloss_height = .5;
+	int gloss_angle = 3;
+	int local_gloss_height = (int) (height*gloss_height);
 
-	murrine_set_gradient (cr, fill, mrn_gradient, x, y, 0, height, mrn_gradient.gradients, FALSE);
-	cairo_set_fill_rule (cr, CAIRO_FILL_RULE_EVEN_ODD);
-	switch (widget->glazestyle)
-	{
-		default:
-		case 0:
-			cairo_fill (cr);
-			murrine_draw_flat_highlight (cr, x, y, width, height);
-			break;
-		case 1:
-			cairo_fill (cr);
-			murrine_draw_curved_highlight (cr, x, y, width, height);
-			break;
-		case 2:
-			cairo_fill_preserve (cr);
-			murrine_draw_curved_highlight (cr, x, y, width, height);
-			break;
-		case 3:
-		case 4:
-			cairo_fill (cr);
-			murrine_draw_curved_highlight_top (cr, x, y, width, height);
-			break;
-	}
-	murrine_set_gradient (cr, &highlight, mrn_gradient, x, y, 0, height, mrn_gradient.gradients, TRUE);
-	cairo_fill (cr);
-
-	if (widget->glazestyle == 4)
-	{
-		MurrineRGB shadow;
-		murrine_shade (fill, 1.0/highlight_ratio, &shadow);
-
-		murrine_draw_curved_highlight_bottom (cr, x, y, width, height);
-		murrine_set_gradient (cr, &shadow, mrn_gradient, x, y, 0, height, mrn_gradient.gradients, TRUE);
-		cairo_fill (cr);
-	}
-	else if (lightborder_ratio != 1.0)
-	{
-		murrine_shade (fill, lightborder_ratio*highlight_ratio, &highlight);
-
-		if (mrn_gradient.use_rgba)
-			cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
-
-		murrine_draw_lightborder (cr, &highlight, fill, mrn_gradient,
-		                          x+0.5, y+0.5, width-1, height-1,
-		                          mrn_gradient.gradients, horizontal,
-		                          widget->glazestyle, widget->lightborderstyle,
-		                          radius, corners);
-	}
+	cairo_move_to (cr, x, y);
+	cairo_line_to (cr, x+width, y);
+	cairo_line_to (cr, x+width, local_gloss_height);
+	cairo_curve_to (cr, x+2*width/3, local_gloss_height+gloss_angle, x+width/3,
+	                    local_gloss_height+gloss_angle, x, local_gloss_height);
+	cairo_close_path (cr);
 }
 
-void
+static void
+murrine_draw_glow (cairo_t *cr,
+                   const MurrineRGB *fill,
+                   int x, int y, int width, int height)
+{
+	cairo_pattern_t *pat;
+	MurrineRGB       glow_c;
+	int              glow_r = 200; /* draw a big cirle */
+
+	murrine_shade (fill, 1.24, &glow_c);
+
+	cairo_rectangle (cr, x, y, width, height);
+	pat = cairo_pattern_create_radial (x+width/2, y-width-glow_r, width+glow_r,
+	                                   x+width/2, y-width-glow_r, width+height+glow_r);
+	cairo_pattern_add_color_stop_rgba (pat, 0.0, glow_c.r, glow_c.g, glow_c.b, 0.6);
+	cairo_pattern_add_color_stop_rgba (pat, 1.0, glow_c.r, glow_c.g, glow_c.b, 0.0);
+	cairo_set_source (cr, pat);
+	cairo_fill (cr);
+	cairo_pattern_destroy (pat);
+}
+
+static void
 murrine_draw_lightborder (cairo_t *cr,
                           const MurrineRGB *highlight_color,
                           const MurrineRGB *fill,
@@ -627,6 +604,73 @@ murrine_draw_lightborder (cairo_t *cr,
 	}
 
 	cairo_restore (cr);
+}
+
+void
+murrine_draw_glaze (cairo_t *cr,
+                    const MurrineRGB *fill,
+                    double highlight_ratio,
+                    double lightborder_ratio,
+                    MurrineGradients mrn_gradient,
+                    const WidgetParameters *widget,
+                    int x, int y, int width, int height,
+                    int radius, uint8 corners, boolean horizontal)
+{
+	MurrineRGB highlight;
+	murrine_shade (fill, highlight_ratio, &highlight);
+
+	murrine_set_gradient (cr, fill, mrn_gradient, x, y, 0, height, mrn_gradient.gradients, FALSE);
+	cairo_set_fill_rule (cr, CAIRO_FILL_RULE_EVEN_ODD);
+	switch (widget->glazestyle)
+	{
+		default:
+		case 0:
+			cairo_fill (cr);
+			murrine_draw_flat_highlight (cr, x, y, width, height);
+			break;
+		case 1:
+			cairo_fill (cr);
+			murrine_draw_curved_highlight (cr, x, y, width, height);
+			break;
+		case 2:
+			cairo_fill_preserve (cr);
+			murrine_draw_curved_highlight (cr, x, y, width, height);
+			break;
+		case 3:
+		case 4:
+			cairo_fill (cr);
+			murrine_draw_curved_highlight_top (cr, x, y, width, height);
+			break;
+		case 5:
+			cairo_fill (cr);
+			murrine_draw_new_glossy_highlight (cr, x, y, width, height);
+			break;
+	}
+	murrine_set_gradient (cr, &highlight, mrn_gradient, x, y, 0, height, mrn_gradient.gradients, TRUE);
+	cairo_fill (cr);
+
+	if (widget->glazestyle == 4)
+	{
+		MurrineRGB shadow;
+		murrine_shade (fill, 1.0/highlight_ratio, &shadow);
+
+		murrine_draw_curved_highlight_bottom (cr, x, y, width, height);
+		murrine_set_gradient (cr, &shadow, mrn_gradient, x, y, 0, height, mrn_gradient.gradients, TRUE);
+		cairo_fill (cr);
+	}
+	else if (lightborder_ratio != 1.0)
+	{
+		murrine_shade (fill, lightborder_ratio*highlight_ratio, &highlight);
+
+		if (mrn_gradient.use_rgba)
+			cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
+
+		murrine_draw_lightborder (cr, &highlight, fill, mrn_gradient,
+		                          x+0.5, y+0.5, width-1, height-1,
+		                          mrn_gradient.gradients, horizontal,
+		                          widget->glazestyle, widget->lightborderstyle,
+		                          radius, corners);
+	}
 }
 
 void

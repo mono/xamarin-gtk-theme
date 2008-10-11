@@ -759,6 +759,9 @@ murrine_style_draw_box (DRAW_ARGS)
 	}
 	else if (DETAIL ("button") || DETAIL ("buttondefault"))
 	{
+		if (DETAIL ("buttondefault"))
+			return;
+
 		WidgetParameters params;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);

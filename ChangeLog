@@ -1,3 +1,8 @@
+2008-11-30  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/murrine_style.c (murrine_style_draw_box):
+	Fixed a memory leak. Thanks to Paolo Borelli.
+
 2008-10-11  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/murrine_style.c (murrine_style_draw_box):

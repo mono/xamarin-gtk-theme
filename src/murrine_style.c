@@ -757,11 +757,15 @@ murrine_style_draw_box (DRAW_ARGS)
 
 		STYLE_FUNCTION(draw_list_view_header) (cr, colors, &params, &header, x, y, width, height);
 	}
-	else if (DETAIL ("button") || DETAIL ("buttondefault"))
+	else if (DETAIL ("buttondefault"))
 	{
-		if (DETAIL ("buttondefault"))
-			return;
-
+		/* We are already checking the default button with the
+		* "murrine_set_widget_parameters" function, so we may occur
+		* in drawing the button two times. Do nothing.
+		*/
+	}
+	else if (DETAIL ("button"))
+	{
 		WidgetParameters params;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);

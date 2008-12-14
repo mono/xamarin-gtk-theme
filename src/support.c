@@ -275,6 +275,8 @@ murrine_scrollbar_visible_steppers (GtkWidget *widget)
 
 	if (GTK_RANGE (widget)->has_stepper_d)
 		steppers |= MRN_STEPPER_D;
+
+	return steppers;
 }
 
 MurrineJunction

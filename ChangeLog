@@ -1,3 +1,9 @@
+2008-12-14  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/support.c (murrine_scrollbar_visible_steppers):
+	Fixed murrine_scrollbar_visible_steppers,
+	patch by Ivan N. Zlatev, thanks!
+
 2008-11-30  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/murrine_style.c (murrine_style_draw_box):
@@ -6,7 +12,7 @@
 2008-10-11  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/murrine_style.c (murrine_style_draw_box):
-	Let's return when detail is buttondefault, should fix Bug #555891.
+	Let's return when detail is buttondefault, should fix bug #555891.
 
 2008-10-03  Andrea Cimitan  <andrea.cimitan@gmail.com>
 

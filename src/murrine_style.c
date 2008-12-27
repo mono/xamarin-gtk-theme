@@ -1148,12 +1148,14 @@ murrine_style_draw_box (DRAW_ARGS)
 		}
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
-
 		params.corners = MRN_CORNER_NONE;
 
 		if (DETAIL ("slider"))
 		{
-			if (murrine_style->roundness == 1)
+			int trough_border = 0;
+			gtk_widget_style_get (widget, "trough-border", &trough_border, NULL);
+
+			if (trough_border > 0 || murrine_style->roundness == 1)
 				params.corners = MRN_CORNER_ALL;
 			else
 				params.corners = MRN_CORNER_NONE;

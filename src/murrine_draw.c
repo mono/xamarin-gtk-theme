@@ -1197,7 +1197,7 @@ murrine_draw_menuitem (cairo_t *cr,
 			if (widget->roundness > 1)
 				cairo_clip_preserve (cr);
 
-			murrine_draw_glaze (cr, &colors->spot[1], widget->highlight_ratio, widget->glazestyle == 2 ? widget->lightborder_ratio : 1.0,
+			murrine_draw_glaze (cr, &colors->spot[1], widget->highlight_ratio, widget->lightborder_ratio,
 			                    widget->mrn_gradient, widget, 1, 1, width-2, height-2,
 			                    widget->roundness, widget->corners, TRUE);
 			break;

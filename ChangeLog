@@ -1,3 +1,9 @@
+2008-12-27  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/murrine_draw.c (murrine_draw_menuitem):
+    Use lightborder_ratio of the theme,
+    please disable it in the gtkrc if you don't want it.
+
 2008-12-14  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/support.c (murrine_scrollbar_visible_steppers):

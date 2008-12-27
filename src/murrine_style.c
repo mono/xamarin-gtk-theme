@@ -1114,7 +1114,7 @@ murrine_style_draw_box (DRAW_ARGS)
 			else
 				params.corners = MRN_CORNER_NONE;
 
-				STYLE_FUNCTION(draw_button) (cr, colors, &params, x, y, width, height+1, TRUE);
+			STYLE_FUNCTION(draw_button) (cr, colors, &params, x, y, width, height+1, TRUE);
 		}
 	}
 	else if (DETAIL ("hscrollbar") || DETAIL ("vscrollbar") || DETAIL ("slider") || DETAIL ("stepper"))

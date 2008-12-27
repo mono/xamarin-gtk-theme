@@ -988,7 +988,7 @@ murrine_style_draw_box (DRAW_ARGS)
 		gdouble               elapsed = 0.0;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
-		params.roundness = murrine_style->roundness;
+		params.corners = MRN_CORNER_NONE;
 
 		if (widget && MRN_IS_PROGRESS_BAR (widget))
 			progressbar.orientation = gtk_progress_bar_get_orientation (GTK_PROGRESS_BAR (widget));

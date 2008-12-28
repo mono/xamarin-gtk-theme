@@ -51,6 +51,7 @@ enum
 	TOKEN_MENUITEMSTYLE,
 	TOKEN_MENUSTYLE,
 	TOKEN_PROFILE,
+	TOKEN_PROGRESSBARSTYLE,
 	TOKEN_RELIEFSTYLE,
 	TOKEN_RGBA,
 	TOKEN_ROUNDNESS,
@@ -97,6 +98,7 @@ theme_symbols[] =
 	{ "menuitemstyle",       TOKEN_MENUITEMSTYLE },
 	{ "menustyle",           TOKEN_MENUSTYLE },
 	{ "profile",             TOKEN_PROFILE },
+	{ "progressbarstyle",    TOKEN_PROGRESSBARSTYLE },
 	{ "reliefstyle",         TOKEN_RELIEFSTYLE },
 	{ "rgba",                TOKEN_RGBA },
 	{ "roundness",           TOKEN_ROUNDNESS },
@@ -152,6 +154,7 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->menubarstyle = 0;
 	murrine_rc->menuitemstyle = 1;
 	murrine_rc->menustyle = 1;
+	murrine_rc->progressbarstyle = 1;
 	murrine_rc->reliefstyle = 2;
 	murrine_rc->rgba = FALSE;
 	murrine_rc->roundness = 1;
@@ -512,6 +515,10 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_profile (settings, scanner, &murrine_style->profile);
 				murrine_style->flags |= MRN_FLAG_PROFILE;
 				break;
+			case TOKEN_PROGRESSBARSTYLE:
+				token = theme_parse_int (settings, scanner, &murrine_style->progressbarstyle);
+				murrine_style->flags |= MRN_FLAG_PROGRESSBARSTYLE;
+				break;
 			case TOKEN_RELIEFSTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->reliefstyle);
 				murrine_style->flags |= MRN_FLAG_RELIEFSTYLE;
@@ -631,6 +638,8 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->menustyle = src_w->menustyle;
 	if (flags & MRN_FLAG_PROFILE)
 		dest_w->profile = src_w->profile;
+	if (flags & MRN_FLAG_PROGRESSBARSTYLE)
+		dest_w->progressbarstyle = src_w->progressbarstyle;
 	if (flags & MRN_FLAG_RELIEFSTYLE)
 		dest_w->reliefstyle = src_w->reliefstyle;
 	if (flags & MRN_FLAG_RGBA)

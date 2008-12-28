@@ -335,7 +335,7 @@ struct _MurrineStyleFunctions
 	                               const WidgetParameters      *widget,
 	                               const ProgressBarParameters *progressbar,
 	                               int x, int y, int width, int height,
-	                               gint offset);
+	                               gint offset, int progressbarstyle);
 
 	void (*draw_entry) (cairo_t *cr,
 	                    const MurrineColors    *colors,

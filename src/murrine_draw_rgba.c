@@ -433,7 +433,7 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
                                     const WidgetParameters      *widget,
                                     const ProgressBarParameters *progressbar,
                                     int x, int y, int width, int height,
-                                    gint offset)
+                                    gint offset, int progressbarstyle)
 {
 	boolean    is_horizontal = progressbar->orientation < 2;
 	double     tile_pos = 0;
@@ -478,20 +478,31 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 	                    widget->mrn_gradient, widget, 2, 1, width-4, height-2,
 	                    widget->roundness, widget->corners, TRUE);
 
-	/* Draw strokes */
-	while (tile_pos <= width+x_step-2)
+	switch (progressbarstyle)
 	{
-		cairo_move_to (cr, stroke_width/2-x_step, 0);
-		cairo_line_to (cr, stroke_width-x_step, 0);
-		cairo_line_to (cr, stroke_width/2-x_step, height);
-		cairo_line_to (cr, -x_step, height);
+		case 0:
+			break;
+		default:
+		case 1:
+		{
+			/* Draw strokes */
+			while (tile_pos <= width+x_step-2)
+			{
+				cairo_move_to (cr, stroke_width/2-x_step, 0);
+				cairo_line_to (cr, stroke_width-x_step, 0);
+				cairo_line_to (cr, stroke_width/2-x_step, height);
+				cairo_line_to (cr, -x_step, height);
 
-		cairo_translate (cr, stroke_width, 0);
-		tile_pos += stroke_width;
+				cairo_translate (cr, stroke_width, 0);
+				tile_pos += stroke_width;
+			}
+
+			murrine_set_color_rgba (cr, &colors->spot[2], 0.15);
+			cairo_fill (cr);
+			break;
+		}
 	}
 
-	murrine_set_color_rgba (cr, &colors->spot[2], 0.15);
-	cairo_fill (cr);
 	cairo_restore (cr);
 
 	/* Draw the border */

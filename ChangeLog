@@ -1,5 +1,20 @@
 2008-12-28  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* schema/murrine.xml.in.in:
+	* src/murrine_draw.c (murrine_draw_progressbar_fill):
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_progressbar_fill):
+	* src/murrine_rc_style.c (murrine_rc_style_init),
+	(murrine_rc_style_parse), (murrine_rc_style_merge):
+	* src/murrine_rc_style.h:
+	* src/murrine_style.c (murrine_style_draw_box),
+	(murrine_style_init_from_rc), (murrine_style_copy):
+	* src/murrine_style.h:
+	* src/murrine_types.h:
+	Added progressbarstyle, progressbarstyle = 1 is striped,
+	progressbarstyle = 0 (ugly) is without anything.
+
+2008-12-28  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_draw_rgba.c (murrine_rgba_draw_scrollbar_slider):
 	Draw rounded scrollbars sliders when GtkRange::trough-border > 0.
 

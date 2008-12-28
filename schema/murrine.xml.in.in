@@ -220,6 +220,17 @@
 		</enumeration>
 	</option>
 
+	<option type="enumeration" name="progressbarstyle" default="1">
+		<_long_name>Progressbar style</_long_name>
+		<section>General</section>
+		<enumeration value="0">
+			<label>Don't draw any special effect</label>
+		</enumeration>
+		<enumeration value="1">
+			<label>Draw stripes</label>
+		</enumeration>
+	</option>
+
 	<option type="enumeration" name="reliefstyle" default="2">
 		<_long_name>Relief style of widget</_long_name>
 		<section>General</section>

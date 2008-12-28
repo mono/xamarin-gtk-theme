@@ -983,9 +983,9 @@ murrine_style_draw_box (DRAW_ARGS)
 	else if (DETAIL ("bar"))
 	{
 		WidgetParameters      params;
-
 		ProgressBarParameters progressbar;
 		gdouble               elapsed = 0.0;
+		int progressbarstyle = murrine_style->progressbarstyle;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 		params.corners = MRN_CORNER_NONE;
@@ -1023,11 +1023,11 @@ murrine_style_draw_box (DRAW_ARGS)
 #ifndef HAVE_ANIMATIONRTL
 		STYLE_FUNCTION(draw_progressbar_fill) (cr, colors, &params, &progressbar,
 		                                       x-1, y, width+2, height,
-		                                       10-(int)(elapsed*10.0) % 10);
+		                                       10-(int)(elapsed*10.0) % 10, progressbarstyle);
 #else
 		STYLE_FUNCTION(draw_progressbar_fill) (cr, colors, &params, &progressbar,
 		                                       x-1, y, width+2, height,
-		                                       10+(int)(elapsed*10.0) % 10);
+		                                       10+(int)(elapsed*10.0) % 10, progressbarstyle);
 #endif
 	}
 	else if (DETAIL ("hscale") || DETAIL ("vscale"))
@@ -1705,23 +1705,24 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	}
 	else
 		murrine_style->roundness       = MURRINE_RC_STYLE (rc_style)->roundness;
-	murrine_style->menubarstyle        = MURRINE_RC_STYLE (rc_style)->menubarstyle;
-	murrine_style->menubaritemstyle    = MURRINE_RC_STYLE (rc_style)->menubaritemstyle;
-	murrine_style->menustyle           = MURRINE_RC_STYLE (rc_style)->menustyle;
-	murrine_style->menuitemstyle       = MURRINE_RC_STYLE (rc_style)->menuitemstyle;
+	murrine_style->animation           = MURRINE_RC_STYLE (rc_style)->animation;
+	murrine_style->colorize_scrollbar  = MURRINE_RC_STYLE (rc_style)->colorize_scrollbar;
+	murrine_style->gradients           = MURRINE_RC_STYLE (rc_style)->gradients;
+	murrine_style->has_scrollbar_color = MURRINE_RC_STYLE (rc_style)->has_scrollbar_color;
 	murrine_style->lightborderstyle    = MURRINE_RC_STYLE (rc_style)->lightborderstyle;
 	murrine_style->listviewheaderstyle = MURRINE_RC_STYLE (rc_style)->listviewheaderstyle;
 	murrine_style->listviewstyle       = MURRINE_RC_STYLE (rc_style)->listviewstyle;
-	murrine_style->sliderstyle         = MURRINE_RC_STYLE (rc_style)->sliderstyle;
+	murrine_style->menubarstyle        = MURRINE_RC_STYLE (rc_style)->menubarstyle;
+	murrine_style->menubaritemstyle    = MURRINE_RC_STYLE (rc_style)->menubaritemstyle;
+	murrine_style->menuitemstyle       = MURRINE_RC_STYLE (rc_style)->menuitemstyle;
+	murrine_style->menustyle           = MURRINE_RC_STYLE (rc_style)->menustyle;
+	murrine_style->progressbarstyle    = MURRINE_RC_STYLE (rc_style)->progressbarstyle;
+	murrine_style->reliefstyle         = MURRINE_RC_STYLE (rc_style)->reliefstyle;
+	murrine_style->rgba                = MURRINE_RC_STYLE (rc_style)->rgba;
 	murrine_style->scrollbarstyle      = MURRINE_RC_STYLE (rc_style)->scrollbarstyle;
-	murrine_style->has_scrollbar_color = MURRINE_RC_STYLE (rc_style)->has_scrollbar_color;
+	murrine_style->sliderstyle         = MURRINE_RC_STYLE (rc_style)->sliderstyle;
 	murrine_style->stepperstyle        = MURRINE_RC_STYLE (rc_style)->stepperstyle;
 	murrine_style->toolbarstyle        = MURRINE_RC_STYLE (rc_style)->toolbarstyle;
-	murrine_style->animation           = MURRINE_RC_STYLE (rc_style)->animation;
-	murrine_style->gradients           = MURRINE_RC_STYLE (rc_style)->gradients;
-	murrine_style->colorize_scrollbar  = MURRINE_RC_STYLE (rc_style)->colorize_scrollbar;
-	murrine_style->rgba                = MURRINE_RC_STYLE (rc_style)->rgba;
-	murrine_style->reliefstyle         = MURRINE_RC_STYLE (rc_style)->reliefstyle;
 
 	if (murrine_style->has_scrollbar_color)
 		murrine_style->scrollbar_color = MURRINE_RC_STYLE (rc_style)->scrollbar_color;
@@ -1972,6 +1973,7 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	mrn_style->menuitemstyle       = mrn_src->menuitemstyle;
 	mrn_style->menustyle           = mrn_src->menustyle;
 	mrn_style->profile             = mrn_src->profile;
+	mrn_style->progressbarstyle    = mrn_src->progressbarstyle;
 	mrn_style->reliefstyle         = mrn_src->reliefstyle;
 	mrn_style->rgba                = mrn_src->rgba;
 	mrn_style->roundness           = mrn_src->roundness;

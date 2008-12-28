@@ -1169,11 +1169,7 @@ murrine_rgba_draw_scrollbar_slider (cairo_t *cr,
 
 	cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
 
-	murrine_set_color_rgb (cr, &border);
-	murrine_rounded_rectangle_fast (cr, 0.5, 0.5, width-1, height-1, widget->corners);
-	cairo_stroke (cr);
-
-	cairo_rectangle (cr, 1, 1, width-2, height-2);
+	murrine_rounded_rectangle_closed (cr, 1, 1, width-2, height-2, widget->roundness, widget->corners);
 
 	murrine_draw_glaze (cr, &fill, widget->highlight_ratio, widget->lightborder_ratio,
 	                    widget->mrn_gradient, widget, 1, 1, width-2, height-2,
@@ -1247,19 +1243,22 @@ murrine_rgba_draw_scrollbar_slider (cairo_t *cr,
 	/* Draw the handle */
 	if (scrollbar->style > 0 && scrollbar->style % 2 == 0)
 	{
-		int bar_x = width/2 - 4;
-		cairo_translate (cr, 0.5, 0.5);
+		double bar_x = width/2-4.5;
 		int i;
 		for (i=0; i<3; i++)
 		{
-			cairo_move_to (cr, bar_x, 4.5);
-			cairo_line_to (cr, bar_x, height-5.5);
+			cairo_move_to (cr, bar_x, 5);
+			cairo_line_to (cr, bar_x, height-5);
 			murrine_set_color_rgb (cr, &border);
 			cairo_stroke (cr);
 
 			bar_x += 3;
 		}
 	}
+
+	murrine_set_color_rgb (cr, &border);
+	murrine_rounded_rectangle (cr, 0.5, 0.5, width-1, height-1, widget->roundness, widget->corners);
+	cairo_stroke (cr);
 }
 
 static void

@@ -1,3 +1,8 @@
+2008-12-28  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_scrollbar_slider):
+	Draw rounded scrollbars sliders when GtkRange::trough-border > 0.
+
 2008-12-27  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/murrine_draw.c (murrine_draw_scrollbar_slider):

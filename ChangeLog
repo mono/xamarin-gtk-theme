@@ -1,5 +1,30 @@
 2008-12-28  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* schema/murrine.xml.in.in:
+	* src/cairo-support.c (murrine_draw_bottom_glow),
+	(murrine_draw_centered_glow), (murrine_draw_horizontal_glow),
+	(murrine_draw_top_glow), (murrine_draw_glaze):
+	* src/cairo-support.h:
+	* src/murrine_draw.c (murrine_draw_button),
+	(murrine_draw_progressbar_fill), (murrine_draw_menubar),
+	(murrine_draw_toolbar), (murrine_draw_list_view_header),
+	(murrine_draw_menuitem), (murrine_draw_scrollbar_stepper),
+	(murrine_draw_scrollbar_slider):
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_button),
+	(murrine_rgba_draw_progressbar_fill), (murrine_rgba_draw_menubar),
+	(murrine_rgba_draw_toolbar), (murrine_rgba_draw_scrollbar_stepper),
+	(murrine_rgba_draw_scrollbar_slider):
+	* src/murrine_rc_style.c (murrine_rc_style_init),
+	(murrine_rc_style_parse), (murrine_rc_style_merge):
+	* src/murrine_rc_style.h:
+	* src/murrine_style.c (murrine_set_widget_parameters),
+	(murrine_style_init_from_rc), (murrine_style_copy):
+	* src/murrine_style.h:
+	* src/murrine_types.h:
+	5 glowstyle options: top, bottom, top and bottom, horizontal, centered.
+
+2008-12-28  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/cairo-support.c (murrine_draw_glow), (murrine_draw_glaze):
 	* src/murrine_rc_style.c (murrine_rc_style_init),
 	(murrine_rc_style_parse), (murrine_rc_style_merge):

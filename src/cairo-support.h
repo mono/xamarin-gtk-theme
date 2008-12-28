@@ -93,6 +93,7 @@ G_GNUC_INTERNAL void murrine_set_gradient (cairo_t *cr,
 
 G_GNUC_INTERNAL void murrine_draw_glaze (cairo_t *cr,
                                          const MurrineRGB *fill,
+                                         double glow_ratio,
                                          double highlight_ratio,
                                          double lightborder_ratio,
                                          MurrineGradients mrn_gradient,

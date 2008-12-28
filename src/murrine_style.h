@@ -51,6 +51,7 @@ struct _MurrineStyle
 	double   lightborder_ratio;
 
 	guint8   glazestyle;
+	guint8   glowstyle;
 	guint8   lightborderstyle;
 	guint8   listviewheaderstyle;
 	guint8   listviewstyle;

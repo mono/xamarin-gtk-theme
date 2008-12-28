@@ -195,7 +195,8 @@ murrine_rgba_draw_button (cairo_t *cr,
 	if (widget->roundness > 1)
 		cairo_clip_preserve (cr);
 
-	murrine_draw_glaze (cr, &fill, highlight_ratio_custom, !widget->active ? widget->lightborder_ratio : 1.0,
+	murrine_draw_glaze (cr, &fill,
+	                    widget->glow_ratio, highlight_ratio_custom, !widget->active ? widget->lightborder_ratio : 1.0,
 	                    mrn_gradient_custom, widget, xos+1, yos+1, width-(xos*2)-2, height-(yos*2)-2,
 	                    widget->roundness, widget->corners, horizontal);
 
@@ -474,7 +475,8 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 
 	cairo_rectangle (cr, 2, 1, width-4, height-2);
 
-	murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->lightborder_ratio,
+	murrine_draw_glaze (cr, fill,
+	                    widget->glow_ratio, widget->highlight_ratio, widget->lightborder_ratio,
 	                    widget->mrn_gradient, widget, 2, 1, width-4, height-2,
 	                    widget->roundness, widget->corners, TRUE);
 
@@ -550,7 +552,8 @@ murrine_rgba_draw_menubar (cairo_t *cr,
 		{
 			/* XXX: should use another gradient rgba_opacity */
 			int os = (widget->glazestyle == 2) ? 1 : 0;
-			murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->glazestyle == 2 ? widget->lightborder_ratio : 1.0,
+			murrine_draw_glaze (cr, fill,
+			                    widget->glow_ratio, widget->highlight_ratio, widget->glazestyle == 2 ? widget->lightborder_ratio : 1.0,
 			                    widget->mrn_gradient, widget, os, os, width-os*2, height-os*2,
 			                    widget->roundness, widget->corners, TRUE);
 			break;
@@ -651,7 +654,8 @@ murrine_rgba_draw_toolbar (cairo_t *cr,
 		case 1:
 		{
 			int os = (widget->glazestyle == 2) ? 1 : 0;
-			murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->glazestyle == 2 ? widget->lightborder_ratio : 1.0,
+			murrine_draw_glaze (cr, fill,
+			                    widget->glow_ratio, widget->highlight_ratio, widget->glazestyle == 2 ? widget->lightborder_ratio : 1.0,
 			                    widget->mrn_gradient, widget, os, os, width-os*2, height-os*2,
 			                    widget->roundness, widget->corners, TRUE);
 
@@ -1114,7 +1118,8 @@ murrine_rgba_draw_scrollbar_stepper (cairo_t *cr,
 	if (widget->roundness > 1)
 		cairo_clip_preserve(cr);
 
-	murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->lightborder_ratio,
+	murrine_draw_glaze (cr, fill,
+	                    widget->glow_ratio, widget->highlight_ratio, widget->lightborder_ratio,
 	                    widget->mrn_gradient, widget, 1, 1, width-2, height-2,
 	                    widget->roundness, widget->corners, TRUE);
 
@@ -1182,7 +1187,8 @@ murrine_rgba_draw_scrollbar_slider (cairo_t *cr,
 
 	murrine_rounded_rectangle_closed (cr, 1, 1, width-2, height-2, widget->roundness, widget->corners);
 
-	murrine_draw_glaze (cr, &fill, widget->highlight_ratio, widget->lightborder_ratio,
+	murrine_draw_glaze (cr, &fill,
+	                    widget->glow_ratio, widget->highlight_ratio, widget->lightborder_ratio,
 	                    widget->mrn_gradient, widget, 1, 1, width-2, height-2,
 	                    widget->roundness, widget->corners, TRUE);
 

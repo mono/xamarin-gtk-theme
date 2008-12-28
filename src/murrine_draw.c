@@ -194,7 +194,8 @@ murrine_draw_button (cairo_t *cr,
 	if (widget->roundness > 1)
 		cairo_clip_preserve (cr);
 
-	murrine_draw_glaze (cr, &fill, highlight_ratio_custom, !widget->active ? widget->lightborder_ratio : 1.0,
+	murrine_draw_glaze (cr, &fill,
+	                    widget->glow_ratio, highlight_ratio_custom, !widget->active ? widget->lightborder_ratio : 1.0,
 	                    mrn_gradient_custom, widget,
 	                    xos+1, yos+1, width-(xos*2)-2, height-(yos*2)-2,
 	                    widget->roundness, widget->corners, horizontal);
@@ -518,7 +519,8 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 	cairo_save (cr);
 	cairo_rectangle (cr, 2, 1, width-4, height-2);
 
-	murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->lightborder_ratio,
+	murrine_draw_glaze (cr, fill,
+	                    widget->glow_ratio, widget->highlight_ratio, widget->lightborder_ratio,
 	                    widget->mrn_gradient, widget, 2, 1, width-4, height-2,
 	                    widget->roundness, widget->corners, TRUE);
 
@@ -604,7 +606,8 @@ murrine_draw_menubar (cairo_t *cr,
 		case 1:
 		{
 			int os = (widget->glazestyle == 2) ? 1 : 0;
-			murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->glazestyle == 2 ? widget->lightborder_ratio : 1.0,
+			murrine_draw_glaze (cr, fill,
+			                    widget->glow_ratio, widget->highlight_ratio, widget->glazestyle == 2 ? widget->lightborder_ratio : 1.0,
 			                    widget->mrn_gradient, widget, os, os, width-os*2, height-os*2,
 			                    widget->roundness, widget->corners, TRUE);
 			break;
@@ -699,7 +702,8 @@ murrine_draw_toolbar (cairo_t *cr,
 		case 1:
 		{
 			int os = (widget->glazestyle == 2) ? 1 : 0;
-			murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->glazestyle == 2 ? widget->lightborder_ratio : 1.0,
+			murrine_draw_glaze (cr, fill,
+			                    widget->glow_ratio, widget->highlight_ratio, widget->glazestyle == 2 ? widget->lightborder_ratio : 1.0,
 			                    widget->mrn_gradient, widget, os, os, width-os*2, height-os*2,
 			                    widget->roundness, widget->corners, TRUE);
 			break;
@@ -1132,7 +1136,8 @@ murrine_draw_list_view_header (cairo_t *cr,
 		case 1:
 			cairo_rectangle (cr, 0, 0, width, height);
 
-			murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->glazestyle == 2 ? widget->lightborder_ratio : 1.0,
+			murrine_draw_glaze (cr, fill,
+			                    widget->glow_ratio, widget->highlight_ratio, widget->glazestyle == 2 ? widget->lightborder_ratio : 1.0,
 			                    widget->mrn_gradient, widget, 0, 0, width, height-1,
 			                    widget->roundness, widget->corners, TRUE);
 			break;
@@ -1208,7 +1213,8 @@ murrine_draw_menuitem (cairo_t *cr,
 			if (widget->roundness > 1)
 				cairo_clip_preserve (cr);
 
-			murrine_draw_glaze (cr, &colors->spot[1], widget->highlight_ratio, widget->lightborder_ratio,
+			murrine_draw_glaze (cr, &colors->spot[1],
+			                    widget->glow_ratio, widget->highlight_ratio, widget->lightborder_ratio,
 			                    widget->mrn_gradient, widget, 1, 1, width-2, height-2,
 			                    widget->roundness, widget->corners, TRUE);
 			break;
@@ -1317,7 +1323,8 @@ murrine_draw_scrollbar_stepper (cairo_t *cr,
 	if (widget->roundness > 1)
 		cairo_clip_preserve(cr);
 
-	murrine_draw_glaze (cr, fill, widget->highlight_ratio, widget->lightborder_ratio,
+	murrine_draw_glaze (cr, fill,
+	                    widget->glow_ratio, widget->highlight_ratio, widget->lightborder_ratio,
 	                    widget->mrn_gradient, widget, 1, 1, width-2, height-2,
 	                    widget->roundness, widget->corners, TRUE);
 
@@ -1383,7 +1390,8 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
 
 	murrine_rounded_rectangle_closed (cr, 1, 1, width-2, height-2, widget->roundness, widget->corners);
 
-	murrine_draw_glaze (cr, &fill, widget->highlight_ratio, widget->lightborder_ratio,
+	murrine_draw_glaze (cr, &fill,
+	                    widget->glow_ratio, widget->highlight_ratio, widget->lightborder_ratio,
 	                    widget->mrn_gradient, widget, 1, 1, width-2, height-2,
 	                    widget->roundness, widget->corners, TRUE);
 

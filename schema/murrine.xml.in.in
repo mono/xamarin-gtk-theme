@@ -51,6 +51,35 @@
 		</enumeration>
 	</option>
 
+	<option type="real" name="glow_ratio" default="1.0">
+		<_long_name>Glow Ratio</_long_name>
+		<_description>Enable and set the Glow Ratio</_description>
+		<section>General</section>
+		<minimum>0</minimum>
+		<maximum>2</maximum>
+		<precision>0.1</precision>
+	</option>
+
+	<option type="enumeration" name="glowstyle" default="0">
+		<_long_name>Glow Style</_long_name>
+		<section>General</section>
+		<enumeration value="0">
+			<label>Top glow</label>
+		</enumeration>
+		<enumeration value="1">
+			<label>Bottom glow</label>
+		</enumeration>
+		<enumeration value="2">
+			<label>Top and Bottom glow</label>
+		</enumeration>
+		<enumeration value="3">
+			<label>Horizontal glow</label>
+		</enumeration>
+		<enumeration value="4">
+			<label>Centered glow</label>
+		</enumeration>
+	</option>
+
 	<option type="real" name="gradient_stop_1" default="1.0">
 		<optional>Enable custom gradients</optional>
 		<_long_name>First gradient stop</_long_name>

@@ -529,23 +529,23 @@ murrine_draw_new_glossy_highlight (cairo_t *cr,
 
 static void
 murrine_draw_glow (cairo_t *cr,
-                   const MurrineRGB *fill,
+                   const MurrineRGB *glow,
                    int x, int y, int width, int height)
 {
 	cairo_pattern_t *pat;
-	MurrineRGB       glow_c;
-	int              glow_r = 200; /* draw a big cirle */
+	double           scaling_factor = (double)1.2*width/height;
 
-	murrine_shade (fill, 1.24, &glow_c);
-
+	cairo_save (cr);
 	cairo_rectangle (cr, x, y, width, height);
-	pat = cairo_pattern_create_radial (x+width/2, y-width-glow_r, width+glow_r,
-	                                   x+width/2, y-width-glow_r, width+height+glow_r);
-	cairo_pattern_add_color_stop_rgba (pat, 0.0, glow_c.r, glow_c.g, glow_c.b, 0.6);
-	cairo_pattern_add_color_stop_rgba (pat, 1.0, glow_c.r, glow_c.g, glow_c.b, 0.0);
+	cairo_scale (cr, scaling_factor, 1);
+	pat = cairo_pattern_create_radial ((x+width/2.0)/scaling_factor, y, y,
+	                                   (x+width/2.0)/scaling_factor, y, y+height/2);
+	murrine_pattern_add_color_stop_rgba (pat, 0.0, glow, 0.6);
+	murrine_pattern_add_color_stop_rgba (pat, 1.0, glow, 0.0);
 	cairo_set_source (cr, pat);
-	cairo_fill (cr);
 	cairo_pattern_destroy (pat);
+	cairo_fill (cr);
+	cairo_restore (cr);
 }
 
 static void
@@ -617,6 +617,7 @@ murrine_draw_glaze (cairo_t *cr,
                     int radius, uint8 corners, boolean horizontal)
 {
 	MurrineRGB highlight;
+	double glow_ratio = widget->glow_ratio;
 	murrine_shade (fill, highlight_ratio, &highlight);
 
 	murrine_set_gradient (cr, fill, mrn_gradient, x, y, 0, height, mrn_gradient.gradients, FALSE);
@@ -648,6 +649,14 @@ murrine_draw_glaze (cairo_t *cr,
 	}
 	murrine_set_gradient (cr, &highlight, mrn_gradient, x, y, 0, height, mrn_gradient.gradients, TRUE);
 	cairo_fill (cr);
+
+	if (glow_ratio != 1.0)
+	{
+		MurrineRGB glow;
+		murrine_shade (fill, glow_ratio, &glow);
+
+		murrine_draw_glow (cr, &glow, x, y, width, height);
+	}
 
 	if (widget->glazestyle == 4)
 	{

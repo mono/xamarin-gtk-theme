@@ -39,6 +39,7 @@ enum
 	TOKEN_COLORIZE_SCROLLBAR,
 	TOKEN_CONTRAST,
 	TOKEN_GLAZESTYLE,
+	TOKEN_GLOW_RATIO,
 	TOKEN_GRADIENT_SHADES,
 	TOKEN_GRADIENTS,
 	TOKEN_HIGHLIGHT_RATIO,
@@ -86,6 +87,7 @@ theme_symbols[] =
 	{ "colorize_scrollbar",  TOKEN_COLORIZE_SCROLLBAR },
 	{ "contrast",            TOKEN_CONTRAST },
 	{ "glazestyle",          TOKEN_GLAZESTYLE },
+	{ "glow_ratio",          TOKEN_GLOW_RATIO },
 	{ "gradient_shades",     TOKEN_GRADIENT_SHADES },
 	{ "gradients",           TOKEN_GRADIENTS },
 	{ "highlight_ratio",     TOKEN_HIGHLIGHT_RATIO },
@@ -139,6 +141,7 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->colorize_scrollbar = TRUE;
 	murrine_rc->contrast = 1.0;
 	murrine_rc->glazestyle = 1;
+	murrine_rc->glow_ratio = 1.0;
 	murrine_rc->gradient_shades[0] = 1.1;
 	murrine_rc->gradient_shades[1] = 1.0;
 	murrine_rc->gradient_shades[2] = 1.0;
@@ -467,6 +470,10 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_int (settings, scanner, &murrine_style->glazestyle);
 				murrine_style->flags |= MRN_FLAG_GLAZESTYLE;
 				break;
+			case TOKEN_GLOW_RATIO:
+				token = theme_parse_ratio (settings, scanner, &murrine_style->glow_ratio);
+				murrine_style->flags |= MRN_FLAG_GLOW_RATIO;
+				break;
 			case TOKEN_GRADIENT_SHADES:
 				token = theme_parse_gradient (settings, scanner, murrine_style->gradient_shades);
 				murrine_style->flags |= MRN_FLAG_GRADIENT_SHADES;
@@ -609,6 +616,8 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->contrast = src_w->contrast;
 	if (flags & MRN_FLAG_GLAZESTYLE)
 		dest_w->glazestyle = src_w->glazestyle;
+	if (flags & MRN_FLAG_GLOW_RATIO)
+		dest_w->glow_ratio = src_w->glow_ratio;
 	if (flags & MRN_FLAG_GRADIENT_SHADES)
 	{
 		dest_w->gradient_shades[0] = src_w->gradient_shades[0];

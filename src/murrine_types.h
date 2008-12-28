@@ -200,6 +200,7 @@ typedef struct
 	int lightborderstyle;
 	int reliefstyle;
 	int roundness;
+	double glow_ratio;
 	double highlight_ratio;
 	double lightborder_ratio;
 	MurrineGradients mrn_gradient;

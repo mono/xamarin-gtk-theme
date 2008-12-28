@@ -708,11 +708,23 @@ murrine_draw_glaze (cairo_t *cr,
 	}
 	murrine_set_gradient (cr, &highlight, mrn_gradient, x, y, 0, height, mrn_gradient.gradients, TRUE);
 	cairo_fill (cr);
+	if (widget->glazestyle == 4)
+	{
+		MurrineRGB shadow;
+		murrine_shade (fill, 1.0/highlight_ratio, &shadow);
 
+		murrine_draw_curved_highlight_bottom (cr, x, y, width, height);
+		murrine_set_gradient (cr, &shadow, mrn_gradient, x, y, 0, height, mrn_gradient.gradients, TRUE);
+		cairo_fill (cr);
+	}
+	
 	if (glow_ratio != 1.0)
 	{
 		MurrineRGB glow;
 		murrine_shade (fill, glow_ratio, &glow);
+
+		if (mrn_gradient.use_rgba)
+			cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 
 		switch (widget->glowstyle)
 		{
@@ -736,16 +748,7 @@ murrine_draw_glaze (cairo_t *cr,
 		}
 	}
 
-	if (widget->glazestyle == 4)
-	{
-		MurrineRGB shadow;
-		murrine_shade (fill, 1.0/highlight_ratio, &shadow);
-
-		murrine_draw_curved_highlight_bottom (cr, x, y, width, height);
-		murrine_set_gradient (cr, &shadow, mrn_gradient, x, y, 0, height, mrn_gradient.gradients, TRUE);
-		cairo_fill (cr);
-	}
-	else if (lightborder_ratio != 1.0)
+	if (widget->glazestyle != 4 && lightborder_ratio != 1.0)
 	{
 		murrine_shade (fill, lightborder_ratio*highlight_ratio, &highlight);
 

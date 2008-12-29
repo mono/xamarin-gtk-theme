@@ -671,10 +671,19 @@ murrine_rgba_draw_toolbar (cairo_t *cr,
 			murrine_pattern_add_color_stop_rgba (pat, 0.0, fill, TOOLBAR_OPACITY);
 			murrine_pattern_add_color_stop_rgba (pat, 1.0, &lower, TOOLBAR_OPACITY);
 			cairo_set_source (cr, pat);
-			cairo_fill (cr);
 			cairo_pattern_destroy (pat);
+			cairo_fill (cr);
 
 			cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
+
+			/* Draw highlight */
+			if (!toolbar->topmost)
+			{
+				cairo_move_to         (cr, 0, 0.5);
+				cairo_line_to         (cr, width, 0.5);
+				murrine_set_color_rgb (cr, top);
+				cairo_stroke          (cr);
+			}
 			break;
 		}
 	}

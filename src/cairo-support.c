@@ -717,7 +717,7 @@ murrine_draw_glaze (cairo_t *cr,
 		murrine_set_gradient (cr, &shadow, mrn_gradient, x, y, 0, height, mrn_gradient.gradients, TRUE);
 		cairo_fill (cr);
 	}
-	
+
 	if (glow_ratio != 1.0)
 	{
 		MurrineRGB glow;

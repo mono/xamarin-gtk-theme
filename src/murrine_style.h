@@ -45,10 +45,10 @@ struct _MurrineStyle
 	MurrineProfiles profile;
 
 	double   contrast;
-	double   glow_ratio;
+	double   glow_shade;
 	double   gradient_shades[4];
-	double   highlight_ratio;
-	double   lightborder_ratio;
+	double   highlight_shade;
+	double   lightborder_shade;
 
 	guint8   glazestyle;
 	guint8   glowstyle;

@@ -137,10 +137,10 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	params->ythickness = style->ythickness;
 
 	params->glazestyle        = murrine_style->glazestyle;
-	params->glow_ratio        = murrine_style->glow_ratio;
+	params->glow_shade        = murrine_style->glow_shade;
 	params->glowstyle         = murrine_style->glowstyle;
-	params->highlight_ratio   = murrine_style->highlight_ratio;
-	params->lightborder_ratio = murrine_style->lightborder_ratio;
+	params->highlight_shade   = murrine_style->highlight_shade;
+	params->lightborder_shade = murrine_style->lightborder_shade;
 	params->lightborderstyle  = murrine_style->lightborderstyle;
 	params->reliefstyle       = murrine_style->reliefstyle;
 	params->roundness         = murrine_style->roundness;
@@ -1650,9 +1650,9 @@ murrine_style_draw_layout (GtkStyle     *style,
 		MurrineRGB temp;
 
 		if (GTK_WIDGET_NO_WINDOW (widget))
-			murrine_shade (&params.parentbg, 1.2, &temp);
+			murrine_shade (&params.parentbg, 1.12, &temp);
 		else
-			murrine_shade (&colors->bg[widget->state], 1.2, &temp);
+			murrine_shade (&colors->bg[widget->state], 1.12, &temp);
 
 		etched.red = (int) (temp.r*65535);
 		etched.green = (int) (temp.g*65535);
@@ -1679,8 +1679,8 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	GTK_STYLE_CLASS (murrine_style_parent_class)->init_from_rc (style, rc_style);
 
 	/* Shades/Colors/Ratio */
-	murrine_style->glow_ratio         = MURRINE_RC_STYLE (rc_style)->glow_ratio;
-	murrine_style->highlight_ratio    = MURRINE_RC_STYLE (rc_style)->highlight_ratio;
+	murrine_style->glow_shade         = MURRINE_RC_STYLE (rc_style)->glow_shade;
+	murrine_style->highlight_shade    = MURRINE_RC_STYLE (rc_style)->highlight_shade;
 	murrine_style->gradient_shades[0] = MURRINE_RC_STYLE (rc_style)->gradient_shades[0];
 	murrine_style->gradient_shades[1] = MURRINE_RC_STYLE (rc_style)->gradient_shades[1];
 	murrine_style->gradient_shades[2] = MURRINE_RC_STYLE (rc_style)->gradient_shades[2];
@@ -1693,8 +1693,8 @@ murrine_style_init_from_rc (GtkStyle   *style,
 		murrine_style->gradient_shades[1] = gradient_stop_mid;
 		murrine_style->gradient_shades[2] = gradient_stop_mid;
 	}
-	/* Adjust lightborder_ratio reading contrast */
-	murrine_style->lightborder_ratio = get_contrast(MURRINE_RC_STYLE (rc_style)->lightborder_ratio,
+	/* Adjust lightborder_shade reading contrast */
+	murrine_style->lightborder_shade = get_contrast(MURRINE_RC_STYLE (rc_style)->lightborder_shade,
 	                                                MURRINE_RC_STYLE (rc_style)->contrast);
 
 	/* Widget styles */
@@ -1738,7 +1738,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	switch (murrine_style->profile)
 	{
 		case (MRN_PROFILE_NODOKA):
-			murrine_style->highlight_ratio = 1.0;
+			murrine_style->highlight_shade = 1.0;
 			murrine_style->gradients = TRUE;
 			murrine_style->gradient_shades[0] = 1.1;
 			murrine_style->gradient_shades[1] = 1.0;
@@ -1751,14 +1751,14 @@ murrine_style_init_from_rc (GtkStyle   *style,
 			murrine_style->has_scrollbar_color = FALSE;
 			break;
 		case (MRN_PROFILE_MIST):
-			murrine_style->highlight_ratio = 1.0;
+			murrine_style->highlight_shade = 1.0;
 			murrine_style->glazestyle = 0;
 			murrine_style->gradients = FALSE;
 			murrine_style->gradient_shades[0] = 1.0;
 			murrine_style->gradient_shades[1] = 1.0;
 			murrine_style->gradient_shades[2] = 1.0;
 			murrine_style->gradient_shades[3] = 1.0;
-			murrine_style->lightborder_ratio = 1.00;
+			murrine_style->lightborder_shade = 1.00;
 			murrine_style->sliderstyle = 1;
 			murrine_style->scrollbarstyle = 0;
 			murrine_style->stepperstyle = 0;
@@ -1768,8 +1768,8 @@ murrine_style_init_from_rc (GtkStyle   *style,
 			murrine_style->roundness = 0;
 			break;
 		case (MRN_PROFILE_CANDIDO):
-			murrine_style->highlight_ratio = 1.0;
-			murrine_style->lightborder_ratio = 1.06;
+			murrine_style->highlight_shade = 1.0;
+			murrine_style->lightborder_shade = 1.06;
 			murrine_style->glazestyle = 0;
 			murrine_style->gradients = TRUE;
 			murrine_style->gradient_shades[0] = 1.01;
@@ -1785,9 +1785,9 @@ murrine_style_init_from_rc (GtkStyle   *style,
 			murrine_style->gradient_shades[2] = 1.00;
 			murrine_style->gradient_shades[3] = 0.94;
 			murrine_style->gradients = TRUE;
-			murrine_style->highlight_ratio = 1.0;
+			murrine_style->highlight_shade = 1.0;
 			murrine_style->toolbarstyle = 1;
-			murrine_style->lightborder_ratio = 1.02;
+			murrine_style->lightborder_shade = 1.02;
 			murrine_style->listviewheaderstyle = 1;
 			murrine_style->menustyle = 0;
 			murrine_style->sliderstyle = 1;
@@ -1961,7 +1961,7 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	mrn_style->colorize_scrollbar  = mrn_src->colorize_scrollbar;
 	mrn_style->colors              = mrn_src->colors;
 	mrn_style->glazestyle          = mrn_src->glazestyle;
-	mrn_style->glow_ratio          = mrn_src->glow_ratio;
+	mrn_style->glow_shade          = mrn_src->glow_shade;
 	mrn_style->glowstyle           = mrn_src->glowstyle;
 	mrn_style->gradient_shades[0]  = mrn_src->gradient_shades[0];
 	mrn_style->gradient_shades[1]  = mrn_src->gradient_shades[1];
@@ -1969,8 +1969,8 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	mrn_style->gradient_shades[3]  = mrn_src->gradient_shades[3];
 	mrn_style->gradients           = mrn_src->gradients;
 	mrn_style->has_scrollbar_color = mrn_src->has_scrollbar_color;
-	mrn_style->highlight_ratio     = mrn_src->highlight_ratio;
-	mrn_style->lightborder_ratio   = mrn_src->lightborder_ratio;
+	mrn_style->highlight_shade     = mrn_src->highlight_shade;
+	mrn_style->lightborder_shade   = mrn_src->lightborder_shade;
 	mrn_style->lightborderstyle    = mrn_src->lightborderstyle;
 	mrn_style->listviewheaderstyle = mrn_src->listviewheaderstyle;
 	mrn_style->listviewstyle       = mrn_src->listviewstyle;

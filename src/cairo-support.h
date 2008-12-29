@@ -51,9 +51,9 @@ G_GNUC_INTERNAL void rotate_mirror_translate (cairo_t *cr,
                                               double radius, double x, double y,
                                               boolean mirror_horizontally, boolean mirror_vertically);
 
-G_GNUC_INTERNAL double get_decreased_ratio (double old, double factor);
+G_GNUC_INTERNAL double get_decreased_shade (double old, double factor);
 
-G_GNUC_INTERNAL double get_increased_ratio (double old, double factor);
+G_GNUC_INTERNAL double get_increased_shade (double old, double factor);
 
 G_GNUC_INTERNAL double get_contrast (double old, double factor);
 
@@ -93,9 +93,9 @@ G_GNUC_INTERNAL void murrine_set_gradient (cairo_t *cr,
 
 G_GNUC_INTERNAL void murrine_draw_glaze (cairo_t *cr,
                                          const MurrineRGB *fill,
-                                         double glow_ratio,
-                                         double highlight_ratio,
-                                         double lightborder_ratio,
+                                         double glow_shade,
+                                         double highlight_shade,
+                                         double lightborder_shade,
                                          MurrineGradients mrn_gradient,
                                          const WidgetParameters *widget,
                                          int x, int y, int width, int height,

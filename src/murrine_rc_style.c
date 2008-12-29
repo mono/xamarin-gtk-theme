@@ -39,12 +39,12 @@ enum
 	TOKEN_COLORIZE_SCROLLBAR,
 	TOKEN_CONTRAST,
 	TOKEN_GLAZESTYLE,
-	TOKEN_GLOW_RATIO,
+	TOKEN_GLOW_SHADE,
 	TOKEN_GLOWSTYLE,
 	TOKEN_GRADIENT_SHADES,
 	TOKEN_GRADIENTS,
-	TOKEN_HIGHLIGHT_RATIO,
-	TOKEN_LIGHTBORDER_RATIO,
+	TOKEN_HIGHLIGHT_SHADE,
+	TOKEN_LIGHTBORDER_SHADE,
 	TOKEN_LIGHTBORDERSTYLE,
 	TOKEN_LISTVIEWHEADERSTYLE,
 	TOKEN_LISTVIEWSTYLE,
@@ -74,7 +74,10 @@ enum
 
 	/* stuff to ignore */
 	TOKEN_HILIGHT_RATIO,
-	TOKEN_SQUAREDSTYLE
+	TOKEN_HIGHLIGHT_RATIO,
+	TOKEN_LIGHTBORDER_RATIO,
+	TOKEN_SQUAREDSTYLE,
+	TOKEN_STYLE
 };
 
 static struct
@@ -88,12 +91,12 @@ theme_symbols[] =
 	{ "colorize_scrollbar",  TOKEN_COLORIZE_SCROLLBAR },
 	{ "contrast",            TOKEN_CONTRAST },
 	{ "glazestyle",          TOKEN_GLAZESTYLE },
-	{ "glow_ratio",          TOKEN_GLOW_RATIO },
+	{ "glow_shade",          TOKEN_GLOW_SHADE },
 	{ "glowstyle",           TOKEN_GLOWSTYLE },
 	{ "gradient_shades",     TOKEN_GRADIENT_SHADES },
 	{ "gradients",           TOKEN_GRADIENTS },
-	{ "highlight_ratio",     TOKEN_HIGHLIGHT_RATIO },
-	{ "lightborder_ratio",   TOKEN_LIGHTBORDER_RATIO },
+	{ "highlight_shade",     TOKEN_HIGHLIGHT_SHADE },
+	{ "lightborder_shade",   TOKEN_LIGHTBORDER_SHADE },
 	{ "lightborderstyle",    TOKEN_LIGHTBORDERSTYLE },
 	{ "listviewheaderstyle", TOKEN_LISTVIEWHEADERSTYLE },
 	{ "listviewstyle",       TOKEN_LISTVIEWSTYLE },
@@ -123,7 +126,10 @@ theme_symbols[] =
 
 	/* stuff to ignore */
 	{ "hilight_ratio",       TOKEN_HILIGHT_RATIO },
-	{ "squaredstyle",        TOKEN_SQUAREDSTYLE }
+	{ "highlight_ratio",     TOKEN_HIGHLIGHT_RATIO },
+	{ "lightborder_ratio",   TOKEN_LIGHTBORDER_RATIO },
+	{ "squaredstyle",        TOKEN_SQUAREDSTYLE },
+	{ "style",               TOKEN_STYLE }
 };
 
 G_DEFINE_DYNAMIC_TYPE (MurrineRcStyle, murrine_rc_style, GTK_TYPE_RC_STYLE)
@@ -143,7 +149,7 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->colorize_scrollbar = TRUE;
 	murrine_rc->contrast = 1.0;
 	murrine_rc->glazestyle = 1;
-	murrine_rc->glow_ratio = 1.0;
+	murrine_rc->glow_shade = 1.0;
 	murrine_rc->glowstyle = 0;
 	murrine_rc->gradient_shades[0] = 1.1;
 	murrine_rc->gradient_shades[1] = 1.0;
@@ -151,8 +157,8 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->gradient_shades[3] = 1.1;
 	murrine_rc->gradients = TRUE;
 	murrine_rc->has_scrollbar_color = FALSE;
-	murrine_rc->highlight_ratio = 1.1;
-	murrine_rc->lightborder_ratio = 1.1;
+	murrine_rc->highlight_shade = 1.1;
+	murrine_rc->lightborder_shade = 1.1;
 	murrine_rc->lightborderstyle = 0;
 	murrine_rc->listviewheaderstyle = 1;
 	murrine_rc->listviewstyle = 0;
@@ -249,7 +255,7 @@ theme_parse_color (GtkSettings  *settings,
 }
 
 static guint
-theme_parse_ratio (GtkSettings  *settings,
+theme_parse_shade (GtkSettings  *settings,
                    GScanner     *scanner,
                    double       *ratio)
 {
@@ -466,16 +472,16 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				murrine_style->flags |= MRN_FLAG_COLORIZE_SCROLLBAR;
 				break;
 			case TOKEN_CONTRAST:
-				token = theme_parse_ratio (settings, scanner, &murrine_style->contrast);
+				token = theme_parse_shade (settings, scanner, &murrine_style->contrast);
 				murrine_style->flags |= MRN_FLAG_CONTRAST;
 				break;
 			case TOKEN_GLAZESTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->glazestyle);
 				murrine_style->flags |= MRN_FLAG_GLAZESTYLE;
 				break;
-			case TOKEN_GLOW_RATIO:
-				token = theme_parse_ratio (settings, scanner, &murrine_style->glow_ratio);
-				murrine_style->flags |= MRN_FLAG_GLOW_RATIO;
+			case TOKEN_GLOW_SHADE:
+				token = theme_parse_shade (settings, scanner, &murrine_style->glow_shade);
+				murrine_style->flags |= MRN_FLAG_GLOW_SHADE;
 				break;
 			case TOKEN_GLOWSTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->glowstyle);
@@ -489,13 +495,13 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_boolean (settings, scanner, &murrine_style->gradients);
 				murrine_style->flags |= MRN_FLAG_GRADIENTS;
 				break;
-			case TOKEN_HIGHLIGHT_RATIO:
-				token = theme_parse_ratio (settings, scanner, &murrine_style->highlight_ratio);
-				murrine_style->flags |= MRN_FLAG_HIGHLIGHT_RATIO;
+			case TOKEN_HIGHLIGHT_SHADE:
+				token = theme_parse_shade (settings, scanner, &murrine_style->highlight_shade);
+				murrine_style->flags |= MRN_FLAG_HIGHLIGHT_SHADE;
 				break;
-			case TOKEN_LIGHTBORDER_RATIO:
-				token = theme_parse_ratio (settings, scanner, &murrine_style->lightborder_ratio);
-				murrine_style->flags |= MRN_FLAG_LIGHTBORDER_RATIO;
+			case TOKEN_LIGHTBORDER_SHADE:
+				token = theme_parse_shade (settings, scanner, &murrine_style->lightborder_shade);
+				murrine_style->flags |= MRN_FLAG_LIGHTBORDER_SHADE;
 				break;
 			case TOKEN_LIGHTBORDERSTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->lightborderstyle);
@@ -571,12 +577,25 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 			case TOKEN_HILIGHT_RATIO:
 				g_scanner_warn (scanner, "Murrine configuration option \"hilight_ratio\" will be deprecated in future releases. Please update this theme to get rid of this warning.", "hilight_ratio");
 				double hilight_ratio;
-				token = theme_parse_ratio (settings, scanner, &hilight_ratio);
-				murrine_style->highlight_ratio = hilight_ratio/0.909090;
-				murrine_style->flags |= MRN_FLAG_HIGHLIGHT_RATIO;
+				token = theme_parse_shade (settings, scanner, &hilight_ratio);
+				murrine_style->highlight_shade = hilight_ratio/0.909090;
+				murrine_style->flags |= MRN_FLAG_HIGHLIGHT_SHADE;
+				break;
+			case TOKEN_HIGHLIGHT_RATIO:
+				g_scanner_warn (scanner, "Murrine configuration option \"highlight_ratio\" will be deprecated in future releases. Please update this theme to get rid of this warning.", "highlight_ratio");
+				token = theme_parse_shade (settings, scanner, &murrine_style->highlight_shade);
+				murrine_style->flags |= MRN_FLAG_HIGHLIGHT_SHADE;
+				break;
+			case TOKEN_LIGHTBORDER_RATIO:
+				g_scanner_warn (scanner, "Murrine configuration option \"lightborder_ratio\" will be deprecated in future releases. Please update this theme to get rid of this warning.", "lightborder_ratio");
+				token = theme_parse_shade (settings, scanner, &murrine_style->lightborder_shade);
+				murrine_style->flags |= MRN_FLAG_LIGHTBORDER_SHADE;
 				break;
 			case TOKEN_SQUAREDSTYLE:
 				token = murrine_gtk2_rc_parse_dummy (settings, scanner, "squaredstyle");
+				break;
+			case TOKEN_STYLE:
+				token = murrine_gtk2_rc_parse_dummy (settings, scanner, "style");
 				break;
 
 			default:
@@ -623,8 +642,8 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->contrast = src_w->contrast;
 	if (flags & MRN_FLAG_GLAZESTYLE)
 		dest_w->glazestyle = src_w->glazestyle;
-	if (flags & MRN_FLAG_GLOW_RATIO)
-		dest_w->glow_ratio = src_w->glow_ratio;
+	if (flags & MRN_FLAG_GLOW_SHADE)
+		dest_w->glow_shade = src_w->glow_shade;
 	if (flags & MRN_FLAG_GLOWSTYLE)
 		dest_w->glowstyle = src_w->glowstyle;
 	if (flags & MRN_FLAG_GRADIENT_SHADES)
@@ -636,10 +655,10 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 	}
 	if (flags & MRN_FLAG_GRADIENTS)
 		dest_w->gradients = src_w->gradients;
-	if (flags & MRN_FLAG_HIGHLIGHT_RATIO)
-		dest_w->highlight_ratio = src_w->highlight_ratio;
-	if (flags & MRN_FLAG_LIGHTBORDER_RATIO)
-		dest_w->lightborder_ratio = src_w->lightborder_ratio;
+	if (flags & MRN_FLAG_HIGHLIGHT_SHADE)
+		dest_w->highlight_shade = src_w->highlight_shade;
+	if (flags & MRN_FLAG_LIGHTBORDER_SHADE)
+		dest_w->lightborder_shade = src_w->lightborder_shade;
 	if (flags & MRN_FLAG_LIGHTBORDERSTYLE)
 		dest_w->lightborderstyle = src_w->lightborderstyle;
 	if (flags & MRN_FLAG_LISTVIEWHEADERSTYLE)

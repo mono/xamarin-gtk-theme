@@ -39,12 +39,12 @@ typedef enum
 	MRN_FLAG_COLORIZE_SCROLLBAR = 1 << 1,
 	MRN_FLAG_CONTRAST = 1 << 2,
 	MRN_FLAG_GLAZESTYLE = 1 << 3,
-	MRN_FLAG_GLOW_RATIO = 1 << 4,
+	MRN_FLAG_GLOW_SHADE = 1 << 4,
 	MRN_FLAG_GLOWSTYLE = 1 << 5,
 	MRN_FLAG_GRADIENT_SHADES = 1 << 6,
 	MRN_FLAG_GRADIENTS = 1 << 7,
-	MRN_FLAG_HIGHLIGHT_RATIO = 1 << 8,
-	MRN_FLAG_LIGHTBORDER_RATIO = 1 << 9,
+	MRN_FLAG_HIGHLIGHT_SHADE = 1 << 8,
+	MRN_FLAG_LIGHTBORDER_SHADE = 1 << 9,
 	MRN_FLAG_LIGHTBORDERSTYLE= 1 << 10,
 	MRN_FLAG_LISTVIEWHEADERSTYLE = 1 << 11,
 	MRN_FLAG_LISTVIEWSTYLE = 1 << 12,
@@ -71,10 +71,10 @@ struct _MurrineRcStyle
 	MurrineRcFlags flags;
 
 	double   contrast;
-	double   glow_ratio;
+	double   glow_shade;
 	double   gradient_shades[4];
-	double   highlight_ratio;
-	double   lightborder_ratio;
+	double   highlight_shade;
+	double   lightborder_shade;
 
 	guint8   glazestyle;
 	guint8   glowstyle;

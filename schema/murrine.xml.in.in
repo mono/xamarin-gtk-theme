@@ -51,9 +51,9 @@
 		</enumeration>
 	</option>
 
-	<option type="real" name="glow_ratio" default="1.0">
-		<_long_name>Glow Ratio</_long_name>
-		<_description>Enable and set the Glow Ratio</_description>
+	<option type="real" name="glow_shade" default="1.0">
+		<_long_name>Glow Shade</_long_name>
+		<_description>Enable and set the Glow Shade</_description>
 		<section>General</section>
 		<minimum>0</minimum>
 		<maximum>2</maximum>
@@ -119,18 +119,18 @@
 		<section>Gradients</section>
 	</option>
 
-	<option type="real" name="highlight_ratio" default="1.1">
-		<_long_name>Highlight Ratio</_long_name>
-		<_description>Increse/Decrease the highlight ratio</_description>
+	<option type="real" name="highlight_shade" default="1.1">
+		<_long_name>Highlight Shade</_long_name>
+		<_description>Increse/Decrease the highlight shade</_description>
 		<section>General</section>
 		<minimum>0</minimum>
 		<maximum>2</maximum>
 		<precision>0.01</precision>
 	</option>
 
-	<option type="real" name="lightborder_ratio" default="1.1">
-		<_long_name>Lightborder Ratio</_long_name>
-		<_description>Increse/Decrease the lightborder ratio</_description>
+	<option type="real" name="lightborder_shade" default="1.1">
+		<_long_name>Lightborder Shade</_long_name>
+		<_description>Increse/Decrease the lightborder shade</_description>
 		<section>General</section>
 		<minimum>0</minimum>
 		<maximum>2</maximum>

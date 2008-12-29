@@ -668,16 +668,16 @@ murrine_draw_lightborder (cairo_t *cr,
 void
 murrine_draw_glaze (cairo_t *cr,
                     const MurrineRGB *fill,
-                    double glow_ratio,
-                    double highlight_ratio,
-                    double lightborder_ratio,
+                    double glow_shade,
+                    double highlight_shade,
+                    double lightborder_shade,
                     MurrineGradients mrn_gradient,
                     const WidgetParameters *widget,
                     int x, int y, int width, int height,
                     int radius, uint8 corners, boolean horizontal)
 {
 	MurrineRGB highlight;
-	murrine_shade (fill, highlight_ratio, &highlight);
+	murrine_shade (fill, highlight_shade, &highlight);
 
 	murrine_set_gradient (cr, fill, mrn_gradient, x, y, 0, height, mrn_gradient.gradients, FALSE);
 	cairo_set_fill_rule (cr, CAIRO_FILL_RULE_EVEN_ODD);
@@ -711,17 +711,17 @@ murrine_draw_glaze (cairo_t *cr,
 	if (widget->glazestyle == 4)
 	{
 		MurrineRGB shadow;
-		murrine_shade (fill, 1.0/highlight_ratio, &shadow);
+		murrine_shade (fill, 1.0/highlight_shade, &shadow);
 
 		murrine_draw_curved_highlight_bottom (cr, x, y, width, height);
 		murrine_set_gradient (cr, &shadow, mrn_gradient, x, y, 0, height, mrn_gradient.gradients, TRUE);
 		cairo_fill (cr);
 	}
 
-	if (glow_ratio != 1.0)
+	if (glow_shade != 1.0)
 	{
 		MurrineRGB glow;
-		murrine_shade (fill, glow_ratio, &glow);
+		murrine_shade (fill, glow_shade, &glow);
 
 		if (mrn_gradient.use_rgba)
 			cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
@@ -748,9 +748,9 @@ murrine_draw_glaze (cairo_t *cr,
 		}
 	}
 
-	if (widget->glazestyle != 4 && lightborder_ratio != 1.0)
+	if (widget->glazestyle != 4 && lightborder_shade != 1.0)
 	{
-		murrine_shade (fill, lightborder_ratio*highlight_ratio, &highlight);
+		murrine_shade (fill, lightborder_shade*highlight_shade, &highlight);
 
 		if (mrn_gradient.use_rgba)
 			cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
@@ -853,7 +853,7 @@ murrine_exchange_axis (cairo_t  *cr,
 }
 
 double
-get_decreased_ratio (double old, double factor)
+get_decreased_shade (double old, double factor)
 {
 	if (old > 1.0)
 		return ((old-1.0)/factor+1.0);
@@ -864,7 +864,7 @@ get_decreased_ratio (double old, double factor)
 }
 
 double
-get_increased_ratio (double old, double factor)
+get_increased_shade (double old, double factor)
 {
 	if (old > 1.0)
 		return ((old-1.0)*factor+1.0);
@@ -901,10 +901,10 @@ get_decreased_gradient_shades (MurrineGradients mrn_gradient, double factor)
 {
 	MurrineGradients mrn_gradient_custom = mrn_gradient;
 
-	mrn_gradient_custom.gradient_shades[0] = get_decreased_ratio (mrn_gradient.gradient_shades[0], factor);
-	mrn_gradient_custom.gradient_shades[1] = get_decreased_ratio (mrn_gradient.gradient_shades[1], factor);
-	mrn_gradient_custom.gradient_shades[2] = get_decreased_ratio (mrn_gradient.gradient_shades[2], factor);
-	mrn_gradient_custom.gradient_shades[3] = get_decreased_ratio (mrn_gradient.gradient_shades[3], factor);
+	mrn_gradient_custom.gradient_shades[0] = get_decreased_shade (mrn_gradient.gradient_shades[0], factor);
+	mrn_gradient_custom.gradient_shades[1] = get_decreased_shade (mrn_gradient.gradient_shades[1], factor);
+	mrn_gradient_custom.gradient_shades[2] = get_decreased_shade (mrn_gradient.gradient_shades[2], factor);
+	mrn_gradient_custom.gradient_shades[3] = get_decreased_shade (mrn_gradient.gradient_shades[3], factor);
 
 	return mrn_gradient_custom;
 }

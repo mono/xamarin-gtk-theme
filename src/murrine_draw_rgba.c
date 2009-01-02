@@ -400,7 +400,7 @@ murrine_rgba_draw_scale_trough (cairo_t *cr,
 
 	murrine_scale_draw_gradient (cr, &colors->spot[1], /* fill */
 	                             &colors->spot[2], /* border */
-	                             widget->lightborder_shade,
+	                             widget->disabled ? 1.0 : widget->lightborder_shade,
 	                             fill_x, fill_y, fill_width, fill_height,
 	                             FALSE, slider->horizontal);
 }

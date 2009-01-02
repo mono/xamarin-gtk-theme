@@ -314,29 +314,29 @@ theme_parse_profile (GtkSettings     *settings,
 
 	token = g_scanner_get_next_token (scanner);
 	if (token != G_TOKEN_EQUAL_SIGN)
-	   return G_TOKEN_EQUAL_SIGN;
+		return G_TOKEN_EQUAL_SIGN;
 
 	token = g_scanner_get_next_token (scanner);
 
 	switch (token)
 	{
 		case TOKEN_MURRINE:
-		   *profile = MRN_PROFILE_MURRINE;
-		   break;
+			*profile = MRN_PROFILE_MURRINE;
+			break;
 		case TOKEN_NODOKA:
-		   *profile = MRN_PROFILE_NODOKA;
-		   break;
+			*profile = MRN_PROFILE_NODOKA;
+			break;
 		case TOKEN_MIST:
-		   *profile = MRN_PROFILE_MIST;
-		   break;
+			*profile = MRN_PROFILE_MIST;
+			break;
 		case TOKEN_CANDIDO:
-		   *profile = MRN_PROFILE_CANDIDO;
-		   break;
+			*profile = MRN_PROFILE_CANDIDO;
+			break;
 		case TOKEN_CLEARLOOKS:
-		   *profile = MRN_PROFILE_CLEARLOOKS;
-		   break;
+			*profile = MRN_PROFILE_CLEARLOOKS;
+			break;
 		default:
-		   return TOKEN_MURRINE;
+			return TOKEN_MURRINE;
 	}
 
 	return G_TOKEN_NONE;
@@ -575,19 +575,19 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 
 			/* stuff to ignore */
 			case TOKEN_HILIGHT_RATIO:
-				g_scanner_warn (scanner, "Murrine configuration option \"hilight_ratio\" will be deprecated in future releases. Please update this theme to get rid of this warning.", "hilight_ratio");
+				g_scanner_warn (scanner, "Murrine configuration option \"hilight_ratio\" will be deprecated in future releases. Please use \"highlight_shade\" instead.", "hilight_ratio");
 				double hilight_ratio;
 				token = theme_parse_shade (settings, scanner, &hilight_ratio);
 				murrine_style->highlight_shade = hilight_ratio/0.909090;
 				murrine_style->flags |= MRN_FLAG_HIGHLIGHT_SHADE;
 				break;
 			case TOKEN_HIGHLIGHT_RATIO:
-				g_scanner_warn (scanner, "Murrine configuration option \"highlight_ratio\" will be deprecated in future releases. Please update this theme to get rid of this warning.", "highlight_ratio");
+				g_scanner_warn (scanner, "Murrine configuration option \"highlight_ratio\" will be deprecated in future releases. Please use \"highlight_shade\" instead.", "highlight_ratio");
 				token = theme_parse_shade (settings, scanner, &murrine_style->highlight_shade);
 				murrine_style->flags |= MRN_FLAG_HIGHLIGHT_SHADE;
 				break;
 			case TOKEN_LIGHTBORDER_RATIO:
-				g_scanner_warn (scanner, "Murrine configuration option \"lightborder_ratio\" will be deprecated in future releases. Please update this theme to get rid of this warning.", "lightborder_ratio");
+				g_scanner_warn (scanner, "Murrine configuration option \"lightborder_ratio\" will be deprecated in future releases. Please use \"lightborder_shade\" instead.", "lightborder_ratio");
 				token = theme_parse_shade (settings, scanner, &murrine_style->lightborder_shade);
 				murrine_style->flags |= MRN_FLAG_LIGHTBORDER_SHADE;
 				break;

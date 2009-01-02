@@ -130,12 +130,6 @@ typedef enum
 
 typedef enum
 {
-	MRN_PROGRESSBAR_CONTINUOUS,
-	MRN_PROGRESSBAR_DISCRETE
-} MurrineProgressBarStyle;
-
-typedef enum
-{
 	MRN_WINDOW_EDGE_NORTH_WEST,
 	MRN_WINDOW_EDGE_NORTH,
 	MRN_WINDOW_EDGE_NORTH_EAST,
@@ -220,7 +214,7 @@ typedef struct
 typedef struct
 {
 	MurrineOrientation orientation;
-	MurrineProgressBarStyle style;
+	int style;
 } ProgressBarParameters;
 
 typedef struct
@@ -337,7 +331,7 @@ struct _MurrineStyleFunctions
 	                               const WidgetParameters      *widget,
 	                               const ProgressBarParameters *progressbar,
 	                               int x, int y, int width, int height,
-	                               gint offset, int progressbarstyle);
+	                               gint offset);
 
 	void (*draw_entry) (cairo_t *cr,
 	                    const MurrineColors    *colors,

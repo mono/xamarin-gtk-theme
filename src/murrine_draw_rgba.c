@@ -392,13 +392,13 @@ murrine_rgba_draw_progressbar_trough (cairo_t *cr,
 	murrine_shade (&widget->parentbg, 0.95, &fill);
 
 	/* Create trough box */
+	murrine_rounded_rectangle_closed (cr, x+1, y+1, width-2, height-2, widget->roundness, widget->corners);
 	murrine_set_color_rgba (cr, &fill, 0.8);
-	cairo_rectangle (cr, x+1, y+1, width-2, height-2);
 	cairo_fill (cr);
 
 	/* Draw border */
+	murrine_rounded_rectangle (cr, x+0.5, y+0.5, width-1, height-1, widget->roundness, widget->corners);
 	murrine_set_color_rgba (cr, border, 0.8);
-	cairo_rectangle (cr, x+0.5, y+0.5, width-1, height-1);
 	cairo_stroke (cr);
 
 	if (widget->mrn_gradient.gradients)
@@ -407,6 +407,10 @@ murrine_rgba_draw_progressbar_trough (cairo_t *cr,
 		MurrineRGB        shadow;
 
 		murrine_shade (border, 0.94, &shadow);
+
+		/* clip the corners of the shadows */
+		murrine_rounded_rectangle_closed (cr, x+1, y+1, width-2, height-2, widget->roundness, widget->corners);
+		cairo_clip (cr);
 
 		/* Top shadow */
 		cairo_rectangle (cr, x+1, y+1, width-2, 4);
@@ -434,18 +438,16 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
                                     const WidgetParameters      *widget,
                                     const ProgressBarParameters *progressbar,
                                     int x, int y, int width, int height,
-                                    gint offset, int progressbarstyle)
+                                    gint offset)
 {
-	boolean    is_horizontal = progressbar->orientation < 2;
 	double     tile_pos = 0;
 	double     stroke_width;
 	int        x_step;
 	const      MurrineRGB *fill = &colors->spot[1];
 	MurrineRGB border = colors->spot[2];
 
-	cairo_rectangle (cr, x, y, width, height);
-
-	if (is_horizontal)
+	/* progressbar->orientation < 2 == boolean is_horizontal */
+	if (progressbar->orientation < 2)
 	{
 		if (progressbar->orientation == MRN_ORIENTATION_LEFT_TO_RIGHT)
 			rotate_mirror_translate (cr, 0, x, y, FALSE, FALSE);
@@ -464,14 +466,18 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 			rotate_mirror_translate (cr, M_PI/2, x, y+width, TRUE, FALSE);
 	}
 
-	cairo_save (cr);
-	cairo_clip (cr);
-
 	stroke_width = height*2;
 	x_step = (((float)stroke_width/10)*offset);
 
 	cairo_save (cr);
 	cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
+
+	murrine_rounded_rectangle_closed (cr, 2, 1, width-4+widget->roundness, height-2,
+	                                  widget->roundness, MRN_CORNER_TOPLEFT | MRN_CORNER_BOTTOMLEFT);
+	cairo_clip (cr);
+	murrine_rounded_rectangle_closed (cr, 2-widget->roundness, 1, width-4+widget->roundness, height-2,
+	                                  widget->roundness, MRN_CORNER_TOPRIGHT | MRN_CORNER_BOTTOMRIGHT);
+	cairo_clip (cr);
 
 	cairo_rectangle (cr, 2, 1, width-4, height-2);
 
@@ -480,13 +486,15 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 	                    widget->mrn_gradient, widget, 2, 1, width-4, height-2,
 	                    widget->roundness, widget->corners, TRUE);
 
-	switch (progressbarstyle)
+	switch (progressbar->style)
 	{
 		case 0:
 			break;
 		default:
 		case 1:
 		{
+			cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
+
 			/* Draw strokes */
 			while (tile_pos <= width+x_step-2)
 			{
@@ -510,7 +518,7 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 	/* Draw the border */
 	murrine_mix_color (&border, fill, 0.28, &border);
 	murrine_set_color_rgb (cr, &border);
-	cairo_rectangle (cr, 1.5, 0.5, width-3, height-1);
+	murrine_rounded_rectangle (cr, 1.5, 0.5, width-3, height-1, widget->roundness, widget->corners);
 	cairo_stroke (cr);
 }
 

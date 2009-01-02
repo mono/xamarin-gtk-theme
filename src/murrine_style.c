@@ -987,10 +987,9 @@ murrine_style_draw_box (DRAW_ARGS)
 		WidgetParameters      params;
 		ProgressBarParameters progressbar;
 		gdouble               elapsed = 0.0;
-		int progressbarstyle = murrine_style->progressbarstyle;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
-		params.corners = MRN_CORNER_NONE;
+		progressbar.style = murrine_style->progressbarstyle;
 
 		if (widget && MRN_IS_PROGRESS_BAR (widget))
 			progressbar.orientation = gtk_progress_bar_get_orientation (GTK_PROGRESS_BAR (widget));
@@ -1017,19 +1016,17 @@ murrine_style_draw_box (DRAW_ARGS)
 		elapsed = murrine_animation_elapsed (widget);
 #endif
 
-		/* cairo_reset_clip (cr); */
-
 		/* The x-1 and width+2 are to make the fill cover the left and
 		 * right-hand sides of the trough box */
 
 #ifndef HAVE_ANIMATIONRTL
 		STYLE_FUNCTION(draw_progressbar_fill) (cr, colors, &params, &progressbar,
 		                                       x-1, y, width+2, height,
-		                                       10-(int)(elapsed*10.0) % 10, progressbarstyle);
+		                                       10-(int)(elapsed*10.0) % 10);
 #else
 		STYLE_FUNCTION(draw_progressbar_fill) (cr, colors, &params, &progressbar,
 		                                       x-1, y, width+2, height,
-		                                       10+(int)(elapsed*10.0) % 10, progressbarstyle);
+		                                       10+(int)(elapsed*10.0) % 10);
 #endif
 	}
 	else if (DETAIL ("hscale") || DETAIL ("vscale"))

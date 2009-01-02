@@ -191,8 +191,7 @@ murrine_draw_button (cairo_t *cr,
 	murrine_rounded_rectangle_closed (cr, xos+1, yos+1, width-(xos*2)-2, height-(yos*2)-2, widget->roundness-1, widget->corners);
 
 	cairo_save (cr);
-	if (widget->roundness > 1)
-		cairo_clip_preserve (cr);
+	cairo_clip_preserve (cr);
 
 	murrine_draw_glaze (cr, &fill,
 	                    widget->glow_shade, highlight_shade_custom, !widget->active ? widget->lightborder_shade : 1.0,
@@ -1227,8 +1226,7 @@ murrine_draw_menuitem (cairo_t *cr,
 	{
 		default:
 		case 1:
-			if (widget->roundness > 1)
-				cairo_clip_preserve (cr);
+			cairo_clip_preserve (cr);
 
 			murrine_draw_glaze (cr, &colors->spot[1],
 			                    widget->glow_shade, widget->highlight_shade, widget->lightborder_shade,
@@ -1337,8 +1335,7 @@ murrine_draw_scrollbar_stepper (cairo_t *cr,
 	murrine_rounded_rectangle_closed (cr, 1, 1, width-2, height-2, widget->roundness-1, widget->corners);
 
 	cairo_save (cr);
-	if (widget->roundness > 1)
-		cairo_clip_preserve(cr);
+	cairo_clip_preserve(cr);
 
 	murrine_draw_glaze (cr, fill,
 	                    widget->glow_shade, widget->highlight_shade, widget->lightborder_shade,

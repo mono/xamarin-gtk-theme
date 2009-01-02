@@ -192,8 +192,7 @@ murrine_rgba_draw_button (cairo_t *cr,
 	cairo_save (cr);
 	cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
 
-	if (widget->roundness > 1)
-		cairo_clip_preserve (cr);
+	cairo_clip_preserve (cr);
 
 	murrine_draw_glaze (cr, &fill,
 	                    widget->glow_shade, highlight_shade_custom, !widget->active ? widget->lightborder_shade : 1.0,
@@ -1132,8 +1131,7 @@ murrine_rgba_draw_scrollbar_stepper (cairo_t *cr,
 	murrine_rounded_rectangle_closed (cr, 1, 1, width-2, height-2, widget->roundness-1, widget->corners);
 
 	cairo_save (cr);
-	if (widget->roundness > 1)
-		cairo_clip_preserve(cr);
+	cairo_clip_preserve(cr);
 
 	murrine_draw_glaze (cr, fill,
 	                    widget->glow_shade, widget->highlight_shade, widget->lightborder_shade,

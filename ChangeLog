@@ -1,5 +1,15 @@
 2009-01-02  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/murrine_draw.c (murrine_draw_button),
+	(murrine_draw_menuitem), (murrine_draw_scrollbar_stepper):
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_button),
+	(murrine_rgba_draw_scrollbar_stepper):
+	Always clip with roundness = 0 or 1.
+	This could be slower with roundness = 0 or 1:
+	please TEST and tell me if there is a performance regression.
+
+2009-01-02  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_draw.c (murrine_draw_progressbar_trough),
 	(murrine_draw_progressbar_fill):
 	* src/murrine_draw_rgba.c (murrine_rgba_draw_progressbar_trough),

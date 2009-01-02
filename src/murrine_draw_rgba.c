@@ -413,16 +413,17 @@ murrine_rgba_draw_progressbar_trough (cairo_t *cr,
 {
 	const MurrineRGB *border = &colors->shade[4];
 	MurrineRGB fill;
+	int roundness = MIN (widget->roundness, MIN ((height-2.0)/2.0, (width-2.0)/2.0));
 
 	murrine_shade (&widget->parentbg, 0.95, &fill);
 
 	/* Create trough box */
-	murrine_rounded_rectangle_closed (cr, x+1, y+1, width-2, height-2, widget->roundness, widget->corners);
+	murrine_rounded_rectangle_closed (cr, x+1, y+1, width-2, height-2, roundness, widget->corners);
 	murrine_set_color_rgba (cr, &fill, 0.8);
 	cairo_fill (cr);
 
 	/* Draw border */
-	murrine_rounded_rectangle (cr, x+0.5, y+0.5, width-1, height-1, widget->roundness, widget->corners);
+	murrine_rounded_rectangle (cr, x+0.5, y+0.5, width-1, height-1, roundness, widget->corners);
 	murrine_set_color_rgba (cr, border, 0.8);
 	cairo_stroke (cr);
 
@@ -434,7 +435,7 @@ murrine_rgba_draw_progressbar_trough (cairo_t *cr,
 		murrine_shade (border, 0.94, &shadow);
 
 		/* clip the corners of the shadows */
-		murrine_rounded_rectangle_closed (cr, x+1, y+1, width-2, height-2, widget->roundness, widget->corners);
+		murrine_rounded_rectangle_closed (cr, x+1, y+1, width-2, height-2, roundness, widget->corners);
 		cairo_clip (cr);
 
 		/* Top shadow */
@@ -492,7 +493,7 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 			rotate_mirror_translate (cr, M_PI/2, x, y+width, TRUE, FALSE);
 	}
 
-	roundness = MIN (widget->roundness, height / 2.0);
+	roundness = MIN (widget->roundness, (height-2.0)/2.0);
 	stroke_width = height*2;
 	x_step = (((float)stroke_width/10)*offset);
 

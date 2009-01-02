@@ -80,39 +80,6 @@
 		</enumeration>
 	</option>
 
-	<option type="real" name="gradient_stop_1" default="1.0">
-		<optional>Enable custom gradients</optional>
-		<_long_name>First gradient stop</_long_name>
-		<section>Gradients</section>
-		<minimum>0</minimum>
-		<maximum>2</maximum>
-		<precision>0.2</precision>
-	</option>
-	<option type="real" name="gradient_stop_2" default="1.0">
-		<optional>Enable custom gradients</optional>
-		<_long_name>Second gradient stop</_long_name>
-		<section>Gradients</section>
-		<minimum>0</minimum>
-		<maximum>2</maximum>
-		<precision>0.2</precision>
-	</option>
-	<option type="real" name="gradient_stop_3" default="1.0">
-		<optional>Enable custom gradients</optional>
-		<_long_name>Third gradient stop</_long_name>
-		<section>Gradients</section>
-		<minimum>0</minimum>
-		<maximum>2</maximum>
-		<precision>0.2</precision>
-	</option>
-	<option type="real" name="gradient_stop_4" default="1.0">
-		<optional>Enable custom gradients</optional>
-		<_long_name>Fourth gradient stop</_long_name>
-		<section>Gradients</section>
-		<minimum>0</minimum>
-		<maximum>2</maximum>
-		<precision>0.2</precision>
-	</option>
-
 	<option type="boolean" name="gradients" default="TRUE">
 		<_long_name>Gradients</_long_name>
 		<_description>Enable/Disable gradients</_description>
@@ -284,12 +251,6 @@
 		<section>General</section>
 		<minimum>0</minimum>
 		<maximum>8</maximum>
-	</option>
-
-	<option type="color" name="scrollbar_color" default="#999999">
-		<_long_name>Scrollbar Color</_long_name>
-		<section>Scrolls and Lists</section>
-		<_description>Override the color of scrollbars</_description>
 	</option>
 
 	<option type="color" name="scrollbar_color" default="#999999">

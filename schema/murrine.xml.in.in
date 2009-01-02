@@ -225,6 +225,9 @@
 		<enumeration value="1">
 			<label>Draw stripes</label>
 		</enumeration>
+		<enumeration value="2">
+			<label>Draw cells</label>
+		</enumeration>
 	</option>
 
 	<option type="enumeration" name="reliefstyle" default="2">

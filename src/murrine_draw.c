@@ -556,6 +556,28 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 			cairo_fill (cr);
 			break;
 		}
+		case 2:
+		{
+			MurrineRGB highlight;
+			int step = 18;
+			int i;
+
+			murrine_shade (fill, widget->lightborder_shade*widget->highlight_shade, &highlight);
+
+			for (i=step; i<width-4; i+=step)
+			{
+				cairo_move_to (cr, i-0.5, 1);
+				cairo_line_to (cr, i-0.5, height-1);
+				murrine_set_color_rgba (cr, &highlight, 0.5);
+				cairo_stroke (cr);
+
+				cairo_move_to (cr, i+0.5, 1);
+				cairo_line_to (cr, i+0.5, height-1);
+				murrine_set_color_rgba (cr, &colors->spot[2], 0.25);
+				cairo_stroke (cr);
+			}
+			break;
+		}
 	}
 
 	cairo_restore (cr);

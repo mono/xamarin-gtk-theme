@@ -1,6 +1,13 @@
 2009-01-02  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* schema/murrine.xml.in.in:
+	* src/murrine_draw.c (murrine_draw_progressbar_fill):
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_progressbar_fill):
+	Added progressbarstyle = 2 (cells).
+
+2009-01-02  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* schema/murrine.xml.in.in:
 	Removed duplicated and unused options.
 
 2009-01-02  Andrea Cimitan  <andrea.cimitan@gmail.com>

@@ -442,6 +442,7 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 	double     tile_pos = 0;
 	double     stroke_width;
 	int        x_step;
+	int        roundness;
 	const      MurrineRGB *fill = &colors->spot[1];
 	MurrineRGB border = colors->spot[2];
 
@@ -465,17 +466,18 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 			rotate_mirror_translate (cr, M_PI/2, x, y+width, TRUE, FALSE);
 	}
 
+	roundness = MIN (widget->roundness, height / 2.0);
 	stroke_width = height*2;
 	x_step = (((float)stroke_width/10)*offset);
 
 	cairo_save (cr);
 	cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
 
-	murrine_rounded_rectangle_closed (cr, 2, 1, width-4+widget->roundness, height-2,
-	                                  widget->roundness, MRN_CORNER_TOPLEFT | MRN_CORNER_BOTTOMLEFT);
+	murrine_rounded_rectangle_closed (cr, 1, 0, width-2+roundness, height,
+	                                  roundness, MRN_CORNER_TOPLEFT | MRN_CORNER_BOTTOMLEFT);
 	cairo_clip (cr);
-	murrine_rounded_rectangle_closed (cr, 2-widget->roundness, 1, width-4+widget->roundness, height-2,
-	                                  widget->roundness, MRN_CORNER_TOPRIGHT | MRN_CORNER_BOTTOMRIGHT);
+	murrine_rounded_rectangle_closed (cr, 1-roundness, 0, width-2+roundness, height,
+	                                  roundness, MRN_CORNER_TOPRIGHT | MRN_CORNER_BOTTOMRIGHT);
 	cairo_clip (cr);
 
 	cairo_rectangle (cr, 2, 1, width-4, height-2);
@@ -483,7 +485,7 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 	murrine_draw_glaze (cr, fill,
 	                    widget->glow_shade, widget->highlight_shade, widget->lightborder_shade,
 	                    widget->mrn_gradient, widget, 2, 1, width-4, height-2,
-	                    widget->roundness, widget->corners, TRUE);
+	                    roundness, widget->corners, TRUE);
 
 	switch (progressbar->style)
 	{
@@ -517,8 +519,10 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 	/* Draw the border */
 	murrine_mix_color (&border, fill, 0.28, &border);
 	murrine_set_color_rgb (cr, &border);
-	murrine_rounded_rectangle (cr, 1.5, 0.5, width-3, height-1, widget->roundness, widget->corners);
+	murrine_rounded_rectangle (cr, 1.5, 0.5, width-3, height-1, roundness, widget->corners);
 	cairo_stroke (cr);
+
+	cairo_restore (cr);
 }
 
 static void

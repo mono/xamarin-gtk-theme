@@ -1,5 +1,11 @@
 2009-01-02  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/murrine_draw.c (murrine_draw_progressbar_fill):
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_progressbar_fill):
+	Fixed a bug when the progressbar is really small.
+
+2009-01-02  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_draw.c (murrine_draw_button),
 	(murrine_draw_menuitem), (murrine_draw_scrollbar_stepper):
 	* src/murrine_draw_rgba.c (murrine_rgba_draw_button),

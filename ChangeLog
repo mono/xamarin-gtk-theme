@@ -1,5 +1,13 @@
 2009-01-02  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/murrine_draw.c (murrine_scale_draw_gradient),
+	(murrine_draw_scale_trough):
+	* src/murrine_draw_rgba.c (murrine_scale_draw_gradient),
+	(murrine_rgba_draw_scale_trough):
+	Added a small lightborder inside the scale gradient.
+
+2009-01-02  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_draw.c (murrine_draw_progressbar_fill):
 	* src/murrine_draw_rgba.c (murrine_rgba_draw_progressbar_fill):
 	Fixed previous commit.

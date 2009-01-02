@@ -300,8 +300,9 @@ static void
 murrine_scale_draw_gradient (cairo_t *cr,
                              const MurrineRGB *c1,
                              const MurrineRGB *c2,
+                             double lightborder_shade,
                              int x, int y, int width, int height,
-                             boolean alpha)
+                             boolean alpha, boolean horizontal)
 {
 	murrine_set_color_rgba (cr, c1, alpha ? 0.46 : 1.0);
 	cairo_rectangle (cr, x, y, width, height);
@@ -310,6 +311,29 @@ murrine_scale_draw_gradient (cairo_t *cr,
 	murrine_set_color_rgba (cr, c2, 0.82);
 	cairo_rectangle (cr, x, y, width, height);
 	cairo_stroke (cr);
+
+	if (lightborder_shade != 1.0)
+	{
+		MurrineRGB lightborder;
+		murrine_shade (c1, lightborder_shade, &lightborder);
+		
+		if (horizontal)
+		{
+			cairo_move_to (cr, x+1, height-1);
+			cairo_rel_line_to (cr, 0, -height+2);
+			cairo_rel_line_to (cr, width-2, 0);
+			cairo_rel_line_to (cr, 0, height-2);
+		}
+		else
+		{
+			cairo_move_to (cr, width-1, y+1);
+			cairo_rel_line_to (cr, -width+2, 0);
+			cairo_rel_line_to (cr, 0, height-2);
+			cairo_rel_line_to (cr, width-2, 0);
+		}
+		murrine_set_color_rgba (cr, &lightborder, 0.5);
+		cairo_stroke (cr);
+	}
 }
 
 static void
@@ -370,13 +394,15 @@ murrine_rgba_draw_scale_trough (cairo_t *cr,
 
 	murrine_scale_draw_gradient (cr, &fill, /* fill */
 	                             &colors->shade[5], /* border */
+	                             1.0,
 	                             0, 0, trough_width, trough_height,
-	                             TRUE);
+	                             TRUE, slider->horizontal);
 
 	murrine_scale_draw_gradient (cr, &colors->spot[1], /* fill */
 	                             &colors->spot[2], /* border */
+	                             widget->lightborder_shade,
 	                             fill_x, fill_y, fill_width, fill_height,
-	                             FALSE);
+	                             FALSE, slider->horizontal);
 }
 
 static void

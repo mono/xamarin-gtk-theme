@@ -1,5 +1,10 @@
 2009-01-03  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/murrine_draw.c (murrine_draw_list_view_header):
+	Better listview header (uses lightborder) when glazestyle != 0.
+
+2009-01-03  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_draw.c (murrine_draw_inset):
 	Decreased the inset around buttons, do you like it?
 

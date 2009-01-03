@@ -1207,7 +1207,7 @@ murrine_draw_list_view_header (cairo_t *cr,
 			cairo_rectangle (cr, 0, 0, width, height);
 
 			murrine_draw_glaze (cr, fill,
-			                    widget->glow_shade, widget->highlight_shade, widget->glazestyle == 2 ? widget->lightborder_shade : 1.0,
+			                    widget->glow_shade, widget->highlight_shade, widget->glazestyle != 0 ? widget->lightborder_shade : 1.0,
 			                    widget->mrn_gradient, widget, 0, 0, width, height-1,
 			                    widget->roundness, widget->corners, TRUE);
 			break;

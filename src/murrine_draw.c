@@ -36,8 +36,8 @@ murrine_draw_inset (cairo_t          *cr,
 	MurrineRGB highlight;
 
 	/* not really sure of shading ratios... we will think */
-	murrine_shade (bg_color, 0.6, &shadow);
-	murrine_shade (bg_color, 1.4, &highlight);
+	murrine_shade (bg_color, 0.74, &shadow);
+	murrine_shade (bg_color, 1.3, &highlight);
 
 	/* highlight */
 	cairo_move_to (cr, x+w+(radius*-0.2928932188), y-(radius*-0.2928932188));
@@ -57,7 +57,7 @@ murrine_draw_inset (cairo_t          *cr,
 	else
 		cairo_line_to (cr, x, y+h);
 
-	murrine_set_color_rgba (cr, &highlight, 0.45);
+	murrine_set_color_rgba (cr, &highlight, 0.42);
 	cairo_stroke (cr);
 
 	/* shadow */
@@ -78,7 +78,7 @@ murrine_draw_inset (cairo_t          *cr,
 	else
 		cairo_line_to (cr, x+w, y);
 
-	murrine_set_color_rgba (cr, &shadow, 0.15);
+	murrine_set_color_rgba (cr, &shadow, 0.16);
 	cairo_stroke (cr);
 }
 

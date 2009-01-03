@@ -1,3 +1,8 @@
+2009-01-03  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/murrine_draw.c (murrine_draw_inset):
+	Decreased the inset around buttons, do you like it?
+
 2009-01-02  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/murrine_draw.c (murrine_draw_progressbar_trough),

@@ -174,10 +174,10 @@ murrine_draw_button (cairo_t *cr,
 
 	cairo_translate (cr, x, y);
 
-	if (!widget->active && !widget->disabled && widget->reliefstyle > 1)
+	if (!widget->active && !widget->disabled && widget->reliefstyle > 1 && xos >= 0.5 && yos >= 0.5)
 	{
-		murrine_rounded_rectangle (cr, xos, yos, width-(xos*2), height-(yos*2), widget->roundness, widget->corners);
-		murrine_set_color_rgba (cr, &border, 0.18);
+		murrine_rounded_rectangle (cr, xos-0.5, yos-0.5, width-(xos*2)+1, height-(yos*2)+1, widget->roundness+1, widget->corners);
+		murrine_set_color_rgba (cr, &border, 0.08);
 		cairo_stroke (cr);
 	}
 	else if (widget->reliefstyle != 0 && xos >= 0.5 && yos >= 0.5)

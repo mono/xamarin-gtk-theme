@@ -1829,82 +1829,68 @@ murrine_draw_radiobutton (cairo_t *cr,
 {
 	const MurrineRGB *border;
 	const MurrineRGB *dot;
-	gboolean inconsistent;
+	const MurrineRGB *bg = &colors->base[0];
+	gboolean inconsistent = FALSE;
 	gboolean draw_bullet = (checkbox->shadow_type == GTK_SHADOW_IN);
+	int roundness = 5;
+	double highlight_shade_custom = widget->highlight_shade;
+	MurrineGradients mrn_gradient_custom = widget->mrn_gradient;
 
 	inconsistent = (checkbox->shadow_type == GTK_SHADOW_ETCHED_IN);
 	draw_bullet |= inconsistent;
 
-	width = height = 15;
+	width = height = 14;
 
 	if (widget->state_type == GTK_STATE_INSENSITIVE)
 	{
 		border = &colors->shade[3];
 		dot    = &colors->shade[3];
+		bg     = &colors->bg[0];
+
+		mrn_gradient_custom = get_decreased_gradient_shades (widget->mrn_gradient, 3.0);
+		highlight_shade_custom = get_decreased_shade (widget->highlight_shade, 2.0);
 	}
 	else
 	{
 		border = &colors->shade[5];
 		if (draw_bullet)
+		{
 			border = &colors->spot[2];
+			bg     = &colors->spot[1];
+		}
 		dot    = &colors->text[widget->state_type];
 	}
-	MurrineRGB shadow;
-	murrine_shade (border, 0.9, &shadow);
 
 	cairo_translate (cr, x, y);
 
-	if (widget->reliefstyle > 1)
+	if (widget->xthickness > 2 && widget->ythickness > 2)
 	{
-		cairo_save (cr);
-		cairo_set_line_width (cr, 2.0);
-		cairo_arc (cr, 7, 7, 6, 0, M_PI*2);
-		murrine_set_color_rgba (cr, &shadow, 0.15);
-		cairo_stroke (cr);
-		cairo_restore (cr);
-	}
-
-	cairo_arc (cr, 7, 7, 5.5, 0, M_PI*2);
-
-	if (widget->state_type != GTK_STATE_INSENSITIVE)
-	{
-		const MurrineRGB *bg = &colors->base[0];
-		if (draw_bullet)
-			bg = &colors->spot[1];
-		if (widget->glazestyle != 2)
+		if (widget->reliefstyle > 1 && draw_bullet)
 		{
-			MurrineRGB highlight;
-			murrine_shade (bg, widget->highlight_shade, &highlight);
-			murrine_set_gradient (cr, &highlight, widget->mrn_gradient, 0, 0, 0, 14, widget->mrn_gradient.gradients, FALSE);
+			MurrineRGB shadow;
+			murrine_shade (border, 0.9, &shadow);
+
+			murrine_set_color_rgba (cr, &shadow, 0.08);
+			murrine_rounded_rectangle (cr, 0.5, 0.5, width-1, height-1, roundness+1, widget->corners);
+			cairo_stroke (cr);
 		}
 		else
-			murrine_set_gradient (cr, bg, widget->mrn_gradient, 0, 0, 0, 14, widget->mrn_gradient.gradients, FALSE);
-		cairo_fill_preserve (cr);
+			murrine_draw_inset (cr, &widget->parentbg, 0.5, 0.5, width-1, height-1, roundness+1, widget->corners);
 	}
+	cairo_save (cr);
 
+	murrine_rounded_rectangle_closed (cr, 1.5, 1.5, width-3, height-3, roundness, widget->corners);
+	cairo_clip_preserve (cr);
+	murrine_draw_glaze (cr, bg,
+	                    widget->glow_shade, highlight_shade_custom, widget->lightborder_shade,
+	                    mrn_gradient_custom, widget, 2, 2, width-4, height-4,
+	                    roundness, widget->corners, TRUE);
+
+	cairo_restore (cr);
+
+	murrine_rounded_rectangle_closed (cr, 1.5, 1.5, width-3, height-3, roundness, widget->corners);
 	murrine_set_color_rgb (cr, border);
 	cairo_stroke (cr);
-
-	cairo_arc (cr, 7, 7, 5, 0, M_PI*2);
-	cairo_clip (cr);
-
-	if (widget->state_type != GTK_STATE_INSENSITIVE)
-	{
-		const MurrineRGB *bg = &colors->base[0];
-		if (draw_bullet)
-			bg = &colors->spot[1];
-
-		cairo_rectangle (cr, 0, 7, width, height);
-		if (widget->glazestyle == 2)
-		{
-			MurrineRGB highlight;
-			murrine_shade (bg, widget->highlight_shade, &highlight);
-			murrine_set_gradient (cr, &highlight, widget->mrn_gradient, 0, 0, 0, 14, widget->mrn_gradient.gradients, FALSE);
-		}
-		else
-			murrine_set_gradient (cr, bg, widget->mrn_gradient, 0, 0, 0, 14, widget->mrn_gradient.gradients, FALSE);
-		cairo_fill (cr);
-	}
 
 	if (draw_bullet)
 	{
@@ -1923,7 +1909,7 @@ murrine_draw_radiobutton (cairo_t *cr,
 		else
 		{
 			murrine_set_color_rgba (cr, dot, trans);
-			cairo_arc (cr, 7, 7, 3, 0, G_PI*2);
+			cairo_arc (cr, 7, 7, 2.5, 0, G_PI*2);
 			cairo_fill (cr);
 		}
 	}
@@ -1941,94 +1927,66 @@ murrine_draw_checkbox (cairo_t *cr,
 {
 	const MurrineRGB *border;
 	const MurrineRGB *dot;
+	const MurrineRGB *bg = &colors->base[0];
 	gboolean inconsistent = FALSE;
 	gboolean draw_bullet = (checkbox->shadow_type == GTK_SHADOW_IN);
+	int roundness = CLAMP (widget->roundness, 0, 2);
+	double highlight_shade_custom = widget->highlight_shade;
+	MurrineGradients mrn_gradient_custom = widget->mrn_gradient;
 
 	inconsistent = (checkbox->shadow_type == GTK_SHADOW_ETCHED_IN);
 	draw_bullet |= inconsistent;
 
-	width = height = 13;
+	width = height = 14;
 
 	if (widget->state_type == GTK_STATE_INSENSITIVE)
 	{
 		border = &colors->shade[3];
 		dot    = &colors->shade[3];
+		bg     = &colors->bg[0];
+
+		mrn_gradient_custom = get_decreased_gradient_shades (widget->mrn_gradient, 3.0);
+		highlight_shade_custom = get_decreased_shade (widget->highlight_shade, 2.0);
 	}
 	else
 	{
 		border = &colors->shade[5];
 		if (draw_bullet)
+		{
 			border = &colors->spot[2];
+			bg     = &colors->spot[1];
+		}
 		dot    = &colors->text[widget->state_type];
 	}
-	MurrineRGB shadow;
-	murrine_shade (border, 0.9, &shadow);
 
 	cairo_translate (cr, x, y);
 
 	if (widget->xthickness > 2 && widget->ythickness > 2)
 	{
-		if (widget->reliefstyle > 1)
+		if (widget->reliefstyle > 1 && draw_bullet)
 		{
-			murrine_set_color_rgba (cr, &shadow, 0.15);
-			cairo_rectangle (cr, 0.5, 0.5, width-1, height-1);
+			MurrineRGB shadow;
+			murrine_shade (border, 0.9, &shadow);
+
+			murrine_set_color_rgba (cr, &shadow, 0.08);
+			murrine_rounded_rectangle (cr, 0.5, 0.5, width-1, height-1, roundness+1, widget->corners);
 			cairo_stroke (cr);
 		}
-
-		/* Draw the rectangle for the checkbox itself */
-		cairo_rectangle (cr, 1.5, 1.5, width-3, height-3);
-	}
-	else
-	{
-		cairo_rectangle (cr, 0.5, 0.5, width-1, height-1);
-	}
-
-
-	if (widget->state_type != GTK_STATE_INSENSITIVE)
-	{
-		const MurrineRGB *bg = &colors->base[0];
-		if (draw_bullet)
-			bg = &colors->spot[1];
-
-		if (widget->glazestyle == 2)
-		{
-			MurrineRGB highlight;
-			murrine_shade (bg, widget->highlight_shade, &highlight);
-			murrine_set_gradient (cr, &highlight, widget->mrn_gradient, 0, 0, 0, 14, widget->mrn_gradient.gradients, FALSE);
-		}
 		else
-			murrine_set_gradient (cr, bg, widget->mrn_gradient, 0, 0, 0, 14, widget->mrn_gradient.gradients, FALSE);
-		cairo_fill_preserve (cr);
+			murrine_draw_inset (cr, &widget->parentbg, 0.5, 0.5, width-1, height-1, roundness+1, widget->corners);
 	}
 
+	murrine_rounded_rectangle_closed (cr, 1.5, 1.5, width-3, height-3, roundness, widget->corners);
+
+	murrine_draw_glaze (cr, bg,
+	                    widget->glow_shade, highlight_shade_custom, widget->lightborder_shade,
+	                    mrn_gradient_custom, widget, 2, 2, width-4, height-4,
+	                    roundness, widget->corners, TRUE);
+
+	murrine_rounded_rectangle_closed (cr, 1.5, 1.5, width-3, height-3, roundness, widget->corners);
 	murrine_set_color_rgb (cr, border);
 	cairo_stroke (cr);
 
-	if (widget->state_type != GTK_STATE_INSENSITIVE)
-	{
-		const MurrineRGB *bg = &colors->base[0];
-		if (draw_bullet)
-			bg = &colors->spot[1];
-
-		MurrineRGB highlight;
-		murrine_shade (bg, widget->highlight_shade, &highlight);
-		if (widget->xthickness > 2 && widget->ythickness > 2)
-			cairo_rectangle (cr, 2, 2, width-4, (height-4)/2);
-		else
-			cairo_rectangle (cr, 1, 1, width-2, (height-2)/2);
-
-		if (widget->glazestyle != 2)
-		{
-			MurrineRGB highlight;
-			murrine_shade (bg, widget->highlight_shade, &highlight);
-			murrine_set_gradient (cr, &highlight, widget->mrn_gradient, 0, 0, 0, 14, widget->mrn_gradient.gradients, FALSE);
-		}
-		else
-			murrine_set_gradient (cr, bg, widget->mrn_gradient, 0, 0, 0, 14, widget->mrn_gradient.gradients, FALSE);
-		cairo_fill (cr);
-	}
-
-	cairo_scale (cr, width/13.0, height/13.0);
 	if (draw_bullet)
 	{
 		if (inconsistent) /* Inconsistent */
@@ -2041,11 +1999,7 @@ murrine_draw_checkbox (cairo_t *cr,
 		}
 		else
 		{
-			cairo_translate (cr, -2, 0);
-			/*
-			if (widget && widget->parent && GTK_IS_MENU(widget->parent))
-				cairo_translate (cr, 0, 0);
-			*/
+			cairo_translate (cr, -1, 0);
 			cairo_move_to (cr, 4, 8);
 			cairo_rel_line_to (cr, 5, 4);
 			cairo_rel_curve_to (cr, 1.4, -5, -1, -1, 5.7, -12.5);

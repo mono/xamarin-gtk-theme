@@ -1484,14 +1484,23 @@ murrine_rgba_draw_radiobutton (cairo_t *cr,
 		else
 			murrine_draw_inset (cr, &widget->parentbg, 0.5, 0.5, width-1, height-1, roundness+1, widget->corners);
 	}
+
 	cairo_save (cr);
 
 	murrine_rounded_rectangle_closed (cr, 1.5, 1.5, width-3, height-3, roundness, widget->corners);
 	cairo_clip_preserve (cr);
-	murrine_draw_glaze (cr, bg,
-	                    widget->glow_shade, highlight_shade_custom, widget->lightborder_shade,
-	                    mrn_gradient_custom, widget, 2, 2, width-4, height-4,
-	                    roundness, widget->corners, TRUE);
+	if (draw_bullet)
+	{
+		murrine_draw_glaze (cr, bg,
+		                    widget->glow_shade, highlight_shade_custom, widget->lightborder_shade,
+		                    mrn_gradient_custom, widget, 2, 2, width-4, height-4,
+		                    roundness, widget->corners, TRUE);
+	}
+	else
+	{
+		murrine_set_color_rgb (cr, bg);
+		cairo_fill (cr);
+	}
 
 	cairo_restore (cr);
 
@@ -1520,8 +1529,6 @@ murrine_rgba_draw_radiobutton (cairo_t *cr,
 			cairo_fill (cr);
 		}
 	}
-
-	cairo_restore (cr);
 }
 
 static void
@@ -1584,14 +1591,23 @@ murrine_rgba_draw_checkbox (cairo_t *cr,
 		else
 			murrine_draw_inset (cr, &widget->parentbg, 0.5, 0.5, width-1, height-1, roundness+1, widget->corners);
 	}
+
 	cairo_save (cr);
 
 	murrine_rounded_rectangle_closed (cr, 1.5, 1.5, width-3, height-3, roundness, widget->corners);
 	cairo_clip_preserve (cr);
-	murrine_draw_glaze (cr, bg,
-	                    widget->glow_shade, highlight_shade_custom, widget->lightborder_shade,
-	                    mrn_gradient_custom, widget, 2, 2, width-4, height-4,
-	                    roundness, widget->corners, TRUE);
+	if (draw_bullet)
+	{
+		murrine_draw_glaze (cr, bg,
+		                    widget->glow_shade, highlight_shade_custom, widget->lightborder_shade,
+		                    mrn_gradient_custom, widget, 2, 2, width-4, height-4,
+		                    roundness, widget->corners, TRUE);
+	}
+	else
+	{
+		murrine_set_color_rgb (cr, bg);
+		cairo_fill (cr);
+	}
 
 	cairo_restore (cr);
 

@@ -265,7 +265,7 @@ murrine_draw_entry (cairo_t *cr,
 	if (widget->focus)
 	{
 		cairo_rectangle (cr, 2, 2, width-5, height-5);
-		murrine_set_color_rgb (cr, &colors->spot[1]);
+		murrine_set_color_rgba (cr, &colors->spot[1], 0.5);
 		cairo_stroke(cr);
 	}
 	else if (widget->mrn_gradient.gradients)

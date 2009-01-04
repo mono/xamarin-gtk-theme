@@ -1,5 +1,11 @@
 2009-01-04  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/murrine_draw.c (murrine_draw_entry):
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_entry):
+	Better GtkEntry focus.
+
+2009-01-04  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/cairo-support.c (murrine_draw_lightborder),
 	(murrine_draw_glaze):
 	Removed horizontal parameter to lightborder,

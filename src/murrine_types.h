@@ -1,5 +1,5 @@
 /* Murrine theme engine
- * Copyright (C) 2006-2007-2008 Andrea Cimitan
+ * Copyright (C) 2006-2007-2008-2009 Andrea Cimitan
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public

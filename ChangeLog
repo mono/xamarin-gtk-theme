@@ -1,5 +1,24 @@
 2009-01-04  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/animation.c:
+	* src/animation.h:
+	* src/cairo-support.c:
+	* src/cairo-support.h:
+	* src/murrine_draw.c:
+	* src/murrine_draw.h:
+	* src/murrine_draw_rgba.c:
+	* src/murrine_rc_style.c:
+	* src/murrine_rc_style.h:
+	* src/murrine_style.c:
+	* src/murrine_style.h:
+	* src/murrine_theme_main.c:
+	* src/murrine_types.h:
+	* src/support.c:
+	* src/support.h:
+	Updated Copyright notes for 2009.
+
+2009-01-04  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_draw.c (murrine_draw_entry):
 	* src/murrine_draw_rgba.c (murrine_rgba_draw_entry):
 	Better GtkEntry focus.

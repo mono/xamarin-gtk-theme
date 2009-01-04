@@ -1,5 +1,14 @@
 2009-01-04  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/cairo-support.c (murrine_draw_lightborder),
+	(murrine_draw_glaze):
+	Removed horizontal parameter to lightborder,
+	this fixes spinbuttons, but could break vertical widgets,
+	please test and report bugs if you see a misplacement
+	of the lightborder.
+
+2009-01-04  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_draw.c (murrine_draw_radiobutton),
 	(murrine_draw_checkbox):
 	* src/murrine_draw_rgba.c (murrine_rgba_draw_radiobutton),

@@ -613,7 +613,7 @@ murrine_draw_lightborder (cairo_t *cr,
                           const MurrineRGB *fill,
                           MurrineGradients mrn_gradient,
                           double x, double y, int width, int height,
-                          boolean gradients, boolean horizontal,
+                          boolean gradients,
                           int glazestyle, int lightborderstyle,
                           int radius, uint8 corners)
 {
@@ -628,18 +628,14 @@ murrine_draw_lightborder (cairo_t *cr,
 
 	cairo_save (cr);
 
-	if (!horizontal)
-		murrine_exchange_axis (cr, (int*)&x, (int*)&y, &width, &height);
-
-	double fill_pos = 1.0-1.0/(!horizontal ? (double)width : (double)height);
+	double fill_pos = 1.0-1.0/(double)height;
 	if (corners == MRN_CORNER_ALL && radius > 2)
-		fill_pos = 1.0-(((double)radius-1.0)/2.0)/
-		                 (!horizontal ? (double)width : (double)height);
+		fill_pos = 1.0-(((double)radius-1.0)/2.0)/(double)height;
 
 	radius < 2 ? cairo_rectangle (cr, x, y, width, height) :
 	             clearlooks_rounded_rectangle (cr, x, y, width, height, radius-1, corners);
 
-	pat = cairo_pattern_create_linear (x, y, !horizontal ? width+x : x, !horizontal ? y : height+y);
+	pat = cairo_pattern_create_linear (x, y, x, height+y);
 	murrine_pattern_add_color_stop_rgba (pat, 0.00,     &shade1, 0.5*alpha_value);
 	murrine_pattern_add_color_stop_rgba (pat, 0.49,     &shade2, 0.5*alpha_value);
 	murrine_pattern_add_color_stop_rgba (pat, 0.49,     &shade3, 0.5*alpha_value);
@@ -757,7 +753,7 @@ murrine_draw_glaze (cairo_t *cr,
 
 		murrine_draw_lightborder (cr, &highlight, fill, mrn_gradient,
 		                          x+0.5, y+0.5, width-1, height-1,
-		                          mrn_gradient.gradients, horizontal,
+		                          mrn_gradient.gradients,
 		                          widget->glazestyle, widget->lightborderstyle,
 		                          radius, corners);
 	}

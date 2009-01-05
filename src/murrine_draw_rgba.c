@@ -500,10 +500,10 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 	cairo_save (cr);
 	cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
 
-	murrine_rounded_rectangle_closed (cr, 1, 0, width-2+roundness, height,
+	murrine_rounded_rectangle_closed (cr, 2, 1, width-4+roundness, height-2,
 	                                  roundness, MRN_CORNER_TOPLEFT | MRN_CORNER_BOTTOMLEFT);
 	cairo_clip (cr);
-	murrine_rounded_rectangle_closed (cr, 1-roundness, 0, width-2+roundness, height,
+	murrine_rounded_rectangle_closed (cr, 2-roundness, 1, width-4+roundness, height-2,
 	                                  roundness, MRN_CORNER_TOPRIGHT | MRN_CORNER_BOTTOMRIGHT);
 	cairo_clip (cr);
 
@@ -564,6 +564,15 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 	}
 
 	cairo_restore (cr);
+
+	cairo_save (cr);
+
+	murrine_rounded_rectangle_closed (cr, 1, 0, width-2+roundness, height,
+	                                  roundness, MRN_CORNER_TOPLEFT | MRN_CORNER_BOTTOMLEFT);
+	cairo_clip (cr);
+	murrine_rounded_rectangle_closed (cr, 1-roundness, 0, width-2+roundness, height,
+	                                  roundness, MRN_CORNER_TOPRIGHT | MRN_CORNER_BOTTOMRIGHT);
+	cairo_clip (cr);
 
 	/* Draw the border */
 	murrine_mix_color (&border, fill, 0.28, &border);

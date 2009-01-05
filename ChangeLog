@@ -1,3 +1,9 @@
+2009-01-05  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/murrine_draw.c (murrine_draw_progressbar_fill):
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_progressbar_fill):
+	Fixed rounded progressbars's corners.
+
 2009-01-04  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/animation.c:

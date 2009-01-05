@@ -187,10 +187,9 @@ murrine_draw_button (cairo_t *cr,
 
 	murrine_mix_color (&border, &fill, 0.4, &border);
 
-	/* Draw the bg */
-	murrine_rounded_rectangle_closed (cr, xos+1, yos+1, width-(xos*2)-2, height-(yos*2)-2, widget->roundness-1, widget->corners);
-
 	cairo_save (cr);
+
+	murrine_rounded_rectangle_closed (cr, xos+1, yos+1, width-(xos*2)-2, height-(yos*2)-2, widget->roundness-1, widget->corners);
 	cairo_clip_preserve (cr);
 
 	murrine_draw_glaze (cr, &fill,
@@ -213,7 +212,6 @@ murrine_draw_button (cairo_t *cr,
 
 		murrine_rounded_rectangle_closed (cr, xos+1, yos+1, width-(xos*2)-2, height-(yos*2)-2, widget->roundness-1,
 		                                  widget->corners & (MRN_CORNER_TOPLEFT | MRN_CORNER_TOPRIGHT | MRN_CORNER_BOTTOMLEFT));
-
 		cairo_clip (cr);
 
 		cairo_rectangle (cr, xos+1, yos+1, width-(xos*2)-2, 3);
@@ -1393,10 +1391,9 @@ murrine_draw_scrollbar_stepper (cairo_t *cr,
 
 	cairo_translate (cr, x, y);
 
-	/* Draw the bg */
-	murrine_rounded_rectangle_closed (cr, 1, 1, width-2, height-2, widget->roundness-1, widget->corners);
-
 	cairo_save (cr);
+
+	murrine_rounded_rectangle_closed (cr, 1, 1, width-2, height-2, widget->roundness-1, widget->corners);
 	cairo_clip_preserve(cr);
 
 	murrine_draw_glaze (cr, fill,
@@ -1464,7 +1461,10 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
 		width = tmp;
 	}
 
+	cairo_save (cr);
+
 	murrine_rounded_rectangle_closed (cr, 1, 1, width-2, height-2, widget->roundness, widget->corners);
+	cairo_clip_preserve (cr);
 
 	murrine_draw_glaze (cr, &fill,
 	                    widget->glow_shade, widget->highlight_shade, widget->lightborder_shade,
@@ -1551,6 +1551,8 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
 			bar_x += 3;
 		}
 	}
+
+	cairo_restore (cr);
 
 	murrine_set_color_rgb (cr, &border);
 	murrine_rounded_rectangle (cr, 0.5, 0.5, width-1, height-1, widget->roundness, widget->corners);
@@ -1890,6 +1892,7 @@ murrine_draw_radiobutton (cairo_t *cr,
 
 	murrine_rounded_rectangle_closed (cr, 1.5, 1.5, width-3, height-3, roundness, widget->corners);
 	cairo_clip_preserve (cr);
+
 	if (draw_bullet)
 	{
 		murrine_draw_glaze (cr, bg,
@@ -1995,6 +1998,7 @@ murrine_draw_checkbox (cairo_t *cr,
 
 	murrine_rounded_rectangle_closed (cr, 1.5, 1.5, width-3, height-3, roundness, widget->corners);
 	cairo_clip_preserve (cr);
+
 	if (draw_bullet)
 	{
 		murrine_draw_glaze (cr, bg,

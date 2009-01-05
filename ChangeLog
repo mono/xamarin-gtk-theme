@@ -1,5 +1,19 @@
 2009-01-05  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/murrine_draw.c (murrine_draw_button),
+	(murrine_draw_scrollbar_stepper), (murrine_draw_scrollbar_slider),
+	(murrine_draw_radiobutton), (murrine_draw_checkbox):
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_button),
+	(murrine_rgba_draw_progressbar_fill),
+	(murrine_rgba_draw_scrollbar_stepper),
+	(murrine_rgba_draw_scrollbar_slider),
+	(murrine_rgba_draw_radiobutton), (murrine_rgba_draw_checkbox):
+	Fixed rounded scrollbars's corners.
+	Various changes in cairo operators in rgba mode, I hope
+	that everything renders correctly as before, I can't test it now.
+
+2009-01-05  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_draw.c (murrine_draw_progressbar_fill):
 	* src/murrine_draw_rgba.c (murrine_rgba_draw_progressbar_fill):
 	Fixed rounded progressbars's corners.

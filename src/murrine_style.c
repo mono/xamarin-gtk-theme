@@ -407,7 +407,7 @@ murrine_style_draw_shadow (DRAW_ARGS)
 		}
 
 		STYLE_FUNCTION(draw_entry) (cr, &murrine_style->colors, &params,
-		                    x, y, width, height);
+		                            x, y, width, height);
 	}
 	else if (DETAIL ("frame") && widget && MRN_IS_STATUSBAR (widget->parent))
 	{

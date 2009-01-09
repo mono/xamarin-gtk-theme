@@ -329,17 +329,17 @@ murrine_scale_draw_gradient (cairo_t *cr,
 		
 		if (horizontal)
 		{
-			cairo_move_to (cr, x+1, height-1);
-			cairo_rel_line_to (cr, 0, -height+2);
+			cairo_move_to (cr, x+1, y+height-0.5);
+			cairo_rel_line_to (cr, 0, -height+1.5);
 			cairo_rel_line_to (cr, width-2, 0);
-			cairo_rel_line_to (cr, 0, height-2);
+			cairo_rel_line_to (cr, 0, height-1.5);
 		}
 		else
 		{
-			cairo_move_to (cr, width-1, y+1);
-			cairo_rel_line_to (cr, -width+2, 0);
+			cairo_move_to (cr, x+width-0.5, y+1);
+			cairo_rel_line_to (cr, -width+1.5, 0);
 			cairo_rel_line_to (cr, 0, height-2);
-			cairo_rel_line_to (cr, width-2, 0);
+			cairo_rel_line_to (cr, width-1.5, 0);
 		}
 		murrine_set_color_rgba (cr, &lightborder, 0.5);
 		cairo_stroke (cr);

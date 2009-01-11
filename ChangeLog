@@ -1,3 +1,16 @@
+2009-01-11  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/murrine_draw.c (murrine_draw_button), (murrine_draw_tab),
+	(murrine_draw_radiobutton), (murrine_draw_checkbox):
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_button),
+	(murrine_rgba_draw_tab), (murrine_rgba_draw_radiobutton),
+	(murrine_rgba_draw_checkbox):
+	Automatically reduce lightborder_shade for widgets in disabled state:
+	button, radio and check, tab.
+	Fixed reliefstyle = 0 in radio and check.
+	Feedback is always welcome, if you prefer before the lightborder_shade
+	tweak.
+
 2009-01-09  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/murrine_draw.c (murrine_scale_draw_gradient):

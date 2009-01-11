@@ -441,9 +441,16 @@ murrine_style_draw_shadow (DRAW_ARGS)
 	}
 	else if (DETAIL ("scrolled_window") || DETAIL ("viewport") || detail == NULL)
 	{
-		MurrineRGB *border = &colors->shade[5];
 		cairo_rectangle (cr, x+0.5, y+0.5, width-1, height-1);
-		murrine_set_color_rgb (cr, border);
+		murrine_set_color_rgb (cr, &colors->shade[5]);
+		cairo_stroke (cr);
+	}
+	else if (DETAIL ("pager") || DETAIL ("pager-frame"))
+	{
+		murrine_rounded_rectangle (cr, x+0.5, y+0.5, width-1, height-1,
+		                           CLAMP (murrine_style->roundness, 0, 3),
+		                           MRN_CORNER_ALL);
+		murrine_set_color_rgb (cr, &colors->shade[5]);
 		cairo_stroke (cr);
 	}
 	else
@@ -452,7 +459,7 @@ murrine_style_draw_shadow (DRAW_ARGS)
 		FrameParameters frame;
 
 		frame.shadow = shadow_type;
-		frame.gap_x  = -1;
+		frame.gap_x  = -1; /* No gap will be drawn */
 		frame.border = &colors->shade[4];
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);

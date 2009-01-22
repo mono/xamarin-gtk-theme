@@ -149,6 +149,7 @@ murrine_draw_button (cairo_t *cr,
 {
 	double xos = widget->xthickness > 2 ? 1 : 0;
 	double yos = widget->ythickness > 2 ? 1 : 0;
+	double glow_shade_custom = widget->glow_shade;
 	double highlight_shade_custom = widget->highlight_shade;
 	double lightborder_shade_custom = widget->lightborder_shade;
 	MurrineRGB fill = colors->bg[widget->state_type];
@@ -158,6 +159,7 @@ murrine_draw_button (cairo_t *cr,
 	if (widget->disabled)
 	{
 		mrn_gradient_custom = get_decreased_gradient_shades (widget->mrn_gradient, 3.0);
+		glow_shade_custom = get_decreased_shade (widget->glow_shade, 2.0);
 		highlight_shade_custom = get_decreased_shade (widget->highlight_shade, 2.0);
 		lightborder_shade_custom = get_decreased_shade (widget->lightborder_shade, 2.0);
 	}
@@ -195,7 +197,7 @@ murrine_draw_button (cairo_t *cr,
 	cairo_clip_preserve (cr);
 
 	murrine_draw_glaze (cr, &fill,
-	                    widget->glow_shade, highlight_shade_custom, !widget->active ? lightborder_shade_custom : 1.0,
+	                    glow_shade_custom, highlight_shade_custom, !widget->active ? lightborder_shade_custom : 1.0,
 	                    mrn_gradient_custom, widget,
 	                    xos+1, yos+1, width-(xos*2)-2, height-(yos*2)-2,
 	                    widget->roundness, widget->corners, horizontal);

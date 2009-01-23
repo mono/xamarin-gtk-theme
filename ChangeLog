@@ -1,5 +1,10 @@
 2009-01-23  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/murrine_style.c (murrine_style_draw_shadow):
+	Don't draw statusbar'S HIGHLIGHT when shadow-type is GTK_SHADOW_NONE.
+
+2009-01-23  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_style.c (murrine_style_draw_box):
 	Fixed a bug in the scale_trough not fully filled in some cases.
 	Thanks lucazade for pointing this out.

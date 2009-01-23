@@ -421,8 +421,9 @@ murrine_style_draw_shadow (DRAW_ARGS)
 			                                    area, x, y, width, height);
 		}
 
-		STYLE_FUNCTION(draw_statusbar) (cr, colors, &params,
-		                                x, y, width, height);
+		if (shadow_type != GTK_SHADOW_NONE)
+			STYLE_FUNCTION(draw_statusbar) (cr, colors, &params,
+			                                x, y, width, height);
 	}
 	else if (DETAIL ("frame"))
 	{

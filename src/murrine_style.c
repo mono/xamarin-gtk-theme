@@ -911,9 +911,13 @@ murrine_style_draw_box (DRAW_ARGS)
 
 		slider.inverted   = gtk_range_get_inverted (GTK_RANGE (widget));
 		slider.horizontal = (GTK_RANGE (widget)->orientation == GTK_ORIENTATION_HORIZONTAL);
-		slider.fill_size  = ((slider.horizontal ? width : height)-slider_length) *
-		                     (1/((adjustment->upper-adjustment->lower)/(adjustment->value-adjustment->lower)))
-		                     +slider_length/2;
+		if ((adjustment->upper-adjustment->page_size-adjustment->lower) != 0)
+			slider.fill_size = ((slider.horizontal ? width : height)-slider_length)*
+			                   ((adjustment->value-adjustment->lower)/
+			                   (adjustment->upper-adjustment->page_size-adjustment->lower))+
+			                    slider_length/2;
+		else
+			slider.fill_size = 0;
 		if (slider.horizontal)
 			slider.inverted = slider.inverted != (murrine_get_direction (widget) == GTK_TEXT_DIR_RTL);
 

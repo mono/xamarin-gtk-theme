@@ -1,3 +1,9 @@
+2009-01-23  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/murrine_style.c (murrine_style_draw_box):
+	Fixed a bug in the scale_trough not fully filled in some cases.
+	Thanks lucazade for pointing this out.
+
 2009-01-22  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/murrine_draw.c (murrine_draw_button):

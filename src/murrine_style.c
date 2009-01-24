@@ -901,26 +901,14 @@ murrine_style_draw_box (DRAW_ARGS)
 		/* draw_spinbutton (cr, &murrine_style->colors, &params, x, y, width, height); */
 		STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, x, y, width, height, horizontal);
 	}
-	else if (DETAIL ("trough") && widget && MRN_IS_SCALE (widget))
+	else if (detail && g_str_has_prefix (detail, "trough") && widget && MRN_IS_SCALE (widget))
 	{
-		GtkAdjustment *adjustment = gtk_range_get_adjustment (GTK_RANGE (widget));
 		WidgetParameters params;
 		SliderParameters slider;
-		gint slider_length;
 
-		gtk_widget_style_get (widget, "slider-length", &slider_length, NULL);
-
-		slider.inverted   = gtk_range_get_inverted (GTK_RANGE (widget));
+		slider.lower = DETAIL ("trough-lower");
+		slider.fill_level = DETAIL ("trough-fill-level") || DETAIL ("trough-fill-level-full");
 		slider.horizontal = (GTK_RANGE (widget)->orientation == GTK_ORIENTATION_HORIZONTAL);
-		if ((adjustment->upper-adjustment->page_size-adjustment->lower) != 0)
-			slider.fill_size = ((slider.horizontal ? width : height)-slider_length)*
-			                   ((adjustment->value-adjustment->lower)/
-			                   (adjustment->upper-adjustment->page_size-adjustment->lower))+
-			                    slider_length/2;
-		else
-			slider.fill_size = 0;
-		if (slider.horizontal)
-			slider.inverted = slider.inverted != (murrine_get_direction (widget) == GTK_TEXT_DIR_RTL);
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 		params.corners    = MRN_CORNER_NONE;

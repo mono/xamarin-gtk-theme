@@ -1,3 +1,14 @@
+2009-01-24  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/murrine_draw.c (murrine_draw_scale_trough):
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_scale_trough):
+	* src/murrine_style.c (murrine_style_draw_box):
+	* src/murrine_types.h:
+	Add support for GtkScale::trough-side-details and fill-level.
+	This will break old themes (the scale's trough).
+	To update your theme, please add this in the gtkrc:
+	GtkScale::trough-side-details = 1
+
 2009-01-23  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/murrine_style.c (murrine_style_draw_shadow):

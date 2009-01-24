@@ -336,6 +336,7 @@ murrine_scale_draw_gradient (cairo_t *cr,
 	}
 }
 
+#define TROUGH_SIZE 6
 static void
 murrine_rgba_draw_scale_trough (cairo_t *cr,
                                 const MurrineColors    *colors,
@@ -343,66 +344,52 @@ murrine_rgba_draw_scale_trough (cairo_t *cr,
                                 const SliderParameters *slider,
                                 int x, int y, int width, int height)
 {
-	int     fill_x, fill_y, fill_width, fill_height; /* Fill x,y,w,h */
 	int     trough_width, trough_height;
-	int     fill_size = slider->fill_size;
-	int     TROUGH_SIZE = 6;
 	double  translate_x, translate_y;
-	MurrineRGB fill;
 
-	murrine_shade (&widget->parentbg, 0.95, &fill);
+	cairo_save (cr);
 
 	if (slider->horizontal)
 	{
-		if (fill_size > width-3)
-			fill_size = width-3;
+		trough_width  = width;
+		trough_height = TROUGH_SIZE;
 
-		fill_x        = slider->inverted ? width-fill_size-3 : 0;
-		fill_y        = 0;
-		fill_width    = fill_size;
-		fill_height   = TROUGH_SIZE-2;
-
-		trough_width  = width-3;
-		trough_height = TROUGH_SIZE-2;
-
-		translate_x   = x+0.5;
-		translate_y   = y+0.5+(height/2)-(TROUGH_SIZE/2);
+		translate_x   = x;
+		translate_y   = y+(height/2)-(TROUGH_SIZE/2);
 	}
 	else
 	{
-		if (fill_size > height-3)
-			fill_size = height-3;
+		trough_width  = TROUGH_SIZE;
+		trough_height = height;
 
-		fill_x        = 0;
-		fill_y        = slider->inverted ? height-fill_size-3 : 0;
-		fill_width    = TROUGH_SIZE-2;
-		fill_height   = fill_size;
-
-		trough_width  = TROUGH_SIZE-2;
-		trough_height = height-3;
-
-		translate_x   = x+0.5+(width/2)-(TROUGH_SIZE/2);
-		translate_y   = y+0.5;
+		translate_x   = x+(width/2)-(TROUGH_SIZE/2);
+		translate_y   = y;
 	}
 
-	cairo_translate (cr, translate_x, translate_y);
+	cairo_translate (cr, translate_x+0.5, translate_y+0.5);
 
-	if (widget->reliefstyle != 0)
-		murrine_draw_inset (cr, &widget->parentbg, 0, 0, trough_width+2, trough_height+2, 0, 0);
+	if (!slider->fill_level && widget->reliefstyle != 0)
+		murrine_draw_inset (cr, &widget->parentbg, 0, 0, trough_width, trough_height, 0, 0);
 
-	cairo_translate (cr, 1, 1);
+	if (!slider->lower && !slider->fill_level)
+	{
+		MurrineRGB fill;
+		murrine_shade (&widget->parentbg, 0.95, &fill);
 
-	murrine_scale_draw_gradient (cr, &fill, /* fill */
-	                             &colors->shade[5], /* border */
-	                             1.0,
-	                             0, 0, trough_width, trough_height,
-	                             TRUE, slider->horizontal);
+		murrine_scale_draw_gradient (cr, &fill, &colors->shade[5],
+		                             1.0,
+		                             1.0, 1.0, trough_width-2, trough_height-2,
+		                             TRUE, slider->horizontal);
+	}
+	else
+	{
+		murrine_scale_draw_gradient (cr, &colors->spot[1], &colors->spot[2],
+		                             widget->disabled ? 1.0 : widget->lightborder_shade,
+		                             1.0, 1.0, trough_width-2, trough_height-2,
+		                             FALSE, slider->horizontal);
+	}
 
-	murrine_scale_draw_gradient (cr, &colors->spot[1], /* fill */
-	                             &colors->spot[2], /* border */
-	                             widget->disabled ? 1.0 : widget->lightborder_shade,
-	                             fill_x, fill_y, fill_width, fill_height,
-	                             FALSE, slider->horizontal);
+	cairo_restore (cr);
 }
 
 static void

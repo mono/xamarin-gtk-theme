@@ -1094,7 +1094,7 @@ murrine_style_draw_box (DRAW_ARGS)
 			if (murrine_style->menustyle != 1 || (MRN_IS_MENU_BAR (widget->parent) && !murrine_style->menubaritemstyle))
 				STYLE_FUNCTION(draw_menuitem) (cr, colors, &params, x, y, width, height, murrine_style->menuitemstyle);
 			else
-				/* little translation */
+				/* little translation */ /* XXX: RTL */
 				STYLE_FUNCTION(draw_menuitem) (cr, colors, &params, x+3, y, width-3, height, murrine_style->menuitemstyle);
 		}
 
@@ -1152,9 +1152,16 @@ murrine_style_draw_box (DRAW_ARGS)
 		if (DETAIL ("slider"))
 		{
 			int trough_border = 0;
-			gtk_widget_style_get (widget, "trough-border", &trough_border, NULL);
+			int trough_under_steppers = 1;
 
-			if (trough_border > 0 || murrine_style->roundness == 1)
+			gtk_widget_style_get (widget,
+			                      "trough-border", &trough_border,
+			                      "trough-under-steppers", &trough_under_steppers,
+			                      NULL);
+
+			if (trough_border > 0 ||
+			    trough_under_steppers == 0 ||
+			    murrine_style->roundness == 1)
 				params.corners = MRN_CORNER_ALL;
 			else
 				params.corners = MRN_CORNER_NONE;

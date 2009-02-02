@@ -928,7 +928,6 @@ murrine_rgba_draw_tab (cairo_t *cr,
                        const TabParameters    *tab,
                        int x, int y, int width, int height)
 {
-	const float      RADIUS = 3.0;
 	const MurrineRGB *stripe_fill = &colors->spot[1];
 	const MurrineRGB *stripe_border = &colors->spot[2];
 	const MurrineRGB *fill = &colors->bg[widget->state_type];
@@ -948,14 +947,14 @@ murrine_rgba_draw_tab (cairo_t *cr,
 	/* And calculate the strip size too, while you're at it */
 	if (tab->gap_side == MRN_GAP_TOP || tab->gap_side == MRN_GAP_BOTTOM)
 	{
-		height += RADIUS;
+		height += 3.0;
 
 		if (tab->gap_side == MRN_GAP_TOP)
 			cairo_translate (cr, 0.0, -3.0); /* gap at the other side */
 	}
 	else
 	{
-		width += RADIUS;
+		width += 3.0;
 
 		if (tab->gap_side == MRN_GAP_LEFT)
 			cairo_translate (cr, -3.0, 0.0); /* gap at the other side */

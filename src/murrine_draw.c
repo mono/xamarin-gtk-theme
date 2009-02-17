@@ -1437,7 +1437,7 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
 	murrine_shade (&colors->shade[6], 0.95, &border);
 
 	if (widget->prelight)
-		murrine_shade (&fill, 1.06, &fill);
+		murrine_shade (&fill, 1.04, &fill);
 
 	/* Draw the border */
 	murrine_mix_color (&border, &fill, 0.4, &border);

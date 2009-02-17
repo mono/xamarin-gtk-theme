@@ -1262,6 +1262,7 @@ murrine_style_draw_box (DRAW_ARGS)
 	}
 	else
 	{
+		//printf( "draw_box: %s %s\n", detail, G_OBJECT_TYPE_NAME (widget));
 		GTK_STYLE_CLASS (murrine_style_parent_class)->draw_box (style, window, state_type, shadow_type, area,
 		                                                        widget, detail, x, y, width, height);
 	}

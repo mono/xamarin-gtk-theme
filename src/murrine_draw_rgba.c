@@ -1331,7 +1331,7 @@ murrine_rgba_draw_scrollbar_slider (cairo_t *cr,
 	/* Draw the handle */
 	if (scrollbar->style > 0 && scrollbar->style % 2 == 0)
 	{
-		double bar_x = width/2-4.5;
+		double bar_x = width/2-3.5;
 		int i;
 		for (i=0; i<3; i++)
 		{

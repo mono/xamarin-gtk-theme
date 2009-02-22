@@ -1270,11 +1270,19 @@ murrine_draw_menuitem (cairo_t *cr,
 	const MurrineRGB *fill   = &colors->spot[1];
 	const MurrineRGB *border = &colors->spot[2];
 
-	cairo_translate      (cr, x, y);
+	cairo_translate (cr, x, y);
 	murrine_rounded_rectangle_closed (cr, 0, 0, width, height, widget->roundness, widget->corners);
 
 	switch (menuitemstyle)
 	{
+		case 0:
+			murrine_set_gradient (cr, fill, widget->mrn_gradient, 0, 0, 0, height, widget->mrn_gradient.gradients, FALSE);
+			cairo_fill (cr);
+
+			murrine_set_color_rgba (cr, border, 0.15);
+			murrine_rounded_rectangle (cr, 0.5, 0.5, width-1, height-1, widget->roundness, widget->corners);
+			cairo_fill_preserve (cr);
+			break;
 		default:
 		case 1:
 			cairo_clip_preserve (cr);
@@ -1283,14 +1291,6 @@ murrine_draw_menuitem (cairo_t *cr,
 			                    widget->glow_shade, widget->highlight_shade, widget->lightborder_shade,
 			                    widget->mrn_gradient, widget, 1, 1, width-2, height-2,
 			                    widget->roundness, widget->corners, TRUE);
-			break;
-		case 0:
-			murrine_set_gradient (cr, fill, widget->mrn_gradient, 0, 0, 0, height, widget->mrn_gradient.gradients, FALSE);
-			cairo_fill (cr);
-
-			murrine_set_color_rgba (cr, border, 0.15);
-			murrine_rounded_rectangle (cr, 0.5, 0.5, width-1, height-1, widget->roundness, widget->corners);
-			cairo_fill_preserve (cr);
 			break;
 		case 2:
 		{

@@ -2005,7 +2005,7 @@ murrine_style_draw_focus (GtkStyle *style, GdkWindow *window, GtkStateType state
 		}
 
 	}
-	else if (detail && g_str_has_prefix (detail, "trough") && MRN_IS_SCALE (widget)) //CHECK_HINT (GE_HINT_SCALE)*/)
+	else if (detail && g_str_has_prefix (detail, "trough") && MRN_IS_SCALE (widget))
 	{
 		focus.type = MRN_FOCUS_SCALE;
 	}

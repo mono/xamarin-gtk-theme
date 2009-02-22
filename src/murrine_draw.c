@@ -2067,6 +2067,150 @@ murrine_draw_resize_grip (cairo_t *cr,
 	}
 }
 
+static void
+murrine_draw_classic_focus (cairo_t *cr,
+                            const MurrineColors    *colors,
+                            const WidgetParameters *widget,
+                            const FocusParameters  *focus,
+                            int x, int y, int width, int height)
+{
+	if (focus->has_color)
+		murrine_set_color_rgb (cr, &focus->color);
+	else if (focus->type == MRN_FOCUS_COLOR_WHEEL_LIGHT)
+		cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+	else if (focus->type == MRN_FOCUS_COLOR_WHEEL_DARK)
+		cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+	else
+		murrine_set_color_rgba (cr, &colors->fg[widget->state_type], 0.7);
+
+	cairo_set_line_width (cr, focus->line_width);
+
+	if (focus->dash_list[0])
+	{
+		gint n_dashes = strlen ((gchar *)focus->dash_list);
+		gdouble *dashes = g_new (gdouble, n_dashes);
+		gdouble total_length = 0;
+		gdouble dash_offset;
+		gint i;
+
+		for (i = 0; i < n_dashes; i++)
+		{
+			dashes[i] = focus->dash_list[i];
+			total_length += focus->dash_list[i];
+		}
+
+		dash_offset = -focus->line_width / 2.0;
+		while (dash_offset < 0)
+			dash_offset += total_length;
+
+		cairo_set_dash (cr, dashes, n_dashes, dash_offset);
+		g_free (dashes);
+	}
+
+	cairo_rectangle (cr, x+focus->line_width/2.0, y+focus->line_width/2.0,
+	                     width-focus->line_width, height-focus->line_width);
+	cairo_stroke (cr);
+}
+
+void
+murrine_draw_focus (cairo_t *cr,
+                    const MurrineColors    *colors,
+                    const WidgetParameters *widget,
+                    const FocusParameters  *focus,
+                    int x, int y, int width, int height)
+{
+	MurrineRGB fill = focus->color;
+	MurrineRGB border;
+
+	/* Default values */
+	int radius = 0;
+	double xoffset = 1.0;
+	double yoffset = 1.0;
+	double border_alpha = 0.90;
+	double fill_alpha = 0.14;
+	boolean focus_fill = TRUE;
+	boolean focus_border = TRUE;
+
+	/* Do some useful things to adjust focus */
+	switch (focus->type)
+	{
+		case MRN_FOCUS_BUTTON:
+			xoffset = -(focus->padding);
+			yoffset = -(focus->padding);
+			radius = widget->roundness-1;
+			break;
+		case MRN_FOCUS_BUTTON_FLAT:
+			xoffset = -(focus->padding);
+			yoffset = -(focus->padding);
+			if (widget->active || widget->prelight)
+				radius = widget->roundness-1;
+			break;
+		case MRN_FOCUS_LABEL:
+			xoffset = 0.0;
+			yoffset = 0.0;
+			break;
+		case MRN_FOCUS_TREEVIEW:
+			xoffset = -1.0;
+			yoffset = -1.0;
+			focus_border = FALSE;
+			break;
+		case MRN_FOCUS_TREEVIEW_DND:
+			break;
+		case MRN_FOCUS_TREEVIEW_HEADER:
+			cairo_translate (cr, -1, 0);
+			break;
+		case MRN_FOCUS_TREEVIEW_ROW:
+			xoffset = 0.0;
+			if (widget->state_type == GTK_STATE_SELECTED)
+			{
+				fill = colors->text[GTK_STATE_SELECTED];
+				border_alpha = 0.35;
+				focus_fill = FALSE;
+			}
+			break;
+		case MRN_FOCUS_TAB:
+			break;
+		case MRN_FOCUS_SCALE:
+			break;
+		case MRN_FOCUS_ICONVIEW:
+			break;
+		case MRN_FOCUS_UNKNOWN:
+			/* Fallback to classic function, dots */
+			murrine_draw_classic_focus (cr, colors, widget, focus, x, y, width, height);
+			return;
+			break;
+		default:
+			break;
+	};
+
+	murrine_shade (&fill, 1.0, &border);
+
+	cairo_translate (cr, x, y);
+	cairo_set_line_width (cr, focus->line_width);
+
+	cairo_save (cr);
+
+	murrine_rounded_rectangle_closed (cr, xoffset, yoffset, width-(xoffset*2), height-(yoffset*2), radius, widget->corners);
+	cairo_clip_preserve (cr);
+
+	if (focus_fill)
+	{
+		murrine_set_color_rgba (cr, &fill, fill_alpha);
+		cairo_fill (cr);
+	}
+
+	if (focus_border)
+	{
+		cairo_new_path (cr);
+		cairo_move_to (cr, xoffset, height-yoffset-0.5);
+		cairo_line_to (cr, width-xoffset,  height-yoffset-0.5);
+		murrine_set_color_rgba (cr, &border, border_alpha);
+		cairo_stroke (cr);
+	}
+
+	cairo_restore (cr);
+}
+
 void
 murrine_register_style_murrine (MurrineStyleFunctions *functions)
 {
@@ -2101,4 +2245,5 @@ murrine_register_style_murrine (MurrineStyleFunctions *functions)
 	functions->draw_arrow              = murrine_draw_arrow;
 	functions->draw_checkbox           = murrine_draw_checkbox;
 	functions->draw_radiobutton        = murrine_draw_radiobutton;
+	functions->draw_focus              = murrine_draw_focus;
 }

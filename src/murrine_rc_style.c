@@ -38,6 +38,7 @@ enum
 	TOKEN_ANIMATION = G_TOKEN_LAST + 1,
 	TOKEN_COLORIZE_SCROLLBAR,
 	TOKEN_CONTRAST,
+	TOKEN_FOCUS_COLOR,
 	TOKEN_GLAZESTYLE,
 	TOKEN_GLOW_SHADE,
 	TOKEN_GLOWSTYLE,
@@ -90,6 +91,7 @@ theme_symbols[] =
 	{ "animation",           TOKEN_ANIMATION },
 	{ "colorize_scrollbar",  TOKEN_COLORIZE_SCROLLBAR },
 	{ "contrast",            TOKEN_CONTRAST },
+	{ "focus_color",         TOKEN_FOCUS_COLOR },
 	{ "glazestyle",          TOKEN_GLAZESTYLE },
 	{ "glow_shade",          TOKEN_GLOW_SHADE },
 	{ "glowstyle",           TOKEN_GLOWSTYLE },
@@ -148,6 +150,7 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->animation = FALSE;
 	murrine_rc->colorize_scrollbar = TRUE;
 	murrine_rc->contrast = 1.0;
+	murrine_rc->has_focus_color = FALSE;
 	murrine_rc->glazestyle = 1;
 	murrine_rc->glow_shade = 1.0;
 	murrine_rc->glowstyle = 0;
@@ -475,6 +478,11 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_shade (settings, scanner, &murrine_style->contrast);
 				murrine_style->flags |= MRN_FLAG_CONTRAST;
 				break;
+			case TOKEN_FOCUS_COLOR:
+				token = theme_parse_color (settings, scanner, &murrine_style->focus_color);
+				murrine_style->flags |= MRN_FLAG_FOCUS_COLOR;
+				murrine_style->has_focus_color = TRUE;
+				break;
 			case TOKEN_GLAZESTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->glazestyle);
 				murrine_style->flags |= MRN_FLAG_GLAZESTYLE;
@@ -640,6 +648,11 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->colorize_scrollbar = src_w->colorize_scrollbar;
 	if (flags & MRN_FLAG_CONTRAST)
 		dest_w->contrast = src_w->contrast;
+	if (flags & MRN_FLAG_FOCUS_COLOR)
+	{
+		dest_w->has_focus_color = TRUE;
+		dest_w->focus_color = src_w->focus_color;
+	}
 	if (flags & MRN_FLAG_GLAZESTYLE)
 		dest_w->glazestyle = src_w->glazestyle;
 	if (flags & MRN_FLAG_GLOW_SHADE)

@@ -69,6 +69,13 @@ typedef enum
 
 typedef enum
 {
+	MRN_CONT_NONE          = 0,
+	MRN_CONT_LEFT          = 1 << 0,
+	MRN_CONT_RIGHT         = 1 << 1
+} MurrineContinue;
+
+typedef enum
+{
 	MRN_STEPPER_UNKNOWN    = 0,
 	MRN_STEPPER_A          = 1,
 	MRN_STEPPER_B          = 2,
@@ -119,6 +126,23 @@ typedef enum
 	MRN_ARROW_NORMAL,
 	MRN_ARROW_COMBO
 } MurrineArrowType;
+
+typedef enum
+{
+	MRN_FOCUS_BUTTON,
+	MRN_FOCUS_BUTTON_FLAT,
+	MRN_FOCUS_LABEL,
+	MRN_FOCUS_TREEVIEW,
+	MRN_FOCUS_TREEVIEW_HEADER,
+	MRN_FOCUS_TREEVIEW_ROW,
+	MRN_FOCUS_TREEVIEW_DND,
+	MRN_FOCUS_SCALE,
+	MRN_FOCUS_TAB,
+	MRN_FOCUS_COLOR_WHEEL_DARK,
+	MRN_FOCUS_COLOR_WHEEL_LIGHT,
+	MRN_FOCUS_ICONVIEW,
+	MRN_FOCUS_UNKNOWN
+} MurrineFocusType;
 
 typedef enum
 {
@@ -203,6 +227,18 @@ typedef struct
 	MurrineStyles style;
 	MurrineStyleFunctions *style_functions;
 } WidgetParameters;
+
+typedef struct
+{
+	MurrineFocusType    type;
+	MurrineContinue     continue_side;
+	MurrineRGB          color;
+	boolean             has_color;
+	gint                line_width;
+	gint                padding;
+	guint8*             dash_list;
+	boolean             interior;
+} FocusParameters;
 
 typedef struct
 {
@@ -472,6 +508,12 @@ struct _MurrineStyleFunctions
 	                          const WidgetParameters     *widget,
 	                          const ResizeGripParameters *grip,
 	                          int x, int y, int width, int height);
+
+	void (*draw_focus) (cairo_t *cr,
+	                    const MurrineColors    *colors,
+	                    const WidgetParameters *widget,
+	                    const FocusParameters  *focus,
+	                    int x, int y, int width, int height);
 };
 
 #define MURRINE_RECTANGLE_SET(rect, _x, _y, _w, _h) rect.x      = _x; \

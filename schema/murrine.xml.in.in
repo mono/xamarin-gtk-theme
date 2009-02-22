@@ -31,6 +31,13 @@
 		<precision>0.1</precision>
 	</option>
 
+	<option type="color" name="focus_color" default="#000000">
+		<_long_name>Focus Color</_long_name>
+		<section>General</section>
+		<_description>Sets the Color of Focus</_description>
+	</option>
+
+
 	<option type="enumeration" name="glazestyle" default="0">
 		<_long_name>Glaze Style</_long_name>
 		<section>General</section>

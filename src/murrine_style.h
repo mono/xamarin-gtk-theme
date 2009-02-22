@@ -68,11 +68,13 @@ struct _MurrineStyle
 	guint8   toolbarstyle;
 
 	gboolean animation;
-	gboolean gradients;
 	gboolean colorize_scrollbar;
+	gboolean gradients;
+	gboolean has_focus_color;
 	gboolean has_scrollbar_color;
 	gboolean rgba;
 
+	GdkColor focus_color;
 	GdkColor scrollbar_color;
 };
 

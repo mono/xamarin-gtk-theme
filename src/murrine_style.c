@@ -726,7 +726,7 @@ murrine_style_draw_box (DRAW_ARGS)
 			                              width, height+offset, menubarstyle);
 	}
 	else if (DETAIL ("button") && widget && widget->parent &&
-	                 (MRN_IS_TREE_VIEW(widget->parent) ||
+	                 (MRN_IS_TREE_VIEW (widget->parent) ||
 	                  MRN_IS_CLIST (widget->parent)))
 	{
 		WidgetParameters params;
@@ -1715,6 +1715,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 		murrine_style->roundness       = MURRINE_RC_STYLE (rc_style)->roundness;
 	murrine_style->animation           = MURRINE_RC_STYLE (rc_style)->animation;
 	murrine_style->colorize_scrollbar  = MURRINE_RC_STYLE (rc_style)->colorize_scrollbar;
+	murrine_style->has_focus_color     = MURRINE_RC_STYLE (rc_style)->has_focus_color;
 	murrine_style->glowstyle           = MURRINE_RC_STYLE (rc_style)->glowstyle;
 	murrine_style->gradients           = MURRINE_RC_STYLE (rc_style)->gradients;
 	murrine_style->has_scrollbar_color = MURRINE_RC_STYLE (rc_style)->has_scrollbar_color;
@@ -1733,6 +1734,8 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	murrine_style->stepperstyle        = MURRINE_RC_STYLE (rc_style)->stepperstyle;
 	murrine_style->toolbarstyle        = MURRINE_RC_STYLE (rc_style)->toolbarstyle;
 
+	if (murrine_style->has_focus_color)
+		murrine_style->focus_color = MURRINE_RC_STYLE (rc_style)->focus_color;
 	if (murrine_style->has_scrollbar_color)
 		murrine_style->scrollbar_color = MURRINE_RC_STYLE (rc_style)->scrollbar_color;
 
@@ -1881,6 +1884,12 @@ murrine_style_draw_focus (GtkStyle *style, GdkWindow *window, GtkStateType state
                           GdkRectangle *area, GtkWidget *widget, const gchar *detail,
                           gint x, gint y, gint width, gint height)
 {
+	MurrineStyle *murrine_style = MURRINE_STYLE (style);
+	MurrineColors *colors = &murrine_style->colors;
+	WidgetParameters params;
+	FocusParameters focus;
+	guint8* dash_list;
+
 	cairo_t *cr;
 
 	CHECK_ARGS
@@ -1888,72 +1897,160 @@ murrine_style_draw_focus (GtkStyle *style, GdkWindow *window, GtkStateType state
 
 	cr = gdk_cairo_create (window);
 
-	gboolean free_dash_list = FALSE;
-	gint line_width = 1;
-	gint8 *dash_list = "\1\1";
+	murrine_set_widget_parameters (widget, style, state_type, &params);
+
+	/* Corners */
+	params.corners = MRN_CORNER_ALL;
+	if (widget && widget->parent && MRN_IS_COMBO_BOX_ENTRY(widget->parent))
+	{
+		if (params.ltr)
+			params.corners = MRN_CORNER_TOPRIGHT | MRN_CORNER_BOTTOMRIGHT;
+		else
+			params.corners = MRN_CORNER_TOPLEFT | MRN_CORNER_BOTTOMLEFT;
+
+		if (params.xthickness > 2)
+		{
+			if (params.ltr)
+				x--;
+			width++;
+		}
+	}
+
+	focus.has_color = FALSE;
+	focus.interior = FALSE;
+	focus.line_width = 1;
+	focus.padding = 1;
+	dash_list = NULL;
 
 	if (widget)
 	{
 		gtk_widget_style_get (widget,
-		                     "focus-line-width", &line_width,
-		                     "focus-line-pattern",
-		                     (gchar *) & dash_list, NULL);
-
-		free_dash_list = TRUE;
+		                      "focus-line-width", &focus.line_width,
+		                      "focus-line-pattern", &dash_list,
+		                      "focus-padding", &focus.padding,
+		                      "interior-focus", &focus.interior,
+		                      NULL);
 	}
-
-	if (detail && !strcmp (detail, "add-mode"))
-	{
-		if (free_dash_list)
-			g_free (dash_list);
-
-		dash_list = "\4\4";
-		free_dash_list = FALSE;
-	}
-
-	if (detail && !strcmp (detail, "colorwheel_light"))
-		cairo_set_source_rgb (cr, 0., 0., 0.);
-	else if (detail && !strcmp (detail, "colorwheel_dark"))
-		cairo_set_source_rgb (cr, 1., 1., 1.);
+	if (dash_list)
+		focus.dash_list = dash_list;
 	else
-		gdk_cairo_set_source_color_alpha (cr, &style->fg[state_type], 0.7);
+		focus.dash_list = (guint8*) g_strdup ("\1\1");
 
-	cairo_set_line_width (cr, line_width);
-
-	if (dash_list[0])
+	/* Focus type */
+	if (DETAIL("button"))
 	{
-		gint n_dashes = strlen (dash_list);
-		gdouble *dashes = g_new (gdouble, n_dashes);
-		gdouble total_length = 0;
-		gdouble dash_offset;
-		gint i;
-
-		for (i = 0; i < n_dashes; i++)
+		if (widget && widget->parent &&
+	                 (MRN_IS_TREE_VIEW (widget->parent) ||
+	                  MRN_IS_CLIST (widget->parent)))
 		{
-			dashes[i] = dash_list[i];
-			total_length += dash_list[i];
+			focus.type = MRN_FOCUS_TREEVIEW_HEADER;
+		}
+		else
+		{
+			GtkReliefStyle relief = GTK_RELIEF_NORMAL;
+			/* Check for the shadow type. */
+			if (widget && GTK_IS_BUTTON (widget))
+				g_object_get (G_OBJECT (widget), "relief", &relief, NULL);
+
+			if (relief == GTK_RELIEF_NORMAL)
+				focus.type = MRN_FOCUS_BUTTON;
+			else
+				focus.type = MRN_FOCUS_BUTTON_FLAT;
+
+			/* This is a workaround for the bogus focus handling that
+			 * clearlooks has currently.
+			 * I truely dislike putting it here, but I guess it is better
+			 * then having such a visible bug. It should be removed in the
+			 * next unstable release cycle.  -- Benjamin
+			if (ge_object_is_a (G_OBJECT (widget), "ButtonWidget"))
+				focus.type = MRN_FOCUS_LABEL; */
+		}
+	}
+	else if (detail && g_str_has_prefix (detail, "treeview"))
+	{
+		/* Focus in a treeview, and that means a lot of different detail strings. */
+		if (g_str_has_prefix (detail, "treeview-drop-indicator"))
+			focus.type = MRN_FOCUS_TREEVIEW_DND;
+		else
+			focus.type = MRN_FOCUS_TREEVIEW_ROW;
+
+		if (g_str_has_suffix (detail, "left"))
+		{
+			focus.continue_side = MRN_CONT_RIGHT;
+		}
+		else if (g_str_has_suffix (detail, "right"))
+		{
+			focus.continue_side = MRN_CONT_LEFT;
+		}
+		else if (g_str_has_suffix (detail, "middle"))
+		{
+			focus.continue_side = MRN_CONT_LEFT | MRN_CONT_RIGHT;
+		}
+		else
+		{
+			/* This may either mean no continuation, or unknown ...
+			 * if it is unknown we assume it continues on both sides */
+			gboolean row_ending_details = FALSE;
+
+			/* Try to get the style property. */
+			if (widget)
+				gtk_widget_style_get (widget,
+				                      "row-ending-details", &row_ending_details,
+				                      NULL);
+
+			if (row_ending_details)
+				focus.continue_side = MRN_CONT_NONE;
+			else
+				focus.continue_side = MRN_CONT_LEFT | MRN_CONT_RIGHT;
 		}
 
-		dash_offset = -line_width/2.;
-		while (dash_offset < 0)
-			dash_offset += total_length;
-
-		cairo_set_dash (cr, dashes, n_dashes, dash_offset);
-		g_free (dashes);
 	}
-
-	if (area)
+	else if (detail && g_str_has_prefix (detail, "trough") && MRN_IS_SCALE (widget)) //CHECK_HINT (GE_HINT_SCALE)*/)
 	{
-		gdk_cairo_rectangle (cr, area);
-		cairo_clip (cr);
+		focus.type = MRN_FOCUS_SCALE;
+	}
+	else if (DETAIL("tab"))
+	{
+		focus.type = MRN_FOCUS_TAB;
+	}
+	else if (detail && g_str_has_prefix (detail, "colorwheel"))
+	{
+		if (DETAIL ("colorwheel_dark"))
+			focus.type = MRN_FOCUS_COLOR_WHEEL_DARK;
+		else
+			focus.type = MRN_FOCUS_COLOR_WHEEL_LIGHT;
+	}
+	else if (DETAIL("checkbutton") || DETAIL("radiobutton") || DETAIL("expander"))
+	{
+		focus.type = MRN_FOCUS_LABEL; /* Let's call it "LABEL" :) */
+	}
+	else if (widget && MRN_IS_TREE_VIEW (widget))
+	{
+		focus.type = MRN_FOCUS_TREEVIEW; /* Treeview without content is focused. */
+	}
+	else if (DETAIL("icon_view"))
+	{
+		focus.type = MRN_FOCUS_ICONVIEW;
+	}
+	else
+	{
+		focus.type = MRN_FOCUS_UNKNOWN; /* Custom widgets (Beagle) and something unknown */
 	}
 
-	cairo_rectangle (cr, x+line_width/2., y+line_width/2., width-line_width, height-line_width);
-	cairo_stroke (cr);
-	cairo_destroy (cr);
+	/* Focus color */
+	if (murrine_style->has_focus_color)
+	{
+		murrine_gdk_color_to_rgb (&murrine_style->focus_color, &focus.color.r, &focus.color.g, &focus.color.b);
+		focus.has_color = TRUE;
+	}
+	else
+		focus.color = colors->bg[GTK_STATE_SELECTED];
 
-	if (free_dash_list)
-		g_free (dash_list);
+	STYLE_FUNCTION(draw_focus) (cr, colors, &params, &focus, x, y, width, height);
+
+	g_free (focus.dash_list);
+
+	cairo_destroy (cr);
 }
 
 static void
@@ -1965,6 +2062,7 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	mrn_style->animation           = mrn_src->animation;
 	mrn_style->colorize_scrollbar  = mrn_src->colorize_scrollbar;
 	mrn_style->colors              = mrn_src->colors;
+	mrn_style->focus_color         = mrn_src->focus_color;	
 	mrn_style->glazestyle          = mrn_src->glazestyle;
 	mrn_style->glow_shade          = mrn_src->glow_shade;
 	mrn_style->glowstyle           = mrn_src->glowstyle;
@@ -1973,6 +2071,7 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	mrn_style->gradient_shades[2]  = mrn_src->gradient_shades[2];
 	mrn_style->gradient_shades[3]  = mrn_src->gradient_shades[3];
 	mrn_style->gradients           = mrn_src->gradients;
+	mrn_style->has_focus_color     = mrn_src->has_focus_color;
 	mrn_style->has_scrollbar_color = mrn_src->has_scrollbar_color;
 	mrn_style->highlight_shade     = mrn_src->highlight_shade;
 	mrn_style->lightborder_shade   = mrn_src->lightborder_shade;

@@ -4,9 +4,6 @@ Arrows:
 Notebooks:
 - adjust highlight, doesn't look perfectly with dark themes
 
-Focus:
-- draw focus
-
 Menu:
 - fix menustyle = 1 with rtl
 

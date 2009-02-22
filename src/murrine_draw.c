@@ -2015,7 +2015,7 @@ murrine_draw_checkbox (cairo_t *cr,
 
 	if (draw_bullet)
 	{
-		if (inconsistent) /* Inconsistent */
+		if (inconsistent)
 		{
 			cairo_save (cr);
 			cairo_set_line_width (cr, 2.0);
@@ -2074,6 +2074,8 @@ murrine_draw_classic_focus (cairo_t *cr,
                             const FocusParameters  *focus,
                             int x, int y, int width, int height)
 {
+	cairo_set_line_width (cr, focus->line_width);
+
 	if (focus->has_color)
 		murrine_set_color_rgb (cr, &focus->color);
 	else if (focus->type == MRN_FOCUS_COLOR_WHEEL_LIGHT)
@@ -2082,8 +2084,6 @@ murrine_draw_classic_focus (cairo_t *cr,
 		cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
 	else
 		murrine_set_color_rgba (cr, &colors->fg[widget->state_type], 0.7);
-
-	cairo_set_line_width (cr, focus->line_width);
 
 	if (focus->dash_list[0])
 	{
@@ -2119,8 +2119,8 @@ murrine_draw_focus (cairo_t *cr,
                     const FocusParameters  *focus,
                     int x, int y, int width, int height)
 {
-	MurrineRGB fill = focus->color;
 	MurrineRGB border;
+	MurrineRGB fill = focus->color;
 
 	/* Default values */
 	int radius = 0;
@@ -2203,7 +2203,7 @@ murrine_draw_focus (cairo_t *cr,
 	{
 		cairo_new_path (cr);
 		cairo_move_to (cr, xoffset, height-yoffset-0.5);
-		cairo_line_to (cr, width-xoffset,  height-yoffset-0.5);
+		cairo_line_to (cr, width-xoffset, height-yoffset-0.5);
 		murrine_set_color_rgba (cr, &border, border_alpha);
 		cairo_stroke (cr);
 	}

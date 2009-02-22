@@ -1628,7 +1628,7 @@ murrine_rgba_draw_checkbox (cairo_t *cr,
 
 	if (draw_bullet)
 	{
-		if (inconsistent) /* Inconsistent */
+		if (inconsistent)
 		{
 			cairo_save (cr);
 			cairo_set_line_width (cr, 2.0);
@@ -1659,8 +1659,7 @@ murrine_rgba_draw_menu_frame (cairo_t *cr,
                               int menustyle)
 {
 	const MurrineRGB *border = &colors->shade[5];
-	uint8 corners = (menustyle == 1 ? MRN_CORNER_TOPRIGHT | MRN_CORNER_BOTTOMRIGHT :
-	                                  MRN_CORNER_TOPRIGHT |
+	uint8 corners = (menustyle == 1 ? MRN_CORNER_BOTTOMRIGHT :
 	                                  MRN_CORNER_BOTTOMLEFT | MRN_CORNER_BOTTOMRIGHT);
 
 	cairo_translate      (cr, x, y);

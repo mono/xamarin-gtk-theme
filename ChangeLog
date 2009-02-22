@@ -1,5 +1,14 @@
 2009-02-22  Andrea Cimitan  <andrea.cimitan@gmail.com
 
+	* src/murrine_draw.c (murrine_draw_checkbox),
+	(murrine_draw_classic_focus), (murrine_draw_focus):
+	* src/murrine_draw_rgba.c (murrine_rgba_draw_checkbox),
+	(murrine_rgba_draw_menu_frame):
+	Small change in rgba rounded menus, updated previous
+	ChangeLog entry.
+
+2009-02-22  Andrea Cimitan  <andrea.cimitan@gmail.com
+
 	* schema/murrine.xml.in.in:
 	* src/murrine_draw.c (murrine_draw_classic_focus),
 	(murrine_draw_focus), (murrine_register_style_murrine):
@@ -14,6 +23,8 @@
 	First implementation of the focus drawing.
 	Maybe not amazing as clearlooks's focus, but this focus is 
 	compatible with much more colorschemes.
+	Added focus_color option.
+	The style is taken from the great Skulpture Qt 4 style.
 
 2009-02-18  Andrea Cimitan  <andrea.cimitan@gmail.com>
 

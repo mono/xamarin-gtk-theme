@@ -1,4 +1,4 @@
-2009-03-10  Andrea Cimitan  <andrea.cimitan@gmail.com
+2009-03-10  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/cairo-support.c (murrine_set_gradient),
 	(murrine_set_border_gradient):
@@ -11,7 +11,7 @@
 	1) Added set_border_gradient, useful in the future but not enabled yet
 	2) Draw the entry progressbar, since GTK+ 2.16.0
 
-2009-02-22  Andrea Cimitan  <andrea.cimitan@gmail.com
+2009-02-22  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/murrine_draw.c (murrine_draw_checkbox),
 	(murrine_draw_classic_focus), (murrine_draw_focus):
@@ -20,7 +20,7 @@
 	Small change in rgba rounded menus, updated previous
 	ChangeLog entry.
 
-2009-02-22  Andrea Cimitan  <andrea.cimitan@gmail.com
+2009-02-22  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* schema/murrine.xml.in.in:
 	* src/murrine_draw.c (murrine_draw_classic_focus),

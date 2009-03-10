@@ -763,7 +763,7 @@ void
 murrine_set_gradient (cairo_t *cr,
                       const MurrineRGB *color,
                       MurrineGradients mrn_gradient,
-                      double x, double y, int width, int height,
+                      int x, int y, int width, int height,
                       boolean gradients, boolean alpha)
 {
 	double alpha_value = 1.0;
@@ -800,6 +800,26 @@ murrine_set_gradient (cairo_t *cr,
 	{
 		murrine_set_color_rgba (cr, color, alpha_value);
 	}
+}
+
+void
+murrine_set_border_gradient (cairo_t *cr,
+                             const MurrineRGB *color,
+                             double highlight,
+                             int x, int y, int width, int height)
+{
+	cairo_pattern_t *pat;
+
+	MurrineRGB top_shade, bottom_shade;
+	murrine_shade (color, highlight, &top_shade);
+	murrine_shade (color, 1.0/highlight, &bottom_shade);
+
+	pat = cairo_pattern_create_linear (x, y, width+x, height+y);
+	murrine_pattern_add_color_stop_rgb (pat, 0.0, &top_shade);
+	murrine_pattern_add_color_stop_rgb (pat, 1.0, &bottom_shade);
+
+	cairo_set_source (cr, pat);
+	cairo_pattern_destroy (pat);
 }
 
 void

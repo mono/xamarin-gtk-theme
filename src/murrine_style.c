@@ -1029,6 +1029,128 @@ murrine_style_draw_box (DRAW_ARGS)
 		                                       10+(int)(elapsed*10.0) % 10);
 #endif
 	}
+	else if (DETAIL ("entry-progress"))
+	{
+		WidgetParameters params;
+		EntryProgressParameters progress;
+
+		murrine_set_widget_parameters (widget, style, state_type, &params);
+
+		progress.max_size_known = FALSE;
+		progress.max_size.x = 0;
+		progress.max_size.y = 0;
+		progress.max_size.width = 0;
+		progress.max_size.height = 0;
+		progress.border.left = style->xthickness;
+		progress.border.right = style->xthickness;
+		progress.border.top = style->ythickness;
+		progress.border.bottom = style->ythickness;
+
+		if (MRN_IS_ENTRY (widget))
+		{
+			GtkBorder *border;
+			/* Try to retrieve the style property. */
+			gtk_widget_style_get (widget,
+			                      "progress-border", &border,
+			                      NULL);
+
+			if (border)
+			{
+				progress.border = *border;
+				gtk_border_free (border);
+			}
+
+			/* We got an entry, but well, we may not be drawing to
+			 * this particular widget ... it may not even be realized.
+			 * Also, we need to be drawing on a window obviously ... */
+			if (GTK_WIDGET_REALIZED (widget) &&
+			    GDK_IS_WINDOW (window) &&
+			    gdk_window_is_visible (widget->window))
+			{
+				/* Assumptions done by this code:
+				 *  - GtkEntry has some nested windows.
+				 *  - widget->window is the entries window
+				 *  - widget->window is the size of the entry part
+				 *    (and not larger)
+				 *  - only one layer of subwindows
+				 * These should be true with any GTK+ 2.x version.
+				 */
+
+				if (widget->window == window)
+				{
+					progress.max_size_known = TRUE;
+					gdk_drawable_get_size (widget->window,
+					                       &progress.max_size.width,
+					                       &progress.max_size.height);
+
+				}
+				else
+				{
+					GdkWindow *parent;
+					parent = gdk_window_get_parent (window);
+					if (widget->window == parent)
+					{
+						gint pos_x, pos_y;
+						/* widget->window is the parent window
+						 * of the current one. This means we can
+						 * calculate the correct offsets. */
+						gdk_window_get_position (window, &pos_x, &pos_y);
+						progress.max_size.x = -pos_x;
+						progress.max_size.y = -pos_y;
+
+						progress.max_size_known = TRUE;
+						gdk_drawable_get_size (widget->window,
+						                       &progress.max_size.width,
+						                       &progress.max_size.height);
+					} /* Nothing we can do in this case ... */
+				}
+
+				/* Now, one more thing needs to be done. If interior-focus
+				 * is off, then the entry may be a bit smaller. */
+				if (progress.max_size_known && GTK_WIDGET_HAS_FOCUS (widget))
+				{
+					gboolean interior_focus = TRUE;
+					gint focus_line_width = 1;
+
+					gtk_widget_style_get (widget,
+					                      "interior-focus", &interior_focus,
+					                      "focus-line-width", &focus_line_width,
+					                      NULL);
+
+					if (!interior_focus)
+					{
+						progress.max_size.x += focus_line_width;
+						progress.max_size.y += focus_line_width;
+						progress.max_size.width -= 2*focus_line_width;
+						progress.max_size.height -= 2*focus_line_width;
+					}
+				}
+				
+				if (progress.max_size_known)
+				{
+					progress.max_size.x += progress.border.left;
+					progress.max_size.y += progress.border.top;
+					progress.max_size.width -= progress.border.left + progress.border.right;
+					progress.max_size.height -= progress.border.top + progress.border.bottom;
+
+					/* Now test that max_size.height == height, if that
+					 * fails, something has gone wrong ... so then throw away
+					 * the max_size information. */
+					if (progress.max_size.height != height)
+					{
+						progress.max_size_known = FALSE;
+						progress.max_size.x = 0;
+						progress.max_size.y = 0;
+						progress.max_size.width = 0;
+						progress.max_size.height = 0;
+					}
+				}
+			}
+		}
+
+		STYLE_FUNCTION(draw_entry_progress) (cr, colors, &params, &progress,
+		                                     x, y, width, height);
+	}
 	else if (DETAIL ("hscale") || DETAIL ("vscale"))
 	{
 		WidgetParameters params;

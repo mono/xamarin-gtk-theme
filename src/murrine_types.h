@@ -255,6 +255,18 @@ typedef struct
 
 typedef struct
 {
+	/* The maximum size of the fill. Calcualted from the entries allocation,
+	 * and other information. Relative to the drawn position.
+	 */
+	GdkRectangle max_size;
+	gboolean max_size_known;
+	/* The border around the bar. This can be used for radius calculations.
+	 */
+	GtkBorder border;
+} EntryProgressParameters;
+
+typedef struct
+{
 	int linepos;
 } OptionMenuParameters;
 
@@ -373,6 +385,12 @@ struct _MurrineStyleFunctions
 	                    const MurrineColors    *colors,
 	                    const WidgetParameters *widget,
 	                    int x, int y, int width, int height);
+
+	void (*draw_entry_progress)   (cairo_t *cr,
+	                               const MurrineColors    *colors,
+	                               const WidgetParameters *widget,
+	                               const EntryProgressParameters *progress,
+	                               int x, int y, int width, int height);
 
 	void (*draw_spinbutton) (cairo_t *cr,
 	                         const MurrineColors    *colors,

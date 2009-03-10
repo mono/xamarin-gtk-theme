@@ -88,8 +88,13 @@ G_GNUC_INTERNAL void murrine_rounded_rectangle_fast (cairo_t *cr,
 G_GNUC_INTERNAL void murrine_set_gradient (cairo_t *cr,
                                            const MurrineRGB *color,
                                            MurrineGradients mrn_gradient,
-                                           double x, double y, int width, int height,
+                                           int x, int y, int width, int height,
                                            boolean gradients, boolean alpha);
+
+G_GNUC_INTERNAL void murrine_set_border_gradient (cairo_t *cr,
+                                                  const MurrineRGB *color,
+                                                  double highlight,
+                                                  int x, int y, int width, int height);
 
 G_GNUC_INTERNAL void murrine_draw_glaze (cairo_t *cr,
                                          const MurrineRGB *fill,

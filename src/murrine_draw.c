@@ -239,6 +239,7 @@ murrine_draw_button (cairo_t *cr,
 
 	/* Draw the border */
 	murrine_set_color_rgb (cr, &border);
+	//murrine_set_border_gradient (cr, &border, widget->disabled ? 1.0 : widget->active ? 0.9 : 1.1, 0, yos+0.5, 0, height-(yos*2)-1);
 	murrine_rounded_rectangle (cr, xos+0.5, yos+0.5, width-(xos*2)-1, height-(yos*2)-1, widget->roundness, widget->corners);
 	cairo_stroke (cr);
 }
@@ -285,8 +286,83 @@ murrine_draw_entry (cairo_t *cr,
 
 	/* Draw the border */
 	murrine_set_color_rgb (cr, widget->focus ? &colors->spot[2] : border);
+	//murrine_set_border_gradient (cr, widget->focus ? &colors->spot[2] : border, widget->disabled ? 1.0 : 0.9, 0, 1, 0, height-3);
 	murrine_rounded_rectangle (cr, 1, 1, width-3, height-3, radius, widget->corners);
 	cairo_stroke (cr);
+}
+
+static void
+murrine_draw_entry_progress (cairo_t *cr,
+                             const MurrineColors *colors,
+                             const WidgetParameters *widget,
+                             const EntryProgressParameters *progress,
+                             int x, int y, int width, int height)
+{
+	MurrineRGB border;
+	MurrineRGB fill;
+	gint entry_width, entry_height;
+	double entry_radius;
+	double radius;
+
+	cairo_save (cr);
+
+	fill = colors->bg[widget->state_type];
+	murrine_shade (&fill, 0.9, &border);
+
+	if (progress->max_size_known)
+	{
+		entry_width = progress->max_size.width+progress->border.left+progress->border.right;
+		entry_height = progress->max_size.height+progress->border.top+progress->border.bottom;
+		entry_radius = MIN (widget->roundness, MIN ((entry_width-4.0)/2.0, (entry_height-4.0)/2.0));
+	}
+	else
+	{
+		entry_radius = widget->roundness;
+	}
+
+	radius = MAX (0, entry_radius+1.0-MAX (MAX (progress->border.left, progress->border.right),
+	                                            MAX (progress->border.top, progress->border.bottom)));
+
+	if (progress->max_size_known)
+	{
+		/* Clip to the max size, and then draw a (larger) rectangle ... */
+		clearlooks_rounded_rectangle (cr, progress->max_size.x,
+		                              progress->max_size.y,
+		                              progress->max_size.width,
+		                              progress->max_size.height,
+		                              radius,
+		                              MRN_CORNER_ALL);
+		cairo_clip (cr);
+
+		/* We just draw wider by one pixel ... */
+		murrine_set_color_rgb (cr, &fill);
+		cairo_rectangle (cr, x, y+1, width, height-2);
+		cairo_fill (cr);
+
+		cairo_set_line_width (cr, 1.0);
+		murrine_set_color_rgb (cr, &border);
+		cairo_rectangle (cr, x-0.5, y+0.5, width+1, height-1);
+		cairo_stroke (cr);
+	}
+	else
+	{
+		clearlooks_rounded_rectangle (cr, x, y, width+10, height+10, radius, MRN_CORNER_ALL);
+		cairo_clip (cr);
+		clearlooks_rounded_rectangle (cr, x-10, y-10, width+10, height+10, radius, MRN_CORNER_ALL);
+		cairo_clip (cr);
+
+
+		murrine_set_color_rgb (cr, &fill);
+		clearlooks_rounded_rectangle (cr, x+1, y+1, width-2, height-2, radius, MRN_CORNER_ALL);
+		cairo_fill (cr);
+
+		cairo_set_line_width (cr, 1.0);
+		murrine_set_color_rgb (cr, &border);
+		clearlooks_rounded_rectangle (cr, x+0.5, y+0.5, width-1.0, height-1.0, radius, MRN_CORNER_ALL);
+		cairo_stroke (cr);
+	}
+
+	cairo_restore (cr);
 }
 
 static void
@@ -2221,6 +2297,7 @@ murrine_register_style_murrine (MurrineStyleFunctions *functions)
 	functions->draw_progressbar_trough = murrine_draw_progressbar_trough;
 	functions->draw_progressbar_fill   = murrine_draw_progressbar_fill;
 	functions->draw_entry              = murrine_draw_entry;
+	functions->draw_entry_progress     = murrine_draw_entry_progress;
 	functions->draw_slider_handle      = murrine_draw_slider_handle;
 	functions->draw_spinbutton_down    = murrine_draw_spinbutton_down;
 	functions->draw_optionmenu         = murrine_draw_optionmenu;

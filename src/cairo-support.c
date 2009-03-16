@@ -803,26 +803,6 @@ murrine_set_gradient (cairo_t *cr,
 }
 
 void
-murrine_set_border_gradient (cairo_t *cr,
-                             const MurrineRGB *color,
-                             double highlight,
-                             int x, int y, int width, int height)
-{
-	cairo_pattern_t *pat;
-
-	MurrineRGB top_shade, bottom_shade;
-	murrine_shade (color, highlight, &top_shade);
-	murrine_shade (color, 1.0/highlight, &bottom_shade);
-
-	pat = cairo_pattern_create_linear (x, y, width+x, height+y);
-	murrine_pattern_add_color_stop_rgb (pat, 0.0, &top_shade);
-	murrine_pattern_add_color_stop_rgb (pat, 1.0, &bottom_shade);
-
-	cairo_set_source (cr, pat);
-	cairo_pattern_destroy (pat);
-}
-
-void
 rotate_mirror_translate (cairo_t *cr,
                          double radius, double x, double y,
                          boolean mirror_horizontally, boolean mirror_vertically)

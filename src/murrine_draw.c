@@ -239,7 +239,6 @@ murrine_draw_button (cairo_t *cr,
 
 	/* Draw the border */
 	murrine_set_color_rgb (cr, &border);
-	//murrine_set_border_gradient (cr, &border, widget->disabled ? 1.0 : widget->active ? 0.9 : 1.1, 0, yos+0.5, 0, height-(yos*2)-1);
 	murrine_rounded_rectangle (cr, xos+0.5, yos+0.5, width-(xos*2)-1, height-(yos*2)-1, widget->roundness, widget->corners);
 	cairo_stroke (cr);
 }
@@ -286,7 +285,6 @@ murrine_draw_entry (cairo_t *cr,
 
 	/* Draw the border */
 	murrine_set_color_rgb (cr, widget->focus ? &colors->spot[2] : border);
-	//murrine_set_border_gradient (cr, widget->focus ? &colors->spot[2] : border, widget->disabled ? 1.0 : 0.9, 0, 1, 0, height-3);
 	murrine_rounded_rectangle (cr, 1, 1, width-3, height-3, radius, widget->corners);
 	cairo_stroke (cr);
 }

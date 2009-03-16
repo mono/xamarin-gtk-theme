@@ -1,3 +1,11 @@
+2009-03-16  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* configure.ac:
+	* src/cairo-support.c:
+	* src/cairo-support.h:
+	* src/murrine_draw.c (murrine_draw_button), (murrine_draw_entry):
+	Renamed 0.90, removed set_border_gradient for this release.
+
 2009-03-10  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/cairo-support.c (murrine_set_gradient),

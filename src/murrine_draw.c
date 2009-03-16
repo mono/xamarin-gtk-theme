@@ -1748,12 +1748,11 @@ murrine_draw_handle (cairo_t *cr,
                      const HandleParameters *handle,
                      int x, int y, int width, int height)
 {
-	const MurrineRGB *dark  = &colors->shade[4];
 	int bar_height;
-	int bar_width  = 4;
+	int bar_width = 4;
 	int i, bar_y = 1;
 	int num_bars, bar_spacing;
-	num_bars    = 3;
+	num_bars = 3;
 	bar_spacing = 3;
 	bar_height = num_bars*bar_spacing;
 
@@ -1773,7 +1772,7 @@ murrine_draw_handle (cairo_t *cr,
 	{
 		cairo_move_to (cr, 0, bar_y);
 		cairo_line_to (cr, bar_width, bar_y);
-		murrine_set_color_rgb (cr, dark);
+		murrine_set_color_rgb (cr, &colors->shade[4]);
 		cairo_stroke (cr);
 
 		bar_y += bar_spacing;

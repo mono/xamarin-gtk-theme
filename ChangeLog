@@ -1,6 +1,11 @@
 2009-03-16  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* configure.ac:
+	Ops 0.90.0 not 0.90.
+
+2009-03-16  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* configure.ac:
 	* src/cairo-support.c:
 	* src/cairo-support.h:
 	* src/murrine_draw.c (murrine_draw_button), (murrine_draw_entry):

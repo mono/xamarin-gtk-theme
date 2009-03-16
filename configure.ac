@@ -1,4 +1,4 @@
-AC_INIT([murrine], [0.90])
+AC_INIT([murrine], [0.90.0])
 AC_CONFIG_SRCDIR([README])
 
 AM_INIT_AUTOMAKE

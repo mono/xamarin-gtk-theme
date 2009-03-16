@@ -9,3 +9,6 @@ Menu:
 
 Scrollbars:
 - try to use spot[2] for handles and border when colorize_scrollbar is enabled
+- fix rounded corners when using a dark color on a bright background, 
+  seems an issue in the clip, maybe I should increase the roundness of 
+  the clipped area.

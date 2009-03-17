@@ -1,3 +1,9 @@
+2009-03-17  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/murrine_style.c (murrine_style_draw_box):
+	Changed params.active heuristic for toggle button, I should ask benzea 
+	for more info.
+
 2009-03-16  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* configure.ac:

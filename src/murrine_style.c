@@ -779,10 +779,12 @@ murrine_style_draw_box (DRAW_ARGS)
 		WidgetParameters params;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
+		params.active = shadow_type == GTK_SHADOW_IN;
 		params.roundness = murrine_style->roundness;
 
 		boolean horizontal = TRUE;
-		if (((float)width/height<0.5)|| (murrine_style->glazestyle > 0 && width<height))
+		if (((float)width/height < 0.5) ||
+		    (murrine_style->glazestyle > 0 && width<height))
 			horizontal = FALSE;
 
 		if ((widget && (MRN_IS_COMBO_BOX_ENTRY (widget->parent) || MRN_IS_COMBO (widget->parent))))
@@ -811,16 +813,15 @@ murrine_style_draw_box (DRAW_ARGS)
 					x--;
 				width++;
 			}
+
+/*			if (murrine_style->reliefstyle > 1)*/
+/*				params.reliefstyle = 1;*/
 		}
 		else
 			if (murrine_style->roundness > 0)
 				params.corners = MRN_CORNER_ALL;
 			else
 				params.corners = MRN_CORNER_NONE;
-
-		if (MRN_IS_TOGGLE_BUTTON (widget) &&
-		    gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget)))
-			params.active = TRUE;
 
 		STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, x, y, width, height, horizontal);
 	}

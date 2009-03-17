@@ -27,7 +27,7 @@
 #include "cairo-support.h"
 
 static void
-murrine_draw_inset (cairo_t          *cr,
+murrine_draw_inset (cairo_t *cr,
                     const MurrineRGB *bg_color,
                     double x, double y, double w, double h,
                     double radius, uint8 corners)
@@ -84,7 +84,7 @@ murrine_draw_inset (cairo_t          *cr,
 
 static void
 murrine_draw_highlight_and_shade (cairo_t *cr,
-                                  const MurrineColors *colors,
+                                  const MurrineColors    *colors,
                                   const ShadowParameters *widget,
                                   int width, int height, int radius)
 {
@@ -291,7 +291,7 @@ murrine_draw_entry (cairo_t *cr,
 
 static void
 murrine_draw_entry_progress (cairo_t *cr,
-                             const MurrineColors *colors,
+                             const MurrineColors    *colors,
                              const WidgetParameters *widget,
                              const EntryProgressParameters *progress,
                              int x, int y, int width, int height)
@@ -1354,7 +1354,7 @@ murrine_draw_menuitem (cairo_t *cr,
 			cairo_fill (cr);
 
 			murrine_set_color_rgba (cr, border, 0.15);
-			murrine_rounded_rectangle (cr, 0.5, 0.5, width-1, height-1, widget->roundness, widget->corners);
+			murrine_rounded_rectangle_closed (cr, 0.5, 0.5, width-1, height-1, widget->roundness, widget->corners);
 			cairo_fill_preserve (cr);
 			break;
 		default:

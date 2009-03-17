@@ -384,6 +384,7 @@ struct _MurrineStyleFunctions
 	void (*draw_entry) (cairo_t *cr,
 	                    const MurrineColors    *colors,
 	                    const WidgetParameters *widget,
+	                    const FocusParameters  *focus,
 	                    int x, int y, int width, int height);
 
 	void (*draw_entry_progress)   (cairo_t *cr,

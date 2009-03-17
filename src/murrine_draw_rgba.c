@@ -247,15 +247,17 @@ static void
 murrine_rgba_draw_entry (cairo_t *cr,
                          const MurrineColors    *colors,
                          const WidgetParameters *widget,
+                         const FocusParameters  *focus,
                          int x, int y, int width, int height)
 {
-	double xos = widget->xthickness > 1 ? 1 : 0;
-	double yos = widget->ythickness > 1 ? 1 : 0;
 	const MurrineRGB *base = &colors->base[widget->state_type];
 	MurrineRGB border = colors->shade[widget->disabled ? 4 : 5];
 	int radius = CLAMP (widget->roundness, 0, 3);
 
 	murrine_shade (&border, 0.92, &border);
+
+	if (widget->focus)
+		border = focus->color;
 
 	cairo_translate (cr, x+0.5, y+0.5);
 
@@ -274,8 +276,11 @@ murrine_rgba_draw_entry (cairo_t *cr,
 	/* Draw the focused border */
 	if (widget->focus)
 	{
+		MurrineRGB focus_shadow;
+		murrine_shade (&border, 1.54, &focus_shadow);
+
 		cairo_rectangle (cr, 2, 2, width-5, height-5);
-		murrine_set_color_rgba (cr, &colors->spot[1], 0.5);
+		murrine_set_color_rgba (cr, &focus_shadow, 0.5);
 		cairo_stroke(cr);
 	}
 	else if (widget->mrn_gradient.gradients)
@@ -291,7 +296,7 @@ murrine_rgba_draw_entry (cairo_t *cr,
 		cairo_stroke (cr);
 	}
 
-	murrine_set_color_rgb (cr, widget->focus ? &colors->spot[2] : &border);
+	murrine_set_color_rgb (cr, &border);
 	murrine_rounded_rectangle (cr, 1, 1, width-3, height-3, radius, widget->corners);
 	cairo_stroke (cr);
 }

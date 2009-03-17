@@ -362,6 +362,7 @@ murrine_style_draw_shadow (DRAW_ARGS)
 	if (DETAIL ("entry") && !(widget && widget->parent && MRN_IS_TREE_VIEW (widget->parent)))
 	{
 		WidgetParameters params;
+		FocusParameters  focus;
 
 		/* Override the entries state type, because we are too lame to handle this via
 		 * the focus ring, and GtkEntry doesn't even set the INSENSITIVE state ... */
@@ -405,7 +406,16 @@ murrine_style_draw_shadow (DRAW_ARGS)
 			}
 		}
 
-		STYLE_FUNCTION(draw_entry) (cr, &murrine_style->colors, &params,
+		/* Focus color */
+		if (murrine_style->has_focus_color)
+		{
+			ge_gdk_color_to_cairo (&murrine_style->focus_color, &focus.color);
+			focus.has_color = TRUE;
+		}
+		else
+			focus.color = colors->spot[2];
+
+		STYLE_FUNCTION(draw_entry) (cr, &murrine_style->colors, &params, &focus,
 		                            x, y, width, height);
 	}
 	else if (DETAIL ("frame") && widget && MRN_IS_STATUSBAR (widget->parent))

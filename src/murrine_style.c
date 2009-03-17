@@ -814,8 +814,8 @@ murrine_style_draw_box (DRAW_ARGS)
 				width++;
 			}
 
-/*			if (murrine_style->reliefstyle > 1)*/
-/*				params.reliefstyle = 1;*/
+			if (murrine_style->reliefstyle > 1)
+				params.reliefstyle = 1;
 		}
 		else
 			if (murrine_style->roundness > 0)

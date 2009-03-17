@@ -1,9 +1,14 @@
 2009-03-17  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* configure.ac:
+	Started working on 0.90.1.
+
+2009-03-17  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* TODO:
 	* src/murrine_draw.c (murrine_draw_scrollbar_slider):
 	* src/murrine_draw_rgba.c (murrine_rgba_draw_scrollbar_slider):
-	Fixed the rendering bug on the scrollbars slider by reducing the 
+	Fixed the rendering bug on the scrollbar's slider by reducing the 
 	roundness of the clipped area.
 
 2009-03-17  Andrea Cimitan  <andrea.cimitan@gmail.com>

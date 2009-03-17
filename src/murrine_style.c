@@ -223,7 +223,6 @@ murrine_style_draw_flat_box (DRAW_ARGS)
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 		if (params.mrn_gradient.use_rgba)
 		{
-			params.corners = MRN_CORNER_ALL;
 			params.mrn_gradient.rgba_opacity = TOOLTIP_OPACITY;
 		}
 
@@ -425,7 +424,7 @@ murrine_style_draw_shadow (DRAW_ARGS)
 			STYLE_FUNCTION(draw_statusbar) (cr, colors, &params,
 			                                x, y, width, height);
 	}
-	else if (DETAIL ("frame"))
+	else if (DETAIL ("frame") || DETAIL ("calendar"))
 	{
 		WidgetParameters params;
 		FrameParameters  frame;
@@ -465,7 +464,6 @@ murrine_style_draw_shadow (DRAW_ARGS)
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 
-		params.corners = MRN_CORNER_ALL;
 		if (params.roundness < 2)
 			params.corners = MRN_CORNER_NONE;
 
@@ -506,7 +504,6 @@ murrine_style_draw_box_gap (DRAW_ARGS,
 
 		murrine_get_notebook_tab_position (widget, &start, &end);
 
-		params.corners = MRN_CORNER_ALL;
 		switch (gap_side)
 		{
 			case GTK_POS_TOP:
@@ -721,7 +718,8 @@ murrine_style_draw_box (DRAW_ARGS)
 		horizontal = height < 2*width;
 
 		/* This is not that great. Ideally we would have a nice vertical menubar. */
-		if (params.mrn_gradient.use_rgba || ((shadow_type != GTK_SHADOW_NONE) && horizontal))
+		if (params.mrn_gradient.use_rgba ||
+		    ((shadow_type != GTK_SHADOW_NONE) && horizontal))
 			STYLE_FUNCTION(draw_menubar) (cr, colors, &params, x, y,
 			                              width, height+offset, menubarstyle);
 	}
@@ -780,7 +778,6 @@ murrine_style_draw_box (DRAW_ARGS)
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 		params.active = shadow_type == GTK_SHADOW_IN;
-		params.roundness = murrine_style->roundness;
 
 		boolean horizontal = TRUE;
 		if (((float)width/height < 0.5) ||
@@ -804,8 +801,7 @@ murrine_style_draw_box (DRAW_ARGS)
 						params.corners = MRN_CORNER_BOTTOMRIGHT | MRN_CORNER_BOTTOMLEFT;
 				}
 			}
-			else
-				params.corners = MRN_CORNER_NONE;
+
 
 			if (params.xthickness > 1)
 			{
@@ -817,11 +813,6 @@ murrine_style_draw_box (DRAW_ARGS)
 			if (murrine_style->reliefstyle > 1)
 				params.reliefstyle = 1;
 		}
-		else
-			if (murrine_style->roundness > 0)
-				params.corners = MRN_CORNER_ALL;
-			else
-				params.corners = MRN_CORNER_NONE;
 
 		STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, x, y, width, height, horizontal);
 	}
@@ -868,7 +859,6 @@ murrine_style_draw_box (DRAW_ARGS)
 			state_type = GTK_WIDGET_STATE (widget);
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
-		params.roundness = murrine_style->roundness;
 
 		boolean horizontal = TRUE;
 		if (((float)width/height<0.5)|| (murrine_style->glazestyle > 0 && width<height))
@@ -889,8 +879,6 @@ murrine_style_draw_box (DRAW_ARGS)
 					params.corners = MRN_CORNER_BOTTOMRIGHT | MRN_CORNER_BOTTOMLEFT;
 			}
 		}
-		else
-			params.corners = MRN_CORNER_NONE;
 
 		if (style->xthickness > 1)
 		{
@@ -912,7 +900,7 @@ murrine_style_draw_box (DRAW_ARGS)
 		slider.horizontal = (GTK_RANGE (widget)->orientation == GTK_ORIENTATION_HORIZONTAL);
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
-		params.corners    = MRN_CORNER_NONE;
+		params.corners = MRN_CORNER_NONE;
 
 		STYLE_FUNCTION(draw_scale_trough) (cr, &murrine_style->colors,
 		                                   &params, &slider,
@@ -958,11 +946,6 @@ murrine_style_draw_box (DRAW_ARGS)
 		scrollbar.stepperstyle = murrine_style->stepperstyle;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
-
-		if (murrine_style->roundness > 0)
-			params.corners = MRN_CORNER_ALL;
-		else
-			params.corners = MRN_CORNER_NONE;
 
 		if (MRN_IS_RANGE (widget))
 			scrollbar.horizontal = GTK_RANGE (widget)->orientation == GTK_ORIENTATION_HORIZONTAL;
@@ -1163,11 +1146,6 @@ murrine_style_draw_box (DRAW_ARGS)
 		if (DETAIL ("vscale"))
 			horizontal = FALSE;
 
-		if (murrine_style->roundness > 0)
-			params.corners = MRN_CORNER_ALL;
-		else
-			params.corners = MRN_CORNER_NONE;
-
 		/* Use reliefstyle to remove inset on disabled slider button */
 		if (params.disabled)
 			params.reliefstyle = 0;
@@ -1194,11 +1172,6 @@ murrine_style_draw_box (DRAW_ARGS)
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 
-		if (murrine_style->roundness > 0)
-			params.corners = MRN_CORNER_ALL;
-		else
-			params.corners = MRN_CORNER_NONE;
-
 		STYLE_FUNCTION(draw_optionmenu) (cr, colors, &params, &optionmenu, x, y, width, height);
 	}
 	else if (DETAIL ("menuitem"))
@@ -1206,11 +1179,6 @@ murrine_style_draw_box (DRAW_ARGS)
 		WidgetParameters params;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
-
-		if (murrine_style->roundness > 0)
-			params.corners = MRN_CORNER_ALL;
-		else
-			params.corners = MRN_CORNER_NONE;
 
 		if (widget && !(MRN_IS_MENU_BAR (widget->parent) && murrine_style->menubaritemstyle))
 		{
@@ -1230,11 +1198,7 @@ murrine_style_draw_box (DRAW_ARGS)
 			params.xthickness = 2;
 			params.ythickness = 2;
 			params.reliefstyle = 0;
-
-			if (murrine_style->roundness > 0)
-				params.corners = MRN_CORNER_TOPRIGHT | MRN_CORNER_TOPLEFT;
-			else
-				params.corners = MRN_CORNER_NONE;
+			params.corners = MRN_CORNER_TOPRIGHT | MRN_CORNER_TOPLEFT;
 
 			STYLE_FUNCTION(draw_button) (cr, colors, &params, x, y, width, height+1, TRUE);
 		}
@@ -1626,8 +1590,6 @@ murrine_style_draw_shadow_gap (DRAW_ARGS,
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 
-		params.corners = MRN_CORNER_ALL;
-
 		if (params.roundness < 2)
 			params.corners = MRN_CORNER_NONE;
 
@@ -1835,7 +1797,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 			murrine_style->roundness = 0;
 	}
 	else
-		murrine_style->roundness       = MURRINE_RC_STYLE (rc_style)->roundness;
+		murrine_style->roundness = MURRINE_RC_STYLE (rc_style)->roundness;
 	murrine_style->animation           = MURRINE_RC_STYLE (rc_style)->animation;
 	murrine_style->colorize_scrollbar  = MURRINE_RC_STYLE (rc_style)->colorize_scrollbar;
 	murrine_style->has_focus_color     = MURRINE_RC_STYLE (rc_style)->has_focus_color;
@@ -2023,7 +1985,6 @@ murrine_style_draw_focus (GtkStyle *style, GdkWindow *window, GtkStateType state
 	murrine_set_widget_parameters (widget, style, state_type, &params);
 
 	/* Corners */
-	params.corners = MRN_CORNER_ALL;
 	if (widget && widget->parent && MRN_IS_COMBO_BOX_ENTRY(widget->parent))
 	{
 		if (params.ltr)

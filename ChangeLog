@@ -1,5 +1,14 @@
 2009-03-17  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/murrine_style.c (murrine_style_draw_flat_box),
+	(murrine_style_draw_shadow), (murrine_style_draw_box_gap),
+	(murrine_style_draw_box), (murrine_style_draw_shadow_gap),
+	(murrine_style_draw_focus):
+	Starting reducing duplicated params.corners initializations.
+	Could break something, but it shouldn't.
+
+2009-03-17  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* configure.ac:
 	Started working on 0.90.1.
 

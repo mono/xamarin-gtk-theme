@@ -1528,7 +1528,7 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
 
 	cairo_save (cr);
 
-	murrine_rounded_rectangle_closed (cr, 1, 1, width-2, height-2, widget->roundness, widget->corners);
+	murrine_rounded_rectangle_closed (cr, 1, 1, width-2, height-2, widget->roundness-1, widget->corners);
 	cairo_clip_preserve (cr);
 
 	murrine_draw_glaze (cr, &fill,

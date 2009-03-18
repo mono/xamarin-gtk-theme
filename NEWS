@@ -1,3 +1,11 @@
+Overview of Changes in 0.90.1 (since 0.90.0)
+============================================
+Changes in this release:
+- High roundness values are now correctly limited.
+- Use focus_color in draw_entry if the theme uses it.
+- Removed shadows from GtkCombo and GtkComboBoxEntry.
+- Code polishing and bugfixing.
+
 Overview of Changes in 0.90.0 (since 0.53.1)
 ============================================
 Too many changes to be listed, let's take a summary.

@@ -1,3 +1,8 @@
+Overview of Changes in 0.90.1.1 (since 0.90.1)
+==============================================
+Changes in this release:
+- Fixed a crash when using focus_color.
+
 Overview of Changes in 0.90.1 (since 0.90.0)
 ============================================
 Changes in this release:

@@ -409,7 +409,9 @@ murrine_style_draw_shadow (DRAW_ARGS)
 		/* Focus color */
 		if (murrine_style->has_focus_color)
 		{
-			ge_gdk_color_to_cairo (&murrine_style->focus_color, &focus.color);
+			murrine_gdk_color_to_rgb (&murrine_style->focus_color, &focus.color.r, 
+			                                                       &focus.color.g,
+			                                                       &focus.color.b);
 			focus.has_color = TRUE;
 		}
 		else
@@ -1239,7 +1241,9 @@ murrine_style_draw_box (DRAW_ARGS)
 
 		if (murrine_style->has_scrollbar_color)
 		{
-			murrine_gdk_color_to_rgb (&murrine_style->scrollbar_color, &scrollbar.color.r, &scrollbar.color.g, &scrollbar.color.b);
+			murrine_gdk_color_to_rgb (&murrine_style->scrollbar_color, &scrollbar.color.r,
+			                                                           &scrollbar.color.g,
+			                                                           &scrollbar.color.b);
 			scrollbar.has_color = TRUE;
 		}
 
@@ -2130,7 +2134,9 @@ murrine_style_draw_focus (GtkStyle *style, GdkWindow *window, GtkStateType state
 	/* Focus color */
 	if (murrine_style->has_focus_color)
 	{
-		murrine_gdk_color_to_rgb (&murrine_style->focus_color, &focus.color.r, &focus.color.g, &focus.color.b);
+		murrine_gdk_color_to_rgb (&murrine_style->focus_color, &focus.color.r,
+		                                                       &focus.color.g,
+		                                                       &focus.color.b);
 		focus.has_color = TRUE;
 	}
 	else

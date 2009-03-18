@@ -1,5 +1,10 @@
 2009-03-18  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* NEWS:
+	Updated NEWS file with a summary of the 0.90.0 release.
+
+2009-03-18  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_style.c (murrine_style_draw_focus):
 	* src/support.c (murrine_gtk_treeview_get_header_index),
 	(murrine_gtk_clist_get_header_index),

@@ -1,1 +1,19 @@
-See Changelog for news.
+Overview of Changes in 0.90.0 (since 0.53.1)
+============================================
+Too many changes to be listed, let's take a summary.
+This new version is extremely customizable with a huge number of new 
+options. Those new options allow the user to achieve an incredible 
+variety of styles.
+In order to add those features the engine was rewritten in many parts, 
+sometimes even 2 or 3 times! :-) This results in a simpler code, more 
+readable and more maintainable, with a lot of custom code moved from 
+each widget drawing function (before) to a general murrine drawing 
+support file (now). For example adding a new glaze style will now cost 
+about 20 lines and it will be applied immediately to every single 
+widget.
+Murrine can finally use the alpha channel to draw a real transparent 
+theme, all it needs is an application using the RGBA colormap and a 
+theme with the rgba option enabled.
+During the whole development, murrine was kept in sync with 
+every bugfix that hit gtk-engines, so this new version can also be  
+considered much more stable than the previous one.

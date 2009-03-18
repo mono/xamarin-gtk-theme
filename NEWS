@@ -1,7 +1,10 @@
-Overview of Changes in 0.90.1.1 (since 0.90.1)
-==============================================
+Overview of Changes in 0.90.2 (since 0.90.2)
+============================================
+Requires Gtk+ 2.12.0
+
 Changes in this release:
 - Fixed a crash when using focus_color.
+- Now focus_color and scrollbar_color accept symbolic colors.
 
 Overview of Changes in 0.90.1 (since 0.90.0)
 ============================================

@@ -1,5 +1,12 @@
 2009-03-18  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* NEWS:
+	* configure.ac:
+	Updated NEWS file with a summary of the 0.90.2 release.
+	Changed version to 0.90.2.
+
+2009-03-18  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* configure.ac:
 	* src/murrine_rc_style.c (theme_parse_color),
 	(murrine_rc_style_parse):

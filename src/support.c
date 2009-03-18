@@ -34,9 +34,10 @@ murrine_get_direction (GtkWidget *widget)
 	return dir;
 }
 
-void murrine_gtk_treeview_get_header_index (GtkTreeView *tv, GtkWidget *header,
-                                            gint *column_index, gint *columns,
-                                            gboolean *resizable)
+void
+murrine_gtk_treeview_get_header_index (GtkTreeView *tv, GtkWidget *header,
+                                       gint *column_index, gint *columns,
+                                       gboolean *resizable)
 {
 	GList *list, *list_start;
 	*column_index = *columns = 0;
@@ -57,8 +58,9 @@ void murrine_gtk_treeview_get_header_index (GtkTreeView *tv, GtkWidget *header,
 	g_list_free (list_start);
 }
 
-void murrine_gtk_clist_get_header_index (GtkCList *clist, GtkWidget *button,
-                                         gint *column_index, gint *columns)
+void
+murrine_gtk_clist_get_header_index (GtkCList *clist, GtkWidget *button,
+                                    gint *column_index, gint *columns)
 {
 	int i;
 	*columns = clist->columns;
@@ -105,7 +107,8 @@ murrine_option_menu_get_props (GtkWidget      *widget,
 		*indicator_spacing = default_option_indicator_spacing;
 }
 
-GtkWidget *murrine_special_get_ancestor(GtkWidget * widget, GType widget_type)
+GtkWidget* 
+murrine_special_get_ancestor (GtkWidget *widget, GType widget_type)
 {
 	g_return_val_if_fail(GTK_IS_WIDGET(widget), NULL);
 
@@ -122,7 +125,8 @@ GtkWidget *murrine_special_get_ancestor(GtkWidget * widget, GType widget_type)
 	return widget;
 }
 
-GtkWidget *murrine_get_parent_window (GtkWidget *widget)
+GtkWidget*
+murrine_get_parent_window (GtkWidget *widget)
 {
 	GtkWidget *parent = widget->parent;
 
@@ -132,7 +136,8 @@ GtkWidget *murrine_get_parent_window (GtkWidget *widget)
 	return parent;
 }
 
-GdkColor *murrine_get_parent_bgcolor (GtkWidget *widget)
+GdkColor*
+murrine_get_parent_bgcolor (GtkWidget *widget)
 {
 	GtkWidget *parent = murrine_get_parent_window (widget);
 
@@ -175,8 +180,8 @@ murrine_widget_is_ltr (GtkWidget *widget)
 		return TRUE;
 }
 
-GtkWidget *
-murrine_find_combo_box_widget (GtkWidget * widget)
+GtkWidget*
+murrine_find_combo_box_widget (GtkWidget *widget)
 {
 	GtkWidget *result = NULL;
 
@@ -192,7 +197,7 @@ murrine_find_combo_box_widget (GtkWidget * widget)
 }
 
 gboolean
-murrine_is_combo_box (GtkWidget * widget)
+murrine_is_combo_box (GtkWidget *widget)
 {
 	return (murrine_find_combo_box_widget(widget) != NULL);
 }
@@ -280,7 +285,7 @@ murrine_scrollbar_visible_steppers (GtkWidget *widget)
 }
 
 MurrineJunction
-murrine_scrollbar_get_junction (GtkWidget    *widget)
+murrine_scrollbar_get_junction (GtkWidget *widget)
 {
 	GtkAdjustment *adj;
 	MurrineJunction junction = MRN_JUNCTION_NONE;

@@ -1,5 +1,16 @@
 2009-03-18  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/cairo-support.c (clearlooks_rounded_rectangle),
+	(murrine_draw_lightborder):
+	* src/murrine_draw.c (murrine_draw_inset),
+	(murrine_draw_highlight_and_shade):
+	* src/murrine_draw_rgba.c (murrine_draw_inset),
+	(murrine_draw_highlight_and_shade):
+	High roundness values are finally fixed!
+	Try roundness = 10000000 (:-D), it should work.
+
+2009-03-18  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* schema/murrine.xml.in.in:
 	Fixed a typo.
 

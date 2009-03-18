@@ -32,10 +32,9 @@ murrine_draw_inset (cairo_t *cr,
                     double x, double y, double w, double h,
                     double radius, uint8 corners)
 {
-	MurrineRGB shadow;
-	MurrineRGB highlight;
+	MurrineRGB shadow, highlight;
+	radius = MIN (radius, MIN (w/2.0, h/2.0));
 
-	/* not really sure of shading ratios... we will think */
 	murrine_shade (bg_color, 0.74, &shadow);
 	murrine_shade (bg_color, 1.3, &highlight);
 
@@ -95,6 +94,7 @@ murrine_draw_highlight_and_shade (cairo_t *cr,
 	double y = 1.0;
 	width  -= 3;
 	height -= 3;
+	radius = MIN (radius, MIN ((double)width/2.0, (double)height/2.0));
 
 	if (radius < 0)
 		radius = 0;

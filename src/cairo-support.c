@@ -411,6 +411,8 @@ clearlooks_rounded_rectangle (cairo_t *cr,
 		cairo_rectangle (cr, x, y, w, h);
 		return;
 	}
+	
+	radius = MIN (radius, MIN (w/2.0, h/2.0));
 
 	if (corners & MRN_CORNER_TOPLEFT)
 		cairo_move_to (cr, x+radius, y);
@@ -620,6 +622,7 @@ murrine_draw_lightborder (cairo_t *cr,
 	cairo_pattern_t *pat;
 	MurrineRGB shade1, shade2, shade3, shade4;
 	double alpha_value = mrn_gradient.use_rgba ? mrn_gradient.rgba_opacity : 1.0;
+	radius = MIN (radius, MIN ((double)width/2.0, (double)height/2.0));
 
 	murrine_shade (highlight_color, mrn_gradient.gradient_shades[0], &shade1);
 	murrine_shade (highlight_color, mrn_gradient.gradient_shades[1], &shade2);

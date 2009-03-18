@@ -36,8 +36,8 @@ AC_ARG_ENABLE(rgba,
               [rgba=$enableval],
               [rgba="yes"], )
 
-PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.10.0,,
-                  AC_MSG_ERROR([GTK+-2.10 is required to compile murrine]))
+PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.12.0,,
+                  AC_MSG_ERROR([GTK+-2.12 is required to compile murrine]))
 
 AC_SUBST(GTK_CFLAGS)
 AC_SUBST(GTK_LIBS)

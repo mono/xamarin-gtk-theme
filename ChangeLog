@@ -1,5 +1,14 @@
 2009-03-18  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* configure.ac:
+	* src/murrine_rc_style.c (theme_parse_color),
+	(murrine_rc_style_parse):
+	Bumped Gtk+ version to 2.12.0.
+	Use gtk_rc_parse_color_full (Gtk+ 2.12.0), which allows using
+	symbolic colors for focus_color and scrollbar_color.
+
+2009-03-18  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* NEWS:
 	* src/murrine_style.c (murrine_style_draw_shadow),
 	(murrine_style_draw_box), (murrine_style_draw_focus):

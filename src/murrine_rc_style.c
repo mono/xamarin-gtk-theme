@@ -243,6 +243,7 @@ theme_parse_boolean (GtkSettings *settings,
 static guint
 theme_parse_color (GtkSettings  *settings,
                    GScanner     *scanner,
+                   GtkRcStyle   *style,
                    GdkColor     *color)
 {
 	guint token;
@@ -254,7 +255,7 @@ theme_parse_color (GtkSettings  *settings,
 	if (token != G_TOKEN_EQUAL_SIGN)
 		return G_TOKEN_EQUAL_SIGN;
 
-	return gtk_rc_parse_color (scanner, color);
+	return gtk_rc_parse_color_full (scanner, style, color);
 }
 
 static guint
@@ -479,7 +480,7 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				murrine_style->flags |= MRN_FLAG_CONTRAST;
 				break;
 			case TOKEN_FOCUS_COLOR:
-				token = theme_parse_color (settings, scanner, &murrine_style->focus_color);
+				token = theme_parse_color (settings, scanner, rc_style, &murrine_style->focus_color);
 				murrine_style->flags |= MRN_FLAG_FOCUS_COLOR;
 				murrine_style->has_focus_color = TRUE;
 				break;
@@ -560,7 +561,7 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				murrine_style->flags |= MRN_FLAG_ROUNDNESS;
 				break;
 			case TOKEN_SCROLLBAR_COLOR:
-				token = theme_parse_color (settings, scanner, &murrine_style->scrollbar_color);
+				token = theme_parse_color (settings, scanner, rc_style, &murrine_style->scrollbar_color);
 				murrine_style->flags |= MRN_FLAG_SCROLLBAR_COLOR;
 				murrine_style->has_scrollbar_color = TRUE;
 				break;

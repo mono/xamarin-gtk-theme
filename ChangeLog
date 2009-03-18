@@ -1,5 +1,10 @@
 2009-03-18  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* schema/murrine.xml.in.in:
+	Fixed a typo.
+
+2009-03-18  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_draw.c (murrine_draw_entry):
 	* src/murrine_draw_rgba.c (murrine_rgba_draw_entry):
 	* src/murrine_style.c (murrine_style_draw_shadow):
@@ -10,7 +15,7 @@
 
 	* src/murrine_draw.c (murrine_draw_menuitem):
 	I guess this should fix menuitems with roundness = 1, even if I haven't
-	seen those bugs (but the code now seems correct).
+	seen those bugs (but the new code seems correct).
 
 2009-03-17  Andrea Cimitan  <andrea.cimitan@gmail.com>
 

@@ -137,13 +137,13 @@
 	</option>
 
 	<option type="enumeration" name="listviewstyle" default="0">
-		<_long_name>Listview seperators</_long_name>
+		<_long_name>Listview separators</_long_name>
 		<section>Scrolls and Lists</section>
 		<enumeration value="0">
-			<label>No seperators</label>
+			<label>No separators</label>
 		</enumeration>
 		<enumeration value="1">
-			<label>Dotted seperators</label>
+			<label>Dotted separators</label>
 		</enumeration>
 	</option>
 

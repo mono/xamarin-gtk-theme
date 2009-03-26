@@ -2199,15 +2199,14 @@ murrine_draw_focus (cairo_t *cr,
                     const FocusParameters  *focus,
                     int x, int y, int width, int height)
 {
-	MurrineRGB border;
 	MurrineRGB fill = focus->color;
 
 	/* Default values */
 	int radius = 0;
 	double xoffset = 1.0;
 	double yoffset = 1.0;
-	double border_alpha = 0.90;
-	double fill_alpha = 0.14;
+	double border_alpha = 0.72;
+	double fill_alpha = 0.18;
 	boolean focus_fill = TRUE;
 	boolean focus_border = TRUE;
 
@@ -2215,19 +2214,19 @@ murrine_draw_focus (cairo_t *cr,
 	switch (focus->type)
 	{
 		case MRN_FOCUS_BUTTON:
-			xoffset = -(focus->padding);
-			yoffset = -(focus->padding);
+			xoffset = -(focus->padding)+1.0;
+			yoffset = -(focus->padding)+1.0;
 			radius = widget->roundness-1;
 			break;
 		case MRN_FOCUS_BUTTON_FLAT:
-			xoffset = -(focus->padding);
-			yoffset = -(focus->padding);
-			if (widget->active || widget->prelight)
-				radius = widget->roundness-1;
+			xoffset = -(focus->padding)+1.0;
+			yoffset = -(focus->padding)+1.0;
+			radius = widget->roundness-1;
 			break;
 		case MRN_FOCUS_LABEL:
 			xoffset = 0.0;
 			yoffset = 0.0;
+			radius = widget->roundness;
 			break;
 		case MRN_FOCUS_TREEVIEW:
 			xoffset = -1.0;
@@ -2235,12 +2234,14 @@ murrine_draw_focus (cairo_t *cr,
 			focus_border = FALSE;
 			break;
 		case MRN_FOCUS_TREEVIEW_DND:
+			radius = widget->roundness;
 			break;
 		case MRN_FOCUS_TREEVIEW_HEADER:
 			cairo_translate (cr, -1, 0);
 			break;
 		case MRN_FOCUS_TREEVIEW_ROW:
-			xoffset = 0.0;
+			xoffset = 2.0;
+			yoffset = 2.0;
 			if (widget->state_type == GTK_STATE_SELECTED)
 			{
 				fill = colors->text[GTK_STATE_SELECTED];
@@ -2249,8 +2250,12 @@ murrine_draw_focus (cairo_t *cr,
 			}
 			break;
 		case MRN_FOCUS_TAB:
+			xoffset = 0.0;
+			yoffset = 0.0;
+			radius = widget->roundness-1;
 			break;
 		case MRN_FOCUS_SCALE:
+			radius = widget->roundness;
 			break;
 		case MRN_FOCUS_ICONVIEW:
 			break;
@@ -2263,32 +2268,22 @@ murrine_draw_focus (cairo_t *cr,
 			break;
 	};
 
-	murrine_shade (&fill, 1.0, &border);
-
 	cairo_translate (cr, x, y);
 	cairo_set_line_width (cr, focus->line_width);
 
-	cairo_save (cr);
-
-	murrine_rounded_rectangle_closed (cr, xoffset, yoffset, width-(xoffset*2), height-(yoffset*2), radius, widget->corners);
-	cairo_clip_preserve (cr);
-
 	if (focus_fill)
 	{
+		clearlooks_rounded_rectangle (cr, xoffset, yoffset, width-(xoffset*2), height-(yoffset*2), radius, widget->corners);
 		murrine_set_color_rgba (cr, &fill, fill_alpha);
 		cairo_fill (cr);
 	}
 
 	if (focus_border)
 	{
-		cairo_new_path (cr);
-		cairo_move_to (cr, xoffset, height-yoffset-0.5);
-		cairo_line_to (cr, width-xoffset, height-yoffset-0.5);
-		murrine_set_color_rgba (cr, &border, border_alpha);
+		clearlooks_rounded_rectangle (cr, xoffset+0.5, yoffset+0.5, width-(xoffset*2)-1, height-(yoffset*2)-1, radius, widget->corners);
+		murrine_set_color_rgba (cr, &fill, border_alpha);
 		cairo_stroke (cr);
 	}
-
-	cairo_restore (cr);
 }
 
 void

@@ -1,3 +1,10 @@
+2009-03-26  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/murrine_draw.c (murrine_draw_focus):
+	Better focus theming. Treeview focus is still not nice, because it is
+	really difficult to theme (some themes uses black text, which should
+	have a dark focus ring, while other themes a white one).
+
 2009-03-18  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* NEWS:

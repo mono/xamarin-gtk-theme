@@ -858,6 +858,9 @@ murrine_style_draw_box (DRAW_ARGS)
 					params.corners = MRN_CORNER_BOTTOMLEFT;
 			}
 
+			if (murrine_style->reliefstyle > 1)
+				params.reliefstyle = 1;
+
 			STYLE_FUNCTION(draw_spinbutton_down) (cr, &murrine_style->colors, &params, x, y, width, height);
 		}
 	}
@@ -898,6 +901,9 @@ murrine_style_draw_box (DRAW_ARGS)
 				x--;
 			width++;
 		}
+
+		if (murrine_style->reliefstyle > 1)
+			params.reliefstyle = 1;
 
 		/* draw_spinbutton (cr, &murrine_style->colors, &params, x, y, width, height); */
 		STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, x, y, width, height, horizontal);

@@ -1,5 +1,10 @@
 2009-04-03  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
+	* src/murrine_style.c (murrine_style_draw_box):
+	Don't draw shadows around spinbuttons, use inset as the combobox entry.
+
+2009-04-03  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
 	* src/murrine_draw.c (murrine_draw_focus):
 	Changes in focus drawing: rounded focus on listview header, better 
 	unselected focus on treeview items, use dots on selected treeview items.

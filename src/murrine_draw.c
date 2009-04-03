@@ -2238,16 +2238,18 @@ murrine_draw_focus (cairo_t *cr,
 			break;
 		case MRN_FOCUS_TREEVIEW_HEADER:
 			cairo_translate (cr, -1, 0);
+			radius = widget->roundness-1;
 			break;
 		case MRN_FOCUS_TREEVIEW_ROW:
-			xoffset = 2.0;
-			yoffset = 2.0;
 			if (widget->state_type == GTK_STATE_SELECTED)
 			{
-				fill = colors->text[GTK_STATE_SELECTED];
-				border_alpha = 0.35;
-				focus_fill = FALSE;
+				/* Fallback to classic function, dots */
+				murrine_draw_classic_focus (cr, colors, widget, focus, x, y, width, height);
+				return;
 			}
+			xoffset = 1.0;
+			yoffset = 1.0;
+			radius = widget->roundness;
 			break;
 		case MRN_FOCUS_TAB:
 			xoffset = 0.0;

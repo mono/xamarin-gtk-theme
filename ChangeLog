@@ -1,3 +1,9 @@
+2009-04-03  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* src/murrine_draw.c (murrine_draw_focus):
+	Changes in focus drawing: rounded focus on listview header, better 
+	unselected focus on treeview items, use dots on selected treeview items.
+
 2009-03-26  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* src/murrine_draw.c (murrine_draw_focus):

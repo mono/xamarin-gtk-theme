@@ -1,3 +1,9 @@
+Overview of Changes in 0.90.3 (since 0.90.2)
+============================================
+Changes in this release:
+- Better focus theming.
+- Don't draw shadows around GtkSpinButton, draw an inset instead.
+
 Overview of Changes in 0.90.2 (since 0.90.1)
 ============================================
 Requires Gtk+ 2.12.0

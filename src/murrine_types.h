@@ -219,6 +219,7 @@ typedef struct
 	int lightborderstyle;
 	int reliefstyle;
 	int roundness;
+	double contrast;
 	double glow_shade;
 	double highlight_shade;
 	double lightborder_shade;
@@ -317,6 +318,7 @@ typedef struct
 	MurrineStepper  steppers; /* The visible steppers */
 	boolean         horizontal;
 	boolean         has_color;
+	boolean         within_bevel;
 	int             style;
 	int             stepperstyle;
 } ScrollBarParameters;

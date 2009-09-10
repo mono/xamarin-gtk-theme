@@ -309,13 +309,13 @@ murrine_scale_draw_gradient (cairo_t *cr,
                              const MurrineRGB *c2,
                              double lightborder_shade,
                              int x, int y, int width, int height,
-                             boolean alpha, boolean horizontal)
+                             boolean horizontal)
 {
-	murrine_set_color_rgba (cr, c1, alpha ? 0.46 : 1.0);
+	murrine_set_color_rgb (cr, c1);
 	cairo_rectangle (cr, x, y, width, height);
 	cairo_fill (cr);
 
-	murrine_set_color_rgba (cr, c2, 0.82);
+	murrine_set_color_rgb (cr, c2);
 	cairo_rectangle (cr, x, y, width, height);
 	cairo_stroke (cr);
 
@@ -380,20 +380,21 @@ murrine_rgba_draw_scale_trough (cairo_t *cr,
 
 	if (!slider->lower && !slider->fill_level)
 	{
-		MurrineRGB fill;
-		murrine_shade (&widget->parentbg, 0.95, &fill);
+		MurrineRGB fill, border;
+		murrine_shade (&colors->bg[widget->state_type], 1.0, &fill);
+		murrine_shade (&colors->bg[GTK_STATE_ACTIVE], get_contrast(0.82, widget->contrast), &border);
 
-		murrine_scale_draw_gradient (cr, &fill, &colors->shade[5],
+		murrine_scale_draw_gradient (cr, &fill, &border,
 		                             1.0,
 		                             1.0, 1.0, trough_width-2, trough_height-2,
-		                             TRUE, slider->horizontal);
+		                             slider->horizontal);
 	}
 	else
 	{
 		murrine_scale_draw_gradient (cr, &colors->spot[1], &colors->spot[2],
 		                             widget->disabled ? 1.0 : widget->lightborder_shade,
 		                             1.0, 1.0, trough_width-2, trough_height-2,
-		                             FALSE, slider->horizontal);
+		                             slider->horizontal);
 	}
 
 	cairo_restore (cr);
@@ -405,11 +406,11 @@ murrine_rgba_draw_progressbar_trough (cairo_t *cr,
                                       const WidgetParameters *widget,
                                       int x, int y, int width, int height)
 {
-	const MurrineRGB *border = &colors->shade[4];
-	MurrineRGB fill;
+	MurrineRGB border, fill;
 	int roundness = MIN (widget->roundness, MIN ((height-2.0)/2.0, (width-2.0)/2.0));
 
-	murrine_shade (&widget->parentbg, 0.95, &fill);
+	murrine_shade (&colors->bg[GTK_STATE_ACTIVE], 1.0, &fill);
+	murrine_shade (&colors->bg[GTK_STATE_ACTIVE], get_contrast(0.82, widget->contrast), &border);
 
 	/* Create trough box */
 	murrine_rounded_rectangle_closed (cr, x+1, y+1, width-2, height-2, roundness, widget->corners);
@@ -418,7 +419,7 @@ murrine_rgba_draw_progressbar_trough (cairo_t *cr,
 
 	/* Draw border */
 	murrine_rounded_rectangle (cr, x+0.5, y+0.5, width-1, height-1, roundness, widget->corners);
-	murrine_set_color_rgba (cr, border, 0.8);
+	murrine_set_color_rgba (cr, &border, 0.8);
 	cairo_stroke (cr);
 
 	if (widget->mrn_gradient.gradients)
@@ -426,7 +427,7 @@ murrine_rgba_draw_progressbar_trough (cairo_t *cr,
 		cairo_pattern_t  *pat;
 		MurrineRGB        shadow;
 
-		murrine_shade (border, 0.94, &shadow);
+		murrine_shade (&border, 0.94, &shadow);
 
 		/* clip the corners of the shadows */
 		murrine_rounded_rectangle_closed (cr, x+1, y+1, width-2, height-2, roundness, widget->corners);
@@ -1136,9 +1137,12 @@ murrine_rgba_draw_scrollbar_trough (cairo_t *cr,
                                     const ScrollBarParameters *scrollbar,
                                     int x, int y, int width, int height)
 {
-	const MurrineRGB *border = &colors->shade[scrollbar->stepperstyle < 1 ? 4 : 5];
+	MurrineRGB border;
 	MurrineRGB fill;
 
+	murrine_shade (&widget->parentbg,
+	               get_contrast (scrollbar->stepperstyle < 1 ? 0.82 : 0.75, widget->contrast),
+	               &border);
 	murrine_shade (&widget->parentbg, scrollbar->stepperstyle < 1 ? 0.95 : 1.065, &fill);
 
 	if (!scrollbar->horizontal)
@@ -1159,7 +1163,7 @@ murrine_rgba_draw_scrollbar_trough (cairo_t *cr,
 	cairo_fill (cr);
 
 	/* Draw border */
-	murrine_set_color_rgba (cr, border, 0.82);
+	murrine_set_color_rgba (cr, &border, 0.82);
 	murrine_rounded_rectangle (cr, 0.5, 0.5, width-1, height-1, widget->roundness, widget->corners);
 	cairo_stroke (cr);
 }

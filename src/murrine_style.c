@@ -130,12 +130,10 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	params->focus      = widget && GTK_WIDGET_HAS_FOCUS (widget);
 	params->is_default = widget && GTK_WIDGET_HAS_DEFAULT (widget);
 
-	if (!params->active && widget && MRN_IS_TOGGLE_BUTTON (widget))
-		params->active = gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (widget));
-
 	params->xthickness = style->xthickness;
 	params->ythickness = style->ythickness;
 
+	params->contrast          = murrine_style->contrast;
 	params->glazestyle        = murrine_style->glazestyle;
 	params->glow_shade        = murrine_style->glow_shade;
 	params->glowstyle         = murrine_style->glowstyle;
@@ -957,13 +955,21 @@ murrine_style_draw_box (DRAW_ARGS)
 	{
 		WidgetParameters params;
 		ScrollBarParameters scrollbar;
+		boolean within_bevel = FALSE;
+
+		if (widget->parent && MRN_IS_SCROLLED_WINDOW (widget->parent))
+			gtk_widget_style_get (widget->parent, "scrollbars-within-bevel", &within_bevel, NULL);
 
 		scrollbar.horizontal   = TRUE;
 		scrollbar.junction     = murrine_scrollbar_get_junction (widget);
 		scrollbar.steppers     = murrine_scrollbar_visible_steppers (widget);
 		scrollbar.stepperstyle = murrine_style->stepperstyle;
+		scrollbar.within_bevel = within_bevel;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
+
+		if (within_bevel)
+			params.corners = MRN_CORNER_NONE;
 
 		if (MRN_IS_RANGE (widget))
 			scrollbar.horizontal = GTK_RANGE (widget)->orientation == GTK_ORIENTATION_HORIZONTAL;
@@ -1225,6 +1231,7 @@ murrine_style_draw_box (DRAW_ARGS)
 	{
 		WidgetParameters    params;
 		ScrollBarParameters scrollbar;
+		boolean within_bevel = FALSE;
 
 		scrollbar.has_color    = FALSE;
 		scrollbar.horizontal   = TRUE;
@@ -1302,6 +1309,12 @@ murrine_style_draw_box (DRAW_ARGS)
 			else if (murrine_style->roundness == 1)
 				params.corners = MRN_CORNER_ALL;
 			else
+				params.corners = MRN_CORNER_NONE;
+
+			if (widget->parent && MRN_IS_SCROLLED_WINDOW (widget->parent))
+				gtk_widget_style_get (widget->parent, "scrollbars-within-bevel", &within_bevel, NULL);
+
+			if (within_bevel)
 				params.corners = MRN_CORNER_NONE;
 
 			if (murrine_style->stepperstyle != 1)
@@ -1819,6 +1832,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	else
 		murrine_style->roundness = MURRINE_RC_STYLE (rc_style)->roundness;
 	murrine_style->animation           = MURRINE_RC_STYLE (rc_style)->animation;
+	murrine_style->contrast            = MURRINE_RC_STYLE (rc_style)->contrast;
 	murrine_style->colorize_scrollbar  = MURRINE_RC_STYLE (rc_style)->colorize_scrollbar;
 	murrine_style->has_focus_color     = MURRINE_RC_STYLE (rc_style)->has_focus_color;
 	murrine_style->glowstyle           = MURRINE_RC_STYLE (rc_style)->glowstyle;
@@ -2164,7 +2178,8 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	mrn_style->animation           = mrn_src->animation;
 	mrn_style->colorize_scrollbar  = mrn_src->colorize_scrollbar;
 	mrn_style->colors              = mrn_src->colors;
-	mrn_style->focus_color         = mrn_src->focus_color;	
+	mrn_style->contrast            = mrn_src->contrast;
+	mrn_style->focus_color         = mrn_src->focus_color;
 	mrn_style->glazestyle          = mrn_src->glazestyle;
 	mrn_style->glow_shade          = mrn_src->glow_shade;
 	mrn_style->glowstyle           = mrn_src->glowstyle;

@@ -28,7 +28,7 @@
 		<section>General</section>
 		<minimum>0</minimum>
 		<maximum>2</maximum>
-		<precision>0.1</precision>
+		<precision>2</precision>
 	</option>
 
 	<option type="color" name="focus_color" default="#000000">
@@ -64,7 +64,7 @@
 		<section>General</section>
 		<minimum>0</minimum>
 		<maximum>2</maximum>
-		<precision>0.1</precision>
+		<precision>2</precision>
 	</option>
 
 	<option type="enumeration" name="glowstyle" default="0">
@@ -99,7 +99,7 @@
 		<section>General</section>
 		<minimum>0</minimum>
 		<maximum>2</maximum>
-		<precision>0.01</precision>
+		<precision>2</precision>
 	</option>
 
 	<option type="real" name="lightborder_shade" default="1.1">
@@ -108,7 +108,7 @@
 		<section>General</section>
 		<minimum>0</minimum>
 		<maximum>2</maximum>
-		<precision>0.01</precision>
+		<precision>2</precision>
 	</option>
 
 	<option type="enumeration" name="lightborderstyle" default="0">

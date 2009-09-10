@@ -84,7 +84,9 @@
 #define MRN_IS_CHECK_MENU_ITEM(object) ((object) && murrine_object_is_a ((GObject*)(object), "GtkCheckMenuItem"))
 
 #define MRN_IS_RANGE(object) ((object) && murrine_object_is_a ((GObject*)(object), "GtkRange"))
- 
+
+#define MRN_IS_SCROLLED_WINDOW(object) ((object) && murrine_object_is_a ((GObject*)(object), "GtkScrolledWindow"))
+
 #define MRN_IS_SCROLLBAR(object) ((object) && murrine_object_is_a ((GObject*)(object), "GtkScrollbar"))
 #define MRN_IS_VSCROLLBAR(object) ((object) && murrine_object_is_a ((GObject*)(object), "GtkVScrollbar"))
 #define MRN_IS_HSCROLLBAR(object) ((object) && murrine_object_is_a ((GObject*)(object), "GtkHScrollbar"))

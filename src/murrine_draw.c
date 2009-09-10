@@ -397,13 +397,13 @@ murrine_scale_draw_gradient (cairo_t *cr,
                              const MurrineRGB *c2,
                              double lightborder_shade,
                              int x, int y, int width, int height,
-                             boolean alpha, boolean horizontal)
+                             boolean horizontal)
 {
-	murrine_set_color_rgba (cr, c1, alpha ? 0.44 : 1.0);
+	murrine_set_color_rgb (cr, c1);
 	cairo_rectangle (cr, x, y, width, height);
 	cairo_fill (cr);
 
-	murrine_set_color_rgba (cr, c2, 0.8);
+	murrine_set_color_rgb (cr, c2);
 	cairo_rectangle (cr, x, y, width, height);
 	cairo_stroke (cr);
 
@@ -468,20 +468,21 @@ murrine_draw_scale_trough (cairo_t *cr,
 
 	if (!slider->lower && !slider->fill_level)
 	{
-		MurrineRGB fill;
-		murrine_shade (&widget->parentbg, 0.95, &fill);
+		MurrineRGB fill, border;
+		murrine_shade (&colors->bg[widget->state_type], 1.0, &fill);
+		murrine_shade (&colors->bg[GTK_STATE_ACTIVE], get_contrast(0.82, widget->contrast), &border);
 
-		murrine_scale_draw_gradient (cr, &fill, &colors->shade[4],
+		murrine_scale_draw_gradient (cr, &fill, &border,
 		                             1.0,
 		                             1.0, 1.0, trough_width-2, trough_height-2,
-		                             TRUE, slider->horizontal);
+		                             slider->horizontal);
 	}
 	else
 	{
 		murrine_scale_draw_gradient (cr, &colors->spot[1], &colors->spot[2],
 		                             widget->disabled ? 1.0 : widget->lightborder_shade,
 		                             1.0, 1.0, trough_width-2, trough_height-2,
-		                             FALSE, slider->horizontal);
+		                             slider->horizontal);
 	}
 
 	cairo_restore (cr);
@@ -527,20 +528,20 @@ murrine_draw_progressbar_trough (cairo_t *cr,
                                  const WidgetParameters *widget,
                                  int x, int y, int width, int height)
 {
-	const MurrineRGB *border = &colors->shade[4];
-	MurrineRGB fill;
+	MurrineRGB border, fill;
 	int roundness = MIN (widget->roundness, MIN ((height-2.0)/2.0, (width-2.0)/2.0));
 
-	murrine_shade (&widget->parentbg, 0.95, &fill);
+	murrine_shade (&colors->bg[GTK_STATE_ACTIVE], 1.0, &fill);
+	murrine_shade (&colors->bg[GTK_STATE_ACTIVE], get_contrast(0.82, widget->contrast), &border);
 
 	/* Create trough box */
 	murrine_rounded_rectangle_closed (cr, x+1, y+1, width-2, height-2, roundness, widget->corners);
-	murrine_set_color_rgba (cr, &fill, 0.44);
+	murrine_set_color_rgb (cr, &fill);
 	cairo_fill (cr);
 
 	/* Draw border */
 	murrine_rounded_rectangle (cr, x+0.5, y+0.5, width-1, height-1, roundness, widget->corners);
-	murrine_set_color_rgba (cr, border, 0.74);
+	murrine_set_color_rgb (cr, &border);
 	cairo_stroke (cr);
 
 	if (widget->mrn_gradient.gradients)
@@ -548,7 +549,7 @@ murrine_draw_progressbar_trough (cairo_t *cr,
 		cairo_pattern_t  *pat;
 		MurrineRGB        shadow;
 
-		murrine_shade (border, 0.94, &shadow);
+		murrine_shade (&border, 0.94, &shadow);
 
 		/* clip the corners of the shadows */
 		murrine_rounded_rectangle_closed (cr, x+1, y+1, width-2, height-2, roundness, widget->corners);
@@ -1414,11 +1415,21 @@ murrine_draw_scrollbar_trough (cairo_t *cr,
                                const ScrollBarParameters *scrollbar,
                                int x, int y, int width, int height)
 {
-	const MurrineRGB *border = &colors->shade[scrollbar->stepperstyle < 1 ? 3 : 4];
+	MurrineRGB border;
 	MurrineRGB fill;
 
-	murrine_shade (&widget->parentbg, scrollbar->stepperstyle < 1 ? 0.95 : 1.065, &fill);
-
+	murrine_shade (&widget->parentbg,
+	               get_contrast (scrollbar->stepperstyle < 1 ? 0.86 : 0.8, widget->contrast),
+	               &border);
+	murrine_shade (&widget->parentbg, scrollbar->stepperstyle < 1 ? 0.97 : 1.026, &fill);
+/*
+	murrine_shade (&colors->bg[widget->state_type],
+	               get_contrast (scrollbar->stepperstyle < 1 ? 0.86 : 0.8, widget->contrast),
+	               &border_bg);
+	murrine_shade (&colors->bg[widget->state_type], scrollbar->stepperstyle < 1 ? 0.97 : 1.026, &fill_bg);
+	murrine_mix_color (&border_bg, &border, 0.5, &border);
+	murrine_mix_color (&fill_bg, &fill, 0.5, &fill);
+*/
 	if (!scrollbar->horizontal)
 	{
 		cairo_translate (cr, x, y);
@@ -1432,13 +1443,21 @@ murrine_draw_scrollbar_trough (cairo_t *cr,
 	}
 
 	/* Draw fill */
-	murrine_set_color_rgba (cr, &fill, 0.4);
-	clearlooks_rounded_rectangle (cr, 1, 0, width-2, height, widget->roundness, widget->corners);
+	murrine_set_color_rgb (cr, &fill);
+	clearlooks_rounded_rectangle (cr, 0, 0, width, height, widget->roundness, widget->corners);
 	cairo_fill (cr);
 
 	/* Draw border */
-	murrine_set_color_rgba (cr, border, 0.8);
-	murrine_rounded_rectangle (cr, 0.5, 0.5, width-1, height-1, widget->roundness, widget->corners);
+	murrine_set_color_rgb (cr, &border);
+	if (!scrollbar->within_bevel)
+		murrine_rounded_rectangle (cr, 0.5, 0.5, width-1, height-1, widget->roundness, widget->corners);
+	else
+	{
+		cairo_move_to (cr, 0.5, 0);
+		cairo_line_to (cr, 0.5, height);
+/*		cairo_move_to (cr, width-0.5, 0);*/
+/*		cairo_line_to (cr, width-0.5, height);*/
+	}
 	cairo_stroke (cr);
 }
 

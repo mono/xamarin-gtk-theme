@@ -1,3 +1,24 @@
+2009-09-10  Andrea Cimitan  <andrea.cimitan@gmail.com>
+
+	* schema/murrine.xml.in.in:
+	* src/murrine_draw.c (murrine_scale_draw_gradient),
+	(murrine_draw_scale_trough), (murrine_draw_progressbar_trough),
+	(murrine_draw_scrollbar_trough):
+	* src/murrine_draw_rgba.c (murrine_scale_draw_gradient),
+	(murrine_rgba_draw_scale_trough),
+	(murrine_rgba_draw_progressbar_trough),
+	(murrine_rgba_draw_scrollbar_trough):
+	* src/murrine_style.c (murrine_set_widget_parameters),
+	(murrine_style_draw_box), (murrine_style_init_from_rc),
+	(murrine_style_copy):
+	* src/murrine_types.h:
+	* src/support.h:
+	Fixed xml schema file,
+	removed an useless check in set_widget_parameters,
+	scale and progressbar's trough is now using bg[ACTIVE],
+	remove right trough scrollbar line with 
+	GtkScrolledWindow::scrollbars-within-bevel = 1 as requested.
+
 2009-04-03  Andrea Cimitan  <andrea.cimitan@gmail.com>
 
 	* NEWS:

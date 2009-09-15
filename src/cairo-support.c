@@ -836,6 +836,40 @@ murrine_draw_border (cairo_t *cr,
 }
 
 void
+murrine_draw_shadow (cairo_t *cr,
+                     const MurrineRGB  *color,
+                     double x, double y, double width, double height,
+                     int roundness, uint8 corners,
+                     int reliefstyle,
+                     double highlight_shade, double alpha)
+{
+	if (highlight_shade != 1.0 || reliefstyle > 2)
+	{
+		cairo_pattern_t *pat;
+		MurrineRGB shade1, shade2;
+
+		//warning, only accepts hightlight_shade < 2
+		murrine_shade (color, 2.0-highlight_shade, &shade1);
+		murrine_shade (color, highlight_shade, &shade2);
+
+		pat = cairo_pattern_create_linear (x, y, x, height+y);
+		murrine_pattern_add_color_stop_rgba (pat, 0.00, &shade1, alpha);
+		murrine_pattern_add_color_stop_rgba (pat, 1.00, &shade2,
+		                                     alpha*(reliefstyle > 2 ?
+		                                            (highlight_shade > 1.0 ?
+		                                             2.5 : 2.0) : 1.0));
+
+		cairo_set_source (cr, pat);
+		cairo_pattern_destroy (pat);
+	}
+	else
+		murrine_set_color_rgba (cr, color, alpha);
+
+	murrine_rounded_rectangle (cr, x, y, width, height, roundness, corners);
+	cairo_stroke (cr);
+}
+
+void
 rotate_mirror_translate (cairo_t *cr,
                          double radius, double x, double y,
                          boolean mirror_horizontally, boolean mirror_vertically)

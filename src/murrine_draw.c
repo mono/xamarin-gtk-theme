@@ -182,9 +182,10 @@ murrine_draw_button (cairo_t *cr,
 
 	if (!widget->active && !widget->disabled && widget->reliefstyle > 1 && xos >= 0.5 && yos >= 0.5)
 	{
-		murrine_draw_border (cr, &border,
+		murrine_draw_shadow (cr, &border,
 		                     xos-0.5, yos-0.5, width-(xos*2)+1, height-(yos*2)+1,
 		                     widget->roundness+1, widget->corners,
+		                     widget->reliefstyle,
 		                     border_shade_custom, 0.08);
 	}
 	else if (widget->reliefstyle != 0 && xos >= 0.5 && yos >= 0.5)
@@ -1981,9 +1982,10 @@ murrine_draw_radiobutton (cairo_t *cr,
 			MurrineRGB shadow;
 			murrine_shade (border, 0.9, &shadow);
 
-			murrine_draw_border (cr, &shadow,
+			murrine_draw_shadow (cr, &shadow,
 			                     0.5, 0.5, width-1, height-1,
 			                     roundness+1, widget->corners,
+			                     widget->reliefstyle,
 			                     widget->border_shade, 0.08);
 		}
 		else if (widget->reliefstyle != 0)
@@ -2013,7 +2015,8 @@ murrine_draw_radiobutton (cairo_t *cr,
 	murrine_draw_border (cr, border,
 	                     1.5, 1.5, width-3, height-3,
 	                     roundness, widget->corners,
-	                     draw_bullet ? widget->border_shade : 1.0+fabs(1.0-widget->border_shade), 1.0);
+	                     checkbox->in_menu || checkbox->in_cell ? 1.0 : draw_bullet ?
+	                     widget->border_shade : 1.0+fabs(1.0-widget->border_shade), 1.0);
 
 	if (draw_bullet)
 	{
@@ -2091,9 +2094,11 @@ murrine_draw_checkbox (cairo_t *cr,
 			MurrineRGB shadow;
 			murrine_shade (border, 0.9, &shadow);
 
-			murrine_set_color_rgba (cr, &shadow, 0.08);
-			murrine_rounded_rectangle (cr, 0.5, 0.5, width-1, height-1, roundness+1, widget->corners);
-			cairo_stroke (cr);
+			murrine_draw_shadow (cr, &shadow,
+			                     0.5, 0.5, width-1, height-1,
+			                     roundness+1, widget->corners,
+			                     widget->reliefstyle,
+			                     widget->border_shade, 0.08);
 		}
 		else if (widget->reliefstyle != 0)
 			murrine_draw_inset (cr, &widget->parentbg, 0.5, 0.5, width-1, height-1, roundness+1, widget->corners);
@@ -2122,7 +2127,8 @@ murrine_draw_checkbox (cairo_t *cr,
 	murrine_draw_border (cr, border,
 	                     1.5, 1.5, width-3, height-3,
 	                     roundness, widget->corners,
-	                     draw_bullet ? widget->border_shade : 1.0+fabs(1.0-widget->border_shade), 1.0);
+	                     checkbox->in_menu || checkbox->in_cell ? 1.0 : draw_bullet ?
+	                     widget->border_shade : 1.0+fabs(1.0-widget->border_shade), 1.0);
 
 	if (draw_bullet)
 	{

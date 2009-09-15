@@ -411,7 +411,7 @@ clearlooks_rounded_rectangle (cairo_t *cr,
 		cairo_rectangle (cr, x, y, w, h);
 		return;
 	}
-	
+
 	radius = MIN (radius, MIN (w/2.0, h/2.0));
 
 	if (corners & MRN_CORNER_TOPLEFT)
@@ -803,6 +803,36 @@ murrine_set_gradient (cairo_t *cr,
 	{
 		murrine_set_color_rgba (cr, color, alpha_value);
 	}
+}
+
+void
+murrine_draw_border (cairo_t *cr,
+                     const MurrineRGB  *color,
+                     double x, double y, double width, double height,
+                     int roundness, uint8 corners,
+                     double highlight_shade, double alpha)
+{
+	if (highlight_shade != 1.0)
+	{
+		cairo_pattern_t *pat;
+		MurrineRGB shade1, shade2;
+
+		//warning, only accepts hightlight_shade < 2
+		murrine_shade (color, 2.0-highlight_shade, &shade1);
+		murrine_shade (color, highlight_shade, &shade2);
+
+		pat = cairo_pattern_create_linear (x, y, x, height+y);
+		murrine_pattern_add_color_stop_rgba (pat, 0.00, &shade1, alpha);
+		murrine_pattern_add_color_stop_rgba (pat, 1.00, &shade2, alpha);
+
+		cairo_set_source (cr, pat);
+		cairo_pattern_destroy (pat);
+	}
+	else
+		murrine_set_color_rgba (cr, color, alpha);
+
+	murrine_rounded_rectangle (cr, x, y, width, height, roundness, corners);
+	cairo_stroke (cr);
 }
 
 void

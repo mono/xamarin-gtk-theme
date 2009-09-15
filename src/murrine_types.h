@@ -219,6 +219,7 @@ typedef struct
 	int lightborderstyle;
 	int reliefstyle;
 	int roundness;
+	double border_shade;
 	double contrast;
 	double glow_shade;
 	double highlight_shade;

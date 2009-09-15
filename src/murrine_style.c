@@ -133,6 +133,7 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	params->xthickness = style->xthickness;
 	params->ythickness = style->ythickness;
 
+	params->border_shade      = murrine_style->border_shade;
 	params->contrast          = murrine_style->contrast;
 	params->glazestyle        = murrine_style->glazestyle;
 	params->glow_shade        = murrine_style->glow_shade;
@@ -181,7 +182,7 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 static void
 murrine_style_draw_flat_box (DRAW_ARGS)
 {
-	//printf( "draw_flat_box: %s %s\n", detail, G_OBJECT_TYPE_NAME (widget));
+	////printf( "draw_flat_box: %s %s\n", detail, G_OBJECT_TYPE_NAME (widget));
 	if (detail &&
 	    state_type == GTK_STATE_SELECTED && (
 	    !strncmp ("cell_even", detail, 9) ||
@@ -305,7 +306,7 @@ murrine_style_draw_flat_box (DRAW_ARGS)
 		}
 		else
 		{
-			// printf( "draw_flat_box: %s %s\n", detail, G_OBJECT_TYPE_NAME (widget));
+			// //printf( "draw_flat_box: %s %s\n", detail, G_OBJECT_TYPE_NAME (widget));
 			GTK_STYLE_CLASS (murrine_style_parent_class)->draw_flat_box (style, window, state_type,
 			                                                             shadow_type,
 			                                                             area, widget, detail,
@@ -585,6 +586,7 @@ murrine_style_draw_box_gap (DRAW_ARGS,
 	}
 	else
 	{
+		//printf( "draw_box_gap: %s %s\n", detail, G_OBJECT_TYPE_NAME (widget));
 		GTK_STYLE_CLASS (murrine_style_parent_class)->draw_box_gap (style, window, state_type, shadow_type,
 		                                                            area, widget, detail,
 		                                                            x, y, width, height,
@@ -634,6 +636,7 @@ murrine_style_draw_extension (DRAW_ARGS, GtkPositionType gap_side)
 	}
 	else
 	{
+		//printf( "draw_extension: %s %s\n", detail, G_OBJECT_TYPE_NAME (widget));
 		GTK_STYLE_CLASS (murrine_style_parent_class)->draw_extension (style, window, state_type, shadow_type, area,
 		                                                              widget, detail, x, y, width, height, gap_side);
 	}
@@ -1551,8 +1554,8 @@ murrine_style_draw_vline (GtkStyle     *style,
 	{
 		STYLE_FUNCTION(draw_separator) (cr, colors, NULL, &separator, x, y1, 2, y2-y1);
 	}
-	else
-		STYLE_FUNCTION(draw_combo_separator) (cr, colors, NULL, x, y1, 2, y2-y1);
+/*	else*/
+/*		STYLE_FUNCTION(draw_combo_separator) (cr, colors, NULL, x, y1, 2, y2-y1);*/
 
 	cairo_destroy (cr);
 }
@@ -1832,6 +1835,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	else
 		murrine_style->roundness = MURRINE_RC_STYLE (rc_style)->roundness;
 	murrine_style->animation           = MURRINE_RC_STYLE (rc_style)->animation;
+	murrine_style->border_shade        = MURRINE_RC_STYLE (rc_style)->border_shade;
 	murrine_style->contrast            = MURRINE_RC_STYLE (rc_style)->contrast;
 	murrine_style->colorize_scrollbar  = MURRINE_RC_STYLE (rc_style)->colorize_scrollbar;
 	murrine_style->has_focus_color     = MURRINE_RC_STYLE (rc_style)->has_focus_color;
@@ -2176,6 +2180,7 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	MurrineStyle *mrn_src = MURRINE_STYLE (src);
 
 	mrn_style->animation           = mrn_src->animation;
+	mrn_style->border_shade        = mrn_src->border_shade;
 	mrn_style->colorize_scrollbar  = mrn_src->colorize_scrollbar;
 	mrn_style->colors              = mrn_src->colors;
 	mrn_style->contrast            = mrn_src->contrast;

@@ -36,6 +36,7 @@ static void murrine_rc_style_merge (GtkRcStyle *dest,
 enum
 {
 	TOKEN_ANIMATION = G_TOKEN_LAST + 1,
+	TOKEN_BORDER_SHADE,
 	TOKEN_COLORIZE_SCROLLBAR,
 	TOKEN_CONTRAST,
 	TOKEN_FOCUS_COLOR,
@@ -89,6 +90,7 @@ static struct
 theme_symbols[] =
 {
 	{ "animation",           TOKEN_ANIMATION },
+	{ "border_shade",        TOKEN_BORDER_SHADE },
 	{ "colorize_scrollbar",  TOKEN_COLORIZE_SCROLLBAR },
 	{ "contrast",            TOKEN_CONTRAST },
 	{ "focus_color",         TOKEN_FOCUS_COLOR },
@@ -148,6 +150,7 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->flags = 0;
 
 	murrine_rc->animation = FALSE;
+	murrine_rc->border_shade = 1.0;
 	murrine_rc->colorize_scrollbar = TRUE;
 	murrine_rc->contrast = 1.0;
 	murrine_rc->has_focus_color = FALSE;
@@ -471,6 +474,10 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_boolean (settings, scanner, &murrine_style->animation);
 				murrine_style->flags |= MRN_FLAG_ANIMATION;
 				break;
+			case TOKEN_BORDER_SHADE:
+				token = theme_parse_shade (settings, scanner, &murrine_style->border_shade);
+				murrine_style->flags |= MRN_FLAG_BORDER_SHADE;
+				break;
 			case TOKEN_COLORIZE_SCROLLBAR:
 				token = theme_parse_boolean (settings, scanner, &murrine_style->colorize_scrollbar);
 				murrine_style->flags |= MRN_FLAG_COLORIZE_SCROLLBAR;
@@ -645,6 +652,8 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 
 	if (flags & MRN_FLAG_ANIMATION)
 		dest_w->animation = src_w->animation;
+	if (flags & MRN_FLAG_BORDER_SHADE)
+		dest_w->border_shade = src_w->border_shade;
 	if (flags & MRN_FLAG_COLORIZE_SCROLLBAR)
 		dest_w->colorize_scrollbar = src_w->colorize_scrollbar;
 	if (flags & MRN_FLAG_CONTRAST)

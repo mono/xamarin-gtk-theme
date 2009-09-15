@@ -515,7 +515,7 @@ murrine_draw_slider_handle (cairo_t *cr,
 		int tmp = height; height = width; width = tmp;
 	}
 
-	if (width&1)
+	if (width % 2 != 0)
 		num_handles = 3;
 	bar_x = width/2 - num_handles;
 

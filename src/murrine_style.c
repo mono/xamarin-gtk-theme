@@ -1852,15 +1852,15 @@ murrine_style_draw_expander (GtkStyle        *style,
 	{
 		case GTK_EXPANDER_SEMI_COLLAPSED:
 		case GTK_EXPANDER_COLLAPSED:
-			cairo_move_to (cr, (double)expander_size/2-(double)expander_size/4+0.5, (double)expander_size/2);
-			cairo_line_to (cr, (double)expander_size/2+(double)expander_size/4-0.5, (double)expander_size/2);
-			cairo_move_to (cr, (double)expander_size/2, (double)expander_size/2-(double)expander_size/4+0.5);
-			cairo_line_to (cr, (double)expander_size/2, (double)expander_size/2+(double)expander_size/4-0.5);
+			cairo_move_to (cr, (double)expander_size/2-expander_size/4-0.5, (double)expander_size/2);
+			cairo_line_to (cr, (double)expander_size/2+expander_size/4+0.5, (double)expander_size/2);
+			cairo_move_to (cr, (double)expander_size/2, (double)expander_size/2-expander_size/4-0.5);
+			cairo_line_to (cr, (double)expander_size/2, (double)expander_size/2+expander_size/4+0.5);
 		break;
 		case GTK_EXPANDER_SEMI_EXPANDED:
 		case GTK_EXPANDER_EXPANDED:
-			cairo_move_to (cr, (double)expander_size/2-(double)expander_size/4+0.5, (double)expander_size/2);
-			cairo_line_to (cr, (double)expander_size/2+(double)expander_size/4-0.5, (double)expander_size/2);
+			cairo_move_to (cr, (double)expander_size/2-expander_size/4-0.5, (double)expander_size/2);
+			cairo_line_to (cr, (double)expander_size/2+expander_size/4+0.5, (double)expander_size/2);
 		break;
 		default:
 			g_assert_not_reached ();

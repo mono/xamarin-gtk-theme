@@ -7,7 +7,6 @@
   <name xml:lang="en">murrine</name>
   <shortdesc xml:lang="en">The Wonderful Gtk+ Cairo Engine</shortdesc>
   <homepage rdf:resource="http://www.cimitan.com/murrine" />
-  <category rdf:resource="http://api.gnome.org/doap-extensions#other" />
 
   <maintainer>
     <foaf:Person>

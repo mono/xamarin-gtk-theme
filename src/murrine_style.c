@@ -1797,6 +1797,241 @@ murrine_style_draw_layout (GtkStyle     *style,
 }
 
 static void
+murrine_style_draw_expander (GtkStyle        *style,
+                             GdkWindow       *window,
+                             GtkStateType     state_type,
+                             GdkRectangle    *area,
+                             GtkWidget       *widget,
+                             const gchar     *detail,
+                             gint             x,
+                             gint             y,
+                             GtkExpanderStyle expander_style)
+{
+	MurrineStyle  *murrine_style = MURRINE_STYLE (style);
+	MurrineColors *colors = &murrine_style->colors;
+	WidgetParameters params;
+	cairo_t *cr;
+	gint expander_size;
+
+	CHECK_ARGS
+
+	cr = murrine_begin_paint (window, area);
+
+	murrine_set_widget_parameters (widget, style, state_type, &params);
+
+	if (widget &&
+	    gtk_widget_class_find_style_property (GTK_WIDGET_GET_CLASS (widget), "expander-size"))
+	{
+		gtk_widget_style_get (widget, "expander-size", &expander_size, NULL);
+	}
+	else
+		expander_size = 12;
+
+	cairo_translate (cr, x-expander_size/2, y-expander_size/2);
+
+	murrine_rounded_rectangle_closed (cr, 0.5, 0.5, expander_size-1, expander_size-1, params.roundness, params.corners);
+	murrine_set_color_rgb (cr, &colors->shade[0]);
+	cairo_fill_preserve (cr);
+	murrine_set_color_rgb (cr, &colors->shade[4]);
+	cairo_stroke (cr);
+
+	murrine_set_color_rgb  (cr, &colors->fg[state_type]);
+	switch (expander_style)
+	{
+		case GTK_EXPANDER_SEMI_COLLAPSED:
+		case GTK_EXPANDER_COLLAPSED:
+			cairo_move_to (cr, (double)expander_size/4, (double)expander_size/2);
+			cairo_line_to (cr, expander_size-(double)expander_size/4, (double)expander_size/2);
+			cairo_stroke (cr);
+			cairo_move_to (cr, (double)expander_size/2, (double)expander_size/4);
+			cairo_line_to (cr, (double)expander_size/2, expander_size-(double)expander_size/4);
+			cairo_stroke (cr);
+		break;
+		case GTK_EXPANDER_SEMI_EXPANDED:
+		case GTK_EXPANDER_EXPANDED:
+			cairo_move_to (cr, (double)expander_size/4, (double)expander_size/2);
+			cairo_line_to (cr, expander_size-(double)expander_size/4, (double)expander_size/2);
+			cairo_stroke (cr);
+		break;
+		default:
+			g_assert_not_reached ();
+	}
+
+	cairo_destroy (cr);
+}
+
+static void
+murrine_style_draw_focus (GtkStyle *style, GdkWindow *window, GtkStateType state_type,
+                          GdkRectangle *area, GtkWidget *widget, const gchar *detail,
+                          gint x, gint y, gint width, gint height)
+{
+	MurrineStyle *murrine_style = MURRINE_STYLE (style);
+	MurrineColors *colors = &murrine_style->colors;
+	WidgetParameters params;
+	FocusParameters focus;
+	guint8* dash_list;
+
+	cairo_t *cr;
+
+	CHECK_ARGS
+	SANITIZE_SIZE
+
+	cr = gdk_cairo_create (window);
+
+	murrine_set_widget_parameters (widget, style, state_type, &params);
+
+	/* Corners */
+	if (widget && widget->parent && MRN_IS_COMBO_BOX_ENTRY(widget->parent))
+	{
+		if (params.ltr)
+			params.corners = MRN_CORNER_TOPRIGHT | MRN_CORNER_BOTTOMRIGHT;
+		else
+			params.corners = MRN_CORNER_TOPLEFT | MRN_CORNER_BOTTOMLEFT;
+
+		if (params.xthickness > 2)
+		{
+			if (params.ltr)
+				x--;
+			width++;
+		}
+	}
+
+	focus.has_color = FALSE;
+	focus.interior = FALSE;
+	focus.line_width = 1;
+	focus.padding = 1;
+	dash_list = NULL;
+
+	if (widget)
+	{
+		gtk_widget_style_get (widget,
+		                      "focus-line-width", &focus.line_width,
+		                      "focus-line-pattern", &dash_list,
+		                      "focus-padding", &focus.padding,
+		                      "interior-focus", &focus.interior,
+		                      NULL);
+	}
+	if (dash_list)
+		focus.dash_list = dash_list;
+	else
+		focus.dash_list = (guint8*) g_strdup ("\1\1");
+
+	/* Focus type */
+	if (DETAIL("button"))
+	{
+		if (widget && widget->parent &&
+	                 (MRN_IS_TREE_VIEW (widget->parent) ||
+	                  MRN_IS_CLIST (widget->parent)))
+		{
+			focus.type = MRN_FOCUS_TREEVIEW_HEADER;
+		}
+		else
+		{
+			GtkReliefStyle relief = GTK_RELIEF_NORMAL;
+			/* Check for the shadow type. */
+			if (widget && GTK_IS_BUTTON (widget))
+				g_object_get (G_OBJECT (widget), "relief", &relief, NULL);
+
+			if (relief == GTK_RELIEF_NORMAL)
+				focus.type = MRN_FOCUS_BUTTON;
+			else
+				focus.type = MRN_FOCUS_BUTTON_FLAT;
+
+			/* Workaround for the panel. */
+			if (murrine_object_is_a (G_OBJECT (widget), "ButtonWidget"))
+				focus.type = MRN_FOCUS_LABEL;
+		}
+	}
+	else if (detail && g_str_has_prefix (detail, "treeview"))
+	{
+		/* Focus in a treeview, and that means a lot of different detail strings. */
+		if (g_str_has_prefix (detail, "treeview-drop-indicator"))
+			focus.type = MRN_FOCUS_TREEVIEW_DND;
+		else
+			focus.type = MRN_FOCUS_TREEVIEW_ROW;
+
+		if (g_str_has_suffix (detail, "left"))
+		{
+			focus.continue_side = MRN_CONT_RIGHT;
+		}
+		else if (g_str_has_suffix (detail, "right"))
+		{
+			focus.continue_side = MRN_CONT_LEFT;
+		}
+		else if (g_str_has_suffix (detail, "middle"))
+		{
+			focus.continue_side = MRN_CONT_LEFT | MRN_CONT_RIGHT;
+		}
+		else
+		{
+			/* This may either mean no continuation, or unknown ...
+			 * if it is unknown we assume it continues on both sides */
+			gboolean row_ending_details = FALSE;
+
+			/* Try to get the style property. */
+			if (widget)
+				gtk_widget_style_get (widget,
+				                      "row-ending-details", &row_ending_details,
+				                      NULL);
+
+			if (row_ending_details)
+				focus.continue_side = MRN_CONT_NONE;
+			else
+				focus.continue_side = MRN_CONT_LEFT | MRN_CONT_RIGHT;
+		}
+
+	}
+	else if (detail && g_str_has_prefix (detail, "trough") && MRN_IS_SCALE (widget))
+	{
+		focus.type = MRN_FOCUS_SCALE;
+	}
+	else if (DETAIL("tab"))
+	{
+		focus.type = MRN_FOCUS_TAB;
+	}
+	else if (detail && g_str_has_prefix (detail, "colorwheel"))
+	{
+		if (DETAIL ("colorwheel_dark"))
+			focus.type = MRN_FOCUS_COLOR_WHEEL_DARK;
+		else
+			focus.type = MRN_FOCUS_COLOR_WHEEL_LIGHT;
+	}
+	else if (DETAIL("checkbutton") || DETAIL("radiobutton") || DETAIL("expander"))
+	{
+		focus.type = MRN_FOCUS_LABEL; /* Let's call it "LABEL" :) */
+	}
+	else if (widget && MRN_IS_TREE_VIEW (widget))
+	{
+		focus.type = MRN_FOCUS_TREEVIEW; /* Treeview without content is focused. */
+	}
+	else if (DETAIL("icon_view"))
+	{
+		focus.type = MRN_FOCUS_ICONVIEW;
+	}
+	else
+	{
+		focus.type = MRN_FOCUS_UNKNOWN; /* Custom widgets (Beagle) and something unknown */
+	}
+
+	/* Focus color */
+	if (murrine_style->has_focus_color)
+	{
+		murrine_gdk_color_to_rgb (&murrine_style->focus_color, &focus.color.r,
+		                                                       &focus.color.g,
+		                                                       &focus.color.b);
+		focus.has_color = TRUE;
+	}
+	else
+		focus.color = colors->bg[GTK_STATE_SELECTED];
+
+	STYLE_FUNCTION(draw_focus) (cr, colors, &params, &focus, x, y, width, height);
+
+	g_free (focus.dash_list);
+
+	cairo_destroy (cr);
+}
+
+static void
 murrine_style_init_from_rc (GtkStyle   *style,
                             GtkRcStyle *rc_style)
 {
@@ -2000,177 +2235,6 @@ gdk_cairo_set_source_color_alpha (cairo_t  *cr,
 	                       color->green/65535.,
 	                       color->blue/65535.,
 	                       alpha);
-}
-
-static void
-murrine_style_draw_focus (GtkStyle *style, GdkWindow *window, GtkStateType state_type,
-                          GdkRectangle *area, GtkWidget *widget, const gchar *detail,
-                          gint x, gint y, gint width, gint height)
-{
-	MurrineStyle *murrine_style = MURRINE_STYLE (style);
-	MurrineColors *colors = &murrine_style->colors;
-	WidgetParameters params;
-	FocusParameters focus;
-	guint8* dash_list;
-
-	cairo_t *cr;
-
-	CHECK_ARGS
-	SANITIZE_SIZE
-
-	cr = gdk_cairo_create (window);
-
-	murrine_set_widget_parameters (widget, style, state_type, &params);
-
-	/* Corners */
-	if (widget && widget->parent && MRN_IS_COMBO_BOX_ENTRY(widget->parent))
-	{
-		if (params.ltr)
-			params.corners = MRN_CORNER_TOPRIGHT | MRN_CORNER_BOTTOMRIGHT;
-		else
-			params.corners = MRN_CORNER_TOPLEFT | MRN_CORNER_BOTTOMLEFT;
-
-		if (params.xthickness > 2)
-		{
-			if (params.ltr)
-				x--;
-			width++;
-		}
-	}
-
-	focus.has_color = FALSE;
-	focus.interior = FALSE;
-	focus.line_width = 1;
-	focus.padding = 1;
-	dash_list = NULL;
-
-	if (widget)
-	{
-		gtk_widget_style_get (widget,
-		                      "focus-line-width", &focus.line_width,
-		                      "focus-line-pattern", &dash_list,
-		                      "focus-padding", &focus.padding,
-		                      "interior-focus", &focus.interior,
-		                      NULL);
-	}
-	if (dash_list)
-		focus.dash_list = dash_list;
-	else
-		focus.dash_list = (guint8*) g_strdup ("\1\1");
-
-	/* Focus type */
-	if (DETAIL("button"))
-	{
-		if (widget && widget->parent &&
-	                 (MRN_IS_TREE_VIEW (widget->parent) ||
-	                  MRN_IS_CLIST (widget->parent)))
-		{
-			focus.type = MRN_FOCUS_TREEVIEW_HEADER;
-		}
-		else
-		{
-			GtkReliefStyle relief = GTK_RELIEF_NORMAL;
-			/* Check for the shadow type. */
-			if (widget && GTK_IS_BUTTON (widget))
-				g_object_get (G_OBJECT (widget), "relief", &relief, NULL);
-
-			if (relief == GTK_RELIEF_NORMAL)
-				focus.type = MRN_FOCUS_BUTTON;
-			else
-				focus.type = MRN_FOCUS_BUTTON_FLAT;
-
-			/* Workaround for the panel. */
-			if (murrine_object_is_a (G_OBJECT (widget), "ButtonWidget"))
-				focus.type = MRN_FOCUS_LABEL;
-		}
-	}
-	else if (detail && g_str_has_prefix (detail, "treeview"))
-	{
-		/* Focus in a treeview, and that means a lot of different detail strings. */
-		if (g_str_has_prefix (detail, "treeview-drop-indicator"))
-			focus.type = MRN_FOCUS_TREEVIEW_DND;
-		else
-			focus.type = MRN_FOCUS_TREEVIEW_ROW;
-
-		if (g_str_has_suffix (detail, "left"))
-		{
-			focus.continue_side = MRN_CONT_RIGHT;
-		}
-		else if (g_str_has_suffix (detail, "right"))
-		{
-			focus.continue_side = MRN_CONT_LEFT;
-		}
-		else if (g_str_has_suffix (detail, "middle"))
-		{
-			focus.continue_side = MRN_CONT_LEFT | MRN_CONT_RIGHT;
-		}
-		else
-		{
-			/* This may either mean no continuation, or unknown ...
-			 * if it is unknown we assume it continues on both sides */
-			gboolean row_ending_details = FALSE;
-
-			/* Try to get the style property. */
-			if (widget)
-				gtk_widget_style_get (widget,
-				                      "row-ending-details", &row_ending_details,
-				                      NULL);
-
-			if (row_ending_details)
-				focus.continue_side = MRN_CONT_NONE;
-			else
-				focus.continue_side = MRN_CONT_LEFT | MRN_CONT_RIGHT;
-		}
-
-	}
-	else if (detail && g_str_has_prefix (detail, "trough") && MRN_IS_SCALE (widget))
-	{
-		focus.type = MRN_FOCUS_SCALE;
-	}
-	else if (DETAIL("tab"))
-	{
-		focus.type = MRN_FOCUS_TAB;
-	}
-	else if (detail && g_str_has_prefix (detail, "colorwheel"))
-	{
-		if (DETAIL ("colorwheel_dark"))
-			focus.type = MRN_FOCUS_COLOR_WHEEL_DARK;
-		else
-			focus.type = MRN_FOCUS_COLOR_WHEEL_LIGHT;
-	}
-	else if (DETAIL("checkbutton") || DETAIL("radiobutton") || DETAIL("expander"))
-	{
-		focus.type = MRN_FOCUS_LABEL; /* Let's call it "LABEL" :) */
-	}
-	else if (widget && MRN_IS_TREE_VIEW (widget))
-	{
-		focus.type = MRN_FOCUS_TREEVIEW; /* Treeview without content is focused. */
-	}
-	else if (DETAIL("icon_view"))
-	{
-		focus.type = MRN_FOCUS_ICONVIEW;
-	}
-	else
-	{
-		focus.type = MRN_FOCUS_UNKNOWN; /* Custom widgets (Beagle) and something unknown */
-	}
-
-	/* Focus color */
-	if (murrine_style->has_focus_color)
-	{
-		murrine_gdk_color_to_rgb (&murrine_style->focus_color, &focus.color.r,
-		                                                       &focus.color.g,
-		                                                       &focus.color.b);
-		focus.has_color = TRUE;
-	}
-	else
-		focus.color = colors->bg[GTK_STATE_SELECTED];
-
-	STYLE_FUNCTION(draw_focus) (cr, colors, &params, &focus, x, y, width, height);
-
-	g_free (focus.dash_list);
-
-	cairo_destroy (cr);
 }
 
 static void
@@ -2393,24 +2457,25 @@ murrine_style_class_init (MurrineStyleClass *klass)
 	style_class->realize          = murrine_style_realize;
 	style_class->unrealize        = murrine_style_unrealize;
 	style_class->init_from_rc     = murrine_style_init_from_rc;
-	style_class->draw_handle      = murrine_style_draw_handle;
-	style_class->draw_slider      = murrine_style_draw_slider;
-	style_class->draw_shadow_gap  = murrine_style_draw_shadow_gap;
-	style_class->draw_focus       = murrine_style_draw_focus;
-	style_class->draw_box         = murrine_style_draw_box;
-	style_class->draw_shadow      = murrine_style_draw_shadow;
-	style_class->draw_box_gap     = murrine_style_draw_box_gap;
-	style_class->draw_extension   = murrine_style_draw_extension;
-	style_class->draw_option      = murrine_style_draw_option;
-	style_class->draw_check       = murrine_style_draw_check;
-	style_class->draw_flat_box    = murrine_style_draw_flat_box;
-	style_class->draw_tab         = murrine_style_draw_tab;
-	style_class->draw_vline       = murrine_style_draw_vline;
-	style_class->draw_hline       = murrine_style_draw_hline;
-	style_class->draw_resize_grip = murrine_style_draw_resize_grip;
 	style_class->draw_arrow       = murrine_style_draw_arrow;
 	style_class->draw_layout      = murrine_style_draw_layout;
+	style_class->draw_box         = murrine_style_draw_box;
+	style_class->draw_box_gap     = murrine_style_draw_box_gap;
+	style_class->draw_check       = murrine_style_draw_check;
+	style_class->draw_expander    = murrine_style_draw_expander;
+	style_class->draw_extension   = murrine_style_draw_extension;
+	style_class->draw_flat_box    = murrine_style_draw_flat_box;
+	style_class->draw_focus       = murrine_style_draw_focus;
+	style_class->draw_handle      = murrine_style_draw_handle;
+	style_class->draw_hline       = murrine_style_draw_hline;
+	style_class->draw_option      = murrine_style_draw_option;
 	style_class->render_icon      = murrine_style_draw_render_icon;
+	style_class->draw_resize_grip = murrine_style_draw_resize_grip;
+	style_class->draw_shadow      = murrine_style_draw_shadow;
+	style_class->draw_shadow_gap  = murrine_style_draw_shadow_gap;
+	style_class->draw_slider      = murrine_style_draw_slider;
+	style_class->draw_tab         = murrine_style_draw_tab;
+	style_class->draw_vline       = murrine_style_draw_vline;
 
 	murrine_register_style_murrine (&klass->style_functions[MRN_STYLE_MURRINE]);
 	klass->style_functions[MRN_STYLE_RGBA] = klass->style_functions[MRN_STYLE_MURRINE];

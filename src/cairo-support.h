@@ -104,7 +104,6 @@ G_GNUC_INTERNAL void murrine_draw_shadow (cairo_t *cr,
                                           int reliefstyle,
                                           double highlight_shade, double alpha);
 
-
 G_GNUC_INTERNAL void murrine_draw_glaze (cairo_t *cr,
                                          const MurrineRGB *fill,
                                          double glow_shade,

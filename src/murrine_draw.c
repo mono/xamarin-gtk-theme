@@ -160,9 +160,9 @@ murrine_draw_button (cairo_t *cr,
 	if (widget->disabled)
 	{
 		mrn_gradient_custom = get_decreased_gradient_shades (widget->mrn_gradient, 3.0);
+		border_shade_custom = get_decreased_shade (widget->border_shade, 2.0);
 		glow_shade_custom = get_decreased_shade (widget->glow_shade, 2.0);
 		highlight_shade_custom = get_decreased_shade (widget->highlight_shade, 2.0);
-		border_shade_custom = get_decreased_shade (widget->border_shade, 2.0);
 		lightborder_shade_custom = get_decreased_shade (widget->lightborder_shade, 2.0);
 	}
 	else
@@ -190,7 +190,7 @@ murrine_draw_button (cairo_t *cr,
 	}
 	else if (widget->reliefstyle != 0 && xos >= 0.5 && yos >= 0.5)
 	{
-		border_shade_custom = 1.0+fabs(1.0-border_shade_custom);
+		border_shade_custom = get_inverted_shade (border_shade_custom);
 		murrine_draw_inset (cr, &widget->parentbg, xos-0.5, yos-0.5,
 		                    width-(xos*2)+1, height-(yos*2)+1,
 		                    widget->roundness+1, widget->corners);
@@ -301,7 +301,7 @@ murrine_draw_entry (cairo_t *cr,
 	murrine_draw_border (cr, &border,
 	                     1, 1, width-3, height-3,
 	                     radius, widget->corners,
-	                     1.0+fabs(1.0-widget->border_shade), 1.0);
+	                     get_inverted_shade(widget->border_shade), 1.0);
 }
 
 static void
@@ -2022,7 +2022,7 @@ murrine_draw_radiobutton (cairo_t *cr,
 	                     1.5, 1.5, width-3, height-3,
 	                     roundness, widget->corners,
 	                     checkbox->in_menu || checkbox->in_cell ? 1.0 : draw_bullet ?
-	                     widget->border_shade : 1.0+fabs(1.0-widget->border_shade), 1.0);
+	                     widget->border_shade : get_inverted_shade(widget->border_shade), 1.0);
 
 	if (draw_bullet)
 	{
@@ -2134,7 +2134,7 @@ murrine_draw_checkbox (cairo_t *cr,
 	                     1.5, 1.5, width-3, height-3,
 	                     roundness, widget->corners,
 	                     checkbox->in_menu || checkbox->in_cell ? 1.0 : draw_bullet ?
-	                     widget->border_shade : 1.0+fabs(1.0-widget->border_shade), 1.0);
+	                     widget->border_shade : get_inverted_shade(widget->border_shade), 1.0);
 
 	if (draw_bullet)
 	{

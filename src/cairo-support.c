@@ -959,6 +959,15 @@ get_contrast (double old, double factor)
 	}
 }
 
+double
+get_inverted_shade (double old)
+{
+	if (old == 1.0)
+		return old;
+
+	return CLAMP (2.0-old, 0.0, 2.0);
+}
+
 MurrineGradients
 get_decreased_gradient_shades (MurrineGradients mrn_gradient, double factor)
 {

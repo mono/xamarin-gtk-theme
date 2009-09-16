@@ -404,37 +404,40 @@ murrine_scale_draw_gradient (cairo_t *cr,
                              const MurrineRGB *c1,
                              const MurrineRGB *c2,
                              double lightborder_shade,
+                             int lightborderstyle,
+                             int roundness, uint8 corners,
                              int x, int y, int width, int height,
                              boolean horizontal)
 {
+	int radius = MIN (roundness, MIN ((double)width/2.0, (double)height/2.0));
+
 	murrine_set_color_rgb (cr, c1);
-	cairo_rectangle (cr, x, y, width, height);
+	clearlooks_rounded_rectangle (cr, x, y, width, height, radius, corners);
 	cairo_fill (cr);
 
 	murrine_set_color_rgb (cr, c2);
-	cairo_rectangle (cr, x, y, width, height);
+	clearlooks_rounded_rectangle (cr, x, y, width, height, radius, corners);
 	cairo_stroke (cr);
 
 	if (lightborder_shade != 1.0)
 	{
+		cairo_pattern_t *pat;
+		double fill_pos = horizontal ? 1.0-1.0/(double)(height-2) :
+		                               1.0-1.0/(double)(width-2);
 		MurrineRGB lightborder;
 		murrine_shade (c1, lightborder_shade, &lightborder);
 
-		if (horizontal)
-		{
-			cairo_move_to (cr, x+1, y+height-0.5);
-			cairo_rel_line_to (cr, 0, -height+1.5);
-			cairo_rel_line_to (cr, width-2, 0);
-			cairo_rel_line_to (cr, 0, height-1.5);
-		}
-		else
-		{
-			cairo_move_to (cr, x+width-0.5, y+1);
-			cairo_rel_line_to (cr, -width+1.5, 0);
-			cairo_rel_line_to (cr, 0, height-2);
-			cairo_rel_line_to (cr, width-1.5, 0);
-		}
-		murrine_set_color_rgba (cr, &lightborder, 0.5);
+		clearlooks_rounded_rectangle (cr, x+1, y+1, width-2, height-2, radius-1, corners);
+		pat = cairo_pattern_create_linear (x+1, y+1, horizontal ? x+1 : width+x+1, horizontal ? height+y+1 : y+1);
+
+		murrine_pattern_add_color_stop_rgba (pat, 0.00,     &lightborder, 0.75);
+		murrine_pattern_add_color_stop_rgba (pat, fill_pos, &lightborder, 0.75);
+		murrine_pattern_add_color_stop_rgba (pat, fill_pos, &lightborder, 0.0);
+		murrine_pattern_add_color_stop_rgba (pat, 1.00,     &lightborder, 0.0);
+
+		cairo_set_source (cr, pat);
+		cairo_pattern_destroy (pat);
+
 		cairo_stroke (cr);
 	}
 }
@@ -472,7 +475,7 @@ murrine_draw_scale_trough (cairo_t *cr,
 	cairo_translate (cr, translate_x+0.5, translate_y+0.5);
 
 	if (!slider->fill_level && widget->reliefstyle != 0)
-		murrine_draw_inset (cr, &widget->parentbg, 0, 0, trough_width, trough_height, 0, 0);
+		murrine_draw_inset (cr, &widget->parentbg, 0, 0, trough_width, trough_height, widget->roundness, MRN_CORNER_ALL);
 
 	if (!slider->lower && !slider->fill_level)
 	{
@@ -482,6 +485,8 @@ murrine_draw_scale_trough (cairo_t *cr,
 
 		murrine_scale_draw_gradient (cr, &fill, &border,
 		                             1.0,
+		                             widget->lightborderstyle,
+		                             widget->roundness, MRN_CORNER_ALL,
 		                             1.0, 1.0, trough_width-2, trough_height-2,
 		                             slider->horizontal);
 	}
@@ -489,6 +494,8 @@ murrine_draw_scale_trough (cairo_t *cr,
 	{
 		murrine_scale_draw_gradient (cr, &colors->spot[1], &colors->spot[2],
 		                             widget->disabled ? 1.0 : widget->lightborder_shade,
+		                             widget->lightborderstyle,
+		                             widget->roundness, MRN_CORNER_ALL,
 		                             1.0, 1.0, trough_width-2, trough_height-2,
 		                             slider->horizontal);
 	}
@@ -1479,7 +1486,6 @@ murrine_draw_scrollbar_stepper (cairo_t *cr,
 	const MurrineRGB *fill  = &colors->bg[widget->state_type];
 	MurrineRGB border;
 
-
 	murrine_shade (&colors->shade[6], 0.95, &border);
 
 	if (!scrollbar->horizontal)
@@ -1505,7 +1511,7 @@ murrine_draw_scrollbar_stepper (cairo_t *cr,
 	murrine_draw_border (cr, &border,
 	                     0.5, 0.5, width-1, height-1,
 	                     widget->roundness, widget->corners,
-	                     widget->border_shade, 1.0);
+	                     1.0, 1.0);
 }
 
 static void
@@ -1657,7 +1663,7 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
 	murrine_draw_border (cr, &border,
 	                     0.5, 0.5, width-1, height-1,
 	                     widget->roundness, widget->corners,
-	                     widget->border_shade, 1.0);
+	                     1.0, 1.0);
 }
 
 static void

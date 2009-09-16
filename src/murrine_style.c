@@ -815,7 +815,6 @@ murrine_style_draw_box (DRAW_ARGS)
 				}
 			}
 
-
 			if (params.xthickness > 1)
 			{
 				if (params.ltr)
@@ -905,6 +904,13 @@ murrine_style_draw_box (DRAW_ARGS)
 
 		if (murrine_style->reliefstyle > 1)
 			params.reliefstyle = 1;
+
+		if (!params.mrn_gradient.use_rgba)
+		{
+			cairo_rectangle (cr, x, y, width, height);
+			murrine_set_color_rgb (cr, &params.parentbg);
+			cairo_fill (cr);
+		}
 
 		/* draw_spinbutton (cr, &murrine_style->colors, &params, x, y, width, height); */
 		STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, x, y, width, height, horizontal);

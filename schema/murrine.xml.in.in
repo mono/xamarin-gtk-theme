@@ -16,6 +16,15 @@
 		<section>General</section>
 	</option>
 
+	<option type="real" name="border_shade" default="1.0">
+		<_long_name>Border Shade</_long_name>
+		<_description>Increse/Decrease the border shade</_description>
+		<section>General</section>
+		<minimum>0</minimum>
+		<maximum>2</maximum>
+		<precision>2</precision>
+	</option>
+
 	<option type="boolean" name="colorize_scrollbar" default="TRUE">
 		<_long_name>Colorize scrollbar</_long_name>
 		<_description>Use colorized scrollbars</_description>
@@ -36,7 +45,6 @@
 		<section>General</section>
 		<_description>Sets the Color of Focus</_description>
 	</option>
-
 
 	<option type="enumeration" name="glazestyle" default="0">
 		<_long_name>Glaze Style</_long_name>
@@ -248,6 +256,9 @@
 		</enumeration>
 		<enumeration value="2">
 			<label>Shadow</label>
+		</enumeration>
+		<enumeration value="2">
+			<label>Extended Shadow</label>
 		</enumeration>
 	</option>
 

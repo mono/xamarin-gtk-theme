@@ -1827,7 +1827,7 @@ murrine_style_draw_expander (GtkStyle        *style,
 	else
 		expander_size = 13;
 
-	if (expander_size %2 == 0)
+	if (expander_size % 2 == 0)
 		expander_size--;
 
 	cairo_translate (cr, x-expander_size/2, y-expander_size/2);
@@ -1843,10 +1843,6 @@ murrine_style_draw_expander (GtkStyle        *style,
 	                    params.roundness, params.corners, TRUE);
 
 	cairo_restore (cr);
-
-	murrine_rounded_rectangle (cr, 0.5, 0.5, expander_size-1, expander_size-1, params.roundness, params.corners);
-	murrine_set_color_rgb (cr, &colors->shade[4]);
-	cairo_stroke (cr);
 
 	switch (expander_style)
 	{
@@ -1865,8 +1861,11 @@ murrine_style_draw_expander (GtkStyle        *style,
 		default:
 			g_assert_not_reached ();
 	}
-
 	murrine_set_color_rgb  (cr, &colors->fg[state_type]);
+	cairo_stroke (cr);
+
+	murrine_rounded_rectangle (cr, 0.5, 0.5, expander_size-1, expander_size-1, params.roundness, params.corners);
+	murrine_set_color_rgb (cr, &colors->shade[4]);
 	cairo_stroke (cr);
 
 	cairo_destroy (cr);

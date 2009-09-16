@@ -925,7 +925,7 @@ murrine_style_draw_box (DRAW_ARGS)
 		slider.horizontal = (GTK_RANGE (widget)->orientation == GTK_ORIENTATION_HORIZONTAL);
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
-		params.corners = MRN_CORNER_NONE;
+		params.corners = MRN_CORNER_ALL;
 
 		STYLE_FUNCTION(draw_scale_trough) (cr, &murrine_style->colors,
 		                                   &params, &slider,

@@ -970,6 +970,17 @@ get_inverted_shade (double old)
 }
 
 MurrineGradients
+get_inverted_border_shades (MurrineGradients mrn_gradient)
+{
+	MurrineGradients mrn_gradient_custom = mrn_gradient;
+
+	mrn_gradient_custom.border_shades[0] = mrn_gradient.border_shades[1];
+	mrn_gradient_custom.border_shades[1] = mrn_gradient.border_shades[0];
+
+	return mrn_gradient_custom;
+}
+
+MurrineGradients
 get_decreased_gradient_shades (MurrineGradients mrn_gradient, double factor)
 {
 	MurrineGradients mrn_gradient_custom = mrn_gradient;

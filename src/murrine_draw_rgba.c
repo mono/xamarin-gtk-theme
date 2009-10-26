@@ -1199,9 +1199,9 @@ murrine_rgba_draw_scrollbar_stepper (cairo_t *cr,
 	double border_stop_mid = ((mrn_gradient_custom.border_shades[0])+
 		                      (mrn_gradient_custom.border_shades[1]))/2.0;
 	const MurrineRGB *fill  = &colors->bg[widget->state_type];
-	MurrineRGB border_normal;
+	MurrineRGB border;
 
-	murrine_shade (&colors->shade[7], 0.95, &border_normal);
+	murrine_shade (&colors->shade[7], 0.95, &border);
 
 	mrn_gradient_custom.border_shades[0] = border_stop_mid;
 	mrn_gradient_custom.border_shades[1] = border_stop_mid;
@@ -1210,7 +1210,7 @@ murrine_rgba_draw_scrollbar_stepper (cairo_t *cr,
 		murrine_exchange_axis (cr, &x, &y, &width, &height);
 
 	/* Border color */
-	murrine_mix_color (&border_normal, fill, 0.45, &border_normal);
+	murrine_mix_color (&border, fill, 0.45, &border);
 
 	cairo_translate (cr, x, y);
 
@@ -1525,7 +1525,7 @@ murrine_rgba_draw_radiobutton (cairo_t *cr,
 		if (widget->reliefstyle > 1 && draw_bullet)
 		{
 			MurrineRGB shadow;
-			murrine_shade (border, 0.9, &shadow);
+			murrine_shade (&border, 0.9, &shadow);
 
 			murrine_draw_shadow (cr, &shadow,
 			                     0.5, 0.5, width-1, height-1,
@@ -1567,7 +1567,7 @@ murrine_rgba_draw_radiobutton (cairo_t *cr,
 		mrn_gradient_custom = get_inverted_border_shades (mrn_gradient_custom);
 	}
 
-	murrine_draw_border (cr, border,
+	murrine_draw_border (cr, &border,
 	                     1.5, 1.5, width-3, height-3,
 	                     roundness, widget->corners,
 	                     mrn_gradient_custom, 1.0);
@@ -1648,7 +1648,7 @@ murrine_rgba_draw_checkbox (cairo_t *cr,
 		if (widget->reliefstyle > 1 && draw_bullet)
 		{
 			MurrineRGB shadow;
-			murrine_shade (border, 0.9, &shadow);
+			murrine_shade (&border, 0.9, &shadow);
 
 			murrine_draw_shadow (cr, &shadow,
 			                     0.5, 0.5, width-1, height-1,
@@ -1690,7 +1690,7 @@ murrine_rgba_draw_checkbox (cairo_t *cr,
 		mrn_gradient_custom = get_inverted_border_shades (mrn_gradient_custom);
 	}
 
-	murrine_draw_border (cr, border,
+	murrine_draw_border (cr, &border,
 	                     1.5, 1.5, width-3, height-3,
 	                     roundness, widget->corners,
 	                     mrn_gradient_custom, 1.0);

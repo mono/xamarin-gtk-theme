@@ -36,7 +36,7 @@ typedef struct _MurrineRcStyleClass MurrineRcStyleClass;
 typedef enum
 {
 	MRN_FLAG_ANIMATION = 1 << 0,
-	MRN_FLAG_BORDER_SHADE = 1 << 1,
+	MRN_FLAG_BORDER_SHADES = 1 << 1,
 	MRN_FLAG_COLORIZE_SCROLLBAR = 1 << 2,
 	MRN_FLAG_CONTRAST = 1 << 3,
 	MRN_FLAG_FOCUS_COLOR = 1 << 4,
@@ -72,7 +72,7 @@ struct _MurrineRcStyle
 
 	MurrineRcFlags flags;
 
-	double   border_shade;
+	double   border_shades[2];
 	double   contrast;
 	double   glow_shade;
 	double   gradient_shades[4];

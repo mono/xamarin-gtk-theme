@@ -192,6 +192,7 @@ typedef struct
 
 typedef struct
 {
+	double  border_shades[2];
 	double  gradient_shades[4];
 	double  rgba_opacity;
 
@@ -219,7 +220,6 @@ typedef struct
 	int lightborderstyle;
 	int reliefstyle;
 	int roundness;
-	double border_shade;
 	double contrast;
 	double glow_shade;
 	double highlight_shade;

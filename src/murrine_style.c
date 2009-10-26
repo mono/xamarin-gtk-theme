@@ -133,7 +133,6 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	params->xthickness = style->xthickness;
 	params->ythickness = style->ythickness;
 
-	params->border_shade      = murrine_style->border_shade;
 	params->contrast          = murrine_style->contrast;
 	params->glazestyle        = murrine_style->glazestyle;
 	params->glow_shade        = murrine_style->glow_shade;
@@ -147,6 +146,9 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	MurrineGradients mrn_gradient;
 	if (murrine_style->gradients)
 	{
+		mrn_gradient.border_shades[0] = murrine_style->border_shades[0];
+		mrn_gradient.border_shades[1] = murrine_style->border_shades[1];
+
 		mrn_gradient.gradient_shades[0] = murrine_style->gradient_shades[0];
 		mrn_gradient.gradient_shades[1] = murrine_style->gradient_shades[1];
 		mrn_gradient.gradient_shades[2] = murrine_style->gradient_shades[2];
@@ -154,6 +156,9 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	}
 	else
 	{
+		mrn_gradient.border_shades[0] = 1.0;
+		mrn_gradient.border_shades[1] = 1.0;
+
 		mrn_gradient.gradient_shades[0] = 1.0;
 		mrn_gradient.gradient_shades[1] = 1.0;
 		mrn_gradient.gradient_shades[2] = 1.0;
@@ -2057,6 +2062,8 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	GTK_STYLE_CLASS (murrine_style_parent_class)->init_from_rc (style, rc_style);
 
 	/* Shades/Colors/Ratio */
+	murrine_style->border_shades[0]   = MURRINE_RC_STYLE (rc_style)->border_shades[0];
+	murrine_style->border_shades[1]   = MURRINE_RC_STYLE (rc_style)->border_shades[1];
 	murrine_style->glow_shade         = MURRINE_RC_STYLE (rc_style)->glow_shade;
 	murrine_style->highlight_shade    = MURRINE_RC_STYLE (rc_style)->highlight_shade;
 	murrine_style->gradient_shades[0] = MURRINE_RC_STYLE (rc_style)->gradient_shades[0];
@@ -2087,7 +2094,6 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	else
 		murrine_style->roundness = MURRINE_RC_STYLE (rc_style)->roundness;
 	murrine_style->animation           = MURRINE_RC_STYLE (rc_style)->animation;
-	murrine_style->border_shade        = MURRINE_RC_STYLE (rc_style)->border_shade;
 	murrine_style->contrast            = MURRINE_RC_STYLE (rc_style)->contrast;
 	murrine_style->colorize_scrollbar  = MURRINE_RC_STYLE (rc_style)->colorize_scrollbar;
 	murrine_style->has_focus_color     = MURRINE_RC_STYLE (rc_style)->has_focus_color;
@@ -2261,7 +2267,8 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	MurrineStyle *mrn_src = MURRINE_STYLE (src);
 
 	mrn_style->animation           = mrn_src->animation;
-	mrn_style->border_shade        = mrn_src->border_shade;
+	mrn_style->border_shades[0]    = mrn_src->border_shades[0];
+	mrn_style->border_shades[1]    = mrn_src->border_shades[1];
 	mrn_style->colorize_scrollbar  = mrn_src->colorize_scrollbar;
 	mrn_style->colors              = mrn_src->colors;
 	mrn_style->contrast            = mrn_src->contrast;

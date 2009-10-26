@@ -36,7 +36,7 @@ static void murrine_rc_style_merge (GtkRcStyle *dest,
 enum
 {
 	TOKEN_ANIMATION = G_TOKEN_LAST + 1,
-	TOKEN_BORDER_SHADE,
+	TOKEN_BORDER_SHADES,
 	TOKEN_COLORIZE_SCROLLBAR,
 	TOKEN_CONTRAST,
 	TOKEN_FOCUS_COLOR,
@@ -90,7 +90,7 @@ static struct
 theme_symbols[] =
 {
 	{ "animation",           TOKEN_ANIMATION },
-	{ "border_shade",        TOKEN_BORDER_SHADE },
+	{ "border_shades",       TOKEN_BORDER_SHADES },
 	{ "colorize_scrollbar",  TOKEN_COLORIZE_SCROLLBAR },
 	{ "contrast",            TOKEN_CONTRAST },
 	{ "focus_color",         TOKEN_FOCUS_COLOR },
@@ -150,7 +150,8 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->flags = 0;
 
 	murrine_rc->animation = FALSE;
-	murrine_rc->border_shade = 1.0;
+	murrine_rc->border_shades[0] = 1.0;
+	murrine_rc->border_shades[1] = 1.0;
 	murrine_rc->colorize_scrollbar = TRUE;
 	murrine_rc->contrast = 1.0;
 	murrine_rc->has_focus_color = FALSE;
@@ -406,6 +407,46 @@ theme_parse_gradient (GtkSettings  *settings,
 }
 
 static guint
+theme_parse_border (GtkSettings  *settings,
+                    GScanner     *scanner,
+                    double       border_shades[2])
+{
+	guint               token;
+
+	/* Skip 'blah_border' */
+	token = g_scanner_get_next_token(scanner);
+
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_EQUAL_SIGN)
+		return G_TOKEN_EQUAL_SIGN;
+
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_LEFT_CURLY)
+		return G_TOKEN_LEFT_CURLY;
+
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_FLOAT)
+		return G_TOKEN_FLOAT;
+	border_shades[0] = scanner->value.v_float;
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_COMMA)
+		return G_TOKEN_COMMA;
+
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_FLOAT)
+		return G_TOKEN_FLOAT;
+	border_shades[1] = scanner->value.v_float;
+
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_RIGHT_CURLY)
+		return G_TOKEN_RIGHT_CURLY;
+
+	/* save those values */
+
+	return G_TOKEN_NONE;
+}
+
+static guint
 murrine_gtk2_rc_parse_dummy (GtkSettings      *settings,
                              GScanner         *scanner,
                              gchar            *name)
@@ -474,9 +515,9 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_boolean (settings, scanner, &murrine_style->animation);
 				murrine_style->flags |= MRN_FLAG_ANIMATION;
 				break;
-			case TOKEN_BORDER_SHADE:
-				token = theme_parse_shade (settings, scanner, &murrine_style->border_shade);
-				murrine_style->flags |= MRN_FLAG_BORDER_SHADE;
+			case TOKEN_BORDER_SHADES:
+				token = theme_parse_border (settings, scanner, murrine_style->border_shades);
+				murrine_style->flags |= MRN_FLAG_BORDER_SHADES;
 				break;
 			case TOKEN_COLORIZE_SCROLLBAR:
 				token = theme_parse_boolean (settings, scanner, &murrine_style->colorize_scrollbar);
@@ -652,8 +693,11 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 
 	if (flags & MRN_FLAG_ANIMATION)
 		dest_w->animation = src_w->animation;
-	if (flags & MRN_FLAG_BORDER_SHADE)
-		dest_w->border_shade = src_w->border_shade;
+	if (flags & MRN_FLAG_BORDER_SHADES)
+	{
+		dest_w->border_shades[0] = src_w->border_shades[0];
+		dest_w->border_shades[1] = src_w->border_shades[1];
+	}
 	if (flags & MRN_FLAG_COLORIZE_SCROLLBAR)
 		dest_w->colorize_scrollbar = src_w->colorize_scrollbar;
 	if (flags & MRN_FLAG_CONTRAST)

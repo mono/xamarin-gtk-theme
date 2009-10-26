@@ -44,7 +44,7 @@ struct _MurrineStyle
 
 	MurrineProfiles profile;
 
-	double   border_shade;
+	double   border_shades[2];
 	double   contrast;
 	double   glow_shade;
 	double   gradient_shades[4];

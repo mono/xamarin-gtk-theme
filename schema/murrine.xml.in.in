@@ -16,15 +16,6 @@
 		<section>General</section>
 	</option>
 
-	<option type="real" name="border_shade" default="1.0">
-		<_long_name>Border Shade</_long_name>
-		<_description>Increse/Decrease the border shade</_description>
-		<section>General</section>
-		<minimum>0</minimum>
-		<maximum>2</maximum>
-		<precision>2</precision>
-	</option>
-
 	<option type="boolean" name="colorize_scrollbar" default="TRUE">
 		<_long_name>Colorize scrollbar</_long_name>
 		<_description>Use colorized scrollbars</_description>

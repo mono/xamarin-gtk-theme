@@ -392,7 +392,7 @@ murrine_rgba_draw_scale_trough (cairo_t *cr,
 	cairo_translate (cr, translate_x+0.5, translate_y+0.5);
 
 	if (!slider->fill_level && widget->reliefstyle != 0)
-		murrine_draw_inset (cr, &widget->parentbg, 0, 0, trough_width, trough_height, 0, 0);
+		murrine_draw_inset (cr, &widget->parentbg, 0, 0, trough_width, trough_height, widget->roundness, widget->corners);
 
 	if (!slider->lower && !slider->fill_level)
 	{

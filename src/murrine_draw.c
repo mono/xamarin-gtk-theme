@@ -1488,10 +1488,10 @@ murrine_draw_scrollbar_stepper (cairo_t *cr,
                                 int x, int y, int width, int height)
 {
 	MurrineGradients mrn_gradient_custom = widget->mrn_gradient;
-	const MurrineRGB *fill  = &colors->bg[widget->state_type];
-	MurrineRGB border;
 	double border_stop_mid = ((mrn_gradient_custom.border_shades[0])+
 		                      (mrn_gradient_custom.border_shades[1]))/2.0;
+	const MurrineRGB *fill  = &colors->bg[widget->state_type];
+	MurrineRGB border;
 
 	murrine_shade (&colors->shade[6], 0.95, &border);
 
@@ -1532,15 +1532,10 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
                                int x, int y, int width, int height)
 {
 	MurrineGradients mrn_gradient_custom = widget->mrn_gradient;
-	MurrineRGB fill = scrollbar->has_color ? scrollbar->color : colors->bg[0];
-	MurrineRGB border;
 	double border_stop_mid = ((mrn_gradient_custom.border_shades[0])+
 		                      (mrn_gradient_custom.border_shades[1]))/2.0;
-
-	murrine_shade (&colors->shade[6], 0.95, &border);
-
-	mrn_gradient_custom.border_shades[0] = border_stop_mid;
-	mrn_gradient_custom.border_shades[1] = border_stop_mid;
+	MurrineRGB fill = scrollbar->has_color ? scrollbar->color : colors->bg[0];
+	MurrineRGB border;
 
 	if (scrollbar->stepperstyle < 1)
 	{
@@ -1566,10 +1561,14 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
 		}
 	}
 
+	murrine_shade (&colors->shade[6], 0.95, &border);
+
+	mrn_gradient_custom.border_shades[0] = border_stop_mid;
+	mrn_gradient_custom.border_shades[1] = border_stop_mid;
+
 	if (widget->prelight)
 		murrine_shade (&fill, 1.04, &fill);
 
-	/* Draw the border */
 	murrine_mix_color (&border, &fill, 0.4, &border);
 
 	if (scrollbar->horizontal)
@@ -2020,8 +2019,6 @@ murrine_draw_radiobutton (cairo_t *cr,
 
 	if (draw_bullet)
 	{
-
-
 		murrine_draw_glaze (cr, bg,
 		                    widget->glow_shade, highlight_shade_custom, lightborder_shade_custom,
 		                    mrn_gradient_custom, widget, 2, 2, width-4, height-4,

@@ -1433,11 +1433,12 @@ murrine_style_draw_option (DRAW_ARGS)
 	CheckboxParameters checkbox;
 
 	checkbox.shadow_type = shadow_type;
-	checkbox.in_menu = (widget && GTK_IS_MENU(widget->parent));
-
-	double trans = 1.0;
+	checkbox.in_cell = DETAIL ("cellradio");
+	checkbox.in_menu = (widget && widget->parent && GTK_IS_MENU(widget->parent));
 
 	murrine_set_widget_parameters (widget, style, state_type, &params);
+
+	double trans = 1.0;
 
 #ifdef HAVE_ANIMATION
 	if (murrine_style->animation)
@@ -1474,12 +1475,12 @@ murrine_style_draw_check (DRAW_ARGS)
 	CheckboxParameters checkbox;
 
 	checkbox.shadow_type = shadow_type;
-	checkbox.in_cell = DETAIL("cellcheck");
-
+	checkbox.in_cell = DETAIL ("cellcheck");
 	checkbox.in_menu = (widget && widget->parent && GTK_IS_MENU(widget->parent));
-	double trans = 1.0;
 
 	murrine_set_widget_parameters (widget, style, state_type, &params);
+
+	double trans = 1.0;
 
 #ifdef HAVE_ANIMATION
 	if (murrine_style->animation)

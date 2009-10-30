@@ -301,7 +301,7 @@ murrine_draw_entry (cairo_t *cr,
 
 	mrn_gradient_custom = get_inverted_border_shades (mrn_gradient_custom);
 
-	/* Draw the border */
+	/* Draw border */
 	murrine_draw_border (cr, &border,
 	                     1, 1, width-3, height-3,
 	                     radius, widget->corners,
@@ -707,7 +707,7 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 	                                  roundness, MRN_CORNER_TOPRIGHT | MRN_CORNER_BOTTOMRIGHT);
 	cairo_clip (cr);
 
-	/* Draw the border */
+	/* Draw border */
 	murrine_mix_color (&border, fill, 0.28, &border);
 	murrine_draw_border (cr, &border,
 	                     1.5, 0.5, width-3, height-1,
@@ -766,7 +766,7 @@ murrine_draw_menubar (cairo_t *cr,
 		{
 			int os = (widget->glazestyle == 2) ? 1 : 0;
 			murrine_draw_glaze (cr, fill,
-			                    widget->glow_shade, widget->highlight_shade, widget->glazestyle == 2 ? widget->lightborder_shade : 1.0,
+			                    widget->glow_shade, widget->highlight_shade, widget->lightborder_shade,
 			                    widget->mrn_gradient, widget, os, os, width-os*2, height-os*2,
 			                    widget->roundness, widget->corners, TRUE);
 			break;
@@ -863,7 +863,7 @@ murrine_draw_toolbar (cairo_t *cr,
 		{
 			int os = (widget->glazestyle == 2) ? 1 : 0;
 			murrine_draw_glaze (cr, fill,
-			                    widget->glow_shade, widget->highlight_shade, widget->glazestyle == 2 ? widget->lightborder_shade : 1.0,
+			                    widget->glow_shade, widget->highlight_shade, widget->lightborder_shade,
 			                    widget->mrn_gradient, widget, os, os, width-os*2, height-os*2,
 			                    widget->roundness, widget->corners, TRUE);
 			break;

@@ -734,6 +734,7 @@ murrine_style_draw_box (DRAW_ARGS)
 		}
 
 		horizontal = height < 2*width;
+		params.corners = MRN_CORNER_NONE;
 
 		/* This is not that great. Ideally we would have a nice vertical menubar. */
 		if (params.mrn_gradient.use_rgba ||
@@ -1357,6 +1358,7 @@ murrine_style_draw_box (DRAW_ARGS)
 		}
 
 		horizontal = height < 2*width;
+		params.corners = MRN_CORNER_NONE;
 
 		/* This is not that great. Ideally we would have a nice vertical toolbar. */
 		if ((shadow_type != GTK_SHADOW_NONE) && horizontal)

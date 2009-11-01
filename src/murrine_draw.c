@@ -657,7 +657,7 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 		case 1:
 		{
 			/* Draw strokes */
-			while (tile_pos <= width+x_step)
+			while (stroke_width > 0 && tile_pos <= width+x_step)
 			{
 				cairo_move_to (cr, stroke_width/2-x_step, 0);
 				cairo_line_to (cr, stroke_width-x_step, 0);
@@ -1407,7 +1407,7 @@ murrine_draw_menuitem (cairo_t *cr,
 
 			cairo_save (cr);
 			/* Draw strokes */
-			while (tile_pos <= width+x_step)
+			while (stroke_width > 0 && tile_pos <= width+x_step)
 			{
 				cairo_move_to (cr, stroke_width/2-x_step, 0);
 				cairo_line_to (cr, stroke_width-x_step, 0);

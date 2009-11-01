@@ -1771,27 +1771,28 @@ murrine_draw_tooltip (cairo_t *cr,
                       const WidgetParameters *widget,
                       int x, int y, int width, int height)
 {
-	MurrineRGB border, highlight;
+	MurrineRGB border;
 	MurrineGradients mrn_gradient_custom = get_decreased_gradient_shades (widget->mrn_gradient, 2.0);
-
-	murrine_shade (&colors->bg[widget->state_type], 0.6, &border);
-	murrine_shade (&colors->bg[widget->state_type], 1.0, &highlight);
+	double glow_shade_custom = get_decreased_shade (widget->glow_shade, 2.0);
+	double highlight_shade_custom = get_decreased_shade (widget->highlight_shade, 2.0);
+	
+	murrine_shade (&colors->bg[widget->state_type], get_contrast(0.6, widget->contrast), &border);
 
 	cairo_save (cr);
 
-	cairo_translate      (cr, x, y);
+	cairo_translate (cr, x, y);
 
-	murrine_set_gradient (cr, &colors->bg[widget->state_type], mrn_gradient_custom, 0, 0, 0, height, widget->mrn_gradient.gradients, FALSE);
-	cairo_rectangle (cr, 0, 0, width, height);
-	cairo_fill (cr);
+	cairo_rectangle (cr, 1, 1, width-2, height-2);
 
-	murrine_set_gradient (cr, &highlight, mrn_gradient_custom, 0, 0, 0, height, widget->mrn_gradient.gradients, TRUE);
-	cairo_rectangle (cr, 0, 0, width, height/2);
-	cairo_fill (cr);
+	murrine_draw_glaze (cr, &colors->bg[widget->state_type],
+	                    glow_shade_custom, highlight_shade_custom, widget->lightborder_shade,
+	                    mrn_gradient_custom, widget, 1, 1, width-2, height-2,
+	                    widget->roundness, widget->corners, TRUE);
 
-	murrine_set_color_rgb (cr, &border);
-	cairo_rectangle (cr, 0.5, 0.5, width-1, height-1);
-	cairo_stroke (cr);
+	murrine_draw_border (cr, &border,
+	                     0.5, 0.5, width-1, height-1,
+	                     widget->roundness, widget->corners,
+	                     mrn_gradient_custom, 1.0);
 
 	cairo_restore (cr);
 }

@@ -229,6 +229,8 @@ murrine_style_draw_flat_box (DRAW_ARGS)
 		{
 			params.mrn_gradient.rgba_opacity = TOOLTIP_OPACITY;
 		}
+		else
+			params.corners = MRN_CORNER_NONE;
 
 /*		Not working...
 		parent = gtk_widget_get_parent (widget);

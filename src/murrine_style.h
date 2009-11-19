@@ -51,6 +51,7 @@ struct _MurrineStyle
 	double   highlight_shade;
 	double   lightborder_shade;
 
+	guint8   arrowstyle;
 	guint8   glazestyle;
 	guint8   glowstyle;
 	guint8   lightborderstyle;

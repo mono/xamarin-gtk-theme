@@ -215,7 +215,6 @@ murrine_style_draw_flat_box (DRAW_ARGS)
 		MurrineStyle  *murrine_style = MURRINE_STYLE (style);
 		MurrineColors *colors = &murrine_style->colors;
 		cairo_t       *cr;
-/*		GtkWidget     *parent; */
 
 		CHECK_ARGS
 		SANITIZE_SIZE
@@ -231,12 +230,6 @@ murrine_style_draw_flat_box (DRAW_ARGS)
 		}
 		else
 			params.corners = MRN_CORNER_NONE;
-
-/*		Not working...
-		parent = gtk_widget_get_parent (widget);
-		if (GTK_IS_TOOLTIP (parent))
-			params.corners = MRN_CORNER_NONE;
-*/
 
 		STYLE_FUNCTION(draw_tooltip) (cr, colors, &params, x, y, width, height);
 
@@ -415,7 +408,7 @@ murrine_style_draw_shadow (DRAW_ARGS)
 		/* Focus color */
 		if (murrine_style->has_focus_color)
 		{
-			murrine_gdk_color_to_rgb (&murrine_style->focus_color, &focus.color.r, 
+			murrine_gdk_color_to_rgb (&murrine_style->focus_color, &focus.color.r,
 			                                                       &focus.color.g,
 			                                                       &focus.color.b);
 			focus.has_color = TRUE;
@@ -1150,7 +1143,7 @@ murrine_style_draw_box (DRAW_ARGS)
 						progress.max_size.height -= 2*focus_line_width;
 					}
 				}
-				
+
 				if (progress.max_size_known)
 				{
 					progress.max_size.x += progress.border.left;
@@ -1522,6 +1515,7 @@ murrine_style_draw_tab (DRAW_ARGS)
 
 	arrow.type      = MRN_ARROW_COMBO;
 	arrow.direction = MRN_DIRECTION_DOWN;
+	arrow.style     = murrine_style->arrowstyle;
 
 	murrine_set_widget_parameters (widget, style, state_type, &params);
 
@@ -1735,6 +1729,7 @@ murrine_style_draw_arrow (GtkStyle     *style,
 
 	arrow.type = MRN_ARROW_NORMAL;
 	arrow.direction = (MurrineDirection)arrow_type;
+	arrow.style = murrine_style->arrowstyle;
 
 	if (MRN_IS_COMBO_BOX (widget) && !MRN_IS_COMBO_BOX_ENTRY (widget))
 	{
@@ -1743,15 +1738,62 @@ murrine_style_draw_arrow (GtkStyle     *style,
 
 	murrine_set_widget_parameters (widget, style, state_type, &params);
 
-	/* I have no idea why, but the arrow of GtkCombo is larger than in other places.
-	 * Subtracting 3 seems to fix this. */
-	if (widget && widget->parent && MRN_IS_COMBO (widget->parent->parent))
+	if (arrow.style == 1)
 	{
-		if (params.ltr)
-			x += 1;
+		if (DETAIL ("menuitem"))
+		{
+			if (arrow.direction == MRN_DIRECTION_UP || arrow.direction == MRN_DIRECTION_DOWN)
+			{
+				x = x + width / 2 - 2;
+				y = y + height / 2 - 2;
+				height = 4; width = 5;
+			}
+			else
+			{
+				x = x + width / 2 - 2;
+				y = y + height / 2 - 2;
+				height = 5; width = 4;
+			}
+		}
+		else if (DETAIL ("hscrollbar") || DETAIL ("vscrollbar"))
+		{
+
+			if (arrow.direction == MRN_DIRECTION_DOWN)
+				y++;
+			else if (arrow.direction == MRN_DIRECTION_RIGHT)
+				x++;
+
+			if (arrow.direction == MRN_DIRECTION_UP || arrow.direction == MRN_DIRECTION_DOWN)
+			{
+				x = x + width / 2 - 2;
+				y = y + height / 2 - 2;
+				height = 4; width = 5;
+			}
+			else
+			{
+				x = x + width / 2 - 2;
+				y = y + height / 2 - 2;
+				height = 5; width = 4;
+			}
+		}
+		else if (DETAIL ("spinbutton"))
+		{
+			x = x + width / 2 - 2;
+			y = y + height / 2 - 1;
+			height = 4; width = 5;
+		}
+		else if (arrow.direction == MRN_DIRECTION_UP || arrow.direction == MRN_DIRECTION_DOWN)
+		{
+			x = x + width / 2 - 3;
+			y = y + height / 2 - 2;
+			height = 6; width = 7;
+		}
 		else
-			x += 2;
-		width -= 3;
+		{
+			x = x + width / 2 - 2;
+			y = y + height / 2 - 3;
+			height = 7; width = 6;
+		}
 	}
 
 	STYLE_FUNCTION(draw_arrow) (cr, colors, &params, &arrow, x, y, width, height);
@@ -2099,6 +2141,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	else
 		murrine_style->roundness = MURRINE_RC_STYLE (rc_style)->roundness;
 	murrine_style->animation           = MURRINE_RC_STYLE (rc_style)->animation;
+	murrine_style->arrowstyle          = MURRINE_RC_STYLE (rc_style)->arrowstyle;
 	murrine_style->contrast            = MURRINE_RC_STYLE (rc_style)->contrast;
 	murrine_style->colorize_scrollbar  = MURRINE_RC_STYLE (rc_style)->colorize_scrollbar;
 	murrine_style->has_focus_color     = MURRINE_RC_STYLE (rc_style)->has_focus_color;
@@ -2272,6 +2315,7 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	MurrineStyle *mrn_src = MURRINE_STYLE (src);
 
 	mrn_style->animation           = mrn_src->animation;
+	mrn_style->arrowstyle          = mrn_src->arrowstyle;
 	mrn_style->border_shades[0]    = mrn_src->border_shades[0];
 	mrn_style->border_shades[1]    = mrn_src->border_shades[1];
 	mrn_style->colorize_scrollbar  = mrn_src->colorize_scrollbar;

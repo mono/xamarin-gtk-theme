@@ -36,6 +36,7 @@ static void murrine_rc_style_merge (GtkRcStyle *dest,
 enum
 {
 	TOKEN_ANIMATION = G_TOKEN_LAST + 1,
+	TOKEN_ARROWSTYLE,
 	TOKEN_BORDER_SHADES,
 	TOKEN_COLORIZE_SCROLLBAR,
 	TOKEN_CONTRAST,
@@ -90,6 +91,7 @@ static struct
 theme_symbols[] =
 {
 	{ "animation",           TOKEN_ANIMATION },
+	{ "arrowstyle",          TOKEN_ARROWSTYLE },
 	{ "border_shades",       TOKEN_BORDER_SHADES },
 	{ "colorize_scrollbar",  TOKEN_COLORIZE_SCROLLBAR },
 	{ "contrast",            TOKEN_CONTRAST },
@@ -150,6 +152,7 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->flags = 0;
 
 	murrine_rc->animation = FALSE;
+	murrine_rc->arrowstyle = 0;
 	murrine_rc->border_shades[0] = 1.0;
 	murrine_rc->border_shades[1] = 1.0;
 	murrine_rc->colorize_scrollbar = TRUE;
@@ -515,6 +518,10 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_boolean (settings, scanner, &murrine_style->animation);
 				murrine_style->flags |= MRN_FLAG_ANIMATION;
 				break;
+			case TOKEN_ARROWSTYLE:
+				token = theme_parse_int (settings, scanner, &murrine_style->arrowstyle);
+				murrine_style->flags |= MRN_FLAG_ARROWSTYLE;
+				break;
 			case TOKEN_BORDER_SHADES:
 				token = theme_parse_border (settings, scanner, murrine_style->border_shades);
 				murrine_style->flags |= MRN_FLAG_BORDER_SHADES;
@@ -693,6 +700,8 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 
 	if (flags & MRN_FLAG_ANIMATION)
 		dest_w->animation = src_w->animation;
+	if (flags & MRN_FLAG_ARROWSTYLE)
+		dest_w->arrowstyle = src_w->arrowstyle;
 	if (flags & MRN_FLAG_BORDER_SHADES)
 	{
 		dest_w->border_shades[0] = src_w->border_shades[0];

@@ -339,6 +339,7 @@ typedef struct
 {
 	MurrineArrowType type;
 	MurrineDirection direction;
+	int style;
 } ArrowParameters;
 
 typedef struct

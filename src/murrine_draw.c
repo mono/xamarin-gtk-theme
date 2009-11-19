@@ -1295,13 +1295,16 @@ murrine_draw_list_view_header (cairo_t *cr,
 	else
 		cairo_move_to (cr, 0.0, 0.5);
 
-	murrine_set_color_rgb (cr, &highlight);
-	cairo_line_to (cr, width, 0.5);
-	cairo_stroke (cr);
+
 
 	/* Effects */
 	switch (header->style)
 	{
+		case 0:
+			murrine_set_color_rgb (cr, &highlight);
+			cairo_line_to (cr, width, 0.5);
+			cairo_stroke (cr);
+			break;
 		case 1:
 			cairo_rectangle (cr, 0, 0, width, height);
 
@@ -1775,7 +1778,7 @@ murrine_draw_tooltip (cairo_t *cr,
 	MurrineGradients mrn_gradient_custom = get_decreased_gradient_shades (widget->mrn_gradient, 2.0);
 	double glow_shade_custom = get_decreased_shade (widget->glow_shade, 2.0);
 	double highlight_shade_custom = get_decreased_shade (widget->highlight_shade, 2.0);
-	
+
 	murrine_shade (&colors->bg[widget->state_type], get_contrast(0.6, widget->contrast), &border);
 
 	cairo_save (cr);
@@ -1867,6 +1870,36 @@ murrine_draw_normal_arrow (cairo_t *cr,
 }
 
 static void
+murrine_draw_normal_arrow_new (cairo_t *cr,
+                               const MurrineRGB *color,
+                               double x, double y, double width, double height)
+{
+	int arrow_width = width;
+	int arrow_height = height;
+	cairo_pattern_t *pattern;
+
+	cairo_save (cr);
+
+	cairo_translate (cr, 0, -0.5);
+	cairo_move_to (cr, -arrow_width/2, -arrow_height/2);
+	cairo_line_to (cr, 0, arrow_height/2);
+	cairo_line_to (cr, arrow_width/2, -arrow_height/2);
+	cairo_close_path (cr);
+
+	pattern = cairo_pattern_create_linear (0, -arrow_height/2, 0, arrow_height/2);
+	cairo_pattern_add_color_stop_rgba (pattern, 0.0, color->r, color->g, color->b, 0.6);
+	cairo_pattern_add_color_stop_rgba (pattern, 1.0, color->r, color->g, color->b, 0.8);
+	cairo_set_source (cr, pattern);
+	cairo_fill_preserve (cr);
+	cairo_pattern_destroy (pattern);
+
+	murrine_set_color_rgb (cr, color);
+	cairo_stroke (cr);
+
+	cairo_restore (cr);
+}
+
+static void
 murrine_draw_combo_arrow (cairo_t *cr,
                           const MurrineRGB *color,
                           double x, double y, double width, double height)
@@ -1885,17 +1918,40 @@ murrine_draw_combo_arrow (cairo_t *cr,
 }
 
 static void
+murrine_draw_combo_arrow_new (cairo_t *cr,
+                              const MurrineRGB *color,
+                              double x, double y, double width, double height)
+{
+	double arrow_width = 4;
+	double arrow_height = 5;
+
+	cairo_save (cr);
+	cairo_translate (cr, x, y-5.5);
+	cairo_rotate (cr, M_PI);
+	murrine_draw_normal_arrow_new (cr, color, 0, 0, arrow_width, arrow_height);
+	cairo_restore (cr);
+
+	cairo_translate (cr, x, y+5.5);
+
+	murrine_draw_normal_arrow_new (cr, color, 0, 0, arrow_width, arrow_height);
+}
+
+static void
 _murrine_draw_arrow (cairo_t *cr,
                      const MurrineRGB *color,
-                     MurrineDirection dir, MurrineArrowType type,
+                     const ArrowParameters *arrow,
                      double x, double y, double width, double height)
 {
 	double rotate;
 
-	switch (dir)
+	switch (arrow->direction)
 	{
 		default:
-			return;
+		case MRN_DIRECTION_DOWN:
+			rotate = 0;
+			break;
+		case MRN_DIRECTION_UP:
+			rotate = M_PI;
 			break;
 		case MRN_DIRECTION_LEFT:
 			rotate = M_PI*1.5;
@@ -1903,24 +1959,36 @@ _murrine_draw_arrow (cairo_t *cr,
 		case MRN_DIRECTION_RIGHT:
 			rotate = M_PI*0.5;
 			break;
-		case MRN_DIRECTION_UP:
-			rotate = M_PI;
-			break;
-		case MRN_DIRECTION_DOWN:
-			rotate = 0;
-			break;
 	}
 
-	if (type == MRN_ARROW_NORMAL)
+	if (arrow->type == MRN_ARROW_NORMAL)
 	{
 		cairo_translate (cr, x, y);
 		cairo_rotate (cr, -rotate);
-		murrine_draw_normal_arrow (cr, color, 0, 0, width, height);
+		switch (arrow->style)
+		{
+			default:
+			case 0:
+				murrine_draw_normal_arrow (cr, color, 0, 0, width, height);
+				break;
+			case 1:
+				murrine_draw_normal_arrow_new (cr, color, 0, 0, width, height);
+				break;
+		}
 	}
-	else if (type == MRN_ARROW_COMBO)
+	else if (arrow->type == MRN_ARROW_COMBO)
 	{
 		cairo_translate (cr, x, y);
-		murrine_draw_combo_arrow (cr, color, 0, 0, width, height);
+		switch (arrow->style)
+		{
+			default:
+			case 0:
+				murrine_draw_combo_arrow (cr, color, 0, 0, width, height);
+				break;
+			case 1:
+				murrine_draw_combo_arrow_new (cr, color, 0, 0, width, height);
+				break;
+		}
 	}
 }
 
@@ -1940,14 +2008,13 @@ murrine_draw_arrow (cairo_t *cr,
 
 	if (widget->disabled)
 	{
-		_murrine_draw_arrow (cr, &colors->shade[0],
-		                     arrow->direction, arrow->type,
+		_murrine_draw_arrow (cr, &colors->shade[0], arrow,
 		                     tx+0.5, ty+0.5, width, height);
 	}
 
 	cairo_identity_matrix (cr);
 
-	_murrine_draw_arrow (cr, &color, arrow->direction, arrow->type,
+	_murrine_draw_arrow (cr, &color, arrow,
 	                     tx, ty, width, height);
 }
 

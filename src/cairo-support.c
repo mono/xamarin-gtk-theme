@@ -854,11 +854,8 @@ murrine_draw_shadow (cairo_t *cr,
 		murrine_shade (color, mrn_gradient.border_shades[1], &shade2);
 
 		pat = cairo_pattern_create_linear (x, y, x, height+y);
-		murrine_pattern_add_color_stop_rgba (pat, 0.00, &shade1, alpha);
-		murrine_pattern_add_color_stop_rgba (pat, 1.00, &shade2,
-		                                     alpha*(reliefstyle > 2 ?
-		                                            (mrn_gradient.border_shades[1] > 1.0 ?
-		                                             2.5 : 2.0) : 1.0)); //improve
+		murrine_pattern_add_color_stop_rgba (pat, 0.00, &shade1, reliefstyle == 3 ? 0.5*alpha : alpha);
+		murrine_pattern_add_color_stop_rgba (pat, 1.00, &shade2, reliefstyle >= 3 ? (mrn_gradient.border_shades[1] > 1.0 ? 2.5*alpha : 2.0*alpha) : alpha);
 
 		cairo_set_source (cr, pat);
 		cairo_pattern_destroy (pat);

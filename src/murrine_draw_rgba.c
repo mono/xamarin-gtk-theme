@@ -1572,7 +1572,7 @@ murrine_rgba_draw_radiobutton (cairo_t *cr,
 		mrn_gradient_custom.border_shades[0] = 1.0;
 		mrn_gradient_custom.border_shades[1] = 1.0;
 	}
-	else if (draw_bullet)
+	else if (!draw_bullet)
 	{
 		mrn_gradient_custom = get_inverted_border_shades (mrn_gradient_custom);
 	}
@@ -1697,7 +1697,7 @@ murrine_rgba_draw_checkbox (cairo_t *cr,
 		mrn_gradient_custom.border_shades[0] = 1.0;
 		mrn_gradient_custom.border_shades[1] = 1.0;
 	}
-	else if (draw_bullet)
+	else if (!draw_bullet)
 	{
 		mrn_gradient_custom = get_inverted_border_shades (mrn_gradient_custom);
 	}

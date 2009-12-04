@@ -398,7 +398,7 @@ murrine_rgba_draw_scale_trough (cairo_t *cr,
 	{
 		MurrineRGB fill, border;
 		murrine_shade (&colors->bg[widget->state_type], 1.0, &fill);
-		murrine_shade (&colors->bg[GTK_STATE_ACTIVE], get_contrast(0.82, widget->contrast), &border);
+		murrine_shade (&colors->bg[!widget->disabled ? GTK_STATE_ACTIVE : GTK_STATE_INSENSITIVE], get_contrast(0.82, widget->contrast), &border);
 
 		murrine_scale_draw_gradient (cr, &fill, &border,
 		                             1.0,

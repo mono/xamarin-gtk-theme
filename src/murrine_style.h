@@ -67,6 +67,7 @@ struct _MurrineStyle
 	guint8   scrollbarstyle;
 	guint8   sliderstyle;
 	guint8   stepperstyle;
+	guint8   textstyle;
 	guint8   toolbarstyle;
 
 	gboolean animation;

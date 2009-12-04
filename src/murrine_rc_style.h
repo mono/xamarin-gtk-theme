@@ -64,7 +64,8 @@ typedef enum
 	MRN_FLAG_SCROLLBARSTYLE = 1 << 26,
 	MRN_FLAG_SLIDERSTYLE = 1 << 27,
 	MRN_FLAG_STEPPERSTYLE = 1 << 28,
-	MRN_FLAG_TOOLBARSTYLE = 1 << 29
+	MRN_FLAG_TEXTSTYLE = 1 << 29,
+	MRN_FLAG_TOOLBARSTYLE = 1 << 30
 } MurrineRcFlags;
 
 struct _MurrineRcStyle
@@ -96,6 +97,7 @@ struct _MurrineRcStyle
 	guint8   scrollbarstyle;
 	guint8   sliderstyle;
 	guint8   stepperstyle;
+	guint8   textstyle;
 	guint8   toolbarstyle;
 
 	gboolean animation;

@@ -1845,8 +1845,31 @@ murrine_style_draw_layout (GtkStyle     *style,
 		gdk_draw_layout_with_colors (window, gc, x+1, y+1, layout, &etched, NULL);
 		gdk_draw_layout (window, gc, x, y, layout);
 	}
-	else
+	else 
 	{
+		MurrineStyle *murrine_style = MURRINE_STYLE (style);
+		MurrineColors *colors = &murrine_style->colors;
+
+		if (murrine_style->textstyle != 0 && widget->state == GTK_STATE_NORMAL)
+		{
+			WidgetParameters params;
+
+			murrine_set_widget_parameters (widget, style, state_type, &params);
+
+			GdkColor etched;
+			MurrineRGB temp;
+
+			if (GTK_WIDGET_NO_WINDOW (widget))
+				murrine_shade (&params.parentbg, 1.05, &temp);
+			else
+				murrine_shade (&colors->bg[widget->state], 1.05, &temp);
+
+			etched.red = (int) (temp.r*65535);
+			etched.green = (int) (temp.g*65535);
+			etched.blue = (int) (temp.b*65535);
+
+			gdk_draw_layout_with_colors (window, gc, x, y+1, layout, &etched, NULL);
+		}
 		gdk_draw_layout (window, gc, x, y, layout);
 	}
 
@@ -2161,6 +2184,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	murrine_style->scrollbarstyle      = MURRINE_RC_STYLE (rc_style)->scrollbarstyle;
 	murrine_style->sliderstyle         = MURRINE_RC_STYLE (rc_style)->sliderstyle;
 	murrine_style->stepperstyle        = MURRINE_RC_STYLE (rc_style)->stepperstyle;
+	murrine_style->textstyle           = MURRINE_RC_STYLE (rc_style)->textstyle;	
 	murrine_style->toolbarstyle        = MURRINE_RC_STYLE (rc_style)->toolbarstyle;
 
 	if (murrine_style->has_focus_color)
@@ -2350,6 +2374,7 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	mrn_style->scrollbarstyle      = mrn_src->scrollbarstyle;
 	mrn_style->sliderstyle 	       = mrn_src->sliderstyle;
 	mrn_style->stepperstyle        = mrn_src->stepperstyle;
+	mrn_style->textstyle           = mrn_src->textstyle;
 	mrn_style->toolbarstyle        = mrn_src->toolbarstyle;
 
 	GTK_STYLE_CLASS (murrine_style_parent_class)->copy (style, src);

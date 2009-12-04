@@ -64,6 +64,7 @@ enum
 	TOKEN_SCROLLBARSTYLE,
 	TOKEN_SLIDERSTYLE,
 	TOKEN_STEPPERSTYLE,
+	TOKEN_TEXTSTYLE,
 	TOKEN_TOOLBARSTYLE,
 
 	TOKEN_CANDIDO,
@@ -119,6 +120,7 @@ theme_symbols[] =
 	{ "scrollbarstyle",      TOKEN_SCROLLBARSTYLE },
 	{ "sliderstyle",         TOKEN_SLIDERSTYLE },
 	{ "stepperstyle",        TOKEN_STEPPERSTYLE },
+	{ "textstyle",           TOKEN_TEXTSTYLE },
 	{ "toolbarstyle",        TOKEN_TOOLBARSTYLE },
 
 	{ "CANDIDO",             TOKEN_CANDIDO },
@@ -184,6 +186,7 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->sliderstyle = 0;
 	murrine_rc->stepperstyle = 0;
 	murrine_rc->profile = MRN_PROFILE_MURRINE;
+	murrine_rc->textstyle = 0;
 	murrine_rc->toolbarstyle = 0;
 }
 
@@ -632,6 +635,10 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_int (settings, scanner, &murrine_style->stepperstyle);
 				murrine_style->flags |= MRN_FLAG_STEPPERSTYLE;
 				break;
+			case TOKEN_TEXTSTYLE:
+				token = theme_parse_int (settings, scanner, &murrine_style->textstyle);
+				murrine_style->flags |= MRN_FLAG_TEXTSTYLE;
+				break;
 			case TOKEN_TOOLBARSTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->toolbarstyle);
 				murrine_style->flags |= MRN_FLAG_TOOLBARSTYLE;
@@ -770,6 +777,8 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->sliderstyle = src_w->sliderstyle;
 	if (flags & MRN_FLAG_STEPPERSTYLE)
 		dest_w->stepperstyle = src_w->stepperstyle;
+	if (flags & MRN_FLAG_TEXTSTYLE)
+		dest_w->textstyle = src_w->textstyle;
 	if (flags & MRN_FLAG_TOOLBARSTYLE)
 		dest_w->toolbarstyle = src_w->toolbarstyle;
 

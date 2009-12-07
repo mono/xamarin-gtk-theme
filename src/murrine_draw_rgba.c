@@ -154,10 +154,7 @@ murrine_rgba_draw_button (cairo_t *cr,
 	MurrineGradients mrn_gradient_new = widget->mrn_gradient;
 	MurrineRGB border = colors->shade[!widget->disabled ? 8 : 6];
 	MurrineRGB fill = colors->bg[widget->state_type];
-	if (mrn_gradient_new.has_gradient_colors)
-    	murrine_mix_color (&mrn_gradient_new.gradient_colors[0], 
-		                   &mrn_gradient_new.gradient_colors[3],
-		                   0.5, &fill);
+	get_fill_color (&fill, &mrn_gradient_new);
 
 	if (widget->disabled)
 	{
@@ -558,8 +555,11 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 	double     stroke_width;
 	int        x_step;
 	int        roundness;
-	const      MurrineRGB *fill = &colors->spot[1];
 	MurrineRGB border = colors->spot[2];
+	MurrineRGB fill = colors->spot[1];
+	get_fill_color (&fill, &widget->mrn_gradient);
+
+	murrine_shade (&fill, get_contrast(0.65, widget->contrast), &border);
 
 	/* progressbar->orientation < 2 == boolean is_horizontal */
 	if (progressbar->orientation < 2)
@@ -598,7 +598,7 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 
 	cairo_rectangle (cr, 2, 1, width-4, height-2);
 
-	murrine_draw_glaze (cr, fill,
+	murrine_draw_glaze (cr, &fill,
 	                    widget->glow_shade, widget->highlight_shade, widget->lightborder_shade,
 	                    widget->mrn_gradient, widget, 2, 1, width-4, height-2,
 	                    roundness, widget->corners, TRUE);
@@ -626,7 +626,7 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 				tile_pos += stroke_width;
 			}
 
-			murrine_set_color_rgba (cr, &colors->spot[2], 0.15);
+			murrine_set_color_rgba (cr, &border, 0.15);
 			cairo_fill (cr);
 			break;
 		}
@@ -636,7 +636,7 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 			int step = 18;
 			int i;
 
-			murrine_shade (fill, widget->lightborder_shade*widget->highlight_shade, &highlight);
+			murrine_shade (&fill, widget->lightborder_shade*widget->highlight_shade, &highlight);
 
 			for (i=step; i<width-3; i+=step)
 			{
@@ -647,7 +647,7 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 
 				cairo_move_to (cr, i+0.5, 1);
 				cairo_line_to (cr, i+0.5, height-1);
-				murrine_set_color_rgba (cr, &colors->spot[2], 0.25);
+				murrine_set_color_rgba (cr, &border, 0.25);
 				cairo_stroke (cr);
 			}
 			break;
@@ -666,7 +666,7 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 	cairo_clip (cr);
 
 	/* Draw border */
-	murrine_mix_color (&border, fill, 0.28, &border);
+	murrine_mix_color (&border, &fill, 0.28, &border);
 	murrine_draw_border (cr, &border,
 	                     1.5, 0.5, width-3, height-1,
 	                     roundness, widget->corners,
@@ -1321,10 +1321,12 @@ murrine_rgba_draw_scrollbar_slider (cairo_t *cr,
 {
 	MurrineGradients mrn_gradient_new = widget->mrn_gradient;
 	double border_stop_mid = ((mrn_gradient_new.border_shades[0])+
-		                      (mrn_gradient_new.border_shades[1]))/2.0;
+	                          (mrn_gradient_new.border_shades[1]))/2.0;
 	MurrineRGB fill = scrollbar->has_color ? scrollbar->color : colors->bg[0];
 	MurrineRGB border;
 	uint8 corners = widget->corners;
+
+	get_fill_color (&fill, &mrn_gradient_new);
 
 	if (scrollbar->stepperstyle < 1)
 	{

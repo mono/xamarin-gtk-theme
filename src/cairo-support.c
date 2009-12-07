@@ -1017,6 +1017,18 @@ murrine_exchange_axis (cairo_t  *cr,
 	*height = tmp;
 }
 
+void
+get_fill_color (MurrineRGB *color,
+                MurrineGradients *mrn_gradient)
+{
+	if (mrn_gradient->has_gradient_colors)
+	{
+		murrine_mix_color (&mrn_gradient->gradient_colors[1],
+		                   &mrn_gradient->gradient_colors[2],
+		                   0.5, color);
+	}
+}
+
 double
 get_decreased_shade (double old, double factor)
 {

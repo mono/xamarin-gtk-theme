@@ -611,23 +611,32 @@ murrine_draw_top_glow (cairo_t *cr,
 
 static void
 murrine_draw_lightborder (cairo_t *cr,
-                          const MurrineRGB *highlight_color,
                           const MurrineRGB *fill,
                           MurrineGradients mrn_gradient,
                           double x, double y, int width, int height,
                           boolean gradients,
                           int glazestyle, int lightborderstyle,
-                          int radius, uint8 corners)
+                          double lightborder_shade, int radius, uint8 corners)
 {
 	cairo_pattern_t *pat;
 	MurrineRGB shade1, shade2, shade3, shade4;
 	double alpha_value = mrn_gradient.use_rgba ? mrn_gradient.rgba_opacity : 1.0;
 	radius = MIN (radius, MIN ((double)width/2.0, (double)height/2.0));
 
-	murrine_shade (highlight_color, mrn_gradient.gradient_shades[0], &shade1);
-	murrine_shade (highlight_color, mrn_gradient.gradient_shades[1], &shade2);
-	murrine_shade (highlight_color, mrn_gradient.gradient_shades[2], &shade3);
-	murrine_shade (highlight_color, mrn_gradient.gradient_shades[3], &shade4);
+	if (mrn_gradient.has_gradient_colors)
+	{
+		murrine_shade (&mrn_gradient.gradient_colors[0], lightborder_shade*mrn_gradient.gradient_shades[0], &shade1);
+		murrine_shade (&mrn_gradient.gradient_colors[1], lightborder_shade*mrn_gradient.gradient_shades[1], &shade2);
+		murrine_shade (&mrn_gradient.gradient_colors[2], lightborder_shade*mrn_gradient.gradient_shades[2], &shade3);
+		murrine_shade (&mrn_gradient.gradient_colors[3], lightborder_shade*mrn_gradient.gradient_shades[3], &shade4);
+	}
+	else
+	{
+		murrine_shade (fill, lightborder_shade*mrn_gradient.gradient_shades[0], &shade1);
+		murrine_shade (fill, lightborder_shade*mrn_gradient.gradient_shades[1], &shade2);
+		murrine_shade (fill, lightborder_shade*mrn_gradient.gradient_shades[2], &shade3);
+		murrine_shade (fill, lightborder_shade*mrn_gradient.gradient_shades[3], &shade4);
+	}
 
 	cairo_save (cr);
 
@@ -749,16 +758,14 @@ murrine_draw_glaze (cairo_t *cr,
 
 	if (widget->glazestyle != 4 && lightborder_shade != 1.0)
 	{
-		murrine_shade (fill, lightborder_shade*highlight_shade, &highlight);
-
 		if (mrn_gradient.use_rgba)
 			cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
 
-		murrine_draw_lightborder (cr, &highlight, fill, mrn_gradient,
+		murrine_draw_lightborder (cr, fill, mrn_gradient,
 		                          x+0.5, y+0.5, width-1, height-1,
 		                          mrn_gradient.gradients,
 		                          widget->glazestyle, widget->lightborderstyle,
-		                          radius, corners);
+		                          lightborder_shade*highlight_shade, radius, corners);
 	}
 }
 
@@ -779,7 +786,27 @@ murrine_set_gradient (cairo_t *cr,
 		alpha_value *= 0.8;
 	}
 
-	if (gradients)
+	if (mrn_gradient.has_gradient_colors)
+	{
+		cairo_pattern_t *pat;
+		MurrineRGB shade1, shade2, shade3, shade4;
+
+		murrine_shade (&mrn_gradient.gradient_colors[0], mrn_gradient.gradient_shades[0], &shade1);
+		murrine_shade (&mrn_gradient.gradient_colors[1], mrn_gradient.gradient_shades[1], &shade2);
+		murrine_shade (&mrn_gradient.gradient_colors[2], mrn_gradient.gradient_shades[2], &shade3);
+		murrine_shade (&mrn_gradient.gradient_colors[3], mrn_gradient.gradient_shades[3], &shade4);
+
+		pat = cairo_pattern_create_linear (x, y, width+x, height+y);
+
+		murrine_pattern_add_color_stop_rgba (pat, 0.00, &shade1, alpha_value);
+		murrine_pattern_add_color_stop_rgba (pat, 0.49, &shade2, alpha_value);
+		murrine_pattern_add_color_stop_rgba (pat, 0.49, &shade3, alpha_value);
+		murrine_pattern_add_color_stop_rgba (pat, 1.00, &shade4, alpha_value);
+
+		cairo_set_source (cr, pat);
+		cairo_pattern_destroy (pat);
+	}
+	else if (gradients)
 	{
 		cairo_pattern_t *pat;
 		MurrineRGB shade1, shade2, shade3, shade4;
@@ -812,8 +839,23 @@ murrine_draw_border (cairo_t *cr,
                      int roundness, uint8 corners,
                      MurrineGradients mrn_gradient, double alpha)
 {
-	if (mrn_gradient.border_shades[0] != 1.0 ||
-	    mrn_gradient.border_shades[1] != 1.0) // improve
+	if (mrn_gradient.has_border_colors)
+	{
+		cairo_pattern_t *pat;
+		MurrineRGB shade1, shade2;
+
+		murrine_shade (&mrn_gradient.border_colors[0], mrn_gradient.border_shades[0], &shade1);
+		murrine_shade (&mrn_gradient.border_colors[1], mrn_gradient.border_shades[1], &shade2);
+
+		pat = cairo_pattern_create_linear (x, y, x, height+y);
+		murrine_pattern_add_color_stop_rgba (pat, 0.00, &shade1, alpha);
+		murrine_pattern_add_color_stop_rgba (pat, 1.00, &shade2, alpha);
+
+		cairo_set_source (cr, pat);
+		cairo_pattern_destroy (pat);
+	}
+	else if (mrn_gradient.border_shades[0] != 1.0 ||
+	         mrn_gradient.border_shades[1] != 1.0) // improve
 	{
 		cairo_pattern_t *pat;
 		MurrineRGB shade1, shade2;
@@ -856,6 +898,68 @@ murrine_draw_shadow (cairo_t *cr,
 		pat = cairo_pattern_create_linear (x, y, x, height+y);
 		murrine_pattern_add_color_stop_rgba (pat, 0.00, &shade1, reliefstyle == 3 ? 0.5*alpha : alpha);
 		murrine_pattern_add_color_stop_rgba (pat, 1.00, &shade2, reliefstyle >= 3 ? (mrn_gradient.border_shades[1] > 1.0 ? 2.5*alpha : 2.0*alpha) : alpha);
+
+		cairo_set_source (cr, pat);
+		cairo_pattern_destroy (pat);
+	}
+	else
+		murrine_set_color_rgba (cr, color, alpha);
+
+	murrine_rounded_rectangle (cr, x, y, width, height, roundness, corners);
+	cairo_stroke (cr);
+}
+
+void
+murrine_draw_trough (cairo_t *cr,
+                     const MurrineRGB  *color,
+                     double x, double y, double width, double height,
+                     int roundness, uint8 corners,
+                     MurrineGradients mrn_gradient, double alpha,
+                     boolean horizontal)
+{
+	if (mrn_gradient.trough_shades[0] != 1.0 ||
+	    mrn_gradient.trough_shades[1] != 1.0) // improve
+	{
+		cairo_pattern_t *pat;
+		MurrineRGB shade1, shade2;
+
+		murrine_shade (color, mrn_gradient.trough_shades[0], &shade1);
+		murrine_shade (color, mrn_gradient.trough_shades[1], &shade2);
+
+		pat = cairo_pattern_create_linear (x, y, horizontal ? x : width+x, horizontal ? height+y : y);
+		murrine_pattern_add_color_stop_rgba (pat, 0.00, &shade1, alpha);
+		murrine_pattern_add_color_stop_rgba (pat, 1.00, &shade2, alpha);
+
+		cairo_set_source (cr, pat);
+		cairo_pattern_destroy (pat);
+	}
+	else
+		murrine_set_color_rgba (cr, color, alpha);
+
+	murrine_rounded_rectangle_closed (cr, x, y, width, height, roundness, corners);
+	cairo_fill (cr);
+}
+
+void
+murrine_draw_trough_border (cairo_t *cr,
+                            const MurrineRGB  *color,
+                            double x, double y, double width, double height,
+                            int roundness, uint8 corners,
+                            MurrineGradients mrn_gradient, double alpha,
+                            boolean horizontal)
+{
+	if (mrn_gradient.trough_shades[0] != 1.0 ||
+	    mrn_gradient.trough_shades[1] != 1.0) // improve
+	{
+		cairo_pattern_t *pat;
+		MurrineRGB shade1, shade2;
+
+		murrine_shade (color, mrn_gradient.trough_shades[0], &shade1);
+		murrine_shade (color, mrn_gradient.trough_shades[1], &shade2);
+
+		pat = cairo_pattern_create_linear (x, y, horizontal ? x : width+x, horizontal ? height+y : y);
+		murrine_pattern_add_color_stop_rgba (pat, 0.00, &shade1, alpha);
+		murrine_pattern_add_color_stop_rgba (pat, 1.00, &shade2, alpha);
 
 		cairo_set_source (cr, pat);
 		cairo_pattern_destroy (pat);
@@ -969,23 +1073,23 @@ get_inverted_shade (double old)
 MurrineGradients
 get_inverted_border_shades (MurrineGradients mrn_gradient)
 {
-	MurrineGradients mrn_gradient_custom = mrn_gradient;
+	MurrineGradients mrn_gradient_new = mrn_gradient;
 
-	mrn_gradient_custom.border_shades[0] = mrn_gradient.border_shades[1];
-	mrn_gradient_custom.border_shades[1] = mrn_gradient.border_shades[0];
+	mrn_gradient_new.border_shades[0] = mrn_gradient.border_shades[1];
+	mrn_gradient_new.border_shades[1] = mrn_gradient.border_shades[0];
 
-	return mrn_gradient_custom;
+	return mrn_gradient_new;
 }
 
 MurrineGradients
 get_decreased_gradient_shades (MurrineGradients mrn_gradient, double factor)
 {
-	MurrineGradients mrn_gradient_custom = mrn_gradient;
+	MurrineGradients mrn_gradient_new = mrn_gradient;
 
-	mrn_gradient_custom.gradient_shades[0] = get_decreased_shade (mrn_gradient.gradient_shades[0], factor);
-	mrn_gradient_custom.gradient_shades[1] = get_decreased_shade (mrn_gradient.gradient_shades[1], factor);
-	mrn_gradient_custom.gradient_shades[2] = get_decreased_shade (mrn_gradient.gradient_shades[2], factor);
-	mrn_gradient_custom.gradient_shades[3] = get_decreased_shade (mrn_gradient.gradient_shades[3], factor);
+	mrn_gradient_new.gradient_shades[0] = get_decreased_shade (mrn_gradient.gradient_shades[0], factor);
+	mrn_gradient_new.gradient_shades[1] = get_decreased_shade (mrn_gradient.gradient_shades[1], factor);
+	mrn_gradient_new.gradient_shades[2] = get_decreased_shade (mrn_gradient.gradient_shades[2], factor);
+	mrn_gradient_new.gradient_shades[3] = get_decreased_shade (mrn_gradient.gradient_shades[3], factor);
 
-	return mrn_gradient_custom;
+	return mrn_gradient_new;
 }

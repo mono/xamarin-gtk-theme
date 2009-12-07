@@ -144,36 +144,76 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	params->roundness         = murrine_style->roundness;
 
 	MurrineGradients mrn_gradient;
-	if (murrine_style->gradients)
-	{
-		mrn_gradient.border_shades[0] = murrine_style->border_shades[0];
-		mrn_gradient.border_shades[1] = murrine_style->border_shades[1];
+	mrn_gradient.border_shades[0] = murrine_style->border_shades[0];
+	mrn_gradient.border_shades[1] = murrine_style->border_shades[1];
 
-		mrn_gradient.gradient_shades[0] = murrine_style->gradient_shades[0];
-		mrn_gradient.gradient_shades[1] = murrine_style->gradient_shades[1];
-		mrn_gradient.gradient_shades[2] = murrine_style->gradient_shades[2];
-		mrn_gradient.gradient_shades[3] = murrine_style->gradient_shades[3];
+	mrn_gradient.gradient_shades[0] = murrine_style->gradient_shades[0];
+	mrn_gradient.gradient_shades[1] = murrine_style->gradient_shades[1];
+	mrn_gradient.gradient_shades[2] = murrine_style->gradient_shades[2];
+	mrn_gradient.gradient_shades[3] = murrine_style->gradient_shades[3];
+
+	if (murrine_style->has_gradient_colors && !params->disabled)
+	{
+		mrn_gradient.has_gradient_colors = TRUE;
+		murrine_gdk_color_to_rgb (&murrine_style->gradient_colors[0], &mrn_gradient.gradient_colors[0].r,
+	                                                                  &mrn_gradient.gradient_colors[0].g,
+	                                                                  &mrn_gradient.gradient_colors[0].b);
+		murrine_gdk_color_to_rgb (&murrine_style->gradient_colors[1], &mrn_gradient.gradient_colors[1].r,
+	                                                                  &mrn_gradient.gradient_colors[1].g,
+	                                                                  &mrn_gradient.gradient_colors[1].b);
+		murrine_gdk_color_to_rgb (&murrine_style->gradient_colors[2], &mrn_gradient.gradient_colors[2].r,
+	                                                                  &mrn_gradient.gradient_colors[2].g,
+	                                                                  &mrn_gradient.gradient_colors[2].b);
+		murrine_gdk_color_to_rgb (&murrine_style->gradient_colors[3], &mrn_gradient.gradient_colors[3].r,
+	                                                                  &mrn_gradient.gradient_colors[3].g,
+	                                                                  &mrn_gradient.gradient_colors[3].b);
+		if (params->prelight && !MRN_IS_PROGRESS_BAR(widget)) //progressbar is prelight, no change in shade
+		{
+			mrn_gradient.gradient_shades[0] *= 1.1;
+			mrn_gradient.gradient_shades[1] *= 1.1;
+			mrn_gradient.gradient_shades[2] *= 1.1;
+			mrn_gradient.gradient_shades[3] *= 1.1;
+		}
 	}
 	else
-	{
-		mrn_gradient.border_shades[0] = 1.0;
-		mrn_gradient.border_shades[1] = 1.0;
+		mrn_gradient.has_gradient_colors = FALSE;
 
-		mrn_gradient.gradient_shades[0] = 1.0;
-		mrn_gradient.gradient_shades[1] = 1.0;
-		mrn_gradient.gradient_shades[2] = 1.0;
-		mrn_gradient.gradient_shades[3] = 1.0;
+	if (murrine_style->has_border_colors && !params->disabled)
+	{
+		mrn_gradient.has_border_colors = TRUE;
+		murrine_gdk_color_to_rgb (&murrine_style->border_colors[0], &mrn_gradient.border_colors[0].r,
+	                                                                &mrn_gradient.border_colors[0].g,
+	                                                                &mrn_gradient.border_colors[0].b);
+		murrine_gdk_color_to_rgb (&murrine_style->border_colors[1], &mrn_gradient.border_colors[1].r,
+	                                                                &mrn_gradient.border_colors[1].g,
+	                                                                &mrn_gradient.border_colors[1].b);
 	}
-	mrn_gradient.gradients = murrine_style->gradients;
+	else
+		mrn_gradient.has_border_colors = FALSE;
+
+	mrn_gradient.trough_shades[0] = murrine_style->trough_shades[0];
+	mrn_gradient.trough_shades[1] = murrine_style->trough_shades[1];
+
+	if (murrine_style->border_shades[0] != 1.0 ||
+	    murrine_style->border_shades[1] != 1.0 ||
+	    murrine_style->gradient_shades[0] != 1.0 ||
+	    murrine_style->gradient_shades[1] != 1.0 ||
+	    murrine_style->gradient_shades[2] != 1.0 ||
+	    murrine_style->gradient_shades[3] != 1.0 ||
+	    murrine_style->trough_shades[0] != 1.0 ||
+	    murrine_style->trough_shades[0] != 1.0)
+		mrn_gradient.gradients = TRUE;
+	else
+		mrn_gradient.gradients = FALSE;
+
 	mrn_gradient.use_rgba = (murrine_widget_is_rgba ((GtkWidget*) widget) &&
 	                         murrine_style->rgba);
 	mrn_gradient.rgba_opacity = GRADIENT_OPACITY;
 
 	MurrineStyles mrn_style = MRN_STYLE_MURRINE;
 	if (mrn_gradient.use_rgba)
-	{
 		mrn_style = MRN_STYLE_RGBA;
-	}
+
 	params->mrn_gradient = mrn_gradient;
 	params->style = mrn_style;
 	params->style_functions = &(MURRINE_STYLE_GET_CLASS (style)->style_functions[mrn_style]);
@@ -827,7 +867,17 @@ murrine_style_draw_box (DRAW_ARGS)
 				params.reliefstyle = 1;
 		}
 
-		STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, x, y, width, height, horizontal);
+		if (!MRN_IS_COMBO_BOX(widget->parent) ||
+		     MRN_IS_COMBO_BOX_ENTRY (widget->parent) ||
+		     MRN_IS_COMBO (widget->parent))
+			STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, x, y, width, height, horizontal);
+		else
+		{
+			ComboBoxParameters combobox;
+			combobox.box_w = 24;
+			combobox.style = murrine_style->comboboxstyle;
+			STYLE_FUNCTION(draw_combobox) (cr, murrine_style->colors, params, &combobox, x, y, width, height, horizontal);
+		}
 	}
 	else if (DETAIL ("spinbutton_up") || DETAIL ("spinbutton_down"))
 	{
@@ -853,6 +903,8 @@ murrine_style_draw_box (DRAW_ARGS)
 			}
 			else
 			{
+				y--;
+				height++;
 				if (params.ltr)
 					params.corners = MRN_CORNER_BOTTOMRIGHT;
 				else
@@ -868,6 +920,7 @@ murrine_style_draw_box (DRAW_ARGS)
 	else if (DETAIL ("spinbutton"))
 	{
 		WidgetParameters params;
+		SpinbuttonParameters spinbutton;
 
 		/* The "spinbutton" box is always drawn with state NORMAL, even if it is insensitive.
 		 * So work around this here. */
@@ -875,6 +928,8 @@ murrine_style_draw_box (DRAW_ARGS)
 			state_type = GTK_WIDGET_STATE (widget);
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
+
+		spinbutton.style = murrine_style->spinbuttonstyle;
 
 		boolean horizontal = TRUE;
 		if (((float)width/height<0.5)|| (murrine_style->glazestyle > 0 && width<height))
@@ -913,8 +968,7 @@ murrine_style_draw_box (DRAW_ARGS)
 			cairo_fill (cr);
 		}
 
-		/* draw_spinbutton (cr, &murrine_style->colors, &params, x, y, width, height); */
-		STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, x, y, width, height, horizontal);
+		STYLE_FUNCTION(draw_spinbutton) (cr, &murrine_style->colors, &params, &spinbutton, x, y, width, height, horizontal);
 	}
 	else if (detail && g_str_has_prefix (detail, "trough") && widget && MRN_IS_SCALE (widget))
 	{
@@ -935,6 +989,7 @@ murrine_style_draw_box (DRAW_ARGS)
 	else if (DETAIL ("trough") && widget && MRN_IS_PROGRESS_BAR (widget))
 	{
 		WidgetParameters params;
+		ProgressBarParameters progressbar;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 
@@ -959,7 +1014,20 @@ murrine_style_draw_box (DRAW_ARGS)
 			}
 		}
 
-		STYLE_FUNCTION(draw_progressbar_trough) (cr, colors, &params, x, y, width, height);
+		if (widget && MRN_IS_PROGRESS_BAR (widget))
+			progressbar.orientation = gtk_progress_bar_get_orientation (GTK_PROGRESS_BAR (widget));
+		else
+			progressbar.orientation = MRN_ORIENTATION_LEFT_TO_RIGHT;
+
+		if (!params.ltr)
+		{
+			if (progressbar.orientation == GTK_PROGRESS_LEFT_TO_RIGHT)
+				progressbar.orientation = GTK_PROGRESS_RIGHT_TO_LEFT;
+			else if (progressbar.orientation == GTK_PROGRESS_RIGHT_TO_LEFT)
+				progressbar.orientation = GTK_PROGRESS_LEFT_TO_RIGHT;
+		}
+
+		STYLE_FUNCTION(draw_progressbar_trough) (cr, colors, &params, &progressbar, x, y, width, height);
 	}
 	else if (DETAIL ("trough") && widget && (MRN_IS_VSCROLLBAR (widget) || MRN_IS_HSCROLLBAR (widget)))
 	{
@@ -1206,7 +1274,15 @@ murrine_style_draw_box (DRAW_ARGS)
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 
-		STYLE_FUNCTION(draw_optionmenu) (cr, colors, &params, &optionmenu, x, y, width, height);
+		if (murrine_style->comboboxstyle > 0)
+		{
+			ComboBoxParameters combobox;
+			combobox.box_w = indicator_size.width+indicator_spacing.left+indicator_spacing.right+3;
+			combobox.style = murrine_style->comboboxstyle;
+			STYLE_FUNCTION(draw_combobox) (cr, murrine_style->colors, params, &combobox, x, y, width, height, TRUE);
+		}
+		else
+			STYLE_FUNCTION(draw_optionmenu) (cr, colors, &params, &optionmenu, x, y, width, height);
 	}
 	else if (DETAIL ("menuitem"))
 	{
@@ -1219,7 +1295,6 @@ murrine_style_draw_box (DRAW_ARGS)
 			if (murrine_style->menustyle != 1 || (MRN_IS_MENU_BAR (widget->parent) && !murrine_style->menubaritemstyle))
 				STYLE_FUNCTION(draw_menuitem) (cr, colors, &params, x, y, width, height, murrine_style->menuitemstyle);
 			else
-				/* little translation */ /* XXX: RTL */
 				STYLE_FUNCTION(draw_menuitem) (cr, colors, &params, x+3, y, width-3, height, murrine_style->menuitemstyle);
 		}
 
@@ -1262,14 +1337,6 @@ murrine_style_draw_box (DRAW_ARGS)
 		if (!scrollbar.has_color)
 			scrollbar.color = colors->bg[0];
 
-		if (murrine_style->has_scrollbar_color)
-		{
-			murrine_gdk_color_to_rgb (&murrine_style->scrollbar_color, &scrollbar.color.r,
-			                                                           &scrollbar.color.g,
-			                                                           &scrollbar.color.b);
-			scrollbar.has_color = TRUE;
-		}
-
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 		params.corners = MRN_CORNER_NONE;
 
@@ -1285,6 +1352,7 @@ murrine_style_draw_box (DRAW_ARGS)
 
 			if (trough_border > 0 ||
 			    trough_under_steppers == 0 ||
+			    scrollbar.stepperstyle == 2 ||
 			    murrine_style->roundness == 1)
 				params.corners = MRN_CORNER_ALL;
 			else
@@ -1325,6 +1393,9 @@ murrine_style_draw_box (DRAW_ARGS)
 				gtk_widget_style_get (widget->parent, "scrollbars-within-bevel", &within_bevel, NULL);
 
 			if (within_bevel)
+				params.corners = MRN_CORNER_NONE;
+
+			if (scrollbar.stepperstyle == 2)
 				params.corners = MRN_CORNER_NONE;
 
 			if (murrine_style->stepperstyle != 1)
@@ -1564,8 +1635,6 @@ murrine_style_draw_vline (GtkStyle     *style,
 	{
 		STYLE_FUNCTION(draw_separator) (cr, colors, NULL, &separator, x, y1, 2, y2-y1);
 	}
-/*	else*/
-/*		STYLE_FUNCTION(draw_combo_separator) (cr, colors, NULL, x, y1, 2, y2-y1);*/
 
 	cairo_destroy (cr);
 }
@@ -1781,6 +1850,11 @@ murrine_style_draw_arrow (GtkStyle     *style,
 			x = x + width / 2 - 2;
 			y = y + height / 2 - 1;
 			height = 4; width = 5;
+
+			if (arrow.direction == MRN_DIRECTION_UP)
+				y--;
+			if (arrow.direction == MRN_DIRECTION_DOWN)
+				y++;
 		}
 		else if (arrow.direction == MRN_DIRECTION_UP || arrow.direction == MRN_DIRECTION_DOWN)
 		{
@@ -1835,6 +1909,8 @@ murrine_style_draw_layout (GtkStyle     *style,
 
 		if (GTK_WIDGET_NO_WINDOW (widget))
 			murrine_shade (&params.parentbg, 1.12, &temp);
+		else if (DETAIL ("cellrenderertext"))
+			murrine_shade (&colors->base[widget->state], 1.12, &temp);
 		else
 			murrine_shade (&colors->bg[widget->state], 1.12, &temp);
 
@@ -1845,7 +1921,7 @@ murrine_style_draw_layout (GtkStyle     *style,
 		gdk_draw_layout_with_colors (window, gc, x+1, y+1, layout, &etched, NULL);
 		gdk_draw_layout (window, gc, x, y, layout);
 	}
-	else 
+	else
 	{
 		MurrineStyle *murrine_style = MURRINE_STYLE (style);
 		MurrineColors *colors = &murrine_style->colors;
@@ -1860,9 +1936,9 @@ murrine_style_draw_layout (GtkStyle     *style,
 			MurrineRGB temp;
 
 			if (GTK_WIDGET_NO_WINDOW (widget))
-				murrine_shade (&params.parentbg, 1.05, &temp);
+				murrine_shade (&params.parentbg, 1.06, &temp);
 			else
-				murrine_shade (&colors->bg[widget->state], 1.05, &temp);
+				murrine_shade (&colors->bg[widget->state], 1.06, &temp);
 
 			etched.red = (int) (temp.r*65535);
 			etched.green = (int) (temp.g*65535);
@@ -2151,6 +2227,8 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	/* Adjust lightborder_shade reading contrast */
 	murrine_style->lightborder_shade = get_contrast(MURRINE_RC_STYLE (rc_style)->lightborder_shade,
 	                                                MURRINE_RC_STYLE (rc_style)->contrast);
+	murrine_style->trough_shades[0]   = MURRINE_RC_STYLE (rc_style)->trough_shades[0];
+	murrine_style->trough_shades[1]   = MURRINE_RC_STYLE (rc_style)->trough_shades[1];
 
 	/* Widget styles */
 	murrine_style->glazestyle         = MURRINE_RC_STYLE (rc_style)->glazestyle;
@@ -2165,12 +2243,13 @@ murrine_style_init_from_rc (GtkStyle   *style,
 		murrine_style->roundness = MURRINE_RC_STYLE (rc_style)->roundness;
 	murrine_style->animation           = MURRINE_RC_STYLE (rc_style)->animation;
 	murrine_style->arrowstyle          = MURRINE_RC_STYLE (rc_style)->arrowstyle;
+	murrine_style->comboboxstyle       = MURRINE_RC_STYLE (rc_style)->comboboxstyle;
 	murrine_style->contrast            = MURRINE_RC_STYLE (rc_style)->contrast;
 	murrine_style->colorize_scrollbar  = MURRINE_RC_STYLE (rc_style)->colorize_scrollbar;
-	murrine_style->has_focus_color     = MURRINE_RC_STYLE (rc_style)->has_focus_color;
+	murrine_style->has_border_colors   = MURRINE_RC_STYLE (rc_style)->has_border_colors;
+	murrine_style->has_focus_color     = MURRINE_RC_STYLE (rc_style)->flags & MRN_FLAG_FOCUS_COLOR;
+	murrine_style->has_gradient_colors = MURRINE_RC_STYLE (rc_style)->has_gradient_colors;
 	murrine_style->glowstyle           = MURRINE_RC_STYLE (rc_style)->glowstyle;
-	murrine_style->gradients           = MURRINE_RC_STYLE (rc_style)->gradients;
-	murrine_style->has_scrollbar_color = MURRINE_RC_STYLE (rc_style)->has_scrollbar_color;
 	murrine_style->lightborderstyle    = MURRINE_RC_STYLE (rc_style)->lightborderstyle;
 	murrine_style->listviewheaderstyle = MURRINE_RC_STYLE (rc_style)->listviewheaderstyle;
 	murrine_style->listviewstyle       = MURRINE_RC_STYLE (rc_style)->listviewstyle;
@@ -2183,78 +2262,25 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	murrine_style->rgba                = MURRINE_RC_STYLE (rc_style)->rgba;
 	murrine_style->scrollbarstyle      = MURRINE_RC_STYLE (rc_style)->scrollbarstyle;
 	murrine_style->sliderstyle         = MURRINE_RC_STYLE (rc_style)->sliderstyle;
+	murrine_style->spinbuttonstyle     = MURRINE_RC_STYLE (rc_style)->spinbuttonstyle;
 	murrine_style->stepperstyle        = MURRINE_RC_STYLE (rc_style)->stepperstyle;
-	murrine_style->textstyle           = MURRINE_RC_STYLE (rc_style)->textstyle;	
+	murrine_style->textstyle           = MURRINE_RC_STYLE (rc_style)->textstyle;
 	murrine_style->toolbarstyle        = MURRINE_RC_STYLE (rc_style)->toolbarstyle;
 
+	if (murrine_style->has_border_colors)
+	{
+		murrine_style->border_colors[0] = MURRINE_RC_STYLE (rc_style)->border_colors[0];
+		murrine_style->border_colors[1] = MURRINE_RC_STYLE (rc_style)->border_colors[1];
+	}
 	if (murrine_style->has_focus_color)
 		murrine_style->focus_color = MURRINE_RC_STYLE (rc_style)->focus_color;
-	if (murrine_style->has_scrollbar_color)
-		murrine_style->scrollbar_color = MURRINE_RC_STYLE (rc_style)->scrollbar_color;
-
-	g_assert ((MURRINE_RC_STYLE (rc_style)->profile >= 0) &&
-	          (MURRINE_RC_STYLE (rc_style)->profile < MRN_NUM_PROFILES));
-	murrine_style->profile             = MURRINE_RC_STYLE (rc_style)->profile;
-
-	switch (murrine_style->profile)
+	if (murrine_style->has_gradient_colors)
 	{
-		case (MRN_PROFILE_NODOKA):
-			murrine_style->highlight_shade = 1.0;
-			murrine_style->gradients = TRUE;
-			murrine_style->gradient_shades[0] = 1.1;
-			murrine_style->gradient_shades[1] = 1.0;
-			murrine_style->gradient_shades[2] = 1.0;
-			murrine_style->gradient_shades[3] = 1.1;
-			murrine_style->sliderstyle = 1;
-			murrine_style->scrollbarstyle = 2;
-			murrine_style->stepperstyle = 0;
-			murrine_style->colorize_scrollbar = FALSE;
-			murrine_style->has_scrollbar_color = FALSE;
-			break;
-		case (MRN_PROFILE_MIST):
-			murrine_style->highlight_shade = 1.0;
-			murrine_style->glazestyle = 0;
-			murrine_style->gradients = FALSE;
-			murrine_style->gradient_shades[0] = 1.0;
-			murrine_style->gradient_shades[1] = 1.0;
-			murrine_style->gradient_shades[2] = 1.0;
-			murrine_style->gradient_shades[3] = 1.0;
-			murrine_style->lightborder_shade = 1.00;
-			murrine_style->sliderstyle = 1;
-			murrine_style->scrollbarstyle = 0;
-			murrine_style->stepperstyle = 0;
-			murrine_style->colorize_scrollbar = FALSE;
-			murrine_style->has_scrollbar_color = FALSE;
-			murrine_style->reliefstyle = 0;
-			murrine_style->roundness = 0;
-			break;
-		case (MRN_PROFILE_CANDIDO):
-			murrine_style->highlight_shade = 1.0;
-			murrine_style->lightborder_shade = 1.06;
-			murrine_style->glazestyle = 0;
-			murrine_style->gradients = TRUE;
-			murrine_style->gradient_shades[0] = 1.01;
-			murrine_style->gradient_shades[1] = 0.99;
-			murrine_style->gradient_shades[2] = 0.99;
-			murrine_style->gradient_shades[3] = 0.97;
-			murrine_style->reliefstyle = 0;
-			break;
-		case (MRN_PROFILE_CLEARLOOKS):
-			murrine_style->glazestyle = 0;
-			murrine_style->gradient_shades[0] = 1.08;
-			murrine_style->gradient_shades[1] = 1.02;
-			murrine_style->gradient_shades[2] = 1.00;
-			murrine_style->gradient_shades[3] = 0.94;
-			murrine_style->gradients = TRUE;
-			murrine_style->highlight_shade = 1.0;
-			murrine_style->toolbarstyle = 1;
-			murrine_style->lightborder_shade = 1.02;
-			murrine_style->listviewheaderstyle = 1;
-			murrine_style->menustyle = 0;
-			murrine_style->sliderstyle = 1;
-			murrine_style->scrollbarstyle = 2;
-			break;
-	};
+		murrine_style->gradient_colors[0] = MURRINE_RC_STYLE (rc_style)->gradient_colors[0];
+		murrine_style->gradient_colors[1] = MURRINE_RC_STYLE (rc_style)->gradient_colors[1];
+		murrine_style->gradient_colors[2] = MURRINE_RC_STYLE (rc_style)->gradient_colors[2];
+		murrine_style->gradient_colors[3] = MURRINE_RC_STYLE (rc_style)->gradient_colors[3];
+	}
 }
 
 static void
@@ -2340,22 +2366,29 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 
 	mrn_style->animation           = mrn_src->animation;
 	mrn_style->arrowstyle          = mrn_src->arrowstyle;
+	mrn_style->border_colors[0]    = mrn_src->border_colors[0];
+	mrn_style->border_colors[1]    = mrn_src->border_colors[1];
 	mrn_style->border_shades[0]    = mrn_src->border_shades[0];
 	mrn_style->border_shades[1]    = mrn_src->border_shades[1];
 	mrn_style->colorize_scrollbar  = mrn_src->colorize_scrollbar;
 	mrn_style->colors              = mrn_src->colors;
+	mrn_style->comboboxstyle       = mrn_src->comboboxstyle;
 	mrn_style->contrast            = mrn_src->contrast;
 	mrn_style->focus_color         = mrn_src->focus_color;
 	mrn_style->glazestyle          = mrn_src->glazestyle;
 	mrn_style->glow_shade          = mrn_src->glow_shade;
 	mrn_style->glowstyle           = mrn_src->glowstyle;
+	mrn_style->gradient_colors[0]  = mrn_src->gradient_colors[0];
+	mrn_style->gradient_colors[1]  = mrn_src->gradient_colors[1];
+	mrn_style->gradient_colors[2]  = mrn_src->gradient_colors[2];
+	mrn_style->gradient_colors[3]  = mrn_src->gradient_colors[3];
 	mrn_style->gradient_shades[0]  = mrn_src->gradient_shades[0];
 	mrn_style->gradient_shades[1]  = mrn_src->gradient_shades[1];
 	mrn_style->gradient_shades[2]  = mrn_src->gradient_shades[2];
 	mrn_style->gradient_shades[3]  = mrn_src->gradient_shades[3];
-	mrn_style->gradients           = mrn_src->gradients;
+	mrn_style->has_border_colors   = mrn_src->has_border_colors;
 	mrn_style->has_focus_color     = mrn_src->has_focus_color;
-	mrn_style->has_scrollbar_color = mrn_src->has_scrollbar_color;
+	mrn_style->has_gradient_colors = mrn_src->has_gradient_colors;
 	mrn_style->highlight_shade     = mrn_src->highlight_shade;
 	mrn_style->lightborder_shade   = mrn_src->lightborder_shade;
 	mrn_style->lightborderstyle    = mrn_src->lightborderstyle;
@@ -2365,17 +2398,18 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	mrn_style->menubarstyle        = mrn_src->menubarstyle;
 	mrn_style->menuitemstyle       = mrn_src->menuitemstyle;
 	mrn_style->menustyle           = mrn_src->menustyle;
-	mrn_style->profile             = mrn_src->profile;
 	mrn_style->progressbarstyle    = mrn_src->progressbarstyle;
 	mrn_style->reliefstyle         = mrn_src->reliefstyle;
 	mrn_style->rgba                = mrn_src->rgba;
 	mrn_style->roundness           = mrn_src->roundness;
-	mrn_style->scrollbar_color     = mrn_src->scrollbar_color;
 	mrn_style->scrollbarstyle      = mrn_src->scrollbarstyle;
 	mrn_style->sliderstyle 	       = mrn_src->sliderstyle;
+	mrn_style->spinbuttonstyle     = mrn_src->spinbuttonstyle;
 	mrn_style->stepperstyle        = mrn_src->stepperstyle;
 	mrn_style->textstyle           = mrn_src->textstyle;
 	mrn_style->toolbarstyle        = mrn_src->toolbarstyle;
+	mrn_style->trough_shades[0]    = mrn_src->trough_shades[0];
+	mrn_style->trough_shades[1]    = mrn_src->trough_shades[1];
 
 	GTK_STYLE_CLASS (murrine_style_parent_class)->copy (style, src);
 }

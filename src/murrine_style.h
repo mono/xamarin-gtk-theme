@@ -42,16 +42,16 @@ struct _MurrineStyle
 
 	MurrineColors colors;
 
-	MurrineProfiles profile;
-
 	double   border_shades[2];
 	double   contrast;
 	double   glow_shade;
 	double   gradient_shades[4];
 	double   highlight_shade;
 	double   lightborder_shade;
+	double   trough_shades[2];
 
 	guint8   arrowstyle;
+	guint8   comboboxstyle;
 	guint8   glazestyle;
 	guint8   glowstyle;
 	guint8   lightborderstyle;
@@ -66,19 +66,21 @@ struct _MurrineStyle
 	guint8   roundness;
 	guint8   scrollbarstyle;
 	guint8   sliderstyle;
+	guint8   spinbuttonstyle;
 	guint8   stepperstyle;
 	guint8   textstyle;
 	guint8   toolbarstyle;
 
 	gboolean animation;
 	gboolean colorize_scrollbar;
-	gboolean gradients;
+	gboolean has_border_colors;
 	gboolean has_focus_color;
-	gboolean has_scrollbar_color;
+	gboolean has_gradient_colors;
 	gboolean rgba;
 
+	GdkColor border_colors[2];
 	GdkColor focus_color;
-	GdkColor scrollbar_color;
+	GdkColor gradient_colors[4];
 };
 
 struct _MurrineStyleClass

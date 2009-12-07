@@ -27,16 +27,6 @@ typedef struct _MurrineStyleFunctions MurrineStyleFunctions;
 
 typedef enum
 {
-	MRN_PROFILE_MURRINE = 0,
-	MRN_PROFILE_NODOKA = 1,
-	MRN_PROFILE_MIST = 2,
-	MRN_PROFILE_CANDIDO = 3,
-	MRN_PROFILE_CLEARLOOKS = 4,
-	MRN_NUM_PROFILES = 5
-} MurrineProfiles;
-
-typedef enum
-{
 	MRN_STYLE_MURRINE = 0,
 	MRN_STYLE_RGBA = 1,
 	MRN_NUM_DRAW_STYLES = 2
@@ -194,9 +184,15 @@ typedef struct
 {
 	double  border_shades[2];
 	double  gradient_shades[4];
+	double  trough_shades[4];
 	double  rgba_opacity;
 
+	MurrineRGB border_colors[4];
+	MurrineRGB gradient_colors[4];
+
+	boolean has_border_colors;
 	boolean gradients;
+	boolean has_gradient_colors;
 	boolean use_rgba;
 } MurrineGradients;
 
@@ -229,6 +225,12 @@ typedef struct
 	MurrineStyles style;
 	MurrineStyleFunctions *style_functions;
 } WidgetParameters;
+
+typedef struct
+{
+	int box_w;
+	int style;
+} ComboBoxParameters;
 
 typedef struct
 {
@@ -337,6 +339,11 @@ typedef struct
 
 typedef struct
 {
+	int style;
+} SpinbuttonParameters;
+
+typedef struct
+{
 	MurrineArrowType type;
 	MurrineDirection direction;
 	int style;
@@ -361,6 +368,13 @@ struct _MurrineStyleFunctions
 	                     int x, int y, int width, int height,
 	                     boolean vertical);
 
+	void (*draw_combobox) (cairo_t *cr,
+	                       MurrineColors    colors,
+	                       WidgetParameters widget,
+	                       const ComboBoxParameters *combobox,
+	                       int x, int y, int width, int height,
+	                       boolean vertical);
+
 	void (*draw_scale_trough) (cairo_t *cr,
 	                           const MurrineColors    *colors,
 	                           const WidgetParameters *widget,
@@ -376,6 +390,7 @@ struct _MurrineStyleFunctions
 	void (*draw_progressbar_trough) (cairo_t *cr,
 	                                 const MurrineColors    *colors,
 	                                 const WidgetParameters *widget,
+	                                 const ProgressBarParameters *progressbar,
 	                                 int x, int y, int width, int height);
 
 	void (*draw_progressbar_fill) (cairo_t *cr,
@@ -400,7 +415,9 @@ struct _MurrineStyleFunctions
 	void (*draw_spinbutton) (cairo_t *cr,
 	                         const MurrineColors    *colors,
 	                         const WidgetParameters *widget,
-	                         int x, int y, int width, int height);
+	                         const SpinbuttonParameters *spinbutton,
+	                         int x, int y, int width, int height,
+	                         boolean horizontal);
 
 	void (*draw_spinbutton_down) (cairo_t *cr,
 	                              const MurrineColors    *colors,

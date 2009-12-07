@@ -37,15 +37,17 @@ enum
 {
 	TOKEN_ANIMATION = G_TOKEN_LAST + 1,
 	TOKEN_ARROWSTYLE,
+	TOKEN_BORDER_COLORS,
 	TOKEN_BORDER_SHADES,
 	TOKEN_COLORIZE_SCROLLBAR,
+	TOKEN_COMBOBOXSTYLE,
 	TOKEN_CONTRAST,
 	TOKEN_FOCUS_COLOR,
 	TOKEN_GLAZESTYLE,
 	TOKEN_GLOW_SHADE,
 	TOKEN_GLOWSTYLE,
+	TOKEN_GRADIENT_COLORS,
 	TOKEN_GRADIENT_SHADES,
-	TOKEN_GRADIENTS,
 	TOKEN_HIGHLIGHT_SHADE,
 	TOKEN_LIGHTBORDER_SHADE,
 	TOKEN_LIGHTBORDERSTYLE,
@@ -55,31 +57,28 @@ enum
 	TOKEN_MENUBARSTYLE,
 	TOKEN_MENUITEMSTYLE,
 	TOKEN_MENUSTYLE,
-	TOKEN_PROFILE,
 	TOKEN_PROGRESSBARSTYLE,
 	TOKEN_RELIEFSTYLE,
 	TOKEN_RGBA,
 	TOKEN_ROUNDNESS,
-	TOKEN_SCROLLBAR_COLOR,
 	TOKEN_SCROLLBARSTYLE,
 	TOKEN_SLIDERSTYLE,
+	TOKEN_SPINBUTTONSTYLE,
 	TOKEN_STEPPERSTYLE,
 	TOKEN_TEXTSTYLE,
 	TOKEN_TOOLBARSTYLE,
-
-	TOKEN_CANDIDO,
-	TOKEN_CLEARLOOKS,
-	TOKEN_MIST,
-	TOKEN_MURRINE,
-	TOKEN_NODOKA,
+	TOKEN_TROUGH_SHADES,
 
 	TOKEN_TRUE,
 	TOKEN_FALSE,
 
 	/* stuff to ignore */
+	TOKEN_GRADIENTS,
 	TOKEN_HILIGHT_RATIO,
 	TOKEN_HIGHLIGHT_RATIO,
 	TOKEN_LIGHTBORDER_RATIO,
+	TOKEN_PROFILE,
+	TOKEN_SCROLLBAR_COLOR,
 	TOKEN_SQUAREDSTYLE,
 	TOKEN_STYLE
 };
@@ -93,15 +92,17 @@ theme_symbols[] =
 {
 	{ "animation",           TOKEN_ANIMATION },
 	{ "arrowstyle",          TOKEN_ARROWSTYLE },
+	{ "border_colors",       TOKEN_BORDER_COLORS },
 	{ "border_shades",       TOKEN_BORDER_SHADES },
 	{ "colorize_scrollbar",  TOKEN_COLORIZE_SCROLLBAR },
+	{ "comboboxstyle",       TOKEN_COMBOBOXSTYLE },
 	{ "contrast",            TOKEN_CONTRAST },
 	{ "focus_color",         TOKEN_FOCUS_COLOR },
 	{ "glazestyle",          TOKEN_GLAZESTYLE },
 	{ "glow_shade",          TOKEN_GLOW_SHADE },
 	{ "glowstyle",           TOKEN_GLOWSTYLE },
+	{ "gradient_colors",     TOKEN_GRADIENT_COLORS },
 	{ "gradient_shades",     TOKEN_GRADIENT_SHADES },
-	{ "gradients",           TOKEN_GRADIENTS },
 	{ "highlight_shade",     TOKEN_HIGHLIGHT_SHADE },
 	{ "lightborder_shade",   TOKEN_LIGHTBORDER_SHADE },
 	{ "lightborderstyle",    TOKEN_LIGHTBORDERSTYLE },
@@ -111,31 +112,28 @@ theme_symbols[] =
 	{ "menubarstyle",        TOKEN_MENUBARSTYLE },
 	{ "menuitemstyle",       TOKEN_MENUITEMSTYLE },
 	{ "menustyle",           TOKEN_MENUSTYLE },
-	{ "profile",             TOKEN_PROFILE },
 	{ "progressbarstyle",    TOKEN_PROGRESSBARSTYLE },
 	{ "reliefstyle",         TOKEN_RELIEFSTYLE },
 	{ "rgba",                TOKEN_RGBA },
 	{ "roundness",           TOKEN_ROUNDNESS },
-	{ "scrollbar_color",     TOKEN_SCROLLBAR_COLOR },
 	{ "scrollbarstyle",      TOKEN_SCROLLBARSTYLE },
 	{ "sliderstyle",         TOKEN_SLIDERSTYLE },
+	{ "spinbuttonstyle",     TOKEN_SPINBUTTONSTYLE },
 	{ "stepperstyle",        TOKEN_STEPPERSTYLE },
 	{ "textstyle",           TOKEN_TEXTSTYLE },
 	{ "toolbarstyle",        TOKEN_TOOLBARSTYLE },
-
-	{ "CANDIDO",             TOKEN_CANDIDO },
-	{ "CLEARLOOKS",          TOKEN_CLEARLOOKS },
-	{ "MIST",                TOKEN_MIST },
-	{ "MURRINE",             TOKEN_MURRINE },
-	{ "NODOKA",              TOKEN_NODOKA },
+	{ "trough_shades",       TOKEN_TROUGH_SHADES },
 
 	{ "TRUE",                TOKEN_TRUE },
 	{ "FALSE",               TOKEN_FALSE },
 
 	/* stuff to ignore */
+	{ "gradients",           TOKEN_GRADIENTS },
 	{ "hilight_ratio",       TOKEN_HILIGHT_RATIO },
 	{ "highlight_ratio",     TOKEN_HIGHLIGHT_RATIO },
 	{ "lightborder_ratio",   TOKEN_LIGHTBORDER_RATIO },
+	{ "profile",             TOKEN_PROFILE },
+	{ "scrollbar_color",     TOKEN_SCROLLBAR_COLOR },
 	{ "squaredstyle",        TOKEN_SQUAREDSTYLE },
 	{ "style",               TOKEN_STYLE }
 };
@@ -158,8 +156,10 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->border_shades[0] = 1.0;
 	murrine_rc->border_shades[1] = 1.0;
 	murrine_rc->colorize_scrollbar = TRUE;
+	murrine_rc->comboboxstyle = 0;
 	murrine_rc->contrast = 1.0;
-	murrine_rc->has_focus_color = FALSE;
+	murrine_rc->has_border_colors = FALSE;
+	murrine_rc->has_gradient_colors = FALSE;
 	murrine_rc->glazestyle = 1;
 	murrine_rc->glow_shade = 1.0;
 	murrine_rc->glowstyle = 0;
@@ -167,8 +167,6 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->gradient_shades[1] = 1.0;
 	murrine_rc->gradient_shades[2] = 1.0;
 	murrine_rc->gradient_shades[3] = 1.1;
-	murrine_rc->gradients = TRUE;
-	murrine_rc->has_scrollbar_color = FALSE;
 	murrine_rc->highlight_shade = 1.1;
 	murrine_rc->lightborder_shade = 1.1;
 	murrine_rc->lightborderstyle = 0;
@@ -184,10 +182,12 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->roundness = 1;
 	murrine_rc->scrollbarstyle = 0;
 	murrine_rc->sliderstyle = 0;
+	murrine_rc->spinbuttonstyle = 0;
 	murrine_rc->stepperstyle = 0;
-	murrine_rc->profile = MRN_PROFILE_MURRINE;
 	murrine_rc->textstyle = 0;
 	murrine_rc->toolbarstyle = 0;
+	murrine_rc->trough_shades[0] = 1.0;
+	murrine_rc->trough_shades[1] = 1.0;
 }
 
 #ifdef HAVE_ANIMATION
@@ -228,7 +228,7 @@ murrine_rc_style_class_finalize (MurrineRcStyleClass *klass)
 static guint
 theme_parse_boolean (GtkSettings *settings,
                      GScanner     *scanner,
-                     gboolean *retval)
+                     gboolean     *retval)
 {
 	guint token;
 
@@ -266,6 +266,30 @@ theme_parse_color (GtkSettings  *settings,
 		return G_TOKEN_EQUAL_SIGN;
 
 	return gtk_rc_parse_color_full (scanner, style, color);
+}
+
+static guint
+murrine_gtk2_rc_parse_dummy_color (GtkSettings      *settings,
+                                   GScanner         *scanner,
+                                   gchar            *name,
+                                   GtkRcStyle       *style,
+                                   GdkColor         *color)
+{
+	guint token;
+
+	/* Skip option */
+	token = g_scanner_get_next_token (scanner);
+
+	/* print a warning. Isn't there a way to get the string from the scanner? */
+	g_scanner_warn (scanner, "Murrine configuration option \"%s\" is no longer supported and will be ignored.", name);
+
+	/* equal sign */
+	/* Skip 'blah_color' */
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_EQUAL_SIGN)
+		return G_TOKEN_EQUAL_SIGN;
+
+	return  gtk_rc_parse_color_full (scanner, style, color);
 }
 
 static guint
@@ -310,48 +334,6 @@ theme_parse_int (GtkSettings  *settings,
 		return G_TOKEN_INT;
 
 	*style = scanner->value.v_int;
-
-	return G_TOKEN_NONE;
-}
-
-static guint
-theme_parse_profile (GtkSettings     *settings,
-                     GScanner        *scanner,
-                     MurrineProfiles *profile)
-{
-	guint token;
-
-	g_assert (MRN_NUM_PROFILES == MRN_PROFILE_CLEARLOOKS + 1); /* so that people don't forget ;-) */
-
-	/* Skip 'profile' */
-	token = g_scanner_get_next_token (scanner);
-
-	token = g_scanner_get_next_token (scanner);
-	if (token != G_TOKEN_EQUAL_SIGN)
-		return G_TOKEN_EQUAL_SIGN;
-
-	token = g_scanner_get_next_token (scanner);
-
-	switch (token)
-	{
-		case TOKEN_MURRINE:
-			*profile = MRN_PROFILE_MURRINE;
-			break;
-		case TOKEN_NODOKA:
-			*profile = MRN_PROFILE_NODOKA;
-			break;
-		case TOKEN_MIST:
-			*profile = MRN_PROFILE_MIST;
-			break;
-		case TOKEN_CANDIDO:
-			*profile = MRN_PROFILE_CANDIDO;
-			break;
-		case TOKEN_CLEARLOOKS:
-			*profile = MRN_PROFILE_CLEARLOOKS;
-			break;
-		default:
-			return TOKEN_MURRINE;
-	}
 
 	return G_TOKEN_NONE;
 }
@@ -413,6 +395,100 @@ theme_parse_gradient (GtkSettings  *settings,
 }
 
 static guint
+theme_parse_gradient_colors (GtkSettings  *settings,
+                             GScanner     *scanner,
+                             GtkRcStyle   *style,
+                             gboolean     *retval,
+                             GdkColor     gradient_colors[4])
+{
+	guint token;
+	*retval = TRUE;
+
+	/* Skip 'blah_border' */
+	token = g_scanner_get_next_token(scanner);
+
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_EQUAL_SIGN)
+		return G_TOKEN_EQUAL_SIGN;
+
+	token = g_scanner_get_next_token(scanner);
+	if (token == TOKEN_FALSE)
+	{
+		*retval = FALSE;
+		return G_TOKEN_NONE;
+	}
+	else if (token != G_TOKEN_LEFT_CURLY)
+		return G_TOKEN_LEFT_CURLY;
+
+	gtk_rc_parse_color_full (scanner, style, &gradient_colors[0]);
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_COMMA)
+		return G_TOKEN_COMMA;
+
+	gtk_rc_parse_color_full (scanner, style, &gradient_colors[1]);
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_COMMA)
+		return G_TOKEN_COMMA;
+
+	gtk_rc_parse_color_full (scanner, style, &gradient_colors[2]);
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_COMMA)
+		return G_TOKEN_COMMA;
+
+	gtk_rc_parse_color_full (scanner, style, &gradient_colors[3]);
+
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_RIGHT_CURLY)
+		return G_TOKEN_RIGHT_CURLY;
+
+	/* save those values */
+
+	return G_TOKEN_NONE;
+}
+
+static guint
+theme_parse_border_colors (GtkSettings  *settings,
+                             GScanner     *scanner,
+                             GtkRcStyle   *style,
+                             gboolean     *retval,
+                             GdkColor     border_colors[2])
+{
+	guint token;
+	*retval = TRUE;
+
+	/* Skip 'blah_border' */
+	token = g_scanner_get_next_token(scanner);
+
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_EQUAL_SIGN)
+		return G_TOKEN_EQUAL_SIGN;
+
+	token = g_scanner_get_next_token(scanner);
+	if (token == TOKEN_FALSE)
+	{
+		*retval = FALSE;
+		return G_TOKEN_NONE;
+	}
+	else if (token != G_TOKEN_LEFT_CURLY)
+		return G_TOKEN_LEFT_CURLY;
+
+	gtk_rc_parse_color_full (scanner, style, &border_colors[0]);
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_COMMA)
+		return G_TOKEN_COMMA;
+
+	gtk_rc_parse_color_full (scanner, style, &border_colors[1]);
+
+	token = g_scanner_get_next_token(scanner);
+	if (token != G_TOKEN_RIGHT_CURLY)
+		return G_TOKEN_RIGHT_CURLY;
+
+	/* save those values */
+
+	return G_TOKEN_NONE;
+}
+
+static guint
 theme_parse_border (GtkSettings  *settings,
                     GScanner     *scanner,
                     double       border_shades[2])
@@ -463,7 +539,7 @@ murrine_gtk2_rc_parse_dummy (GtkSettings      *settings,
 	token = g_scanner_get_next_token (scanner);
 
 	/* print a warning. Isn't there a way to get the string from the scanner? */
-	g_scanner_warn (scanner, "Murrine configuration option \"%s\" is not supported and will be ignored.", name);
+	g_scanner_warn (scanner, "Murrine configuration option \"%s\" is no longer supported and will be ignored.", name);
 
 	/* equal sign */
 	token = g_scanner_get_next_token (scanner);
@@ -525,13 +601,21 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_int (settings, scanner, &murrine_style->arrowstyle);
 				murrine_style->flags |= MRN_FLAG_ARROWSTYLE;
 				break;
+			case TOKEN_BORDER_COLORS:
+				token = theme_parse_border_colors (settings, scanner, rc_style, &murrine_style->has_border_colors, murrine_style->border_colors);
+				murrine_style->gflags |= MRN_FLAG_BORDER_COLORS;
+				break;
 			case TOKEN_BORDER_SHADES:
 				token = theme_parse_border (settings, scanner, murrine_style->border_shades);
-				murrine_style->flags |= MRN_FLAG_BORDER_SHADES;
+				murrine_style->gflags |= MRN_FLAG_BORDER_SHADES;
 				break;
 			case TOKEN_COLORIZE_SCROLLBAR:
 				token = theme_parse_boolean (settings, scanner, &murrine_style->colorize_scrollbar);
 				murrine_style->flags |= MRN_FLAG_COLORIZE_SCROLLBAR;
+				break;
+			case TOKEN_COMBOBOXSTYLE:
+				token = theme_parse_int (settings, scanner, &murrine_style->comboboxstyle);
+				murrine_style->flags |= MRN_FLAG_COMBOBOXSTYLE;
 				break;
 			case TOKEN_CONTRAST:
 				token = theme_parse_shade (settings, scanner, &murrine_style->contrast);
@@ -540,7 +624,6 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 			case TOKEN_FOCUS_COLOR:
 				token = theme_parse_color (settings, scanner, rc_style, &murrine_style->focus_color);
 				murrine_style->flags |= MRN_FLAG_FOCUS_COLOR;
-				murrine_style->has_focus_color = TRUE;
 				break;
 			case TOKEN_GLAZESTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->glazestyle);
@@ -554,13 +637,13 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_int (settings, scanner, &murrine_style->glowstyle);
 				murrine_style->flags |= MRN_FLAG_GLOWSTYLE;
 				break;
+			case TOKEN_GRADIENT_COLORS:
+				token = theme_parse_gradient_colors (settings, scanner, rc_style, &murrine_style->has_gradient_colors, murrine_style->gradient_colors);
+				murrine_style->gflags |= MRN_FLAG_GRADIENT_COLORS;
+				break;
 			case TOKEN_GRADIENT_SHADES:
 				token = theme_parse_gradient (settings, scanner, murrine_style->gradient_shades);
-				murrine_style->flags |= MRN_FLAG_GRADIENT_SHADES;
-				break;
-			case TOKEN_GRADIENTS:
-				token = theme_parse_boolean (settings, scanner, &murrine_style->gradients);
-				murrine_style->flags |= MRN_FLAG_GRADIENTS;
+				murrine_style->gflags |= MRN_FLAG_GRADIENT_SHADES;
 				break;
 			case TOKEN_HIGHLIGHT_SHADE:
 				token = theme_parse_shade (settings, scanner, &murrine_style->highlight_shade);
@@ -598,10 +681,6 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_int (settings, scanner, &murrine_style->menustyle);
 				murrine_style->flags |= MRN_FLAG_MENUSTYLE;
 				break;
-			case TOKEN_PROFILE:
-				token = theme_parse_profile (settings, scanner, &murrine_style->profile);
-				murrine_style->flags |= MRN_FLAG_PROFILE;
-				break;
 			case TOKEN_PROGRESSBARSTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->progressbarstyle);
 				murrine_style->flags |= MRN_FLAG_PROGRESSBARSTYLE;
@@ -618,11 +697,6 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_int (settings, scanner, &murrine_style->roundness);
 				murrine_style->flags |= MRN_FLAG_ROUNDNESS;
 				break;
-			case TOKEN_SCROLLBAR_COLOR:
-				token = theme_parse_color (settings, scanner, rc_style, &murrine_style->scrollbar_color);
-				murrine_style->flags |= MRN_FLAG_SCROLLBAR_COLOR;
-				murrine_style->has_scrollbar_color = TRUE;
-				break;
 			case TOKEN_SCROLLBARSTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->scrollbarstyle);
 				murrine_style->flags |= MRN_FLAG_SCROLLBARSTYLE;
@@ -630,6 +704,10 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 			case TOKEN_SLIDERSTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->sliderstyle);
 				murrine_style->flags |= MRN_FLAG_SLIDERSTYLE;
+				break;
+			case TOKEN_SPINBUTTONSTYLE:
+				token = theme_parse_int (settings, scanner, &murrine_style->spinbuttonstyle);
+				murrine_style->flags |= MRN_FLAG_SPINBUTTONSTYLE;
 				break;
 			case TOKEN_STEPPERSTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->stepperstyle);
@@ -643,8 +721,15 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_int (settings, scanner, &murrine_style->toolbarstyle);
 				murrine_style->flags |= MRN_FLAG_TOOLBARSTYLE;
 				break;
+			case TOKEN_TROUGH_SHADES:
+				token = theme_parse_border (settings, scanner, murrine_style->trough_shades);
+				murrine_style->gflags |= MRN_FLAG_TROUGH_SHADES;
+				break;
 
 			/* stuff to ignore */
+			case TOKEN_GRADIENTS:
+				token = murrine_gtk2_rc_parse_dummy (settings, scanner, "gradients");
+				break;
 			case TOKEN_HILIGHT_RATIO:
 				g_scanner_warn (scanner, "Murrine configuration option \"hilight_ratio\" will be deprecated in future releases. Please use \"highlight_shade\" instead.", "hilight_ratio");
 				double hilight_ratio;
@@ -662,6 +747,15 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_shade (settings, scanner, &murrine_style->lightborder_shade);
 				murrine_style->flags |= MRN_FLAG_LIGHTBORDER_SHADE;
 				break;
+			case TOKEN_PROFILE:
+				token = murrine_gtk2_rc_parse_dummy (settings, scanner, "profile");
+				break;
+			case TOKEN_SCROLLBAR_COLOR:
+			{
+				GdkColor dummy_color;
+				token = murrine_gtk2_rc_parse_dummy_color (settings, scanner, "scrollbar_color", rc_style, &dummy_color);
+				break;
+			}
 			case TOKEN_SQUAREDSTYLE:
 				token = murrine_gtk2_rc_parse_dummy (settings, scanner, "squaredstyle");
 				break;
@@ -694,6 +788,7 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 {
 	MurrineRcStyle *dest_w, *src_w;
 	MurrineRcFlags flags;
+	MurrineRcGradientFlags gflags;
 
 	GTK_RC_STYLE_CLASS (murrine_rc_style_parent_class)->merge (dest, src);
 
@@ -709,35 +804,20 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->animation = src_w->animation;
 	if (flags & MRN_FLAG_ARROWSTYLE)
 		dest_w->arrowstyle = src_w->arrowstyle;
-	if (flags & MRN_FLAG_BORDER_SHADES)
-	{
-		dest_w->border_shades[0] = src_w->border_shades[0];
-		dest_w->border_shades[1] = src_w->border_shades[1];
-	}
 	if (flags & MRN_FLAG_COLORIZE_SCROLLBAR)
 		dest_w->colorize_scrollbar = src_w->colorize_scrollbar;
+	if (flags & MRN_FLAG_COMBOBOXSTYLE)
+		dest_w->comboboxstyle = src_w->comboboxstyle;
 	if (flags & MRN_FLAG_CONTRAST)
 		dest_w->contrast = src_w->contrast;
 	if (flags & MRN_FLAG_FOCUS_COLOR)
-	{
-		dest_w->has_focus_color = TRUE;
 		dest_w->focus_color = src_w->focus_color;
-	}
 	if (flags & MRN_FLAG_GLAZESTYLE)
 		dest_w->glazestyle = src_w->glazestyle;
 	if (flags & MRN_FLAG_GLOW_SHADE)
 		dest_w->glow_shade = src_w->glow_shade;
 	if (flags & MRN_FLAG_GLOWSTYLE)
 		dest_w->glowstyle = src_w->glowstyle;
-	if (flags & MRN_FLAG_GRADIENT_SHADES)
-	{
-		dest_w->gradient_shades[0] = src_w->gradient_shades[0];
-		dest_w->gradient_shades[1] = src_w->gradient_shades[1];
-		dest_w->gradient_shades[2] = src_w->gradient_shades[2];
-		dest_w->gradient_shades[3] = src_w->gradient_shades[3];
-	}
-	if (flags & MRN_FLAG_GRADIENTS)
-		dest_w->gradients = src_w->gradients;
 	if (flags & MRN_FLAG_HIGHLIGHT_SHADE)
 		dest_w->highlight_shade = src_w->highlight_shade;
 	if (flags & MRN_FLAG_LIGHTBORDER_SHADE)
@@ -756,8 +836,6 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->menuitemstyle = src_w->menuitemstyle;
 	if (flags & MRN_FLAG_MENUSTYLE)
 		dest_w->menustyle = src_w->menustyle;
-	if (flags & MRN_FLAG_PROFILE)
-		dest_w->profile = src_w->profile;
 	if (flags & MRN_FLAG_PROGRESSBARSTYLE)
 		dest_w->progressbarstyle = src_w->progressbarstyle;
 	if (flags & MRN_FLAG_RELIEFSTYLE)
@@ -766,15 +844,12 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->rgba = src_w->rgba;
 	if (flags & MRN_FLAG_ROUNDNESS)
 		dest_w->roundness = src_w->roundness;
-	if (flags & MRN_FLAG_SCROLLBAR_COLOR)
-	{
-		dest_w->has_scrollbar_color = TRUE;
-		dest_w->scrollbar_color = src_w->scrollbar_color;
-	}
 	if (flags & MRN_FLAG_SCROLLBARSTYLE)
 		dest_w->scrollbarstyle = src_w->scrollbarstyle;
 	if (flags & MRN_FLAG_SLIDERSTYLE)
 		dest_w->sliderstyle = src_w->sliderstyle;
+	if (flags & MRN_FLAG_SPINBUTTONSTYLE)
+		dest_w->spinbuttonstyle = src_w->spinbuttonstyle;
 	if (flags & MRN_FLAG_STEPPERSTYLE)
 		dest_w->stepperstyle = src_w->stepperstyle;
 	if (flags & MRN_FLAG_TEXTSTYLE)
@@ -783,6 +858,42 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->toolbarstyle = src_w->toolbarstyle;
 
 	dest_w->flags |= src_w->flags;
+
+	gflags = (~dest_w->gflags) & src_w->gflags;
+
+	if (gflags & MRN_FLAG_BORDER_COLORS)
+	{
+		dest_w->has_border_colors = src_w->has_border_colors;
+		dest_w->border_colors[0]  = src_w->border_colors[0];
+		dest_w->border_colors[1]  = src_w->border_colors[1];
+	}
+	if (gflags & MRN_FLAG_BORDER_SHADES)
+	{
+		dest_w->border_shades[0] = src_w->border_shades[0];
+		dest_w->border_shades[1] = src_w->border_shades[1];
+	}
+	if (gflags & MRN_FLAG_GRADIENT_COLORS)
+	{
+		dest_w->has_gradient_colors = src_w->has_gradient_colors;
+		dest_w->gradient_colors[0]  = src_w->gradient_colors[0];
+		dest_w->gradient_colors[1]  = src_w->gradient_colors[1];
+		dest_w->gradient_colors[2]  = src_w->gradient_colors[2];
+		dest_w->gradient_colors[3]  = src_w->gradient_colors[3];
+	}
+	if (gflags & MRN_FLAG_GRADIENT_SHADES)
+	{
+		dest_w->gradient_shades[0] = src_w->gradient_shades[0];
+		dest_w->gradient_shades[1] = src_w->gradient_shades[1];
+		dest_w->gradient_shades[2] = src_w->gradient_shades[2];
+		dest_w->gradient_shades[3] = src_w->gradient_shades[3];
+	}
+	if (gflags & MRN_FLAG_TROUGH_SHADES)
+	{
+		dest_w->trough_shades[0] = src_w->trough_shades[0];
+		dest_w->trough_shades[1] = src_w->trough_shades[1];
+	}
+
+	dest_w->gflags |= src_w->gflags;
 }
 
 /* Create an empty style suitable to this RC style

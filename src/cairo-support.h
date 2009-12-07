@@ -108,6 +108,20 @@ G_GNUC_INTERNAL void murrine_draw_shadow (cairo_t *cr,
                                           int reliefstyle,
                                           MurrineGradients mrn_gradient, double alpha);
 
+G_GNUC_INTERNAL void murrine_draw_trough (cairo_t *cr,
+                                          const MurrineRGB  *color,
+                                          double x, double y, double width, double height,
+                                          int roundness, uint8 corners,
+                                          MurrineGradients mrn_gradient, double alpha,
+                                          boolean horizontal);
+
+G_GNUC_INTERNAL void murrine_draw_trough_border (cairo_t *cr,
+                                                 const MurrineRGB  *color,
+                                                 double x, double y, double width, double height,
+                                                 int roundness, uint8 corners,
+                                                 MurrineGradients mrn_gradient, double alpha,
+                                                 boolean horizontal);
+
 G_GNUC_INTERNAL void murrine_draw_glaze (cairo_t *cr,
                                          const MurrineRGB *fill,
                                          double glow_shade,

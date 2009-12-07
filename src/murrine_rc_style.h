@@ -37,42 +37,49 @@ typedef enum
 {
 	MRN_FLAG_ANIMATION = 1 << 0,
 	MRN_FLAG_ARROWSTYLE = 1 << 1,
-	MRN_FLAG_BORDER_SHADES = 1 << 2,
-	MRN_FLAG_COLORIZE_SCROLLBAR = 1 << 3,
+	MRN_FLAG_COLORIZE_SCROLLBAR = 1 << 2,
+	MRN_FLAG_COMBOBOXSTYLE = 1 << 3,
 	MRN_FLAG_CONTRAST = 1 << 4,
 	MRN_FLAG_FOCUS_COLOR = 1 << 5,
 	MRN_FLAG_GLAZESTYLE = 1 << 6,
 	MRN_FLAG_GLOW_SHADE = 1 << 7,
 	MRN_FLAG_GLOWSTYLE = 1 << 8,
-	MRN_FLAG_GRADIENT_SHADES = 1 << 9,
-	MRN_FLAG_GRADIENTS = 1 << 10,
-	MRN_FLAG_HIGHLIGHT_SHADE = 1 << 11,
-	MRN_FLAG_LIGHTBORDER_SHADE = 1 << 12,
-	MRN_FLAG_LIGHTBORDERSTYLE= 1 << 13,
-	MRN_FLAG_LISTVIEWHEADERSTYLE = 1 << 14,
-	MRN_FLAG_LISTVIEWSTYLE = 1 << 15,
-	MRN_FLAG_MENUBARITEMSTYLE = 1 << 16,
-	MRN_FLAG_MENUBARSTYLE = 1 << 17,
-	MRN_FLAG_MENUITEMSTYLE = 1 << 18,
-	MRN_FLAG_MENUSTYLE = 1 << 19,
-	MRN_FLAG_PROFILE = 1 << 20,
-	MRN_FLAG_PROGRESSBARSTYLE = 1 << 21,
-	MRN_FLAG_RELIEFSTYLE = 1 << 22,
-	MRN_FLAG_RGBA = 1 << 23,
-	MRN_FLAG_ROUNDNESS = 1 << 24,
-	MRN_FLAG_SCROLLBAR_COLOR = 1 << 25,
-	MRN_FLAG_SCROLLBARSTYLE = 1 << 26,
-	MRN_FLAG_SLIDERSTYLE = 1 << 27,
-	MRN_FLAG_STEPPERSTYLE = 1 << 28,
-	MRN_FLAG_TEXTSTYLE = 1 << 29,
-	MRN_FLAG_TOOLBARSTYLE = 1 << 30
+	MRN_FLAG_HIGHLIGHT_SHADE = 1 << 9,
+	MRN_FLAG_LIGHTBORDER_SHADE = 1 << 10,
+	MRN_FLAG_LIGHTBORDERSTYLE= 1 << 11,
+	MRN_FLAG_LISTVIEWHEADERSTYLE = 1 << 12,
+	MRN_FLAG_LISTVIEWSTYLE = 1 << 13,
+	MRN_FLAG_MENUBARITEMSTYLE = 1 << 14,
+	MRN_FLAG_MENUBARSTYLE = 1 << 15,
+	MRN_FLAG_MENUITEMSTYLE = 1 << 16,
+	MRN_FLAG_MENUSTYLE = 1 << 17,
+	MRN_FLAG_PROGRESSBARSTYLE = 1 << 18,
+	MRN_FLAG_RELIEFSTYLE = 1 << 19,
+	MRN_FLAG_RGBA = 1 << 20,
+	MRN_FLAG_ROUNDNESS = 1 << 21,
+	MRN_FLAG_SCROLLBARSTYLE = 1 << 22,
+	MRN_FLAG_SLIDERSTYLE = 1 << 23,
+	MRN_FLAG_SPINBUTTONSTYLE = 1 << 24,
+	MRN_FLAG_STEPPERSTYLE = 1 << 25,
+	MRN_FLAG_TEXTSTYLE = 1 << 26,
+	MRN_FLAG_TOOLBARSTYLE = 1 << 27,
 } MurrineRcFlags;
+
+typedef enum
+{
+	MRN_FLAG_BORDER_COLORS = 1 << 1,
+	MRN_FLAG_BORDER_SHADES = 1 << 2,
+	MRN_FLAG_GRADIENT_COLORS = 1 << 3,
+	MRN_FLAG_GRADIENT_SHADES = 1 << 4,
+	MRN_FLAG_TROUGH_SHADES = 1 << 5
+} MurrineRcGradientFlags;
 
 struct _MurrineRcStyle
 {
 	GtkRcStyle parent_instance;
 
 	MurrineRcFlags flags;
+	MurrineRcGradientFlags gflags;
 
 	double   border_shades[2];
 	double   contrast;
@@ -80,8 +87,10 @@ struct _MurrineRcStyle
 	double   gradient_shades[4];
 	double   highlight_shade;
 	double   lightborder_shade;
+	double   trough_shades[2];
 
 	guint8   arrowstyle;
+	guint8   comboboxstyle;
 	guint8   glazestyle;
 	guint8   glowstyle;
 	guint8   lightborderstyle;
@@ -96,21 +105,20 @@ struct _MurrineRcStyle
 	guint8   roundness;
 	guint8   scrollbarstyle;
 	guint8   sliderstyle;
+	guint8   spinbuttonstyle;
 	guint8   stepperstyle;
 	guint8   textstyle;
 	guint8   toolbarstyle;
 
 	gboolean animation;
 	gboolean colorize_scrollbar;
-	gboolean gradients;
-	gboolean has_focus_color;
-	gboolean has_scrollbar_color;
+	gboolean has_border_colors;
+	gboolean has_gradient_colors;
 	gboolean rgba;
 
+	GdkColor border_colors[2];
 	GdkColor focus_color;
-	GdkColor scrollbar_color;
-
-	MurrineProfiles profile;
+	GdkColor gradient_colors[4];
 };
 
 struct _MurrineRcStyleClass

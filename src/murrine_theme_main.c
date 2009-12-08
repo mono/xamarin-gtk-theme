@@ -27,7 +27,7 @@
 G_MODULE_EXPORT void
 theme_init (GTypeModule *module)
 {
-	printf ("Murrine 0.91.x Development Snapshot, Copyright Andrea Cimitan\n"); 
+//	printf ("Murrine 0.91.x Development Snapshot, Copyright Andrea Cimitan\n"); 
 	murrine_rc_style_register_types (module);
 	murrine_style_register_types (module);
 }

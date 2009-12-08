@@ -28,10 +28,4 @@
 
 #include <cairo.h>
 
-G_GNUC_INTERNAL void murrine_draw_button_rgba (cairo_t *cr,
-                                               const MurrineColors    *colors,
-                                               const WidgetParameters *widget,
-                                               int x, int y, int width, int height,
-                                               boolean vertical);
-
 #endif /* MURRINE_DRAW_RGBA_H */

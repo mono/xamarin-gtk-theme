@@ -5,7 +5,7 @@
          xmlns="http://usefulinc.com/ns/doap#">
 
   <name xml:lang="en">murrine</name>
-  <shortdesc xml:lang="en">The Wonderful Gtk+ Cairo Engine</shortdesc>
+  <shortdesc xml:lang="en">The marvelous Gtk+ Cairo Engine</shortdesc>
   <homepage rdf:resource="http://www.cimitan.com/murrine" />
 
   <maintainer>

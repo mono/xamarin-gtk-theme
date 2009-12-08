@@ -155,7 +155,7 @@ murrine_draw_button (cairo_t *cr,
 	MurrineRGB border = colors->shade[!widget->disabled ? 6 : 5];
 	MurrineRGB fill = colors->bg[widget->state_type];
 
-	get_fill_color (&fill, &mrn_gradient_new);
+	murrine_get_fill_color (&fill, &mrn_gradient_new);
 
 	if (widget->disabled)
 	{
@@ -676,7 +676,7 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 	MurrineRGB effect;
 	MurrineRGB fill = colors->spot[1];
 
-	get_fill_color (&fill, &widget->mrn_gradient);
+	murrine_get_fill_color (&fill, &widget->mrn_gradient);
 	murrine_shade (&fill, murrine_get_contrast(0.65, widget->contrast), &effect);
 
 	/* progressbar->orientation < 2 == boolean is_horizontal */
@@ -1528,7 +1528,7 @@ murrine_draw_menuitem (cairo_t *cr,
 	MurrineRGB border = colors->spot[2];
 	MurrineRGB fill = colors->spot[1];
 
-	get_fill_color (&fill, &mrn_gradient_new);
+	murrine_get_fill_color (&fill, &mrn_gradient_new);
 
 	cairo_translate (cr, x, y);
 	murrine_rounded_rectangle_closed (cr, 0, 0, width, height, widget->roundness, widget->corners);
@@ -1657,7 +1657,7 @@ murrine_draw_scrollbar_stepper (cairo_t *cr,
 	MurrineRGB border;
 	MurrineRGB fill  = colors->bg[widget->state_type];
 
-	get_fill_color (&fill, &mrn_gradient_new);
+	murrine_get_fill_color (&fill, &mrn_gradient_new);
 	murrine_shade (&colors->shade[6], 0.95, &border);
 
 	mrn_gradient_new.border_shades[0] = border_stop_mid;
@@ -1703,7 +1703,7 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
 	MurrineRGB border;
 	uint8 corners = widget->corners;
 
-	get_fill_color (&fill, &mrn_gradient_new);
+	murrine_get_fill_color (&fill, &mrn_gradient_new);
 
 	if (scrollbar->stepperstyle != 1)
 	{
@@ -1961,7 +1961,7 @@ murrine_draw_tooltip (cairo_t *cr,
 	double highlight_shade_new = murrine_get_decreased_shade (widget->highlight_shade, 2.0);
 
 	murrine_shade (&fill, murrine_get_contrast(0.6, widget->contrast), &border);
-	get_fill_color (&fill, &mrn_gradient_new);
+	murrine_get_fill_color (&fill, &mrn_gradient_new);
 
 	cairo_save (cr);
 

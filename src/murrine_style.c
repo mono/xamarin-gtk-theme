@@ -2226,7 +2226,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	}
 	/* Adjust lightborder_shade reading contrast */
 	murrine_style->lightborder_shade = murrine_get_contrast(MURRINE_RC_STYLE (rc_style)->lightborder_shade,
-	                                                MURRINE_RC_STYLE (rc_style)->contrast);
+	                                                        MURRINE_RC_STYLE (rc_style)->contrast);
 	murrine_style->trough_shades[0]   = MURRINE_RC_STYLE (rc_style)->trough_shades[0];
 	murrine_style->trough_shades[1]   = MURRINE_RC_STYLE (rc_style)->trough_shades[1];
 

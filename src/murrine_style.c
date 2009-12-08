@@ -2225,7 +2225,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 		murrine_style->gradient_shades[2] = gradient_stop_mid;
 	}
 	/* Adjust lightborder_shade reading contrast */
-	murrine_style->lightborder_shade = get_contrast(MURRINE_RC_STYLE (rc_style)->lightborder_shade,
+	murrine_style->lightborder_shade = murrine_get_contrast(MURRINE_RC_STYLE (rc_style)->lightborder_shade,
 	                                                MURRINE_RC_STYLE (rc_style)->contrast);
 	murrine_style->trough_shades[0]   = MURRINE_RC_STYLE (rc_style)->trough_shades[0];
 	murrine_style->trough_shades[1]   = MURRINE_RC_STYLE (rc_style)->trough_shades[1];
@@ -2306,10 +2306,10 @@ murrine_style_realize (GtkStyle *style)
 	for (i = 0; i < 9; i++)
 	{
 		murrine_shade (&bg_normal,
-		               get_contrast(shades[i], contrast),
+		               murrine_get_contrast(shades[i], contrast),
 		               &murrine_style->colors.shade[i]);
 	}
-	spots[2] = get_contrast(spots[2], contrast);
+	spots[2] = murrine_get_contrast(spots[2], contrast);
 
 	spot_color.r = style->bg[GTK_STATE_SELECTED].red/65535.0;
 	spot_color.g = style->bg[GTK_STATE_SELECTED].green/65535.0;

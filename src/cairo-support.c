@@ -1018,7 +1018,7 @@ murrine_exchange_axis (cairo_t  *cr,
 }
 
 void
-get_fill_color (MurrineRGB *color,
+murrine_get_fill_color (MurrineRGB *color,
                 const MurrineGradients *mrn_gradient)
 {
 	if (mrn_gradient->has_gradient_colors)
@@ -1030,7 +1030,7 @@ get_fill_color (MurrineRGB *color,
 }
 
 double
-get_decreased_shade (double old, double factor)
+murrine_get_decreased_shade (double old, double factor)
 {
 	if (old > 1.0)
 		return ((old-1.0)/factor+1.0);
@@ -1041,7 +1041,7 @@ get_decreased_shade (double old, double factor)
 }
 
 double
-get_increased_shade (double old, double factor)
+murrine_get_increased_shade (double old, double factor)
 {
 	if (old > 1.0)
 		return ((old-1.0)*factor+1.0);
@@ -1052,7 +1052,7 @@ get_increased_shade (double old, double factor)
 }
 
 double
-get_contrast (double old, double factor)
+murrine_get_contrast (double old, double factor)
 {
 	if (factor == 1.0)
 		return old;
@@ -1074,7 +1074,7 @@ get_contrast (double old, double factor)
 }
 
 double
-get_inverted_shade (double old)
+murrine_get_inverted_shade (double old)
 {
 	if (old == 1.0)
 		return old;
@@ -1083,7 +1083,7 @@ get_inverted_shade (double old)
 }
 
 MurrineGradients
-get_inverted_border_shades (MurrineGradients mrn_gradient)
+murrine_get_inverted_border_shades (MurrineGradients mrn_gradient)
 {
 	MurrineGradients mrn_gradient_new = mrn_gradient;
 
@@ -1094,14 +1094,14 @@ get_inverted_border_shades (MurrineGradients mrn_gradient)
 }
 
 MurrineGradients
-get_decreased_gradient_shades (MurrineGradients mrn_gradient, double factor)
+murrine_get_decreased_gradient_shades (MurrineGradients mrn_gradient, double factor)
 {
 	MurrineGradients mrn_gradient_new = mrn_gradient;
 
-	mrn_gradient_new.gradient_shades[0] = get_decreased_shade (mrn_gradient.gradient_shades[0], factor);
-	mrn_gradient_new.gradient_shades[1] = get_decreased_shade (mrn_gradient.gradient_shades[1], factor);
-	mrn_gradient_new.gradient_shades[2] = get_decreased_shade (mrn_gradient.gradient_shades[2], factor);
-	mrn_gradient_new.gradient_shades[3] = get_decreased_shade (mrn_gradient.gradient_shades[3], factor);
+	mrn_gradient_new.gradient_shades[0] = murrine_get_decreased_shade (mrn_gradient.gradient_shades[0], factor);
+	mrn_gradient_new.gradient_shades[1] = murrine_get_decreased_shade (mrn_gradient.gradient_shades[1], factor);
+	mrn_gradient_new.gradient_shades[2] = murrine_get_decreased_shade (mrn_gradient.gradient_shades[2], factor);
+	mrn_gradient_new.gradient_shades[3] = murrine_get_decreased_shade (mrn_gradient.gradient_shades[3], factor);
 
 	return mrn_gradient_new;
 }

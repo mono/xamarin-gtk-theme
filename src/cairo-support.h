@@ -54,17 +54,17 @@ G_GNUC_INTERNAL void rotate_mirror_translate (cairo_t *cr,
 G_GNUC_INTERNAL void murrine_get_fill_color (MurrineRGB *color,
                                              const MurrineGradients *mrn_gradient);
 
-G_GNUC_INTERNAL double get_decreased_shade (double old, double factor);
+G_GNUC_INTERNAL double murrine_get_decreased_shade (double old, double factor);
 
-G_GNUC_INTERNAL double get_increased_shade (double old, double factor);
+G_GNUC_INTERNAL double murrine_get_increased_shade (double old, double factor);
 
-G_GNUC_INTERNAL double get_contrast (double old, double factor);
+G_GNUC_INTERNAL double murrine_get_contrast (double old, double factor);
 
-G_GNUC_INTERNAL double get_inverted_shade (double old);
+G_GNUC_INTERNAL double murrine_get_inverted_shade (double old);
 
-G_GNUC_INTERNAL MurrineGradients get_inverted_border_shades (MurrineGradients mrn_gradient);
+G_GNUC_INTERNAL MurrineGradients murrine_get_inverted_border_shades (MurrineGradients mrn_gradient);
 
-G_GNUC_INTERNAL MurrineGradients get_decreased_gradient_shades (MurrineGradients mrn_gradient, double factor);
+G_GNUC_INTERNAL MurrineGradients murrine_get_decreased_gradient_shades (MurrineGradients mrn_gradient, double factor);
 
 G_GNUC_INTERNAL void murrine_exchange_axis (cairo_t  *cr,
                                             gint     *x,

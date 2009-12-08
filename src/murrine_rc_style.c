@@ -689,7 +689,7 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				murrine_style->flags |= MRN_FLAG_MENUSTYLE;
 				break;
 			case TOKEN_PRELIGHT_SHADE:
-				token = theme_parse_double (settings, scanner, &murrine_style->prelight_shade);
+				token = theme_parse_shade (settings, scanner, &murrine_style->prelight_shade);
 				murrine_style->flags |= MRN_FLAG_PRELIGHT_SHADE;
 				break;
 			case TOKEN_PROGRESSBARSTYLE:

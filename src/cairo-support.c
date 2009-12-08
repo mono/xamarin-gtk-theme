@@ -1019,7 +1019,7 @@ murrine_exchange_axis (cairo_t  *cr,
 
 void
 get_fill_color (MurrineRGB *color,
-                MurrineGradients *mrn_gradient)
+                const MurrineGradients *mrn_gradient)
 {
 	if (mrn_gradient->has_gradient_colors)
 	{

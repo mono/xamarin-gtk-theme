@@ -52,7 +52,7 @@ G_GNUC_INTERNAL void rotate_mirror_translate (cairo_t *cr,
                                               boolean mirror_horizontally, boolean mirror_vertically);
 
 G_GNUC_INTERNAL void murrine_get_fill_color (MurrineRGB *color,
-                                             MurrineGradients *mrn_gradient);
+                                             const MurrineGradients *mrn_gradient);
 
 G_GNUC_INTERNAL double get_decreased_shade (double old, double factor);
 

@@ -154,6 +154,7 @@ murrine_draw_button (cairo_t *cr,
 	MurrineGradients mrn_gradient_new = widget->mrn_gradient;
 	MurrineRGB border = colors->shade[!widget->disabled ? 6 : 5];
 	MurrineRGB fill = colors->bg[widget->state_type];
+
 	get_fill_color (&fill, &mrn_gradient_new);
 
 	if (widget->disabled)
@@ -672,10 +673,11 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 	int        x_step;
 	int        roundness;
 	MurrineRGB border = colors->spot[2];
+	MurrineRGB effect;
 	MurrineRGB fill = colors->spot[1];
-	get_fill_color (&fill, &widget->mrn_gradient);
 
-	murrine_shade (&fill, get_contrast(0.65, widget->contrast), &border);
+	get_fill_color (&fill, &widget->mrn_gradient);
+	murrine_shade (&fill, get_contrast(0.65, widget->contrast), &effect);
 
 	/* progressbar->orientation < 2 == boolean is_horizontal */
 	if (progressbar->orientation < 2)
@@ -736,7 +738,7 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 				tile_pos += stroke_width;
 			}
 
-			murrine_set_color_rgba (cr, &border, 0.15);
+			murrine_set_color_rgba (cr, &effect, 0.15);
 			cairo_fill (cr);
 			break;
 		}
@@ -757,7 +759,7 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 
 				cairo_move_to (cr, i+0.5, 1);
 				cairo_line_to (cr, i+0.5, height-1);
-				murrine_set_color_rgba (cr, &border, 0.25);
+				murrine_set_color_rgba (cr, &effect, 0.25);
 				cairo_stroke (cr);
 			}
 			break;
@@ -1522,11 +1524,11 @@ murrine_draw_menuitem (cairo_t *cr,
                        int x, int y, int width, int height,
                        int menuitemstyle)
 {
+	MurrineGradients mrn_gradient_new = widget->mrn_gradient;
 	MurrineRGB border = colors->spot[2];
 	MurrineRGB fill = colors->spot[1];
-	get_fill_color (&fill, &widget->mrn_gradient);
 
-	murrine_shade (&fill, get_contrast(0.65, widget->contrast), &border);
+	get_fill_color (&fill, &mrn_gradient_new);
 
 	cairo_translate (cr, x, y);
 	murrine_rounded_rectangle_closed (cr, 0, 0, width, height, widget->roundness, widget->corners);
@@ -1534,7 +1536,10 @@ murrine_draw_menuitem (cairo_t *cr,
 	switch (menuitemstyle)
 	{
 		case 0:
-			murrine_set_gradient (cr, &fill, widget->mrn_gradient, 0, 0, 0, height, widget->mrn_gradient.gradients, FALSE);
+			mrn_gradient_new.has_border_colors = FALSE;
+			mrn_gradient_new.has_gradient_colors = FALSE;
+
+			murrine_set_gradient (cr, &fill, mrn_gradient_new, 0, 0, 0, height, mrn_gradient_new.gradients, FALSE);
 			cairo_fill (cr);
 
 			murrine_set_color_rgba (cr, &border, 0.15);
@@ -1547,19 +1552,22 @@ murrine_draw_menuitem (cairo_t *cr,
 
 			murrine_draw_glaze (cr, &fill,
 			                    widget->glow_shade, widget->highlight_shade, widget->lightborder_shade,
-			                    widget->mrn_gradient, widget, 1, 1, width-2, height-2,
+			                    mrn_gradient_new, widget, 1, 1, width-2, height-2,
 			                    widget->roundness, widget->corners, TRUE);
 			break;
 		case 2:
 		{
-			murrine_set_gradient (cr, &fill, widget->mrn_gradient, 0, 0, 0, height, widget->mrn_gradient.gradients, FALSE);
+			murrine_set_gradient (cr, &fill, mrn_gradient_new, 0, 0, 0, height, mrn_gradient_new.gradients, FALSE);
 			cairo_fill (cr);
 
+			MurrineRGB effect;
 			double tile_pos = 0;
 			double stroke_width;
 			int    x_step;
 			stroke_width = height*2;
 			x_step = (((float)stroke_width/10));
+
+			murrine_shade (&fill, get_contrast(0.65, widget->contrast), &effect);
 
 			cairo_save (cr);
 			/* Draw strokes */
@@ -1573,7 +1581,7 @@ murrine_draw_menuitem (cairo_t *cr,
 				cairo_translate (cr, stroke_width, 0);
 				tile_pos += stroke_width;
 			}
-			murrine_set_color_rgba (cr, &border, 0.15);
+			murrine_set_color_rgba (cr, &effect, 0.15);
 			cairo_fill (cr);
 			cairo_restore (cr);
 			break;
@@ -1583,7 +1591,7 @@ murrine_draw_menuitem (cairo_t *cr,
 	murrine_draw_border (cr, &border,
 	                     0.5, 0.5, width-1, height-1,
 	                     widget->roundness, widget->corners,
-	                     widget->mrn_gradient, 0.8);
+	                     mrn_gradient_new, 0.8);
 }
 
 static void
@@ -1645,10 +1653,11 @@ murrine_draw_scrollbar_stepper (cairo_t *cr,
 {
 	MurrineGradients mrn_gradient_new = widget->mrn_gradient;
 	double border_stop_mid = ((mrn_gradient_new.border_shades[0])+
-		                      (mrn_gradient_new.border_shades[1]))/2.0;
-	const MurrineRGB *fill  = &colors->bg[widget->state_type];
+	                          (mrn_gradient_new.border_shades[1]))/2.0;
 	MurrineRGB border;
+	MurrineRGB fill  = colors->bg[widget->state_type];
 
+	get_fill_color (&fill, &mrn_gradient_new);
 	murrine_shade (&colors->shade[6], 0.95, &border);
 
 	mrn_gradient_new.border_shades[0] = border_stop_mid;
@@ -1658,7 +1667,7 @@ murrine_draw_scrollbar_stepper (cairo_t *cr,
 		murrine_exchange_axis (cr, &x, &y, &width, &height);
 
 	/* Border color */
-	murrine_mix_color (&border, fill, 0.4, &border);
+	murrine_mix_color (&border, &fill, 0.4, &border);
 
 	cairo_translate (cr, x, y);
 
@@ -1667,7 +1676,7 @@ murrine_draw_scrollbar_stepper (cairo_t *cr,
 	murrine_rounded_rectangle_closed (cr, 1, 1, width-2, height-2, widget->roundness-1, widget->corners);
 	cairo_clip_preserve(cr);
 
-	murrine_draw_glaze (cr, fill,
+	murrine_draw_glaze (cr, &fill,
 	                    widget->glow_shade, widget->highlight_shade, widget->lightborder_shade,
 	                    mrn_gradient_new, widget, 1, 1, width-2, height-2,
 	                    widget->roundness, widget->corners, TRUE);
@@ -1946,11 +1955,13 @@ murrine_draw_tooltip (cairo_t *cr,
                       int x, int y, int width, int height)
 {
 	MurrineRGB border;
+	MurrineRGB fill = colors->bg[widget->state_type];
 	MurrineGradients mrn_gradient_new = get_decreased_gradient_shades (widget->mrn_gradient, 2.0);
 	double glow_shade_new = get_decreased_shade (widget->glow_shade, 2.0);
 	double highlight_shade_new = get_decreased_shade (widget->highlight_shade, 2.0);
 
-	murrine_shade (&colors->bg[widget->state_type], get_contrast(0.6, widget->contrast), &border);
+	murrine_shade (&fill, get_contrast(0.6, widget->contrast), &border);
+	get_fill_color (&fill, &mrn_gradient_new);
 
 	cairo_save (cr);
 

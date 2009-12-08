@@ -16,10 +16,32 @@
 		<section>General</section>
 	</option>
 
+	<option type="enumeration" name="arrowstyle" default="0">
+		<_long_name>Arrow Style</_long_name>
+		<section>General</section>
+		<enumeration value="0">
+			<label>Simple stroked arrow</label>
+		</enumeration>
+		<enumeration value="1">
+			<label>Filled arrow</label>
+		</enumeration>
+	</option>
+
 	<option type="boolean" name="colorize_scrollbar" default="TRUE">
 		<_long_name>Colorize scrollbar</_long_name>
-		<_description>Use colorized scrollbars</_description>
+		<_description>Colorize scrollbar with bg[SELECTED]</_description>
 		<section>Scrolls and Lists</section>
+	</option>
+
+	<option type="enumeration" name="comboboxstyle" default="0">
+		<_long_name>Combobox Style</_long_name>
+		<section>General</section>
+		<enumeration value="0">
+			<label>No effect</label>
+		</enumeration>
+		<enumeration value="1">
+			<label>Colorize under the arrow</label>
+		</enumeration>
 	</option>
 
 	<option type="real" name="contrast" default="1.0">
@@ -84,12 +106,6 @@
 		<enumeration value="4">
 			<label>Centered glow</label>
 		</enumeration>
-	</option>
-
-	<option type="boolean" name="gradients" default="TRUE">
-		<_long_name>Gradients</_long_name>
-		<_description>Enable/Disable gradients</_description>
-		<section>Gradients</section>
 	</option>
 
 	<option type="real" name="highlight_shade" default="1.1">
@@ -202,26 +218,6 @@
 		</enumeration>
 	</option>
 
-	<option name="profile" type="enumeration" default="MURRINE">
-		<_long_name>Style</_long_name>
-		<section>General</section>
-		<enumeration value="MURRINE">
-			<label>Murrine</label>
-		</enumeration>
-		<enumeration value="NODOKA">
-			<label>Nodoka</label>
-		</enumeration>
-		<enumeration value="MIST">
-			<label>Mist</label>
-		</enumeration>
-		<enumeration value="CANDIDO">
-			<label>Candido</label>
-		</enumeration>
-		<enumeration value="CLEARLOOKS">
-			<label>Clearlooks</label>
-		</enumeration>
-	</option>
-
 	<option type="enumeration" name="progressbarstyle" default="1">
 		<_long_name>Progressbar style</_long_name>
 		<section>General</section>
@@ -248,8 +244,11 @@
 		<enumeration value="2">
 			<label>Shadow</label>
 		</enumeration>
-		<enumeration value="2">
+		<enumeration value="3">
 			<label>Extended Shadow</label>
+		</enumeration>
+		<enumeration value="4">
+			<label>Value 2+3</label>
 		</enumeration>
 	</option>
 
@@ -263,12 +262,6 @@
 		<section>General</section>
 		<minimum>0</minimum>
 		<maximum>8</maximum>
-	</option>
-
-	<option type="color" name="scrollbar_color" default="#999999">
-		<_long_name>Scrollbar Color</_long_name>
-		<section>Scrolls and Lists</section>
-		<_description>Sets the Color of Scrollbars</_description>
 	</option>
 
 	<option type="enumeration" name="scrollbarstyle" default="0">
@@ -308,6 +301,17 @@
 		</enumeration>
 	</option>
 
+	<option type="enumeration" name="spinbuttonstyle" default="0">
+		<_long_name>Spinbutton Style</_long_name>
+		<section>General</section>
+		<enumeration value="0">
+			<label>No effect</label>
+		</enumeration>
+		<enumeration value="1">
+			<label>Add separator</label>
+		</enumeration>
+	</option>
+
 	<option type="enumeration" name="stepperstyle" default="0">
 		<_long_name>Stepper style</_long_name>
 		<section>Scrolls and Lists</section>
@@ -316,6 +320,17 @@
 		</enumeration>
 		<enumeration value="1">
 			<label>Unified</label>
+		</enumeration>
+	</option>
+
+	<option type="enumeration" name="textstyle" default="0">
+		<_long_name>Text Style</_long_name>
+		<section>General</section>
+		<enumeration value="0">
+			<label>No effect</label>
+		</enumeration>
+		<enumeration value="1">
+			<label>Add inset</label>
 		</enumeration>
 	</option>
 

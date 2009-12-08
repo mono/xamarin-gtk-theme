@@ -809,7 +809,8 @@ murrine_draw_combobox (cairo_t *cr,
 				box_w -= 3;
 			int os = (widget.xthickness > 2 && widget.ythickness > 2) ? 1 : 0;
 			colors_new.bg[GTK_STATE_NORMAL] = colors.spot[1];
-			colors_new.bg[GTK_STATE_PRELIGHT] = colors.spot[0];
+			murrine_shade (&colors_new.bg[GTK_STATE_NORMAL], combobox->prelight_shade, 
+			               &colors_new.bg[GTK_STATE_PRELIGHT]);
 
 			cairo_save (cr);
 			if (params.ltr)
@@ -1699,7 +1700,7 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
 	MurrineGradients mrn_gradient_new = widget->mrn_gradient;
 	double border_stop_mid = ((mrn_gradient_new.border_shades[0])+
 	                          (mrn_gradient_new.border_shades[1]))/2.0;
-	MurrineRGB fill = scrollbar->has_color ? scrollbar->color : colors->bg[0];
+	MurrineRGB fill = scrollbar->has_color ? scrollbar->color : colors->bg[widget->state_type];
 	MurrineRGB border;
 	uint8 corners = widget->corners;
 
@@ -1752,8 +1753,8 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
 	mrn_gradient_new.border_shades[0] = border_stop_mid;
 	mrn_gradient_new.border_shades[1] = border_stop_mid;
 
-	if (widget->prelight)
-		murrine_shade (&fill, 1.04, &fill);
+	if (widget->prelight && scrollbar->has_color)
+		murrine_shade (&fill, scrollbar->prelight_shade, &fill);
 
 	murrine_mix_color (&border, &fill, 0.4, &border);
 

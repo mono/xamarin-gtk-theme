@@ -53,16 +53,17 @@ typedef enum
 	MRN_FLAG_MENUBARSTYLE = 1 << 15,
 	MRN_FLAG_MENUITEMSTYLE = 1 << 16,
 	MRN_FLAG_MENUSTYLE = 1 << 17,
-	MRN_FLAG_PROGRESSBARSTYLE = 1 << 18,
-	MRN_FLAG_RELIEFSTYLE = 1 << 19,
-	MRN_FLAG_RGBA = 1 << 20,
-	MRN_FLAG_ROUNDNESS = 1 << 21,
-	MRN_FLAG_SCROLLBARSTYLE = 1 << 22,
-	MRN_FLAG_SLIDERSTYLE = 1 << 23,
-	MRN_FLAG_SPINBUTTONSTYLE = 1 << 24,
-	MRN_FLAG_STEPPERSTYLE = 1 << 25,
-	MRN_FLAG_TEXTSTYLE = 1 << 26,
-	MRN_FLAG_TOOLBARSTYLE = 1 << 27,
+	MRN_FLAG_PRELIGHT_SHADE = 1 << 18,
+	MRN_FLAG_PROGRESSBARSTYLE = 1 << 19,
+	MRN_FLAG_RELIEFSTYLE = 1 << 20,
+	MRN_FLAG_RGBA = 1 << 21,
+	MRN_FLAG_ROUNDNESS = 1 << 22,
+	MRN_FLAG_SCROLLBARSTYLE = 1 << 23,
+	MRN_FLAG_SLIDERSTYLE = 1 << 24,
+	MRN_FLAG_SPINBUTTONSTYLE = 1 << 25,
+	MRN_FLAG_STEPPERSTYLE = 1 << 26,
+	MRN_FLAG_TEXTSTYLE = 1 << 27,
+	MRN_FLAG_TOOLBARSTYLE = 1 << 28
 } MurrineRcFlags;
 
 typedef enum
@@ -88,6 +89,7 @@ struct _MurrineRcStyle
 	double   gradient_shades[4];
 	double   highlight_shade;
 	double   lightborder_shade;
+	double   prelight_shade;
 	double   shadow_shades[2];
 	double   trough_shades[2];
 

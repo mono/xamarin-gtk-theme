@@ -169,10 +169,10 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	                                                                  &mrn_gradient.gradient_colors[3].b);
 		if (params->prelight && !MRN_IS_PROGRESS_BAR(widget)) //progressbar is prelight, no change in shade
 		{
-			mrn_gradient.gradient_shades[0] *= 1.1;
-			mrn_gradient.gradient_shades[1] *= 1.1;
-			mrn_gradient.gradient_shades[2] *= 1.1;
-			mrn_gradient.gradient_shades[3] *= 1.1;
+			mrn_gradient.gradient_shades[0] *= murrine_style->prelight_shade;
+			mrn_gradient.gradient_shades[1] *= murrine_style->prelight_shade;
+			mrn_gradient.gradient_shades[2] *= murrine_style->prelight_shade;
+			mrn_gradient.gradient_shades[3] *= murrine_style->prelight_shade;
 		}
 	}
 	else
@@ -880,6 +880,7 @@ murrine_style_draw_box (DRAW_ARGS)
 			ComboBoxParameters combobox;
 			combobox.box_w = 24;
 			combobox.style = murrine_style->comboboxstyle;
+			combobox.prelight_shade = murrine_style->prelight_shade;
 			STYLE_FUNCTION(draw_combobox) (cr, murrine_style->colors, params, &combobox, x, y, width, height, horizontal);
 		}
 	}
@@ -1283,6 +1284,7 @@ murrine_style_draw_box (DRAW_ARGS)
 			ComboBoxParameters combobox;
 			combobox.box_w = indicator_size.width+indicator_spacing.left+indicator_spacing.right+3;
 			combobox.style = murrine_style->comboboxstyle;
+			combobox.prelight_shade = murrine_style->prelight_shade;
 			STYLE_FUNCTION(draw_combobox) (cr, murrine_style->colors, params, &combobox, x, y, width, height, TRUE);
 		}
 		else
@@ -1322,12 +1324,13 @@ murrine_style_draw_box (DRAW_ARGS)
 		ScrollBarParameters scrollbar;
 		boolean within_bevel = FALSE;
 
-		scrollbar.has_color    = FALSE;
-		scrollbar.horizontal   = TRUE;
-		scrollbar.junction     = murrine_scrollbar_get_junction (widget);
-		scrollbar.steppers     = murrine_scrollbar_visible_steppers (widget);
-		scrollbar.style        = murrine_style->scrollbarstyle;
-		scrollbar.stepperstyle = murrine_style->stepperstyle;
+		scrollbar.has_color      = FALSE;
+		scrollbar.horizontal     = TRUE;
+		scrollbar.junction       = murrine_scrollbar_get_junction (widget);
+		scrollbar.steppers       = murrine_scrollbar_visible_steppers (widget);
+		scrollbar.style          = murrine_style->scrollbarstyle;
+		scrollbar.stepperstyle   = murrine_style->stepperstyle;
+		scrollbar.prelight_shade = murrine_style->prelight_shade;
 
 		if (MRN_IS_RANGE (widget))
 			scrollbar.horizontal = GTK_RANGE (widget)->orientation == GTK_ORIENTATION_HORIZONTAL;
@@ -1337,8 +1340,7 @@ murrine_style_draw_box (DRAW_ARGS)
 			scrollbar.color = colors->spot[1];
 			scrollbar.has_color = TRUE;
 		}
-
-		if (!scrollbar.has_color)
+		else
 			scrollbar.color = colors->bg[0];
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
@@ -2263,6 +2265,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	murrine_style->menubaritemstyle    = MURRINE_RC_STYLE (rc_style)->menubaritemstyle;
 	murrine_style->menuitemstyle       = MURRINE_RC_STYLE (rc_style)->menuitemstyle;
 	murrine_style->menustyle           = MURRINE_RC_STYLE (rc_style)->menustyle;
+	murrine_style->prelight_shade      = MURRINE_RC_STYLE (rc_style)->prelight_shade;
 	murrine_style->progressbarstyle    = MURRINE_RC_STYLE (rc_style)->progressbarstyle;
 	murrine_style->reliefstyle         = MURRINE_RC_STYLE (rc_style)->reliefstyle;
 	murrine_style->rgba                = MURRINE_RC_STYLE (rc_style)->rgba;
@@ -2404,6 +2407,7 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	mrn_style->menubarstyle        = mrn_src->menubarstyle;
 	mrn_style->menuitemstyle       = mrn_src->menuitemstyle;
 	mrn_style->menustyle           = mrn_src->menustyle;
+	mrn_style->prelight_shade      = mrn_src->prelight_shade;
 	mrn_style->progressbarstyle    = mrn_src->progressbarstyle;
 	mrn_style->reliefstyle         = mrn_src->reliefstyle;
 	mrn_style->rgba                = mrn_src->rgba;

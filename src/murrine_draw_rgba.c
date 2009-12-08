@@ -1332,7 +1332,7 @@ murrine_rgba_draw_scrollbar_slider (cairo_t *cr,
 	MurrineGradients mrn_gradient_new = widget->mrn_gradient;
 	double border_stop_mid = ((mrn_gradient_new.border_shades[0])+
 	                          (mrn_gradient_new.border_shades[1]))/2.0;
-	MurrineRGB fill = scrollbar->has_color ? scrollbar->color : colors->bg[0];
+	MurrineRGB fill = scrollbar->has_color ? scrollbar->color : colors->bg[widget->state_type];
 	MurrineRGB border;
 	uint8 corners = widget->corners;
 
@@ -1385,8 +1385,8 @@ murrine_rgba_draw_scrollbar_slider (cairo_t *cr,
 	mrn_gradient_new.border_shades[0] = border_stop_mid;
 	mrn_gradient_new.border_shades[1] = border_stop_mid;
 
-	if (widget->prelight)
-		murrine_shade (&fill, 1.04, &fill);
+	if (widget->prelight && scrollbar->has_color)
+		murrine_shade (&fill, scrollbar->prelight_shade, &fill);
 
 	murrine_mix_color (&border, &fill, 0.5, &border);
 

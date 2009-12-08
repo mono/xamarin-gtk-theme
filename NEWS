@@ -4,18 +4,21 @@ Changes in this release:
 - New supported widget: GtkExpander is now themed by the engine.
 - New option: arrowstyle = 1 to draw filled arrows.
 - New option: border_shades = { 1.0, 1.0 } to draw a gradient on the border.
-- New option: border_colors = { "#ffffff", "#ffffff" } 
+- New option: border_colors = { "#ffffff", "#ffffff" }
               to set the colors used on the border of many widgets.
               border_colors = FALSE to disable.
 - New option: comboboxstyle = 1 to colorize the GtkComboBox below the arrow.
 - New option: gradient_colors = { "#ffffff", "#ffffff", "#ffffff", "#ffffff" }
               to set the colors used on the gradient of many widgets.
               gradient_colors = FALSE to disable.
-- New option: shadow_shades = { 1.0, 1.0 } to draw a gradient on 
+- New option: prelight_shade = 1.0 to select the shade level used in the
+              scrollbar's slider, GtkComboBox with comboboxstyle = 1 and
+              in the prelight state with gradient_colors.
+- New option: shadow_shades = { 1.0, 1.0 } to draw a gradient on
               the shadow of some widgets.
 - New option: spinbuttonstyle = 1 to add a separator on the GtkSpinButton.
 - New option: textstyle = 1 to draw an inset on the text (use carefully).
-- New option: trough_shades = { 1.0, 1.0 } to draw a gradient on 
+- New option: trough_shades = { 1.0, 1.0 } to draw a gradient on
               the trough of GtkScrollbar and GtkProgressBar.
 - Changed option: reliefstyle = 3 for a gradient on shadow,
                   reliefstyle = 4 for a stronger shadow.
@@ -27,6 +30,8 @@ Changes in this release:
 - Improved rendering: draw lightborder with on menubar (with menubarstyle = 1).
 - Improved rendering: draw lightborder with on toolbar (with toolbarstyle = 1).
 - Improved rendering: better GtkTooltip theming.
+- Improved rendering: use bg[GTK_STATE_PRELIGHT] on the scrollbar's slider
+                      with colorize_scrollbar = FALSE.
 
 Bugfixes in this release:
 - Fix a potential endless loop in draw_progressbar_fill and draw_menuitem.
@@ -59,19 +64,19 @@ Changes in this release:
 Overview of Changes in 0.90.0 (since 0.53.1)
 ============================================
 Too many changes to be listed, let's take a summary.
-This new version is extremely customizable with a huge number of new 
-options. Those new options allow the user to achieve an incredible 
+This new version is extremely customizable with a huge number of new
+options. Those new options allow the user to achieve an incredible
 variety of styles.
-In order to add those features the engine was rewritten in many parts, 
-sometimes even 2 or 3 times! :-) This results in a simpler code, more 
-readable and more maintainable, with a lot of custom code moved from 
-each widget drawing function (before) to a general murrine drawing 
-support file (now). For example adding a new glaze style will now cost 
-about 20 lines and it will be applied immediately to every single 
+In order to add those features the engine was rewritten in many parts,
+sometimes even 2 or 3 times! :-) This results in a simpler code, more
+readable and more maintainable, with a lot of custom code moved from
+each widget drawing function (before) to a general murrine drawing
+support file (now). For example adding a new glaze style will now cost
+about 20 lines and it will be applied immediately to every single
 widget.
-Murrine can finally use the alpha channel to draw a real transparent 
-theme, all it needs is an application using the RGBA colormap and a 
+Murrine can finally use the alpha channel to draw a real transparent
+theme, all it needs is an application using the RGBA colormap and a
 theme with the rgba option enabled.
-During the whole development, murrine was kept in sync with 
-every bugfix that hit gtk-engines, so this new version can also be  
+During the whole development, murrine was kept in sync with
+every bugfix that hit gtk-engines, so this new version can also be
 considered much more stable than the previous one.

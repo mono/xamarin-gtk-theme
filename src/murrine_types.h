@@ -199,6 +199,142 @@ typedef struct
 
 typedef struct
 {
+	MurrineArrowType type;
+	MurrineDirection direction;
+	int style;
+} ArrowParameters;
+
+typedef struct
+{
+	MurrineShadowType shadow_type;
+	boolean           in_cell;
+	boolean           in_menu;
+} CheckboxParameters;
+
+typedef struct
+{
+	int    box_w;
+	int    style;
+	double prelight_shade;
+} ComboBoxParameters;
+
+typedef struct
+{
+	/* The maximum size of the fill. Calcualted from the entries allocation,
+	 * and other information. Relative to the drawn position.
+	 */
+	GdkRectangle max_size;
+	gboolean max_size_known;
+	/* The border around the bar. This can be used for radius calculations.
+	 */
+	GtkBorder border;
+} EntryProgressParameters;
+
+typedef struct
+{
+	MurrineFocusType    type;
+	MurrineContinue     continue_side;
+	MurrineRGB          color;
+	boolean             has_color;
+	gint                line_width;
+	gint                padding;
+	guint8*             dash_list;
+	boolean             interior;
+} FocusParameters;
+
+typedef struct
+{
+	MurrineShadowType shadow;
+	MurrineGapSide    gap_side;
+	int               gap_x;
+	int               gap_width;
+	MurrineRGB       *border;
+} FrameParameters;
+
+typedef struct
+{
+	MurrineHandleType type;
+	boolean           horizontal;
+} HandleParameters;
+
+typedef struct
+{
+	MurrineOrder   order;
+	boolean        resizable;
+	int            style;
+} ListViewHeaderParameters;
+
+typedef struct
+{
+	int linepos;
+} OptionMenuParameters;
+
+typedef struct
+{
+	MurrineOrientation orientation;
+	int style;
+} ProgressBarParameters;
+
+typedef struct
+{
+	MurrineWindowEdge edge;
+} ResizeGripParameters;
+
+typedef struct
+{
+	MurrineRGB      color;
+	MurrineJunction junction; /* On which sides the slider junctions */
+	MurrineStepper  steppers; /* The visible steppers */
+	boolean         horizontal;
+	boolean         has_color;
+	boolean         within_bevel;
+	int             style;
+	int             stepperstyle;
+	double          prelight_shade;
+} ScrollBarParameters;
+
+typedef struct
+{
+	MurrineStepper stepper; /* Which stepper to draw */
+} ScrollBarStepperParameters;
+
+typedef struct
+{
+	boolean horizontal;
+	boolean use_rgba;
+} SeparatorParameters;
+
+typedef struct
+{
+	MurrineCorners    corners;
+	MurrineShadowType shadow;
+} ShadowParameters;
+
+typedef struct
+{
+	boolean lower;
+	boolean horizontal;
+	boolean fill_level;
+} SliderParameters;
+
+typedef struct
+{
+	int style;
+} SpinbuttonParameters;
+
+typedef struct
+{
+	MurrineGapSide gap_side;
+} TabParameters;
+
+typedef struct
+{
+	boolean topmost;
+	int     style;
+} ToolbarParameters;
+
+typedef struct
+{
 	boolean active;
 	boolean prelight;
 	boolean disabled;
@@ -226,140 +362,6 @@ typedef struct
 	MurrineStyles style;
 	MurrineStyleFunctions *style_functions;
 } WidgetParameters;
-
-typedef struct
-{
-	int box_w;
-	int style;
-} ComboBoxParameters;
-
-typedef struct
-{
-	MurrineFocusType    type;
-	MurrineContinue     continue_side;
-	MurrineRGB          color;
-	boolean             has_color;
-	gint                line_width;
-	gint                padding;
-	guint8*             dash_list;
-	boolean             interior;
-} FocusParameters;
-
-typedef struct
-{
-	boolean lower;
-	boolean horizontal;
-	boolean fill_level;
-} SliderParameters;
-
-typedef struct
-{
-	MurrineOrientation orientation;
-	int style;
-} ProgressBarParameters;
-
-typedef struct
-{
-	/* The maximum size of the fill. Calcualted from the entries allocation,
-	 * and other information. Relative to the drawn position.
-	 */
-	GdkRectangle max_size;
-	gboolean max_size_known;
-	/* The border around the bar. This can be used for radius calculations.
-	 */
-	GtkBorder border;
-} EntryProgressParameters;
-
-typedef struct
-{
-	int linepos;
-} OptionMenuParameters;
-
-typedef struct
-{
-	MurrineShadowType shadow_type;
-	boolean           in_cell;
-	boolean           in_menu;
-} CheckboxParameters;
-
-typedef struct
-{
-	MurrineShadowType shadow;
-	MurrineGapSide gap_side;
-	int gap_x;
-	int gap_width;
-	MurrineRGB *border;
-} FrameParameters;
-
-typedef struct
-{
-	MurrineGapSide gap_side;
-} TabParameters;
-
-typedef struct
-{
-	MurrineCorners    corners;
-	MurrineShadowType shadow;
-} ShadowParameters;
-
-typedef struct
-{
-	boolean horizontal;
-	boolean use_rgba;
-} SeparatorParameters;
-
-typedef struct
-{
-	MurrineOrder   order;
-	boolean        resizable;
-	int            style;
-} ListViewHeaderParameters;
-
-typedef struct
-{
-	MurrineRGB      color;
-	MurrineJunction junction; /* On which sides the slider junctions */
-	MurrineStepper  steppers; /* The visible steppers */
-	boolean         horizontal;
-	boolean         has_color;
-	boolean         within_bevel;
-	int             style;
-	int             stepperstyle;
-} ScrollBarParameters;
-
-typedef struct
-{
-	MurrineHandleType type;
-	boolean           horizontal;
-} HandleParameters;
-
-typedef struct
-{
-	MurrineStepper stepper; /* Which stepper to draw */
-} ScrollBarStepperParameters;
-
-typedef struct
-{
-	int style;
-} SpinbuttonParameters;
-
-typedef struct
-{
-	MurrineArrowType type;
-	MurrineDirection direction;
-	int style;
-} ArrowParameters;
-
-typedef struct
-{
-	MurrineWindowEdge edge;
-} ResizeGripParameters;
-
-typedef struct
-{
-	boolean topmost;
-	int style;
-} ToolbarParameters;
 
 struct _MurrineStyleFunctions
 {

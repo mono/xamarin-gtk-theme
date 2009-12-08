@@ -1,3 +1,37 @@
+Overview of Changes in 0.91.0 (since 0.90.3)
+============================================
+Changes in this release:
+- New supported widget: GtkExpander is now themed by the engine.
+- New option: arrowstyle = 1 to draw filled arrows.
+- New option: border_shades = { 1.0, 1.0 } to draw a gradient on the border.
+- New option: border_colors = { "#ffffff", "#ffffff" } 
+              to set the colors used on the border of many widgets.
+              border_colors = FALSE to disable.
+- New option: comboboxstyle = 1 to colorize the GtkComboBox below the arrow.
+- New option: gradient_colors = { "#ffffff", "#ffffff", "#ffffff", "#ffffff" }
+              to set the colors used on the gradient of many widgets.
+              gradient_colors = FALSE to disable.
+- New option: spinbuttonstyle = 1 to add a separator on the GtkSpinButton.
+- New option: textstyle = 1 to draw an inset on the text (use carefully).
+- New option: trough_shades = { 1.0, 1.0 } to draw a gradient on 
+              the trough of GtkScrollbar and GtkProgressBar.
+- Changed option: reliefstyle = 3 for a gradient on shadow,
+                  reliefstyle = 4 for a stronger shadow.
+- Changed option: stepperstyle = 2 for squared steppers with a rounded slider.
+- Deprecated option: gradients, please unset the other options instead.
+- Deprecated option: profile, please manually adjust the other options.
+- Deprecated option: scrollbar_color, please use a custom bg[SELECTED].
+- Improved rendering: rounded GtkScale trough.
+- Improved rendering: draw lightborder with on menubar (with menubarstyle = 1).
+- Improved rendering: draw lightborder with on toolbar (with toolbarstyle = 1).
+- Improved rendering: better GtkTooltip theming.
+
+Bugfixes in this release:
+- Fix a potential endless loop in draw_progressbar_fill and draw_menuitem.
+- Support for automake-1.11.
+- Some minor fixes on big-endian systems.
+- Minor fixes.
+
 Overview of Changes in 0.90.3 (since 0.90.2)
 ============================================
 Changes in this release:

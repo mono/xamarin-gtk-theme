@@ -191,6 +191,8 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	else
 		mrn_gradient.has_border_colors = FALSE;
 
+	mrn_gradient.shadow_shades[0] = murrine_style->shadow_shades[0];
+	mrn_gradient.shadow_shades[1] = murrine_style->shadow_shades[1];
 	mrn_gradient.trough_shades[0] = murrine_style->trough_shades[0];
 	mrn_gradient.trough_shades[1] = murrine_style->trough_shades[1];
 
@@ -200,8 +202,10 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	    murrine_style->gradient_shades[1] != 1.0 ||
 	    murrine_style->gradient_shades[2] != 1.0 ||
 	    murrine_style->gradient_shades[3] != 1.0 ||
+	    murrine_style->shadow_shades[0] != 1.0 ||
+	    murrine_style->shadow_shades[1] != 1.0 ||
 	    murrine_style->trough_shades[0] != 1.0 ||
-	    murrine_style->trough_shades[0] != 1.0)
+	    murrine_style->trough_shades[1] != 1.0)
 		mrn_gradient.gradients = TRUE;
 	else
 		mrn_gradient.gradients = FALSE;
@@ -2227,6 +2231,8 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	/* Adjust lightborder_shade reading contrast */
 	murrine_style->lightborder_shade = murrine_get_contrast(MURRINE_RC_STYLE (rc_style)->lightborder_shade,
 	                                                        MURRINE_RC_STYLE (rc_style)->contrast);
+	murrine_style->shadow_shades[0]   = MURRINE_RC_STYLE (rc_style)->shadow_shades[0];
+	murrine_style->shadow_shades[1]   = MURRINE_RC_STYLE (rc_style)->shadow_shades[1];
 	murrine_style->trough_shades[0]   = MURRINE_RC_STYLE (rc_style)->trough_shades[0];
 	murrine_style->trough_shades[1]   = MURRINE_RC_STYLE (rc_style)->trough_shades[1];
 
@@ -2403,6 +2409,8 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	mrn_style->rgba                = mrn_src->rgba;
 	mrn_style->roundness           = mrn_src->roundness;
 	mrn_style->scrollbarstyle      = mrn_src->scrollbarstyle;
+	mrn_style->shadow_shades[0]    = mrn_src->shadow_shades[0];
+	mrn_style->shadow_shades[1]    = mrn_src->shadow_shades[1];
 	mrn_style->sliderstyle 	       = mrn_src->sliderstyle;
 	mrn_style->spinbuttonstyle     = mrn_src->spinbuttonstyle;
 	mrn_style->stepperstyle        = mrn_src->stepperstyle;

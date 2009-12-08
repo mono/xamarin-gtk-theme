@@ -62,6 +62,7 @@ enum
 	TOKEN_RGBA,
 	TOKEN_ROUNDNESS,
 	TOKEN_SCROLLBARSTYLE,
+	TOKEN_SHADOW_SHADES,
 	TOKEN_SLIDERSTYLE,
 	TOKEN_SPINBUTTONSTYLE,
 	TOKEN_STEPPERSTYLE,
@@ -117,6 +118,7 @@ theme_symbols[] =
 	{ "rgba",                TOKEN_RGBA },
 	{ "roundness",           TOKEN_ROUNDNESS },
 	{ "scrollbarstyle",      TOKEN_SCROLLBARSTYLE },
+	{ "shadow_shades",       TOKEN_SHADOW_SHADES },
 	{ "sliderstyle",         TOKEN_SLIDERSTYLE },
 	{ "spinbuttonstyle",     TOKEN_SPINBUTTONSTYLE },
 	{ "stepperstyle",        TOKEN_STEPPERSTYLE },
@@ -181,6 +183,8 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->rgba = FALSE;
 	murrine_rc->roundness = 1;
 	murrine_rc->scrollbarstyle = 0;
+	murrine_rc->shadow_shades[0] = 1.0;
+	murrine_rc->shadow_shades[1] = 1.0;
 	murrine_rc->sliderstyle = 0;
 	murrine_rc->spinbuttonstyle = 0;
 	murrine_rc->stepperstyle = 0;
@@ -701,6 +705,10 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_int (settings, scanner, &murrine_style->scrollbarstyle);
 				murrine_style->flags |= MRN_FLAG_SCROLLBARSTYLE;
 				break;
+			case TOKEN_SHADOW_SHADES:
+				token = theme_parse_border (settings, scanner, murrine_style->shadow_shades);
+				murrine_style->gflags |= MRN_FLAG_SHADOW_SHADES;
+				break;
 			case TOKEN_SLIDERSTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->sliderstyle);
 				murrine_style->flags |= MRN_FLAG_SLIDERSTYLE;
@@ -886,6 +894,11 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->gradient_shades[1] = src_w->gradient_shades[1];
 		dest_w->gradient_shades[2] = src_w->gradient_shades[2];
 		dest_w->gradient_shades[3] = src_w->gradient_shades[3];
+	}
+	if (gflags & MRN_FLAG_SHADOW_SHADES)
+	{
+		dest_w->shadow_shades[0] = src_w->shadow_shades[0];
+		dest_w->shadow_shades[1] = src_w->shadow_shades[1];
 	}
 	if (gflags & MRN_FLAG_TROUGH_SHADES)
 	{

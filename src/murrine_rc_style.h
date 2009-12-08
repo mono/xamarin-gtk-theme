@@ -71,7 +71,8 @@ typedef enum
 	MRN_FLAG_BORDER_SHADES = 1 << 2,
 	MRN_FLAG_GRADIENT_COLORS = 1 << 3,
 	MRN_FLAG_GRADIENT_SHADES = 1 << 4,
-	MRN_FLAG_TROUGH_SHADES = 1 << 5
+	MRN_FLAG_SHADOW_SHADES = 1 << 5,
+	MRN_FLAG_TROUGH_SHADES = 1 << 6
 } MurrineRcGradientFlags;
 
 struct _MurrineRcStyle
@@ -87,6 +88,7 @@ struct _MurrineRcStyle
 	double   gradient_shades[4];
 	double   highlight_shade;
 	double   lightborder_shade;
+	double   shadow_shades[2];
 	double   trough_shades[2];
 
 	guint8   arrowstyle;

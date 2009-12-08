@@ -48,6 +48,7 @@ struct _MurrineStyle
 	double   gradient_shades[4];
 	double   highlight_shade;
 	double   lightborder_shade;
+	double   shadow_shades[2];
 	double   trough_shades[2];
 
 	guint8   arrowstyle;

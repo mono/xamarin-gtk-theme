@@ -885,19 +885,19 @@ murrine_draw_shadow (cairo_t *cr,
                      int reliefstyle,
                      MurrineGradients mrn_gradient, double alpha)
 {
-	if (mrn_gradient.border_shades[0] != 1.0 ||
-	    mrn_gradient.border_shades[1] != 1.0 ||
+	if (mrn_gradient.shadow_shades[0] != 1.0 ||
+	    mrn_gradient.shadow_shades[1] != 1.0 ||
 	    reliefstyle > 2) // improve
 	{
 		cairo_pattern_t *pat;
 		MurrineRGB shade1, shade2;
 
-		murrine_shade (color, mrn_gradient.border_shades[0], &shade1);
-		murrine_shade (color, mrn_gradient.border_shades[1], &shade2);
+		murrine_shade (color, mrn_gradient.shadow_shades[0], &shade1);
+		murrine_shade (color, mrn_gradient.shadow_shades[1], &shade2);
 
 		pat = cairo_pattern_create_linear (x, y, x, height+y);
 		murrine_pattern_add_color_stop_rgba (pat, 0.00, &shade1, reliefstyle == 3 ? 0.5*alpha : alpha);
-		murrine_pattern_add_color_stop_rgba (pat, 1.00, &shade2, reliefstyle >= 3 ? (mrn_gradient.border_shades[1] > 1.0 ? 2.5*alpha : 2.0*alpha) : alpha);
+		murrine_pattern_add_color_stop_rgba (pat, 1.00, &shade2, reliefstyle >= 3 ? 2.0*alpha : alpha);
 
 		cairo_set_source (cr, pat);
 		cairo_pattern_destroy (pat);

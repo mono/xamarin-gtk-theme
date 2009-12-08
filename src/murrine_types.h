@@ -184,10 +184,11 @@ typedef struct
 {
 	double  border_shades[2];
 	double  gradient_shades[4];
-	double  trough_shades[4];
+	double  shadow_shades[2];
+	double  trough_shades[2];
 	double  rgba_opacity;
 
-	MurrineRGB border_colors[4];
+	MurrineRGB border_colors[2];
 	MurrineRGB gradient_colors[4];
 
 	boolean has_border_colors;

@@ -884,6 +884,10 @@ murrine_draw_menubar (cairo_t *cr,
                       int menubarstyle)
 {
 	const MurrineRGB *fill = &colors->bg[0];
+	MurrineRGB dark = colors->shade[3];
+
+	if(widget->mrn_gradient.has_border_colors)
+		dark = widget->mrn_gradient.border_colors[1];
 
 	cairo_translate (cr, x, y);
 	cairo_rectangle (cr, 0, 0, width, height);
@@ -955,7 +959,7 @@ murrine_draw_menubar (cairo_t *cr,
 		cairo_move_to        (cr, 0, height-0.5);
 		cairo_line_to        (cr, width, height-0.5);
 	}
-	murrine_set_color_rgb (cr, &colors->shade[3]);
+	murrine_set_color_rgb (cr, &dark);
 	cairo_stroke          (cr);
 }
 
@@ -968,9 +972,12 @@ murrine_draw_toolbar (cairo_t *cr,
                       const ToolbarParameters *toolbar,
                       int x, int y, int width, int height)
 {
-	const MurrineRGB *dark = &colors->shade[3];
 	const MurrineRGB *fill = &colors->bg[0];
 	const MurrineRGB *top  = &colors->shade[0];
+	MurrineRGB dark = colors->shade[3];
+
+	if(widget->mrn_gradient.has_border_colors)
+		dark = widget->mrn_gradient.border_colors[1];
 
 	cairo_translate      (cr, x, y);
 	cairo_rectangle (cr, 0, 0, width, height);
@@ -1026,7 +1033,7 @@ murrine_draw_toolbar (cairo_t *cr,
 	}
 
 	/* Draw shadow */
-	murrine_set_color_rgb (cr, dark);
+	murrine_set_color_rgb (cr, &dark);
 	if (toolbar->style == 1 && widget->glazestyle == 2)
 		cairo_rectangle (cr, 0.5, 0.5, width-1, height-1);
 	else
@@ -1034,7 +1041,7 @@ murrine_draw_toolbar (cairo_t *cr,
 		cairo_move_to         (cr, 0, height-0.5);
 		cairo_line_to         (cr, width, height-0.5);
 	}
-	cairo_stroke          (cr);
+	cairo_stroke (cr);
 }
 
 static void

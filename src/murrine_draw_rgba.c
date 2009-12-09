@@ -477,13 +477,17 @@ murrine_rgba_draw_spinbutton (cairo_t *cr,
 				murrine_shade (&mrn_gradient_new.gradient_colors[2], mrn_gradient_new.gradient_shades[2], &highlight);
 			murrine_shade (&highlight, lightborder_shade_new*mrn_gradient_new.gradient_shades[2], &highlight);
 		
-			cairo_move_to (cr, x+3, y+height/2.0);
-			cairo_line_to (cr, width-2,  y+height/2.0);
+			/* this will align the path to the cairo grid */
+			if (height % 2 != 0)
+				height++;
+
+			cairo_move_to (cr, x+3, y+height/2.0-0.5);
+			cairo_line_to (cr, width-2,  y+height/2.0-0.5);
 			murrine_set_color_rgb (cr, &line);
 			cairo_stroke (cr);
 
-			cairo_move_to (cr, x+4, y+height/2.0+1);
-			cairo_line_to (cr, width-3,  y+height/2.0+1);
+			cairo_move_to (cr, x+4, y+height/2.0+0.5);
+			cairo_line_to (cr, width-3,  y+height/2.0+0.5);
 			murrine_set_color_rgba (cr, &highlight, 0.5);
 			cairo_stroke (cr);
 			break;

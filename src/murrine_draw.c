@@ -2243,8 +2243,6 @@ murrine_draw_radiobutton (cairo_t *cr,
 		mrn_gradient_new = murrine_get_decreased_gradient_shades (widget->mrn_gradient, 3.0);
 		mrn_gradient_new.border_shades[0] = murrine_get_decreased_shade (widget->mrn_gradient.border_shades[0], 3.0);
 		mrn_gradient_new.border_shades[1] = murrine_get_decreased_shade (widget->mrn_gradient.border_shades[1], 3.0);
-		mrn_gradient_new.shadow_shades[0] = murrine_get_decreased_shade (widget->mrn_gradient.shadow_shades[0], 2.0);
-		mrn_gradient_new.shadow_shades[1] = murrine_get_decreased_shade (widget->mrn_gradient.shadow_shades[1], 2.0);
 		highlight_shade_new = murrine_get_decreased_shade (widget->highlight_shade, 2.0);
 		lightborder_shade_new = murrine_get_decreased_shade (widget->lightborder_shade, 2.0);
 	}
@@ -2263,7 +2261,7 @@ murrine_draw_radiobutton (cairo_t *cr,
 
 	if (widget->xthickness > 2 && widget->ythickness > 2)
 	{
-		if (widget->reliefstyle > 1 && draw_bullet)
+		if (widget->reliefstyle > 1 && draw_bullet && widget->state_type != GTK_STATE_INSENSITIVE)
 		{
 			MurrineRGB shadow;
 			murrine_shade (border, 0.9, &shadow);
@@ -2371,8 +2369,6 @@ murrine_draw_checkbox (cairo_t *cr,
 		mrn_gradient_new = murrine_get_decreased_gradient_shades (widget->mrn_gradient, 3.0);
 		mrn_gradient_new.border_shades[0] = murrine_get_decreased_shade (widget->mrn_gradient.border_shades[0], 3.0);
 		mrn_gradient_new.border_shades[1] = murrine_get_decreased_shade (widget->mrn_gradient.border_shades[1], 3.0);
-		mrn_gradient_new.shadow_shades[0] = murrine_get_decreased_shade (widget->mrn_gradient.shadow_shades[0], 2.0);
-		mrn_gradient_new.shadow_shades[1] = murrine_get_decreased_shade (widget->mrn_gradient.shadow_shades[1], 2.0);
 		highlight_shade_new = murrine_get_decreased_shade (widget->highlight_shade, 2.0);
 		lightborder_shade_new = murrine_get_decreased_shade (widget->lightborder_shade, 2.0);
 	}
@@ -2391,7 +2387,7 @@ murrine_draw_checkbox (cairo_t *cr,
 
 	if (widget->xthickness > 2 && widget->ythickness > 2)
 	{
-		if (widget->reliefstyle > 1 && draw_bullet)
+		if (widget->reliefstyle > 1 && draw_bullet && widget->state_type != GTK_STATE_INSENSITIVE)
 		{
 			MurrineRGB shadow;
 			murrine_shade (border, 0.9, &shadow);

@@ -4,9 +4,10 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: murrine master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-03 02:11+0200\n"
-"PO-Revision-Date: 2009-10-03 02:24+0200\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=murrine&component=general\n"
+"POT-Creation-Date: 2009-12-08 15:19+0000\n"
+"PO-Revision-Date: 2009-12-12 11:44+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: German <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -24,141 +25,164 @@ msgid "Animations"
 msgstr "Animationen"
 
 #: ../schema/murrine.xml.in.in.h:3
+#| msgid "Style"
+msgid "Arrow Style"
+msgstr "Stil der Pfeile"
+
+#: ../schema/murrine.xml.in.in.h:4
 msgid "Colorize scrollbar"
 msgstr "Rollbalken einfärben"
 
-#: ../schema/murrine.xml.in.in.h:4
+#: ../schema/murrine.xml.in.in.h:5
+#| msgid "Colorize scrollbar"
+msgid "Colorize scrollbar with bg[SELECTED]"
+msgstr "Rollbalken einfärben mit bg[SELECTED]"
+
+#: ../schema/murrine.xml.in.in.h:6
+msgid "Combobox Style"
+msgstr "Stil der Kombinationsfelder"
+
+#: ../schema/murrine.xml.in.in.h:7
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: ../schema/murrine.xml.in.in.h:5
+#: ../schema/murrine.xml.in.in.h:8
 msgid ""
 "Dangerous, should be MODIFIED ONLY BY HAND in gtkrc into separated sections"
 msgstr ""
 "Gefährlich, dies sollte NUR VON HAND in der gtkrc in separaten Abschnitten "
 "festgelegt werden"
 
-#: ../schema/murrine.xml.in.in.h:6
+#: ../schema/murrine.xml.in.in.h:9
 msgid "Enable and set the Glow Shade"
 msgstr ""
 
-#: ../schema/murrine.xml.in.in.h:7
+#: ../schema/murrine.xml.in.in.h:10
 msgid "Enable animations on progressbars, radio and checkbuttons"
 msgstr ""
 "Animationen für Fortschrittsleisten, Radioknöpfe und Ankreuzfelder aktivieren"
 
-#: ../schema/murrine.xml.in.in.h:8
+#: ../schema/murrine.xml.in.in.h:11
 msgid "Enable/Disable RGBA support"
 msgstr "RGBA-Unterstützung aktivieren/deaktivieren"
 
-#: ../schema/murrine.xml.in.in.h:9
-msgid "Enable/Disable gradients"
-msgstr "Farbverläufe aktivieren/deaktivieren"
-
-#: ../schema/murrine.xml.in.in.h:10
+#: ../schema/murrine.xml.in.in.h:12
 msgid "Focus Color"
 msgstr "Farbe des Fokus"
 
-#: ../schema/murrine.xml.in.in.h:11
+#: ../schema/murrine.xml.in.in.h:13
 msgid "Glaze Style"
 msgstr ""
 
-#: ../schema/murrine.xml.in.in.h:12
+#: ../schema/murrine.xml.in.in.h:14
 msgid "Glow Shade"
 msgstr ""
 
-#: ../schema/murrine.xml.in.in.h:13
+#: ../schema/murrine.xml.in.in.h:15
 msgid "Glow Style"
 msgstr ""
 
-#: ../schema/murrine.xml.in.in.h:14
-msgid "Gradients"
-msgstr "Farbverläufe"
-
-#: ../schema/murrine.xml.in.in.h:15
+#: ../schema/murrine.xml.in.in.h:16
 msgid "Highlight Shade"
 msgstr ""
 
-#: ../schema/murrine.xml.in.in.h:16
+#: ../schema/murrine.xml.in.in.h:17
 msgid "Increse/Decrease the highlight shade"
 msgstr ""
 
-#: ../schema/murrine.xml.in.in.h:17
+#: ../schema/murrine.xml.in.in.h:18
 msgid "Increse/Decrease the lightborder shade"
 msgstr ""
 
-#: ../schema/murrine.xml.in.in.h:18
-msgid "Lightborder Shade"
-msgstr ""
-
 #: ../schema/murrine.xml.in.in.h:19
-msgid "Lightborder Style"
+msgid "Increse/Decrease the prelight shade"
 msgstr ""
 
 #: ../schema/murrine.xml.in.in.h:20
+msgid "Lightborder Shade"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:21
+msgid "Lightborder Style"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:22
 msgid "Listview header style"
 msgstr "Stil der Kopfzeilen der Listenansicht"
 
-#: ../schema/murrine.xml.in.in.h:21
+#: ../schema/murrine.xml.in.in.h:23
 msgid "Listview separators"
 msgstr "Trenner der Listenansicht"
 
-#: ../schema/murrine.xml.in.in.h:22
+#: ../schema/murrine.xml.in.in.h:24
 msgid "MenuItem Style"
 msgstr "Stil der Menüeinträge"
 
-#: ../schema/murrine.xml.in.in.h:23
+#: ../schema/murrine.xml.in.in.h:25
 msgid "Menubar Style"
 msgstr "Stil der Menüleiste"
 
-#: ../schema/murrine.xml.in.in.h:24
+#: ../schema/murrine.xml.in.in.h:26
 msgid "MenubarItem Style"
 msgstr "Stil der Menüleistenobjekte"
 
-#: ../schema/murrine.xml.in.in.h:25
+#: ../schema/murrine.xml.in.in.h:27
+msgid "Prelight Shade"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:28
 msgid "Progressbar style"
 msgstr "Stil der Fortschrittsleiste"
 
-#: ../schema/murrine.xml.in.in.h:26
+#: ../schema/murrine.xml.in.in.h:29
 msgid "Relief style of widget"
 msgstr "Relief-Stil der Elemente"
 
-#: ../schema/murrine.xml.in.in.h:27
+#: ../schema/murrine.xml.in.in.h:30
 msgid "Roundness"
 msgstr "Rundung"
 
-#: ../schema/murrine.xml.in.in.h:28
-msgid "Scrollbar Color"
-msgstr "Farbe der Rollbalken"
-
-#: ../schema/murrine.xml.in.in.h:29
+#: ../schema/murrine.xml.in.in.h:31
 msgid "Sets the Color of Focus"
 msgstr "Legt die Farbe für den Fokus fest"
 
-#: ../schema/murrine.xml.in.in.h:30
-msgid "Sets the Color of Scrollbars"
-msgstr "Legt die Farbe der Rollbalken fest"
-
-#: ../schema/murrine.xml.in.in.h:31
+#: ../schema/murrine.xml.in.in.h:32
 msgid "Slider style"
 msgstr "Stil der Schieberegler"
 
-#: ../schema/murrine.xml.in.in.h:32
+#: ../schema/murrine.xml.in.in.h:33
+#| msgid "MenuItem Style"
+msgid "Spinbutton Style"
+msgstr "Stil der Einstellfelder"
+
+#: ../schema/murrine.xml.in.in.h:34
 msgid "Stepper style"
 msgstr ""
 
-#: ../schema/murrine.xml.in.in.h:33
-msgid "Style"
-msgstr "Stil"
+#: ../schema/murrine.xml.in.in.h:35
+#| msgid "MenuItem Style"
+msgid "Text Style"
+msgstr "Textstil"
 
-#: ../schema/murrine.xml.in.in.h:34
+#: ../schema/murrine.xml.in.in.h:36
 msgid "Toolbar style"
 msgstr "Stil der Werkzeugleisten"
 
-#: ../schema/murrine.xml.in.in.h:35
-msgid "Use colorized scrollbars"
-msgstr "Eingefärbte Rollbalken verwenden"
-
-#: ../schema/murrine.xml.in.in.h:36
+#: ../schema/murrine.xml.in.in.h:37
 msgid "Vertical bars in menus"
 msgstr "Vertikale Balken in Menüs"
+
+#~ msgid "Enable/Disable gradients"
+#~ msgstr "Farbverläufe aktivieren/deaktivieren"
+
+#~ msgid "Gradients"
+#~ msgstr "Farbverläufe"
+
+#~ msgid "Scrollbar Color"
+#~ msgstr "Farbe der Rollbalken"
+
+#~ msgid "Sets the Color of Scrollbars"
+#~ msgstr "Legt die Farbe der Rollbalken fest"
+
+#~ msgid "Use colorized scrollbars"
+#~ msgstr "Eingefärbte Rollbalken verwenden"

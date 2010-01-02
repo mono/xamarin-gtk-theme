@@ -401,7 +401,11 @@ murrine_draw_spinbutton (cairo_t *cr,
 	                     int x, int y, int width, int height,
 	                     boolean horizontal)
 {
+	cairo_save (cr);
+	
 	widget->style_functions->draw_button (cr, colors, widget, x, y, width, height, horizontal);
+
+	cairo_restore (cr);
 
 	switch (spinbutton->style)
 	{

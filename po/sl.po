@@ -1,0 +1,163 @@
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the murrine package.
+# Matej Urbančič <mateju@svn.gnome.org>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: murrine\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=murrine&component=general\n"
+"POT-Creation-Date: 2009-11-08 19:57+0000\n"
+"PO-Revision-Date: 2010-01-04 08:10+0100\n"
+"Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
+"Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
+"X-Poedit-Country: SLOVENIA\n"
+"X-Poedit-Language: Slovenian\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: ../schema/murrine.xml.in.in.h:1
+msgid "Additional scrollbar features"
+msgstr "Dodatne možnosti drsnika"
+
+#: ../schema/murrine.xml.in.in.h:2
+msgid "Animations"
+msgstr "Animacije"
+
+#: ../schema/murrine.xml.in.in.h:3
+msgid "Colorize scrollbar"
+msgstr "Obarvanje drsnikov"
+
+#: ../schema/murrine.xml.in.in.h:4
+msgid "Contrast"
+msgstr "Kontrast"
+
+#: ../schema/murrine.xml.in.in.h:5
+msgid "Dangerous, should be MODIFIED ONLY BY HAND in gtkrc into separated sections"
+msgstr "Spreminjanje je nevarno in mora biti narejeno le ročno v gtkrc za ločene odseke"
+
+#: ../schema/murrine.xml.in.in.h:6
+msgid "Enable and set the Glow Shade"
+msgstr "Omogoči in nastavi sence sijanja"
+
+#: ../schema/murrine.xml.in.in.h:7
+msgid "Enable animations on progressbars, radio and checkbuttons"
+msgstr "Omogoči animacije vrstice napredka in izbirnih gumbov"
+
+#: ../schema/murrine.xml.in.in.h:8
+msgid "Enable/Disable RGBA support"
+msgstr "Omogoči/onemogoči RGBA podporo"
+
+#: ../schema/murrine.xml.in.in.h:9
+msgid "Enable/Disable gradients"
+msgstr "Omogoči/Onemogoči preliv"
+
+#: ../schema/murrine.xml.in.in.h:10
+msgid "Focus Color"
+msgstr "Barva okna v žarišču"
+
+#: ../schema/murrine.xml.in.in.h:11
+msgid "Glaze Style"
+msgstr "Slog loščenja"
+
+#: ../schema/murrine.xml.in.in.h:12
+msgid "Glow Shade"
+msgstr "Sence sijanja"
+
+#: ../schema/murrine.xml.in.in.h:13
+msgid "Glow Style"
+msgstr "Slog sijanja"
+
+#: ../schema/murrine.xml.in.in.h:14
+msgid "Gradients"
+msgstr "Prelivi"
+
+#: ../schema/murrine.xml.in.in.h:15
+msgid "Highlight Shade"
+msgstr "Senca poudarjanja"
+
+#: ../schema/murrine.xml.in.in.h:16
+msgid "Increse/Decrease the highlight shade"
+msgstr "Povečaj/pomanjšaj senčenje poudarjanja"
+
+#: ../schema/murrine.xml.in.in.h:17
+msgid "Increse/Decrease the lightborder shade"
+msgstr "Povečaj/pomanjšaj senčenje obrobe"
+
+#: ../schema/murrine.xml.in.in.h:18
+msgid "Lightborder Shade"
+msgstr "Senca obrobe"
+
+#: ../schema/murrine.xml.in.in.h:19
+msgid "Lightborder Style"
+msgstr "Slog obrobe"
+
+#: ../schema/murrine.xml.in.in.h:20
+msgid "Listview header style"
+msgstr "Slog glave seznamskega pogleda"
+
+#: ../schema/murrine.xml.in.in.h:21
+msgid "Listview separators"
+msgstr "Ločnice seznamskega pogleda"
+
+#: ../schema/murrine.xml.in.in.h:22
+msgid "MenuItem Style"
+msgstr "Slog predmeta menija"
+
+#: ../schema/murrine.xml.in.in.h:23
+msgid "Menubar Style"
+msgstr "Slog menijske vrstice"
+
+#: ../schema/murrine.xml.in.in.h:24
+msgid "MenubarItem Style"
+msgstr "Slog predmeta menijske vrstice"
+
+#: ../schema/murrine.xml.in.in.h:25
+msgid "Progressbar style"
+msgstr "Slog vrstice napredka"
+
+#: ../schema/murrine.xml.in.in.h:26
+msgid "Relief style of widget"
+msgstr "Reliefni slog gradnika"
+
+#: ../schema/murrine.xml.in.in.h:27
+msgid "Roundness"
+msgstr "Okroglost"
+
+#: ../schema/murrine.xml.in.in.h:28
+msgid "Scrollbar Color"
+msgstr "Barva drsnika"
+
+#: ../schema/murrine.xml.in.in.h:29
+msgid "Sets the Color of Focus"
+msgstr "Določitev barve okna v žarišču"
+
+#: ../schema/murrine.xml.in.in.h:30
+msgid "Sets the Color of Scrollbars"
+msgstr "Določitev barve drsnikov"
+
+#: ../schema/murrine.xml.in.in.h:31
+msgid "Slider style"
+msgstr "Slog vodoravnega drsnika"
+
+#: ../schema/murrine.xml.in.in.h:32
+msgid "Stepper style"
+msgstr "Slog koračnika"
+
+#: ../schema/murrine.xml.in.in.h:33
+msgid "Style"
+msgstr "Slog"
+
+#: ../schema/murrine.xml.in.in.h:34
+msgid "Toolbar style"
+msgstr "Slog orodne vrstice"
+
+#: ../schema/murrine.xml.in.in.h:35
+msgid "Use colorized scrollbars"
+msgstr "Uporabi obarvane drsnike"
+
+#: ../schema/murrine.xml.in.in.h:36
+msgid "Vertical bars in menus"
+msgstr "Navpične vrstice menija"

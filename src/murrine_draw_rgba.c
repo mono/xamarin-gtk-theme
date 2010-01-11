@@ -1346,7 +1346,7 @@ murrine_rgba_draw_scrollbar_slider (cairo_t *cr,
 
 	murrine_get_fill_color (&fill, &mrn_gradient_new);
 
-	if (scrollbar->stepperstyle < 1)
+	if (scrollbar->stepperstyle != 1)
 	{
 		if (scrollbar->junction & MRN_JUNCTION_BEGIN)
 		{

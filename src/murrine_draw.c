@@ -447,13 +447,13 @@ murrine_draw_spinbutton (cairo_t *cr,
 			if (height % 2 != 0)
 				height++;
 
-			cairo_move_to (cr, x+3, y+height/2.0-0.5);
-			cairo_line_to (cr, width-2,  y+height/2.0-0.5);
+			cairo_move_to (cr, x+2, y+height/2.0-0.5);
+			cairo_line_to (cr, width-3,  y+height/2.0-0.5);
 			murrine_set_color_rgb (cr, &line);
 			cairo_stroke (cr);
 
-			cairo_move_to (cr, x+4, y+height/2.0+0.5);
-			cairo_line_to (cr, width-3,  y+height/2.0+0.5);
+			cairo_move_to (cr, x+3, y+height/2.0+0.5);
+			cairo_line_to (cr, width-4,  y+height/2.0+0.5);
 			murrine_set_color_rgba (cr, &highlight, 0.5);
 			cairo_stroke (cr);
 			break;

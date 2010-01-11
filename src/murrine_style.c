@@ -306,35 +306,22 @@ murrine_style_draw_flat_box (DRAW_ARGS)
 
 				if (DETAIL ("entry_bg"))
 				{
-					/* Draw (erase) the background */
-					cairo_set_operator (cr, CAIRO_OPERATOR_CLEAR);
-					cairo_paint (cr);
-					cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
-
+					cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
 					murrine_set_color_rgba (cr, &colors->base[state_type], ENTRY_OPACITY);
 					cairo_rectangle (cr, 0, 0, width, height);
 					cairo_fill (cr);
 				}
 				else if (DETAIL ("eventbox") || DETAIL ("trough"))
 				{
-					/* Draw (erase) the background */
-					cairo_set_operator (cr, CAIRO_OPERATOR_CLEAR);
-					cairo_paint (cr);
-					cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
-
+					cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
 					murrine_set_color_rgba (cr, &colors->bg[0], WINDOW_OPACITY);
 					cairo_rectangle (cr, 0, 0, width, height);
 					cairo_fill (cr);
 				}
 				else
 				{
-					/* Draw (erase) the background */
-					cairo_set_operator (cr, CAIRO_OPERATOR_CLEAR);
-					cairo_paint (cr);
-					cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
-
+					cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
 					cairo_pattern_t *pat;
-
 					pat = cairo_pattern_create_linear (0, 0, width, 0);
 					murrine_pattern_add_color_stop_rgba (pat, 0.0, &colors->bg[0], WINDOW_OPACITY);
 					murrine_pattern_add_color_stop_rgba (pat, 0.5, &colors->bg[0], (WINDOW_OPACITY-0.04));

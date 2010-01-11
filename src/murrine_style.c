@@ -313,14 +313,14 @@ murrine_style_draw_flat_box (DRAW_ARGS)
 				{
 					cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
 					murrine_set_color_rgba (cr, &colors->base[state_type], ENTRY_OPACITY);
-					cairo_rectangle (cr, 0, 0, width, height);
+					cairo_rectangle (cr, x, y, width, height);
 					cairo_fill (cr);
 				}
 				else if (DETAIL ("eventbox") || DETAIL ("trough"))
 				{
 					cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
 					murrine_set_color_rgba (cr, &colors->bg[0], WINDOW_OPACITY);
-					cairo_rectangle (cr, 0, 0, width, height);
+					cairo_rectangle (cr, x, y, width, height);
 					cairo_fill (cr);
 				}
 				else
@@ -332,7 +332,7 @@ murrine_style_draw_flat_box (DRAW_ARGS)
 					murrine_pattern_add_color_stop_rgba (pat, 0.5, &colors->bg[0], (WINDOW_OPACITY-0.04));
 					murrine_pattern_add_color_stop_rgba (pat, 1.0, &colors->bg[0], WINDOW_OPACITY);
 					cairo_set_source (cr, pat);
-					cairo_rectangle  (cr, 0, 0, width, height);
+					cairo_rectangle  (cr, x, y, width, height);
 					cairo_fill       (cr);
 					cairo_pattern_destroy (pat);
 				}

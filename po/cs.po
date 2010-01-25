@@ -1,14 +1,15 @@
 # Czech translation for murrine.
 # Copyright (C) 2009 the author(s) of murrine.
 # This file is distributed under the same license as the murrine package.
-# Marek Černocký <marek@manet.cz>, 2009.
+# Marek Černocký <marek@manet.cz>, 2009, 2010.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: murrine master\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-01-12 23:32+0100\n"
-"PO-Revision-Date: 2009-12-30 14:39+0100\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=murrine&component=general\n"
+"POT-Creation-Date: 2010-01-18 01:38+0000\n"
+"PO-Revision-Date: 2010-01-23 16:57+0100\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -27,22 +28,20 @@ msgid "Animations"
 msgstr "Animace"
 
 #: ../schema/murrine.xml.in.in.h:3
-#, fuzzy
 msgid "Arrow Style"
-msgstr "Zářící styl"
+msgstr "Styl šipky"
 
 #: ../schema/murrine.xml.in.in.h:4
 msgid "Colorize scrollbar"
 msgstr "Barevný posuvník"
 
 #: ../schema/murrine.xml.in.in.h:5
-#, fuzzy
 msgid "Colorize scrollbar with bg[SELECTED]"
-msgstr "Barevný posuvník"
+msgstr "Barevný posuvník s bg[SELECTED]"
 
 #: ../schema/murrine.xml.in.in.h:6
 msgid "Combobox Style"
-msgstr ""
+msgstr "Styl rozbalovacího seznamu"
 
 #: ../schema/murrine.xml.in.in.h:7
 msgid "Contrast"
@@ -96,9 +95,9 @@ msgid "Increse/Decrease the lightborder shade"
 msgstr "Zvětšit/zmenšit stínování zesvětleného okraje"
 
 #: ../schema/murrine.xml.in.in.h:19
-#, fuzzy
 msgid "Increse/Decrease the prelight shade"
-msgstr "Zvětšit/zmenšit stínování zvýraznění"
+msgstr ""
+"Zvětšit/zmenšit stínování prvku se stavem „prelight“ (je nad ním ukazatel)"
 
 #: ../schema/murrine.xml.in.in.h:20
 msgid "Lightborder Shade"
@@ -129,9 +128,8 @@ msgid "MenubarItem Style"
 msgstr "Styl položky panelu nabídek"
 
 #: ../schema/murrine.xml.in.in.h:27
-#, fuzzy
 msgid "Prelight Shade"
-msgstr "Stínování zvýraznění"
+msgstr "Stínování nasvíceného"
 
 #: ../schema/murrine.xml.in.in.h:28
 msgid "Progressbar style"
@@ -154,18 +152,16 @@ msgid "Slider style"
 msgstr "Styl táhla"
 
 #: ../schema/murrine.xml.in.in.h:33
-#, fuzzy
 msgid "Spinbutton Style"
-msgstr "Styl položky nabídky"
+msgstr "Styl číselníku"
 
 #: ../schema/murrine.xml.in.in.h:34
 msgid "Stepper style"
 msgstr "Styl krokovače"
 
 #: ../schema/murrine.xml.in.in.h:35
-#, fuzzy
 msgid "Text Style"
-msgstr "Lesklý styl"
+msgstr "Styl textu"
 
 #: ../schema/murrine.xml.in.in.h:36
 msgid "Toolbar style"
@@ -192,3 +188,4 @@ msgstr "Svislé příčky v nabídkách"
 
 #~ msgid "Use colorized scrollbars"
 #~ msgstr "Použít barevné posuvníky"
+

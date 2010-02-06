@@ -2,6 +2,7 @@ Overview of Changes in 0.91.0 (since 0.90.3)
 ============================================
 Changes in this release:
 - New supported widget: GtkExpander is now themed by the engine.
+- New supported widget: GtkInfoBar is now themed by the engine.
 - New option: arrowstyle = 1 to draw filled arrows.
 - New option: border_shades = { 1.0, 1.0 } to draw a gradient on the border.
 - New option: border_colors = { "#ffffff", "#ffffff" }

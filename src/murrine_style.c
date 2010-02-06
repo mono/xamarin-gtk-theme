@@ -1435,6 +1435,19 @@ murrine_style_draw_box (DRAW_ARGS)
 
 		STYLE_FUNCTION(draw_menu_frame) (cr, colors, &params, x, y, width, height, murrine_style->menustyle);
 	}
+	else if (DETAIL ("infobar") ||
+	         DETAIL ("infobar-error") ||
+	         DETAIL ("infobar-info") || 
+	         DETAIL ("infobar-warning"))
+	{
+		WidgetParameters params;
+
+		murrine_set_widget_parameters (widget, style, state_type, &params);
+
+		params.corners = MRN_CORNER_NONE;
+
+		STYLE_FUNCTION(draw_tooltip) (cr, colors, &params, x, y, width, height);
+	}
 	else if (DETAIL ("hseparator") || DETAIL ("vseparator"))
 	{
 		gchar *new_detail = (gchar*) detail;

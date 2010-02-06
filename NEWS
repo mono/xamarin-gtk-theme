@@ -38,6 +38,7 @@ Bugfixes in this release:
 - Fix a potential endless loop in draw_progressbar_fill and draw_menuitem.
 - Support for automake-1.11.
 - Some minor fixes on big-endian systems.
+- Fixes transparent WebKitGtk window with RGBA colormaps.
 - Minor fixes.
 
 Overview of Changes in 0.90.3 (since 0.90.2)

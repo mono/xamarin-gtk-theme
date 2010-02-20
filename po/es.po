@@ -2,16 +2,14 @@
 # Spanish translation for murrine.
 # Copyright (C) 2009 murrine's COPYRIGHT HOLDER
 # This file is distributed under the same license as the murrine package.
-#
-# Jorge González González <aloriel@gmail.com>, 2009.
-# Jorge González <jorgegonz@svn.gnome.org>, 2009.
+# Jorge González <jorgegonz@svn.gnome.org>, 2009, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: murrine.po.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=murrine&component=general\n"
-"POT-Creation-Date: 2009-12-08 15:19+0000\n"
-"PO-Revision-Date: 2009-12-19 14:42+0100\n"
+"POT-Creation-Date: 2010-01-02 09:40+0000\n"
+"PO-Revision-Date: 2010-02-20 09:44+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -29,7 +27,6 @@ msgid "Animations"
 msgstr "Animaciones"
 
 #: ../schema/murrine.xml.in.in.h:3
-#| msgid "Style"
 msgid "Arrow Style"
 msgstr "Estilo de flecha"
 
@@ -38,7 +35,6 @@ msgid "Colorize scrollbar"
 msgstr "Colorizar las barras de desplazamiento"
 
 #: ../schema/murrine.xml.in.in.h:5
-#| msgid "Colorize scrollbar"
 msgid "Colorize scrollbar with bg[SELECTED]"
 msgstr "Colorizar las barras de desplazamiento con fondo [SELECCIONADAS]"
 
@@ -54,14 +50,17 @@ msgstr "Contraste"
 msgid ""
 "Dangerous, should be MODIFIED ONLY BY HAND in gtkrc into separated sections"
 msgstr ""
+"Peligroso, SÓLO SE DEBERÍA MODIFICAR A MANO en gtkrc en secciones separadas"
 
 #: ../schema/murrine.xml.in.in.h:9
 msgid "Enable and set the Glow Shade"
-msgstr ""
+msgstr "Activar y configurar la sombra del brillo"
 
 #: ../schema/murrine.xml.in.in.h:10
 msgid "Enable animations on progressbars, radio and checkbuttons"
 msgstr ""
+"Activar las animaciones en las barras de progreso, botones de radio y de "
+"selección"
 
 #: ../schema/murrine.xml.in.in.h:11
 msgid "Enable/Disable RGBA support"
@@ -73,15 +72,15 @@ msgstr "Color de enfocado"
 
 #: ../schema/murrine.xml.in.in.h:13
 msgid "Glaze Style"
-msgstr ""
+msgstr "Estilo del vidriado"
 
 #: ../schema/murrine.xml.in.in.h:14
 msgid "Glow Shade"
-msgstr ""
+msgstr "Sombra del brillo"
 
 #: ../schema/murrine.xml.in.in.h:15
 msgid "Glow Style"
-msgstr ""
+msgstr "Estilo del brillo"
 
 #: ../schema/murrine.xml.in.in.h:16
 msgid "Highlight Shade"
@@ -89,11 +88,11 @@ msgstr "Sombra de resaltado"
 
 #: ../schema/murrine.xml.in.in.h:17
 msgid "Increse/Decrease the highlight shade"
-msgstr ""
+msgstr "Aumentar/reducir la sombra de resaltado"
 
 #: ../schema/murrine.xml.in.in.h:18
 msgid "Increse/Decrease the lightborder shade"
-msgstr ""
+msgstr "Aumentar/reducir la sombra del borde"
 
 #: ../schema/murrine.xml.in.in.h:19
 msgid "Increse/Decrease the prelight shade"
@@ -101,23 +100,23 @@ msgstr ""
 
 #: ../schema/murrine.xml.in.in.h:20
 msgid "Lightborder Shade"
-msgstr ""
+msgstr "Sombra del borde"
 
 #: ../schema/murrine.xml.in.in.h:21
 msgid "Lightborder Style"
-msgstr ""
+msgstr "Estilo de la sombra del borde"
 
 #: ../schema/murrine.xml.in.in.h:22
 msgid "Listview header style"
-msgstr ""
+msgstr "Cabecera de la sombra del borde"
 
 #: ../schema/murrine.xml.in.in.h:23
 msgid "Listview separators"
-msgstr ""
+msgstr "Separadores de la vista de lista"
 
 #: ../schema/murrine.xml.in.in.h:24
 msgid "MenuItem Style"
-msgstr ""
+msgstr "Estilo de los elementos de menú"
 
 #: ../schema/murrine.xml.in.in.h:25
 msgid "Menubar Style"
@@ -128,7 +127,6 @@ msgid "MenubarItem Style"
 msgstr "Estilo del elemento de la barra de menú"
 
 #: ../schema/murrine.xml.in.in.h:27
-#| msgid "Highlight Shade"
 msgid "Prelight Shade"
 msgstr ""
 
@@ -138,7 +136,7 @@ msgstr "Estilo de la barra de progreso"
 
 #: ../schema/murrine.xml.in.in.h:29
 msgid "Relief style of widget"
-msgstr ""
+msgstr "Estilo de sustitución del widget"
 
 #: ../schema/murrine.xml.in.in.h:30
 msgid "Roundness"
@@ -146,7 +144,7 @@ msgstr "Redondez"
 
 #: ../schema/murrine.xml.in.in.h:31
 msgid "Sets the Color of Focus"
-msgstr ""
+msgstr "Establece el color del foco"
 
 #: ../schema/murrine.xml.in.in.h:32
 msgid "Slider style"
@@ -154,14 +152,13 @@ msgstr "Estilo del deslizador"
 
 #: ../schema/murrine.xml.in.in.h:33
 msgid "Spinbutton Style"
-msgstr ""
+msgstr "Estilo del marcador incrementable"
 
 #: ../schema/murrine.xml.in.in.h:34
 msgid "Stepper style"
 msgstr ""
 
 #: ../schema/murrine.xml.in.in.h:35
-#| msgid "Style"
 msgid "Text Style"
 msgstr "Estilo del texto"
 

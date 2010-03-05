@@ -213,9 +213,10 @@ typedef struct
 
 typedef struct
 {
-	int    box_w;
-	int    style;
-	double prelight_shade;
+	boolean as_list;
+	int     box_w;
+	int     style;
+	double  prelight_shade;
 } ComboBoxParameters;
 
 typedef struct

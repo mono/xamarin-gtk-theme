@@ -818,13 +818,17 @@ murrine_draw_combobox (cairo_t *cr,
 		{
 			WidgetParameters params = widget;
 			MurrineColors colors_new = colors;
-			int box_w = combobox->box_w;
-			if (!(widget.xthickness > 2 && widget.ythickness > 2))
-				box_w -= 3;
+			int box_w = (widget.xthickness > 2 && widget.ythickness > 2) ? combobox->box_w : combobox->box_w-3;
 			int os = (widget.xthickness > 2 && widget.ythickness > 2) ? 1 : 0;
 			colors_new.bg[GTK_STATE_NORMAL] = colors.spot[1];
 			murrine_shade (&colors_new.bg[GTK_STATE_NORMAL], combobox->prelight_shade, 
 			               &colors_new.bg[GTK_STATE_PRELIGHT]);
+
+			if (combobox->as_list)
+			{
+				params.style_functions->draw_button (cr, &colors_new, &params, x, y, w, h, horizontal);
+				break;
+			}
 
 			cairo_save (cr);
 			if (params.ltr)

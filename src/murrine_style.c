@@ -865,9 +865,13 @@ murrine_style_draw_box (DRAW_ARGS)
 		else
 		{
 			ComboBoxParameters combobox;
+			combobox.as_list = FALSE;
 			combobox.box_w = 24;
 			combobox.style = murrine_style->comboboxstyle;
 			combobox.prelight_shade = murrine_style->prelight_shade;
+
+			gtk_widget_style_get (widget->parent, "appears-as-list", &combobox.as_list, NULL);
+
 			STYLE_FUNCTION(draw_combobox) (cr, murrine_style->colors, params, &combobox, x, y, width, height, horizontal);
 		}
 	}

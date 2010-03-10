@@ -829,8 +829,8 @@ murrine_style_draw_box (DRAW_ARGS)
 		params.active = shadow_type == GTK_SHADOW_IN;
 
 		boolean horizontal = TRUE;
-		if (((float)width/height < 0.5) ||
-		    (murrine_style->glazestyle > 0 && width<height))
+		if (((float)width/height<0.5) ||
+		    (murrine_style->highlight_shade != 1.0 && murrine_style->glazestyle > 0 && width<height))
 			horizontal = FALSE;
 
 		if ((widget && (MRN_IS_COMBO_BOX_ENTRY (widget->parent) || MRN_IS_COMBO (widget->parent))))
@@ -932,7 +932,8 @@ murrine_style_draw_box (DRAW_ARGS)
 		spinbutton.style = murrine_style->spinbuttonstyle;
 
 		boolean horizontal = TRUE;
-		if (((float)width/height<0.5)|| (murrine_style->glazestyle > 0 && width<height))
+		if (((float)width/height<0.5) ||
+		    (murrine_style->highlight_shade != 1.0 && murrine_style->glazestyle > 0 && width<height))
 			horizontal = FALSE;
 
 		if (murrine_style->roundness > 0)

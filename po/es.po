@@ -8,19 +8,19 @@ msgstr ""
 "Project-Id-Version: murrine.po.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=murrine&component=general\n"
-"POT-Creation-Date: 2010-01-02 09:40+0000\n"
-"PO-Revision-Date: 2010-02-20 09:44+0100\n"
+"POT-Creation-Date: 2010-02-20 08:45+0000\n"
+"PO-Revision-Date: 2010-03-17 19:02+0100\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms:  nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: KBabel 1.11.4\n"
 
 #: ../schema/murrine.xml.in.in.h:1
 msgid "Additional scrollbar features"
-msgstr "v "
+msgstr "Características adicionales de las barras de desplazamiento"
 
 #: ../schema/murrine.xml.in.in.h:2
 msgid "Animations"
@@ -96,7 +96,7 @@ msgstr "Aumentar/reducir la sombra del borde"
 
 #: ../schema/murrine.xml.in.in.h:19
 msgid "Increse/Decrease the prelight shade"
-msgstr ""
+msgstr "Aumentar/reducir la sombra con preiluminación"
 
 #: ../schema/murrine.xml.in.in.h:20
 msgid "Lightborder Shade"
@@ -128,7 +128,7 @@ msgstr "Estilo del elemento de la barra de menú"
 
 #: ../schema/murrine.xml.in.in.h:27
 msgid "Prelight Shade"
-msgstr ""
+msgstr "Sombra con preiluminación"
 
 #: ../schema/murrine.xml.in.in.h:28
 msgid "Progressbar style"
@@ -156,7 +156,7 @@ msgstr "Estilo del marcador incrementable"
 
 #: ../schema/murrine.xml.in.in.h:34
 msgid "Stepper style"
-msgstr ""
+msgstr "Estilo del paso"
 
 #: ../schema/murrine.xml.in.in.h:35
 msgid "Text Style"

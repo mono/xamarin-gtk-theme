@@ -299,6 +299,17 @@
 		</enumeration>
 	</option>
 
+	<option type="enumeration" name="separatorstyle" default="0">
+		<_long_name>Separator style</_long_name>
+		<section>General</section>
+		<enumeration value="0">
+			<label>None</label>
+		</enumeration>
+		<enumeration value="1">
+			<label>Smooth separator</label>
+		</enumeration>
+	</option>
+
 	<option type="enumeration" name="sliderstyle" default="0">
 		<_long_name>Slider style</_long_name>
 		<section>Scrolls and Lists</section>

@@ -63,6 +63,7 @@ enum
 	TOKEN_RGBA,
 	TOKEN_ROUNDNESS,
 	TOKEN_SCROLLBARSTYLE,
+	TOKEN_SEPARATORSTYLE,
 	TOKEN_SHADOW_SHADES,
 	TOKEN_SLIDERSTYLE,
 	TOKEN_SPINBUTTONSTYLE,
@@ -120,6 +121,7 @@ theme_symbols[] =
 	{ "rgba",                TOKEN_RGBA },
 	{ "roundness",           TOKEN_ROUNDNESS },
 	{ "scrollbarstyle",      TOKEN_SCROLLBARSTYLE },
+	{ "separatorstyle",      TOKEN_SEPARATORSTYLE },
 	{ "shadow_shades",       TOKEN_SHADOW_SHADES },
 	{ "sliderstyle",         TOKEN_SLIDERSTYLE },
 	{ "spinbuttonstyle",     TOKEN_SPINBUTTONSTYLE },
@@ -186,6 +188,7 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->rgba = FALSE;
 	murrine_rc->roundness = 1;
 	murrine_rc->scrollbarstyle = 0;
+	murrine_rc->separatorstyle = 0;
 	murrine_rc->shadow_shades[0] = 1.0;
 	murrine_rc->shadow_shades[1] = 1.0;
 	murrine_rc->sliderstyle = 0;
@@ -712,6 +715,10 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_int (settings, scanner, &murrine_style->scrollbarstyle);
 				murrine_style->flags |= MRN_FLAG_SCROLLBARSTYLE;
 				break;
+			case TOKEN_SEPARATORSTYLE:
+				token = theme_parse_int (settings, scanner, &murrine_style->separatorstyle);
+				murrine_style->flags |= MRN_FLAG_SEPARATORSTYLE;
+				break;
 			case TOKEN_SHADOW_SHADES:
 				token = theme_parse_border (settings, scanner, murrine_style->shadow_shades);
 				murrine_style->gflags |= MRN_FLAG_SHADOW_SHADES;
@@ -863,6 +870,8 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->roundness = src_w->roundness;
 	if (flags & MRN_FLAG_SCROLLBARSTYLE)
 		dest_w->scrollbarstyle = src_w->scrollbarstyle;
+	if (flags & MRN_FLAG_SEPARATORSTYLE)
+		dest_w->separatorstyle = src_w->separatorstyle;
 	if (flags & MRN_FLAG_SLIDERSTYLE)
 		dest_w->sliderstyle = src_w->sliderstyle;
 	if (flags & MRN_FLAG_SPINBUTTONSTYLE)

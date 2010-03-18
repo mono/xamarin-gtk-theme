@@ -1392,12 +1392,50 @@ murrine_draw_separator (cairo_t *cr,
 	{
 		cairo_translate       (cr, x, y+0.5);
 
-		murrine_set_color_rgb (cr, dark);
+		switch (separator->style)
+		{
+			default:
+			case 0:
+				murrine_set_color_rgb (cr, dark);
+				break;
+			case 1:
+			{
+				cairo_pattern_t *pat;
+				pat = cairo_pattern_create_linear (0, 0, width, 0);
+				murrine_pattern_add_color_stop_rgba (pat, 0.00, dark, 0.0);
+				murrine_pattern_add_color_stop_rgba (pat, 0.25, dark, 1.0);
+				murrine_pattern_add_color_stop_rgba (pat, 0.75, dark, 1.0);
+				murrine_pattern_add_color_stop_rgba (pat, 1.00, dark, 0.0);
+				cairo_set_source (cr, pat);
+				cairo_pattern_destroy (pat);
+				break;
+			}
+		}
+		
 		cairo_move_to         (cr, 0.0,     0.0);
 		cairo_line_to         (cr, width+1, 0.0);
 		cairo_stroke          (cr);
 
-		murrine_set_color_rgb (cr, highlight);
+		switch (separator->style)
+		{
+			default:
+			case 0:
+				murrine_set_color_rgb (cr, highlight);
+				break;
+			case 1:
+			{
+				cairo_pattern_t *pat;
+				pat = cairo_pattern_create_linear (0, 0, width, 0);
+				murrine_pattern_add_color_stop_rgba (pat, 0.00, highlight, 0.0);
+				murrine_pattern_add_color_stop_rgba (pat, 0.25, highlight, 1.0);
+				murrine_pattern_add_color_stop_rgba (pat, 0.75, highlight, 1.0);
+				murrine_pattern_add_color_stop_rgba (pat, 1.00, highlight, 0.0);
+				cairo_set_source (cr, pat);
+				cairo_pattern_destroy (pat);
+				break;
+			}
+		}
+
 		cairo_move_to         (cr, 0.0,   1.0);
 		cairo_line_to         (cr, width, 1.0);
 		cairo_stroke          (cr);
@@ -1406,12 +1444,49 @@ murrine_draw_separator (cairo_t *cr,
 	{
 		cairo_translate       (cr, x+0.5, y);
 
-		murrine_set_color_rgb (cr, dark);
+		switch (separator->style)
+		{
+			default:
+			case 0:
+				murrine_set_color_rgb (cr, dark);
+				break;
+			case 1:
+			{
+				cairo_pattern_t *pat;
+				pat = cairo_pattern_create_linear (0, 0, 0, height);
+				murrine_pattern_add_color_stop_rgba (pat, 0.00, dark, 0.0);
+				murrine_pattern_add_color_stop_rgba (pat, 0.25, dark, 1.0);
+				murrine_pattern_add_color_stop_rgba (pat, 0.75, dark, 1.0);
+				murrine_pattern_add_color_stop_rgba (pat, 1.00, dark, 0.0);
+				cairo_set_source (cr, pat);
+				cairo_pattern_destroy (pat);
+				break;
+			}
+		}
 		cairo_move_to         (cr, 0.0, 0.0);
 		cairo_line_to         (cr, 0.0, height);
 		cairo_stroke          (cr);
 
-		murrine_set_color_rgb (cr, highlight);
+		switch (separator->style)
+		{
+			default:
+			case 0:
+				murrine_set_color_rgb (cr, highlight);
+				break;
+			case 1:
+			{
+				cairo_pattern_t *pat;
+				pat = cairo_pattern_create_linear (0, 0, 0, height);
+				murrine_pattern_add_color_stop_rgba (pat, 0.00, highlight, 0.0);
+				murrine_pattern_add_color_stop_rgba (pat, 0.25, highlight, 1.0);
+				murrine_pattern_add_color_stop_rgba (pat, 0.75, highlight, 1.0);
+				murrine_pattern_add_color_stop_rgba (pat, 1.00, highlight, 0.0);
+				cairo_set_source (cr, pat);
+				cairo_pattern_destroy (pat);
+				break;
+			}
+		}
+
 		cairo_move_to         (cr, 1.0, 0.0);
 		cairo_line_to         (cr, 1.0, height);
 		cairo_stroke          (cr);

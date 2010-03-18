@@ -1634,6 +1634,7 @@ murrine_style_draw_vline (GtkStyle     *style,
 
 	SeparatorParameters separator;
 	separator.horizontal = FALSE;
+	separator.style = murrine_style->separatorstyle;
 
 	WidgetParameters params;
 
@@ -1678,6 +1679,7 @@ murrine_style_draw_hline (GtkStyle     *style,
 
 	SeparatorParameters separator;
 	separator.horizontal = TRUE;
+	separator.style = murrine_style->separatorstyle;
 
 	WidgetParameters params;
 
@@ -2288,6 +2290,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	murrine_style->reliefstyle         = MURRINE_RC_STYLE (rc_style)->reliefstyle;
 	murrine_style->rgba                = MURRINE_RC_STYLE (rc_style)->rgba;
 	murrine_style->scrollbarstyle      = MURRINE_RC_STYLE (rc_style)->scrollbarstyle;
+	murrine_style->separatorstyle      = MURRINE_RC_STYLE (rc_style)->separatorstyle;	
 	murrine_style->sliderstyle         = MURRINE_RC_STYLE (rc_style)->sliderstyle;
 	murrine_style->spinbuttonstyle     = MURRINE_RC_STYLE (rc_style)->spinbuttonstyle;
 	murrine_style->stepperstyle        = MURRINE_RC_STYLE (rc_style)->stepperstyle;
@@ -2431,6 +2434,7 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	mrn_style->rgba                = mrn_src->rgba;
 	mrn_style->roundness           = mrn_src->roundness;
 	mrn_style->scrollbarstyle      = mrn_src->scrollbarstyle;
+	mrn_style->separatorstyle      = mrn_src->separatorstyle;
 	mrn_style->shadow_shades[0]    = mrn_src->shadow_shades[0];
 	mrn_style->shadow_shades[1]    = mrn_src->shadow_shades[1];
 	mrn_style->sliderstyle 	       = mrn_src->sliderstyle;

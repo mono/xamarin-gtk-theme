@@ -15,6 +15,7 @@ Changes in this release:
 - New option: prelight_shade = 1.0 to select the shade level used in the
               scrollbar's slider, GtkComboBox with comboboxstyle = 1 and
               in the prelight state with gradient_colors.
+- New option: separatorstyle = 1 to draw smooth separators.              
 - New option: shadow_shades = { 1.0, 1.0 } to draw a gradient on
               the shadow of some widgets.
 - New option: spinbuttonstyle = 1 to add a separator on the GtkSpinButton.

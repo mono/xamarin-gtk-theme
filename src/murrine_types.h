@@ -303,6 +303,7 @@ typedef struct
 {
 	boolean horizontal;
 	boolean use_rgba;
+	int     style;
 } SeparatorParameters;
 
 typedef struct

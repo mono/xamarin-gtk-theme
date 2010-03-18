@@ -1922,12 +1922,12 @@ murrine_style_draw_layout (GtkStyle     *style,
 		GdkColor etched;
 		MurrineRGB temp;
 
-		if (GTK_WIDGET_NO_WINDOW (widget))
+		if (!gtk_widget_get_has_window (widget))
 			murrine_shade (&params.parentbg, 1.12, &temp);
 		else if (DETAIL ("cellrenderertext"))
-			murrine_shade (&colors->base[widget->state], 1.12, &temp);
+			murrine_shade (&colors->base[state_type], 1.12, &temp);
 		else
-			murrine_shade (&colors->bg[widget->state], 1.12, &temp);
+			murrine_shade (&colors->bg[state_type], 1.12, &temp);
 
 		etched.red = (int) (temp.r*65535);
 		etched.green = (int) (temp.g*65535);
@@ -1941,7 +1941,7 @@ murrine_style_draw_layout (GtkStyle     *style,
 		MurrineStyle *murrine_style = MURRINE_STYLE (style);
 		MurrineColors *colors = &murrine_style->colors;
 
-		if (murrine_style->textstyle != 0 && widget->state == GTK_STATE_NORMAL)
+		if (murrine_style->textstyle != 0 && state_type != GTK_STATE_PRELIGHT)
 		{
 			WidgetParameters params;
 
@@ -1950,10 +1950,19 @@ murrine_style_draw_layout (GtkStyle     *style,
 			GdkColor etched;
 			MurrineRGB temp;
 
-			if (GTK_WIDGET_NO_WINDOW (widget))
+			if (!gtk_widget_get_has_window (widget) && (widget->parent &&
+			    (!MRN_IS_BUTTON(widget->parent) &&
+                             !MRN_IS_COMBO_BOX(widget->parent) &&
+                             !MRN_IS_COMBO_BOX_ENTRY(widget->parent) &&
+                             !MRN_IS_COMBO(widget->parent) &&
+                             !MRN_IS_OPTION_MENU(widget->parent)) ||
+                              MRN_IS_CHECK_BUTTON(widget->parent) ||
+                              MRN_IS_RADIO_BUTTON(widget->parent)))
 				murrine_shade (&params.parentbg, 1.06, &temp);
+			else if (DETAIL ("cellrenderertext"))
+				murrine_shade (&colors->base[state_type], 1.06, &temp);
 			else
-				murrine_shade (&colors->bg[widget->state], 1.06, &temp);
+				murrine_shade (&colors->bg[state_type], 1.06, &temp);
 
 			etched.red = (int) (temp.r*65535);
 			etched.green = (int) (temp.g*65535);

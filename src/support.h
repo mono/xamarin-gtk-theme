@@ -71,6 +71,7 @@
  
 #define MRN_IS_TOGGLE_BUTTON(object) ((object) && murrine_object_is_a ((GObject*)(object), "GtkToggleButton"))
 #define MRN_IS_CHECK_BUTTON(object) ((object) && murrine_object_is_a ((GObject*)(object), "GtkCheckButton"))
+#define MRN_IS_RADIO_BUTTON(object) ((object) && murrine_object_is_a ((GObject*)(object), "GtkRadioButton"))
 #define MRN_IS_SPIN_BUTTON(object) ((object) && murrine_object_is_a ((GObject*)(object), "GtkSpinButton"))
  
 #define MRN_IS_STATUSBAR(object) ((object) && murrine_object_is_a ((GObject*)(object), "GtkStatusbar"))

@@ -66,8 +66,8 @@ struct _MurrineStyle
 	guint8   progressbarstyle;
 	guint8   reliefstyle;
 	guint8   roundness;
-	guint8   separatorstyle;
 	guint8   scrollbarstyle;
+	guint8   separatorstyle;
 	guint8   sliderstyle;
 	guint8   spinbuttonstyle;
 	guint8   stepperstyle;

@@ -353,30 +353,55 @@ murrine_style_draw_flat_box (DRAW_ARGS)
 	if (detail && (!strncmp ("cell_even", detail, 9) || !strncmp ("cell_odd", detail, 8)))
 	{
 		MurrineStyle  *murrine_style = MURRINE_STYLE (style);
-		if (murrine_style->listviewstyle > 0)
+		switch (murrine_style->listviewstyle)
 		{
-			MurrineColors *colors = &murrine_style->colors;
-			cairo_t       *cr;
-
-			CHECK_ARGS
-			SANITIZE_SIZE
-
-			cr = murrine_begin_paint (window, area);
-
-			cairo_translate (cr, x, y);
-			int i;
-			int pos = 1;
-			if (murrine_style->listviewheaderstyle != 1)
-				pos = 2;
-
-			murrine_set_color_rgba (cr, &colors->text[GTK_STATE_NORMAL], 0.42);
-			for (i = 2; i < height; i+=4)
+			default:
+			case 0:
+				break;
+			case 1:
 			{
-				cairo_rectangle (cr, -pos, i, 1, 1);
-				cairo_fill (cr);
-			}
+				MurrineColors *colors = &murrine_style->colors;
+				cairo_t       *cr;
 
-			cairo_destroy (cr);
+				CHECK_ARGS
+				SANITIZE_SIZE
+
+				cr = murrine_begin_paint (window, area);
+
+				cairo_translate (cr, x, y);
+				int i;
+				int pos = murrine_style->listviewheaderstyle != 1 ? 2 : 1;
+
+				murrine_set_color_rgba (cr, &colors->text[GTK_STATE_NORMAL], 0.42);
+				for (i = 2; i < height; i+=4)
+				{
+					cairo_rectangle (cr, -pos, i, 1, 1);
+					cairo_fill (cr);
+				}
+
+				cairo_destroy (cr);
+				break;
+			}
+			case 2:
+			{
+				MurrineColors *colors = &murrine_style->colors;
+				cairo_t       *cr;
+
+				CHECK_ARGS
+				SANITIZE_SIZE
+
+				cr = murrine_begin_paint (window, area);
+
+				cairo_translate (cr, murrine_style->listviewheaderstyle != 1 ? x-1 : x, y);
+
+				cairo_move_to (cr, -0.5, 0);
+				cairo_line_to (cr, -0.5, height);
+				murrine_set_color_rgba (cr, &colors->text[GTK_STATE_NORMAL], 0.2);
+				cairo_stroke (cr);
+
+				cairo_destroy (cr);
+				break;
+			}
 		}
 	}
 }

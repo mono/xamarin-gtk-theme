@@ -22,6 +22,7 @@ Changes in this release:
 - New option: textstyle = 1 to draw an inset on the text (use carefully).
 - New option: trough_shades = { 1.0, 1.0 } to draw a gradient on
               the trough of GtkScrollbar and GtkProgressBar.
+- Changed option: listviewstyle = 2 for a solid line.
 - Changed option: reliefstyle = 3 for a gradient on shadow,
                   reliefstyle = 4 for a stronger shadow.
 - Changed option: stepperstyle = 2 for squared steppers with a rounded slider.

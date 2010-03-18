@@ -160,6 +160,9 @@
 		<enumeration value="1">
 			<label>Dotted separators</label>
 		</enumeration>
+		<enumeration value="1">
+			<label>Solid line</label>
+		</enumeration>
 	</option>
 
 	<option type="enumeration" name="menubaritemstyle" default="0">

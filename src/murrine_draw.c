@@ -1390,7 +1390,7 @@ murrine_draw_separator (cairo_t *cr,
 
 	if (separator->horizontal)
 	{
-		cairo_translate       (cr, x, y+0.5);
+		cairo_translate (cr, x, y+0.5);
 
 		switch (separator->style)
 		{
@@ -1412,9 +1412,9 @@ murrine_draw_separator (cairo_t *cr,
 			}
 		}
 		
-		cairo_move_to         (cr, 0.0,     0.0);
-		cairo_line_to         (cr, width+1, 0.0);
-		cairo_stroke          (cr);
+		cairo_move_to (cr, 0.0,     0.0);
+		cairo_line_to (cr, width+1, 0.0);
+		cairo_stroke  (cr);
 
 		switch (separator->style)
 		{
@@ -1436,13 +1436,13 @@ murrine_draw_separator (cairo_t *cr,
 			}
 		}
 
-		cairo_move_to         (cr, 0.0,   1.0);
-		cairo_line_to         (cr, width, 1.0);
-		cairo_stroke          (cr);
+		cairo_move_to (cr, 0.0,   1.0);
+		cairo_line_to (cr, width, 1.0);
+		cairo_stroke  (cr);
 	}
 	else
 	{
-		cairo_translate       (cr, x+0.5, y);
+		cairo_translate (cr, x+0.5, y);
 
 		switch (separator->style)
 		{
@@ -1463,9 +1463,9 @@ murrine_draw_separator (cairo_t *cr,
 				break;
 			}
 		}
-		cairo_move_to         (cr, 0.0, 0.0);
-		cairo_line_to         (cr, 0.0, height);
-		cairo_stroke          (cr);
+		cairo_move_to (cr, 0.0, 0.0);
+		cairo_line_to (cr, 0.0, height);
+		cairo_stroke  (cr);
 
 		switch (separator->style)
 		{
@@ -1487,9 +1487,9 @@ murrine_draw_separator (cairo_t *cr,
 			}
 		}
 
-		cairo_move_to         (cr, 1.0, 0.0);
-		cairo_line_to         (cr, 1.0, height);
-		cairo_stroke          (cr);
+		cairo_move_to (cr, 1.0, 0.0);
+		cairo_line_to (cr, 1.0, height);
+		cairo_stroke  (cr);
 	}
 }
 

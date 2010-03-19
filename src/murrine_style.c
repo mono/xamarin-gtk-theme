@@ -1987,7 +1987,8 @@ murrine_style_draw_layout (GtkStyle     *style,
                              !MRN_IS_COMBO_BOX(widget->parent) &&
                              !MRN_IS_COMBO_BOX_ENTRY(widget->parent) &&
                              !MRN_IS_COMBO(widget->parent) &&
-                             !MRN_IS_OPTION_MENU(widget->parent)) ||
+                             !MRN_IS_OPTION_MENU(widget->parent) &&
+                             !MRN_IS_NOTEBOOK(widget->parent)) ||
                               MRN_IS_CHECK_BUTTON(widget->parent) ||
                               MRN_IS_RADIO_BUTTON(widget->parent) ||
                               (relief == GTK_RELIEF_NONE && state_type == GTK_STATE_NORMAL)))
@@ -2002,6 +2003,8 @@ murrine_style_draw_layout (GtkStyle     *style,
 			etched.blue = (int) (temp.b*65535);
 
 			gdk_draw_layout_with_colors (window, gc, x, y+1, layout, &etched, NULL);
+
+			//printf( "draw_layout: %s %s\n", detail, G_OBJECT_TYPE_NAME (widget->parent));
 		}
 		gdk_draw_layout (window, gc, x, y, layout);
 	}

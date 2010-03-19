@@ -355,6 +355,12 @@
 		<enumeration value="1">
 			<label>Add inset</label>
 		</enumeration>
+		<enumeration value="2">
+			<label>Add inverted inset</label>
+		</enumeration>
+		<enumeration value="3">
+			<label>Add shadow</label>
+		</enumeration>
 	</option>
 
 	<option type="enumeration" name="toolbarstyle" default="0">

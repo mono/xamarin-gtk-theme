@@ -1937,11 +1937,12 @@ murrine_style_draw_layout (GtkStyle     *style,
 	if (area)
 		gdk_gc_set_clip_rectangle (gc, area);
 
-	if (state_type == GTK_STATE_INSENSITIVE)
+	if (state_type == GTK_STATE_INSENSITIVE || 
+	    (&MURRINE_STYLE (style)->textstyle != 0 && state_type != GTK_STATE_PRELIGHT))
 	{
 		MurrineStyle *murrine_style = MURRINE_STYLE (style);
 		MurrineColors *colors = &murrine_style->colors;
-
+	
 		WidgetParameters params;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
@@ -1949,86 +1950,65 @@ murrine_style_draw_layout (GtkStyle     *style,
 		GdkColor etched;
 		MurrineRGB temp;
 
-		if (!gtk_widget_get_has_window (widget))
-			murrine_shade (&params.parentbg, 1.12, &temp);
+		double shade_level = 1.0;
+		int xos = 0;
+		int yos = 0;
+
+		switch (murrine_style->textstyle)
+		{
+			case 1:
+				shade_level = 1.06;
+				yos = 1;
+				break;
+			case 2:
+				shade_level = 0.6;
+				yos = -1;
+				break;
+			case 3:
+				shade_level = 0.82;
+				xos = 1;
+				yos = 1;
+				break;
+		}
+
+		if (state_type == GTK_STATE_INSENSITIVE)
+		{
+			shade_level = 1.12;
+			xos = 1;
+			yos = 1;
+		}
+
+		GtkReliefStyle relief = GTK_RELIEF_NORMAL;
+		/* Check for the shadow type. */
+		if (widget->parent && MRN_IS_BUTTON (widget->parent))
+			g_object_get (G_OBJECT (widget->parent), "relief", &relief, NULL);
+
+		if (!gtk_widget_get_has_window (widget) && (widget->parent &&
+		    (!MRN_IS_BUTTON(widget->parent) &&
+                     !MRN_IS_COMBO_BOX(widget->parent) &&
+                     !MRN_IS_COMBO_BOX_ENTRY(widget->parent) &&
+                     !MRN_IS_COMBO(widget->parent) &&
+                     !MRN_IS_OPTION_MENU(widget->parent) &&
+                     !MRN_IS_NOTEBOOK(widget->parent)) ||
+                      MRN_IS_CHECK_BUTTON(widget->parent) ||
+                      MRN_IS_RADIO_BUTTON(widget->parent) ||
+                      (relief == GTK_RELIEF_NONE && state_type == GTK_STATE_NORMAL)))
+			murrine_shade (&params.parentbg, shade_level, &temp);
 		else if (DETAIL ("cellrenderertext"))
-			murrine_shade (&colors->base[state_type], 1.12, &temp);
+			murrine_shade (&colors->base[state_type], shade_level, &temp);
 		else
-			murrine_shade (&colors->bg[state_type], 1.12, &temp);
+			murrine_shade (&colors->bg[state_type], shade_level, &temp);
 
 		etched.red = (int) (temp.r*65535);
 		etched.green = (int) (temp.g*65535);
 		etched.blue = (int) (temp.b*65535);
 
-		gdk_draw_layout_with_colors (window, gc, x+1, y+1, layout, &etched, NULL);
-		gdk_draw_layout (window, gc, x, y, layout);
+		gdk_draw_layout_with_colors (window, gc, x+xos, y+yos, layout, &etched, NULL);
+
+		//printf( "draw_layout: %s %s\n", detail, G_OBJECT_TYPE_NAME (widget->parent));
 	}
-	else
-	{
-		if (&MURRINE_STYLE (style)->textstyle != 0 && state_type != GTK_STATE_PRELIGHT)
-		{
-			MurrineStyle *murrine_style = MURRINE_STYLE (style);
-			MurrineColors *colors = &murrine_style->colors;
-		
-			WidgetParameters params;
 
-			murrine_set_widget_parameters (widget, style, state_type, &params);
-
-			GdkColor etched;
-			MurrineRGB temp;
-
-			double shade_level = 1.0;
-			int xos = 0;
-			int yos = 0;
-
-			switch (murrine_style->textstyle)
-			{
-				case 1:
-					shade_level = 1.06;
-					yos = 1;
-					break;
-				case 2:
-					shade_level = 0.6;
-					yos = -1;
-					break;
-				case 3:
-					shade_level = 0.82;
-					xos = 1;
-					yos = 1;
-					break;
-			}
-
-			GtkReliefStyle relief = GTK_RELIEF_NORMAL;
-			/* Check for the shadow type. */
-			if (widget->parent && MRN_IS_BUTTON (widget->parent))
-				g_object_get (G_OBJECT (widget->parent), "relief", &relief, NULL);
-
-			if (!gtk_widget_get_has_window (widget) && (widget->parent &&
-			    (!MRN_IS_BUTTON(widget->parent) &&
-                             !MRN_IS_COMBO_BOX(widget->parent) &&
-                             !MRN_IS_COMBO_BOX_ENTRY(widget->parent) &&
-                             !MRN_IS_COMBO(widget->parent) &&
-                             !MRN_IS_OPTION_MENU(widget->parent) &&
-                             !MRN_IS_NOTEBOOK(widget->parent)) ||
-                              MRN_IS_CHECK_BUTTON(widget->parent) ||
-                              MRN_IS_RADIO_BUTTON(widget->parent) ||
-                              (relief == GTK_RELIEF_NONE && state_type == GTK_STATE_NORMAL)))
-				murrine_shade (&params.parentbg, shade_level, &temp);
-			else if (DETAIL ("cellrenderertext"))
-				murrine_shade (&colors->base[state_type], shade_level, &temp);
-			else
-				murrine_shade (&colors->bg[state_type], shade_level, &temp);
-
-			etched.red = (int) (temp.r*65535);
-			etched.green = (int) (temp.g*65535);
-			etched.blue = (int) (temp.b*65535);
-
-			gdk_draw_layout_with_colors (window, gc, x+xos, y+yos, layout, &etched, NULL);
-
-			//printf( "draw_layout: %s %s\n", detail, G_OBJECT_TYPE_NAME (widget->parent));
-		}
-		gdk_draw_layout (window, gc, x, y, layout);
-	}
+	gdk_draw_layout (window, gc, x, y, layout);
 
 	if (area)
 		gdk_gc_set_clip_rectangle (gc, NULL);

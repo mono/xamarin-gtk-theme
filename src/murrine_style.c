@@ -1977,6 +1977,11 @@ murrine_style_draw_layout (GtkStyle     *style,
 			GdkColor etched;
 			MurrineRGB temp;
 
+			GtkReliefStyle relief = GTK_RELIEF_NORMAL;
+			/* Check for the shadow type. */
+			if (widget->parent && MRN_IS_BUTTON (widget->parent))
+				g_object_get (G_OBJECT (widget->parent), "relief", &relief, NULL);
+
 			if (!gtk_widget_get_has_window (widget) && (widget->parent &&
 			    (!MRN_IS_BUTTON(widget->parent) &&
                              !MRN_IS_COMBO_BOX(widget->parent) &&
@@ -1984,7 +1989,8 @@ murrine_style_draw_layout (GtkStyle     *style,
                              !MRN_IS_COMBO(widget->parent) &&
                              !MRN_IS_OPTION_MENU(widget->parent)) ||
                               MRN_IS_CHECK_BUTTON(widget->parent) ||
-                              MRN_IS_RADIO_BUTTON(widget->parent)))
+                              MRN_IS_RADIO_BUTTON(widget->parent) ||
+                              (relief == GTK_RELIEF_NONE && state_type == GTK_STATE_NORMAL)))
 				murrine_shade (&params.parentbg, 1.06, &temp);
 			else if (DETAIL ("cellrenderertext"))
 				murrine_shade (&colors->base[state_type], 1.06, &temp);
@@ -2139,8 +2145,8 @@ murrine_style_draw_focus (GtkStyle *style, GdkWindow *window, GtkStateType state
 	if (DETAIL("button"))
 	{
 		if (widget && widget->parent &&
-	                 (MRN_IS_TREE_VIEW (widget->parent) ||
-	                  MRN_IS_CLIST (widget->parent)))
+	            (MRN_IS_TREE_VIEW (widget->parent) ||
+	             MRN_IS_CLIST (widget->parent)))
 		{
 			focus.type = MRN_FOCUS_TREEVIEW_HEADER;
 		}

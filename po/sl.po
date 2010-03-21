@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: murrine\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=murrine&component=general\n"
-"POT-Creation-Date: 2010-01-04 14:45+0000\n"
-"PO-Revision-Date: 2010-01-05 09:53+0100\n"
+"POT-Creation-Date: 2010-03-21 16:25+0000\n"
+"PO-Revision-Date: 2010-03-21 22:08+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -139,30 +139,34 @@ msgid "Roundness"
 msgstr "Okroglost"
 
 #: ../schema/murrine.xml.in.in.h:31
+msgid "Separator style"
+msgstr "Slog ločilnika"
+
+#: ../schema/murrine.xml.in.in.h:32
 msgid "Sets the Color of Focus"
 msgstr "Določitev barve okna v žarišču"
 
-#: ../schema/murrine.xml.in.in.h:32
+#: ../schema/murrine.xml.in.in.h:33
 msgid "Slider style"
 msgstr "Slog vodoravnega drsnika"
 
-#: ../schema/murrine.xml.in.in.h:33
+#: ../schema/murrine.xml.in.in.h:34
 msgid "Spinbutton Style"
 msgstr "Slog vrtilnega gumba"
 
-#: ../schema/murrine.xml.in.in.h:34
+#: ../schema/murrine.xml.in.in.h:35
 msgid "Stepper style"
 msgstr "Slog koračnika"
 
-#: ../schema/murrine.xml.in.in.h:35
+#: ../schema/murrine.xml.in.in.h:36
 msgid "Text Style"
 msgstr "Slog besedila"
 
-#: ../schema/murrine.xml.in.in.h:36
+#: ../schema/murrine.xml.in.in.h:37
 msgid "Toolbar style"
 msgstr "Slog orodne vrstice"
 
-#: ../schema/murrine.xml.in.in.h:37
+#: ../schema/murrine.xml.in.in.h:38
 msgid "Vertical bars in menus"
 msgstr "Navpične vrstice menija"
 

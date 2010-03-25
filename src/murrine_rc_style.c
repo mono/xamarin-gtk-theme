@@ -635,7 +635,7 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				murrine_style->flags |= MRN_FLAG_CONTRAST;
 				break;
 			case TOKEN_DISABLE_FOCUS:
-				token = theme_parse_boolean (settings, scanner, rc_style, &murrine_style->disable_focus);
+				token = theme_parse_boolean (settings, scanner, &murrine_style->disable_focus);
 				murrine_style->flags |= MRN_FLAG_DISABLE_FOCUS;
 				break;
 			case TOKEN_FOCUS_COLOR:

@@ -53,6 +53,12 @@
 		<precision>2</precision>
 	</option>
 
+	<option type="boolean" name="disable_focus" default="FALSE">
+		<_long_name>Disable Focus</_long_name>
+		<_description>Disable focus drawing</_description>
+		<section>General</section>
+	</option>
+
 	<option type="color" name="focus_color" default="#000000">
 		<_long_name>Focus Color</_long_name>
 		<section>General</section>

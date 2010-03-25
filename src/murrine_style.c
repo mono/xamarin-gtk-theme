@@ -131,7 +131,7 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	params->state_type = (MurrineStateType)state_type;
 	params->corners    = MRN_CORNER_ALL;
 	params->ltr        = murrine_widget_is_ltr ((GtkWidget*)widget);
-	params->focus      = widget && GTK_WIDGET_HAS_FOCUS (widget);
+	params->focus      = !MURRINE_STYLE (style)->disable_focus && widget && GTK_WIDGET_HAS_FOCUS (widget);
 	params->is_default = widget && GTK_WIDGET_HAS_DEFAULT (widget);
 
 	params->xthickness = style->xthickness;
@@ -160,17 +160,17 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	{
 		mrn_gradient.has_gradient_colors = TRUE;
 		murrine_gdk_color_to_rgb (&murrine_style->gradient_colors[0], &mrn_gradient.gradient_colors[0].r,
-	                                                                  &mrn_gradient.gradient_colors[0].g,
-	                                                                  &mrn_gradient.gradient_colors[0].b);
+	                                                                      &mrn_gradient.gradient_colors[0].g,
+	                                                                      &mrn_gradient.gradient_colors[0].b);
 		murrine_gdk_color_to_rgb (&murrine_style->gradient_colors[1], &mrn_gradient.gradient_colors[1].r,
-	                                                                  &mrn_gradient.gradient_colors[1].g,
-	                                                                  &mrn_gradient.gradient_colors[1].b);
+	                                                                      &mrn_gradient.gradient_colors[1].g,
+	                                                                      &mrn_gradient.gradient_colors[1].b);
 		murrine_gdk_color_to_rgb (&murrine_style->gradient_colors[2], &mrn_gradient.gradient_colors[2].r,
-	                                                                  &mrn_gradient.gradient_colors[2].g,
-	                                                                  &mrn_gradient.gradient_colors[2].b);
+	                                                                      &mrn_gradient.gradient_colors[2].g,
+	                                                                      &mrn_gradient.gradient_colors[2].b);
 		murrine_gdk_color_to_rgb (&murrine_style->gradient_colors[3], &mrn_gradient.gradient_colors[3].r,
-	                                                                  &mrn_gradient.gradient_colors[3].g,
-	                                                                  &mrn_gradient.gradient_colors[3].b);
+	                                                                      &mrn_gradient.gradient_colors[3].g,
+	                                                                      &mrn_gradient.gradient_colors[3].b);
 		if (params->prelight && !MRN_IS_PROGRESS_BAR(widget)) //progressbar is prelight, no change in shade
 		{
 			mrn_gradient.gradient_shades[0] *= murrine_style->prelight_shade;
@@ -186,11 +186,11 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	{
 		mrn_gradient.has_border_colors = TRUE;
 		murrine_gdk_color_to_rgb (&murrine_style->border_colors[0], &mrn_gradient.border_colors[0].r,
-	                                                                &mrn_gradient.border_colors[0].g,
-	                                                                &mrn_gradient.border_colors[0].b);
+	                                                                    &mrn_gradient.border_colors[0].g,
+	                                                                    &mrn_gradient.border_colors[0].b);
 		murrine_gdk_color_to_rgb (&murrine_style->border_colors[1], &mrn_gradient.border_colors[1].r,
-	                                                                &mrn_gradient.border_colors[1].g,
-	                                                                &mrn_gradient.border_colors[1].b);
+	                                                                    &mrn_gradient.border_colors[1].g,
+	                                                                    &mrn_gradient.border_colors[1].b);
 	}
 	else
 		mrn_gradient.has_border_colors = FALSE;
@@ -2003,6 +2003,13 @@ murrine_style_draw_layout (GtkStyle     *style,
 		etched.green = (int) (temp.g*65535);
 		etched.blue = (int) (temp.b*65535);
 
+/*		cairo_t *cr;*/
+/*		cr = murrine_begin_paint (window, area);*/
+/*		cairo_translate (cr, x+xos, y+yos);*/
+/*		murrine_set_color_rgb (cr, &temp);*/
+/*		pango_cairo_show_layout (cr, layout);*/
+/*		cairo_destroy (cr);*/
+		
 		gdk_draw_layout_with_colors (window, gc, x+xos, y+yos, layout, &etched, NULL);
 
 		//printf( "draw_layout: %s %s\n", detail, G_OBJECT_TYPE_NAME (widget->parent));
@@ -2104,6 +2111,10 @@ murrine_style_draw_focus (GtkStyle *style, GdkWindow *window, GtkStateType state
 
 	CHECK_ARGS
 	SANITIZE_SIZE
+
+	/* Just return if focus drawing is disabled. */
+	if (murrine_style->disable_focus)
+		return;
 
 	cr = gdk_cairo_create (window);
 
@@ -2309,6 +2320,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	murrine_style->comboboxstyle       = MURRINE_RC_STYLE (rc_style)->comboboxstyle;
 	murrine_style->contrast            = MURRINE_RC_STYLE (rc_style)->contrast;
 	murrine_style->colorize_scrollbar  = MURRINE_RC_STYLE (rc_style)->colorize_scrollbar;
+	murrine_style->disable_focus       = MURRINE_RC_STYLE (rc_style)->disable_focus;
 	murrine_style->has_border_colors   = MURRINE_RC_STYLE (rc_style)->has_border_colors;
 	murrine_style->has_focus_color     = MURRINE_RC_STYLE (rc_style)->flags & MRN_FLAG_FOCUS_COLOR;
 	murrine_style->has_gradient_colors = MURRINE_RC_STYLE (rc_style)->has_gradient_colors;
@@ -2439,6 +2451,7 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	mrn_style->colors              = mrn_src->colors;
 	mrn_style->comboboxstyle       = mrn_src->comboboxstyle;
 	mrn_style->contrast            = mrn_src->contrast;
+	mrn_style->disable_focus       = mrn_src->disable_focus;
 	mrn_style->focus_color         = mrn_src->focus_color;
 	mrn_style->glazestyle          = mrn_src->glazestyle;
 	mrn_style->glow_shade          = mrn_src->glow_shade;

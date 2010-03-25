@@ -42,6 +42,7 @@ enum
 	TOKEN_COLORIZE_SCROLLBAR,
 	TOKEN_COMBOBOXSTYLE,
 	TOKEN_CONTRAST,
+	TOKEN_DISABLE_FOCUS,
 	TOKEN_FOCUS_COLOR,
 	TOKEN_GLAZESTYLE,
 	TOKEN_GLOW_SHADE,
@@ -100,6 +101,7 @@ theme_symbols[] =
 	{ "colorize_scrollbar",  TOKEN_COLORIZE_SCROLLBAR },
 	{ "comboboxstyle",       TOKEN_COMBOBOXSTYLE },
 	{ "contrast",            TOKEN_CONTRAST },
+	{ "disable_focus",       TOKEN_DISABLE_FOCUS },
 	{ "focus_color",         TOKEN_FOCUS_COLOR },
 	{ "glazestyle",          TOKEN_GLAZESTYLE },
 	{ "glow_shade",          TOKEN_GLOW_SHADE },
@@ -164,6 +166,7 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->colorize_scrollbar = TRUE;
 	murrine_rc->comboboxstyle = 0;
 	murrine_rc->contrast = 1.0;
+	murrine_rc->disable_focus = FALSE;
 	murrine_rc->has_border_colors = FALSE;
 	murrine_rc->has_gradient_colors = FALSE;
 	murrine_rc->glazestyle = 1;
@@ -631,6 +634,10 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_shade (settings, scanner, &murrine_style->contrast);
 				murrine_style->flags |= MRN_FLAG_CONTRAST;
 				break;
+			case TOKEN_DISABLE_FOCUS:
+				token = theme_parse_boolean (settings, scanner, rc_style, &murrine_style->disable_focus);
+				murrine_style->flags |= MRN_FLAG_DISABLE_FOCUS;
+				break;
 			case TOKEN_FOCUS_COLOR:
 				token = theme_parse_color (settings, scanner, rc_style, &murrine_style->focus_color);
 				murrine_style->flags |= MRN_FLAG_FOCUS_COLOR;
@@ -832,6 +839,8 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->comboboxstyle = src_w->comboboxstyle;
 	if (flags & MRN_FLAG_CONTRAST)
 		dest_w->contrast = src_w->contrast;
+	if (flags & MRN_FLAG_DISABLE_FOCUS)
+		dest_w->disable_focus = src_w->disable_focus;
 	if (flags & MRN_FLAG_FOCUS_COLOR)
 		dest_w->focus_color = src_w->focus_color;
 	if (flags & MRN_FLAG_GLAZESTYLE)

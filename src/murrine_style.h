@@ -76,6 +76,7 @@ struct _MurrineStyle
 
 	gboolean animation;
 	gboolean colorize_scrollbar;
+	gboolean disable_focus;
 	gboolean has_border_colors;
 	gboolean has_focus_color;
 	gboolean has_gradient_colors;

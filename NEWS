@@ -9,6 +9,7 @@ Changes in this release:
               to set the colors used on the border of many widgets.
               border_colors = FALSE to disable.
 - New option: comboboxstyle = 1 to colorize the GtkComboBox below the arrow.
+- New option: disable_focus = TRUE to disable focus drawing.
 - New option: gradient_colors = { "#ffffff", "#ffffff", "#ffffff", "#ffffff" }
               to set the colors used on the gradient of many widgets.
               gradient_colors = FALSE to disable.

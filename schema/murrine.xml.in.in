@@ -33,6 +33,17 @@
 		<section>Scrolls and Lists</section>
 	</option>
 
+	<option type="enumeration" name="cellstyle" default="1">
+		<_long_name>Cell Style</_long_name>
+		<section>General</section>
+		<enumeration value="0">
+			<label>No effect</label>
+		</enumeration>
+		<enumeration value="1">
+			<label>Border on top and bottom</label>
+		</enumeration>
+	</option>
+
 	<option type="enumeration" name="comboboxstyle" default="0">
 		<_long_name>Combobox Style</_long_name>
 		<section>General</section>

@@ -53,6 +53,7 @@ struct _MurrineStyle
 	double   trough_shades[2];
 
 	guint8   arrowstyle;
+	guint8   cellstyle;
 	guint8   comboboxstyle;
 	guint8   glazestyle;
 	guint8   glowstyle;

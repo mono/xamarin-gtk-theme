@@ -251,10 +251,13 @@ murrine_style_draw_flat_box (DRAW_ARGS)
 		cr = murrine_begin_paint (window, area);
 
 		WidgetParameters params;
+		CellParameters cell;
+
+		cell.style = murrine_style->cellstyle;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 
-		STYLE_FUNCTION(draw_selected_cell) (cr, colors, &params, x, y, width, height);
+		STYLE_FUNCTION(draw_selected_cell) (cr, colors, &params, &cell, x, y, width, height);
 
 		cairo_destroy (cr);
 	}
@@ -2317,6 +2320,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 		murrine_style->roundness = MURRINE_RC_STYLE (rc_style)->roundness;
 	murrine_style->animation           = MURRINE_RC_STYLE (rc_style)->animation;
 	murrine_style->arrowstyle          = MURRINE_RC_STYLE (rc_style)->arrowstyle;
+	murrine_style->cellstyle           = MURRINE_RC_STYLE (rc_style)->cellstyle;
 	murrine_style->comboboxstyle       = MURRINE_RC_STYLE (rc_style)->comboboxstyle;
 	murrine_style->contrast            = MURRINE_RC_STYLE (rc_style)->contrast;
 	murrine_style->colorize_scrollbar  = MURRINE_RC_STYLE (rc_style)->colorize_scrollbar;
@@ -2447,6 +2451,7 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	mrn_style->border_colors[1]    = mrn_src->border_colors[1];
 	mrn_style->border_shades[0]    = mrn_src->border_shades[0];
 	mrn_style->border_shades[1]    = mrn_src->border_shades[1];
+	mrn_style->cellstyle           = mrn_src->cellstyle;
 	mrn_style->colorize_scrollbar  = mrn_src->colorize_scrollbar;
 	mrn_style->colors              = mrn_src->colors;
 	mrn_style->comboboxstyle       = mrn_src->comboboxstyle;

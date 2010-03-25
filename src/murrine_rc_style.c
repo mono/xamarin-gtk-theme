@@ -40,6 +40,7 @@ enum
 	TOKEN_BORDER_COLORS,
 	TOKEN_BORDER_SHADES,
 	TOKEN_COLORIZE_SCROLLBAR,
+	TOKEN_CELLSTYLE,
 	TOKEN_COMBOBOXSTYLE,
 	TOKEN_CONTRAST,
 	TOKEN_DISABLE_FOCUS,
@@ -99,6 +100,7 @@ theme_symbols[] =
 	{ "border_colors",       TOKEN_BORDER_COLORS },
 	{ "border_shades",       TOKEN_BORDER_SHADES },
 	{ "colorize_scrollbar",  TOKEN_COLORIZE_SCROLLBAR },
+	{ "cellstyle",           TOKEN_CELLSTYLE },	
 	{ "comboboxstyle",       TOKEN_COMBOBOXSTYLE },
 	{ "contrast",            TOKEN_CONTRAST },
 	{ "disable_focus",       TOKEN_DISABLE_FOCUS },
@@ -163,6 +165,7 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->arrowstyle = 0;
 	murrine_rc->border_shades[0] = 1.0;
 	murrine_rc->border_shades[1] = 1.0;
+	murrine_rc->cellstyle = 1;
 	murrine_rc->colorize_scrollbar = TRUE;
 	murrine_rc->comboboxstyle = 0;
 	murrine_rc->contrast = 1.0;
@@ -622,6 +625,10 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_border (settings, scanner, murrine_style->border_shades);
 				murrine_style->gflags |= MRN_FLAG_BORDER_SHADES;
 				break;
+			case TOKEN_CELLSTYLE:
+				token = theme_parse_int (settings, scanner, &murrine_style->cellstyle);
+				murrine_style->flags |= MRN_FLAG_CELLSTYLE;
+				break;
 			case TOKEN_COLORIZE_SCROLLBAR:
 				token = theme_parse_boolean (settings, scanner, &murrine_style->colorize_scrollbar);
 				murrine_style->flags |= MRN_FLAG_COLORIZE_SCROLLBAR;
@@ -833,6 +840,8 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->animation = src_w->animation;
 	if (flags & MRN_FLAG_ARROWSTYLE)
 		dest_w->arrowstyle = src_w->arrowstyle;
+	if (flags & MRN_FLAG_CELLSTYLE)
+		dest_w->cellstyle = src_w->cellstyle;
 	if (flags & MRN_FLAG_COLORIZE_SCROLLBAR)
 		dest_w->colorize_scrollbar = src_w->colorize_scrollbar;
 	if (flags & MRN_FLAG_COMBOBOXSTYLE)

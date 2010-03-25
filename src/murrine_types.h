@@ -206,6 +206,11 @@ typedef struct
 
 typedef struct
 {
+	int style;
+} CellParameters;
+
+typedef struct
+{
 	MurrineShadowType shadow_type;
 	boolean           in_cell;
 	boolean           in_menu;
@@ -504,6 +509,7 @@ struct _MurrineStyleFunctions
 	void (*draw_selected_cell) (cairo_t *cr,
 	                            const MurrineColors    *colors,
 	                            const WidgetParameters *widget,
+	                            const CellParameters   *cell,
 	                            int x, int y, int width, int height);
 
 	void (*draw_statusbar) (cairo_t *cr,

@@ -1964,6 +1964,7 @@ static void
 murrine_draw_selected_cell (cairo_t *cr,
                             const MurrineColors    *colors,
                             const WidgetParameters *widget,
+                            const CellParameters   *cell,
                             int x, int y, int width, int height)
 {
 	cairo_set_line_cap (cr, CAIRO_LINE_CAP_SQUARE);
@@ -1971,7 +1972,7 @@ murrine_draw_selected_cell (cairo_t *cr,
 	MurrineRGB fill = widget->focus ? colors->base[widget->state_type] :
 	                                  colors->base[GTK_STATE_ACTIVE];
 	MurrineRGB border;
-	murrine_shade (&fill, (!widget->mrn_gradient.gradients ? 0.9 : 0.95), &border);
+	murrine_shade (&fill, (cell->style != 0 ? !widget->mrn_gradient.gradients ? 0.9 : 0.95 : 1.0), &border);
 
 	cairo_save (cr);
 	cairo_translate (cr, x, y);

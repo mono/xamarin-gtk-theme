@@ -8,6 +8,8 @@ Changes in this release:
 - New option: border_colors = { "#ffffff", "#ffffff" }
               to set the colors used on the border of many widgets.
               border_colors = FALSE to disable.
+- New option: cellstyle = 0 to remove the border around the selected cell.
+              cellstyle = 1 for the border around the selected cell (as before).
 - New option: comboboxstyle = 1 to colorize the GtkComboBox below the arrow.
 - New option: disable_focus = TRUE to disable focus drawing.
 - New option: gradient_colors = { "#ffffff", "#ffffff", "#ffffff", "#ffffff" }

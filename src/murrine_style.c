@@ -1940,7 +1940,6 @@ murrine_style_draw_layout (GtkStyle     *style,
 	if (area)
 		gdk_gc_set_clip_rectangle (gc, area);
 
-
 	if (widget && (state_type == GTK_STATE_INSENSITIVE || 
 	    (MURRINE_STYLE (style)->textstyle != 0 && state_type != GTK_STATE_PRELIGHT)))
 	{

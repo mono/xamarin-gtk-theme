@@ -1941,7 +1941,8 @@ murrine_style_draw_layout (GtkStyle     *style,
 		gdk_gc_set_clip_rectangle (gc, area);
 
 	if (widget && (state_type == GTK_STATE_INSENSITIVE || 
-	    (MURRINE_STYLE (style)->textstyle != 0 && state_type != GTK_STATE_PRELIGHT)))
+	    (MURRINE_STYLE (style)->textstyle != 0 &&
+	     state_type != GTK_STATE_PRELIGHT)))
 	{
 		MurrineStyle *murrine_style = MURRINE_STYLE (style);
 		MurrineColors *colors = &murrine_style->colors;
@@ -2018,7 +2019,28 @@ murrine_style_draw_layout (GtkStyle     *style,
 		//printf( "draw_layout: %s %s\n", detail, G_OBJECT_TYPE_NAME (widget->parent));
 	}
 
-	gdk_draw_layout (window, gc, x, y, layout);
+	if (DETAIL ("accellabel"))
+	{
+		MurrineStyle *murrine_style = MURRINE_STYLE (style);
+		MurrineColors *colors = &murrine_style->colors;
+
+		WidgetParameters params;
+
+		murrine_set_widget_parameters (widget, style, state_type, &params);
+
+		GdkColor etched;
+		MurrineRGB temp;
+
+		murrine_mix_color (&colors->fg[state_type], &params.parentbg, 0.4, &temp);
+
+		etched.red = (int) (temp.r*65535);
+		etched.green = (int) (temp.g*65535);
+		etched.blue = (int) (temp.b*65535);
+
+		gdk_draw_layout_with_colors(window, gc, x, y, layout, &etched, NULL);
+	}
+	else
+		gdk_draw_layout (window, gc, x, y, layout);
 
 	if (area)
 		gdk_gc_set_clip_rectangle (gc, NULL);

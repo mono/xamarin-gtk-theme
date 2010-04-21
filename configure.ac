@@ -3,6 +3,9 @@ AC_CONFIG_SRCDIR([README])
 
 AM_INIT_AUTOMAKE
 
+# Use AM_SILENT_RULES if present
+m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
+
 dnl Initialize maintainer mode
 AM_MAINTAINER_MODE
 

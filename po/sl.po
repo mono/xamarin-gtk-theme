@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: murrine\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=murrine&component=general\n"
 "POT-Creation-Date: 2010-03-27 12:34+0000\n"
-"PO-Revision-Date: 2010-03-28 12:07+0100\n"
+"PO-Revision-Date: 2010-04-30 10:30+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -54,7 +54,7 @@ msgstr "Kontrast"
 
 #: ../schema/murrine.xml.in.in.h:9
 msgid "Dangerous, should be MODIFIED ONLY BY HAND in gtkrc into separated sections"
-msgstr "Spreminjanje je nevarno in mora biti narejeno le ročno v gtkrc za ločene odseke"
+msgstr "Spreminjanje lahko povzroči napake, zato mora biti sprememba narejena ročno v gtkrc v ločenih odsekih"
 
 #: ../schema/murrine.xml.in.in.h:10
 msgid "Disable Focus"
@@ -186,14 +186,18 @@ msgstr "Navpične vrstice menija"
 
 #~ msgid "Enable/Disable gradients"
 #~ msgstr "Omogoči/Onemogoči preliv"
+
 #~ msgid "Gradients"
 #~ msgstr "Prelivi"
+
 #~ msgid "Scrollbar Color"
 #~ msgstr "Barva drsnika"
+
 #~ msgid "Sets the Color of Scrollbars"
 #~ msgstr "Določitev barve drsnikov"
+
 #~ msgid "Style"
 #~ msgstr "Slog"
+
 #~ msgid "Use colorized scrollbars"
 #~ msgstr "Uporabi obarvane drsnike"
-

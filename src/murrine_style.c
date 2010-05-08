@@ -1306,6 +1306,7 @@ murrine_style_draw_box (DRAW_ARGS)
 		if (murrine_style->comboboxstyle > 0)
 		{
 			ComboBoxParameters combobox;
+			combobox.as_list = FALSE;
 			combobox.box_w = indicator_size.width+indicator_spacing.left+indicator_spacing.right+3;
 			combobox.style = murrine_style->comboboxstyle;
 			combobox.prelight_shade = murrine_style->prelight_shade;

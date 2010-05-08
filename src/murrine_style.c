@@ -2004,7 +2004,9 @@ murrine_style_draw_layout (GtkStyle     *style,
 
 					if (!MRN_IS_CHECK_BUTTON(widget->parent) &&
 					    !MRN_IS_RADIO_BUTTON(widget->parent) &&
-					    !(relief == GTK_RELIEF_NONE && state_type == GTK_STATE_NORMAL))
+					    !(relief == GTK_RELIEF_NONE &&
+					      (state_type == GTK_STATE_NORMAL ||
+					       state_type == GTK_STATE_INSENSITIVE)))
 						use_parentbg = FALSE;
 
 					break;
@@ -2377,7 +2379,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	murrine_style->reliefstyle         = MURRINE_RC_STYLE (rc_style)->reliefstyle;
 	murrine_style->rgba                = MURRINE_RC_STYLE (rc_style)->rgba;
 	murrine_style->scrollbarstyle      = MURRINE_RC_STYLE (rc_style)->scrollbarstyle;
-	murrine_style->separatorstyle      = MURRINE_RC_STYLE (rc_style)->separatorstyle;	
+	murrine_style->separatorstyle      = MURRINE_RC_STYLE (rc_style)->separatorstyle;
 	murrine_style->sliderstyle         = MURRINE_RC_STYLE (rc_style)->sliderstyle;
 	murrine_style->spinbuttonstyle     = MURRINE_RC_STYLE (rc_style)->spinbuttonstyle;
 	murrine_style->stepperstyle        = MURRINE_RC_STYLE (rc_style)->stepperstyle;

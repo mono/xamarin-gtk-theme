@@ -71,6 +71,7 @@ enum
 	TOKEN_SPINBUTTONSTYLE,
 	TOKEN_STEPPERSTYLE,
 	TOKEN_TEXTSTYLE,
+	TOKEN_TEXT_SHADE,
 	TOKEN_TOOLBARSTYLE,
 	TOKEN_TROUGH_SHADES,
 
@@ -131,6 +132,7 @@ theme_symbols[] =
 	{ "spinbuttonstyle",     TOKEN_SPINBUTTONSTYLE },
 	{ "stepperstyle",        TOKEN_STEPPERSTYLE },
 	{ "textstyle",           TOKEN_TEXTSTYLE },
+	{ "text_shade",          TOKEN_TEXT_SHADE },
 	{ "toolbarstyle",        TOKEN_TOOLBARSTYLE },
 	{ "trough_shades",       TOKEN_TROUGH_SHADES },
 
@@ -201,6 +203,7 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->spinbuttonstyle = 0;
 	murrine_rc->stepperstyle = 0;
 	murrine_rc->textstyle = 0;
+	murrine_rc->text_shade = 1.06;
 	murrine_rc->toolbarstyle = 0;
 	murrine_rc->trough_shades[0] = 1.0;
 	murrine_rc->trough_shades[1] = 1.0;
@@ -611,7 +614,7 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 		{
 			case TOKEN_ANIMATION:
 				token = theme_parse_boolean (settings, scanner, &murrine_style->animation);
-				murrine_style->flags |= MRN_FLAG_ANIMATION;
+				murrine_style->bflags |= MRN_FLAG_ANIMATION;
 				break;
 			case TOKEN_ARROWSTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->arrowstyle);
@@ -631,7 +634,7 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				break;
 			case TOKEN_COLORIZE_SCROLLBAR:
 				token = theme_parse_boolean (settings, scanner, &murrine_style->colorize_scrollbar);
-				murrine_style->flags |= MRN_FLAG_COLORIZE_SCROLLBAR;
+				murrine_style->bflags |= MRN_FLAG_COLORIZE_SCROLLBAR;
 				break;
 			case TOKEN_COMBOBOXSTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->comboboxstyle);
@@ -639,11 +642,11 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				break;
 			case TOKEN_CONTRAST:
 				token = theme_parse_shade (settings, scanner, &murrine_style->contrast);
-				murrine_style->flags |= MRN_FLAG_CONTRAST;
+				murrine_style->bflags |= MRN_FLAG_CONTRAST;
 				break;
 			case TOKEN_DISABLE_FOCUS:
 				token = theme_parse_boolean (settings, scanner, &murrine_style->disable_focus);
-				murrine_style->flags |= MRN_FLAG_DISABLE_FOCUS;
+				murrine_style->bflags |= MRN_FLAG_DISABLE_FOCUS;
 				break;
 			case TOKEN_FOCUS_COLOR:
 				token = theme_parse_color (settings, scanner, rc_style, &murrine_style->focus_color);
@@ -719,11 +722,11 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				break;
 			case TOKEN_RGBA:
 				token = theme_parse_boolean (settings, scanner, &murrine_style->rgba);
-				murrine_style->flags |= MRN_FLAG_RGBA;
+				murrine_style->bflags |= MRN_FLAG_RGBA;
 				break;
 			case TOKEN_ROUNDNESS:
 				token = theme_parse_int (settings, scanner, &murrine_style->roundness);
-				murrine_style->flags |= MRN_FLAG_ROUNDNESS;
+				murrine_style->bflags |= MRN_FLAG_ROUNDNESS;
 				break;
 			case TOKEN_SCROLLBARSTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->scrollbarstyle);
@@ -752,6 +755,10 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 			case TOKEN_TEXTSTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->textstyle);
 				murrine_style->flags |= MRN_FLAG_TEXTSTYLE;
+				break;
+			case TOKEN_TEXT_SHADE:
+				token = theme_parse_shade (settings, scanner, &murrine_style->text_shade);
+				murrine_style->flags |= MRN_FLAG_TEXT_SHADE;
 				break;
 			case TOKEN_TOOLBARSTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->toolbarstyle);
@@ -824,6 +831,7 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 {
 	MurrineRcStyle *dest_w, *src_w;
 	MurrineRcFlags flags;
+	MurrineRcBasicFlags bflags;
 	MurrineRcGradientFlags gflags;
 
 	GTK_RC_STYLE_CLASS (murrine_rc_style_parent_class)->merge (dest, src);
@@ -834,22 +842,15 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 	src_w = MURRINE_RC_STYLE (src);
 	dest_w = MURRINE_RC_STYLE (dest);
 
+	/* Flags */
 	flags = (~dest_w->flags) & src_w->flags;
 
-	if (flags & MRN_FLAG_ANIMATION)
-		dest_w->animation = src_w->animation;
 	if (flags & MRN_FLAG_ARROWSTYLE)
 		dest_w->arrowstyle = src_w->arrowstyle;
 	if (flags & MRN_FLAG_CELLSTYLE)
 		dest_w->cellstyle = src_w->cellstyle;
-	if (flags & MRN_FLAG_COLORIZE_SCROLLBAR)
-		dest_w->colorize_scrollbar = src_w->colorize_scrollbar;
 	if (flags & MRN_FLAG_COMBOBOXSTYLE)
 		dest_w->comboboxstyle = src_w->comboboxstyle;
-	if (flags & MRN_FLAG_CONTRAST)
-		dest_w->contrast = src_w->contrast;
-	if (flags & MRN_FLAG_DISABLE_FOCUS)
-		dest_w->disable_focus = src_w->disable_focus;
 	if (flags & MRN_FLAG_FOCUS_COLOR)
 		dest_w->focus_color = src_w->focus_color;
 	if (flags & MRN_FLAG_GLAZESTYLE)
@@ -882,10 +883,6 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->progressbarstyle = src_w->progressbarstyle;
 	if (flags & MRN_FLAG_RELIEFSTYLE)
 		dest_w->reliefstyle = src_w->reliefstyle;
-	if (flags & MRN_FLAG_RGBA)
-		dest_w->rgba = src_w->rgba;
-	if (flags & MRN_FLAG_ROUNDNESS)
-		dest_w->roundness = src_w->roundness;
 	if (flags & MRN_FLAG_SCROLLBARSTYLE)
 		dest_w->scrollbarstyle = src_w->scrollbarstyle;
 	if (flags & MRN_FLAG_SEPARATORSTYLE)
@@ -898,11 +895,32 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->stepperstyle = src_w->stepperstyle;
 	if (flags & MRN_FLAG_TEXTSTYLE)
 		dest_w->textstyle = src_w->textstyle;
+	if (flags & MRN_FLAG_TEXT_SHADE)
+		dest_w->text_shade = src_w->text_shade;
 	if (flags & MRN_FLAG_TOOLBARSTYLE)
 		dest_w->toolbarstyle = src_w->toolbarstyle;
 
 	dest_w->flags |= src_w->flags;
 
+	/* Basic Flags */
+	bflags = (~dest_w->bflags) & src_w->bflags;
+
+	if (bflags & MRN_FLAG_ANIMATION)
+		dest_w->animation = src_w->animation;
+	if (bflags & MRN_FLAG_COLORIZE_SCROLLBAR)
+		dest_w->colorize_scrollbar = src_w->colorize_scrollbar;
+	if (bflags & MRN_FLAG_CONTRAST)
+		dest_w->contrast = src_w->contrast;
+	if (bflags & MRN_FLAG_DISABLE_FOCUS)
+		dest_w->disable_focus = src_w->disable_focus;
+	if (bflags & MRN_FLAG_RGBA)
+		dest_w->rgba = src_w->rgba;
+	if (bflags & MRN_FLAG_ROUNDNESS)
+		dest_w->roundness = src_w->roundness;
+
+	dest_w->bflags |= src_w->bflags;
+
+	/* Gradient Flags */
 	gflags = (~dest_w->gflags) & src_w->gflags;
 
 	if (gflags & MRN_FLAG_BORDER_COLORS)

@@ -1956,24 +1956,25 @@ murrine_style_draw_layout (GtkStyle     *style,
 		GdkColor etched;
 		MurrineRGB temp;
 
-		double shade_level = 1.0;
+		double shade_level = murrine_style->text_shade;
 		int xos = 0;
 		int yos = 0;
 
 		switch (murrine_style->textstyle)
 		{
 			case 1:
-				shade_level = 1.06;
 				yos = 1;
 				break;
 			case 2:
-				shade_level = 0.6;
 				yos = -1;
 				break;
 			case 3:
-				shade_level = 0.82;
 				xos = 1;
 				yos = 1;
+				break;
+			case 4:
+				xos = -1;
+				yos = -1;
 				break;
 		}
 
@@ -2384,6 +2385,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	murrine_style->spinbuttonstyle     = MURRINE_RC_STYLE (rc_style)->spinbuttonstyle;
 	murrine_style->stepperstyle        = MURRINE_RC_STYLE (rc_style)->stepperstyle;
 	murrine_style->textstyle           = MURRINE_RC_STYLE (rc_style)->textstyle;
+	murrine_style->text_shade          = MURRINE_RC_STYLE (rc_style)->text_shade;
 	murrine_style->toolbarstyle        = MURRINE_RC_STYLE (rc_style)->toolbarstyle;
 
 	if (murrine_style->has_border_colors)
@@ -2532,6 +2534,7 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	mrn_style->spinbuttonstyle     = mrn_src->spinbuttonstyle;
 	mrn_style->stepperstyle        = mrn_src->stepperstyle;
 	mrn_style->textstyle           = mrn_src->textstyle;
+	mrn_style->text_shade          = mrn_src->text_shade;
 	mrn_style->toolbarstyle        = mrn_src->toolbarstyle;
 	mrn_style->trough_shades[0]    = mrn_src->trough_shades[0];
 	mrn_style->trough_shades[1]    = mrn_src->trough_shades[1];

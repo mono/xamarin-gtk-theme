@@ -370,14 +370,26 @@
 			<label>No effect</label>
 		</enumeration>
 		<enumeration value="1">
-			<label>Add inset</label>
+			<label>Shadow at bottom</label>
 		</enumeration>
 		<enumeration value="2">
-			<label>Add inverted inset</label>
+			<label>Shadow at top</label>
 		</enumeration>
 		<enumeration value="3">
-			<label>Add shadow</label>
+			<label>Shadow ad bottom right</label>
 		</enumeration>
+		<enumeration value="4">
+			<label>Shadow ad top left</label>
+		</enumeration>
+	</option>
+
+	<option type="enumeration" name="text_shade"  default="1.06">
+		<_long_name>Text Shade</_long_name>
+		<_description>Increse/Decrease the text shadow shade</_description>
+		<section>General</section>
+		<minimum>0</minimum>
+		<maximum>2</maximum>
+		<precision>2</precision>
 	</option>
 
 	<option type="enumeration" name="toolbarstyle" default="0">

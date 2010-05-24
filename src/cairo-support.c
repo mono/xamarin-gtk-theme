@@ -621,6 +621,7 @@ murrine_draw_lightborder (cairo_t *cr,
 	cairo_pattern_t *pat;
 	MurrineRGB shade1, shade2, shade3, shade4;
 	double alpha_value = mrn_gradient.use_rgba ? mrn_gradient.rgba_opacity : 1.0;
+	double top_alpha, mid_alpha, bottom_alpha, lower_alpha;
 	radius = MIN (radius, MIN ((double)width/2.0, (double)height/2.0));
 
 	if (mrn_gradient.has_gradient_colors)
@@ -648,14 +649,37 @@ murrine_draw_lightborder (cairo_t *cr,
 	             clearlooks_rounded_rectangle (cr, x, y, width, height, radius-1, corners);
 
 	pat = cairo_pattern_create_linear (x, y, x, height+y);
-	murrine_pattern_add_color_stop_rgba (pat, 0.00,     &shade1, 0.5*alpha_value);
-	murrine_pattern_add_color_stop_rgba (pat, 0.49,     &shade2, 0.5*alpha_value);
-	murrine_pattern_add_color_stop_rgba (pat, 0.49,     &shade3, 0.5*alpha_value);
-	murrine_pattern_add_color_stop_rgba (pat, fill_pos, &shade4, 0.5*alpha_value);
-	murrine_pattern_add_color_stop_rgba (pat, fill_pos, &shade4,
-	                                     lightborderstyle > 0 ? 0.5*alpha_value : 0.0);
-	murrine_pattern_add_color_stop_rgba (pat, 1.00,     &shade4,
-	                                     lightborderstyle > 0 ? 0.5*alpha_value : 0.0);
+
+	switch (lightborderstyle)
+	{
+		default:
+		case 0:
+			top_alpha = mid_alpha = bottom_alpha = 0.5;
+			lower_alpha = 0.0;
+			break;
+		case 1:
+			top_alpha = mid_alpha = bottom_alpha = lower_alpha = 0.5;
+			break;
+		case 2:
+			top_alpha = 0.5;
+			mid_alpha = 0.3;
+			bottom_alpha = 0.1;
+			lower_alpha = 0.0;
+			break;
+		case 3:
+			top_alpha = 0.5;
+			mid_alpha = 0.3;
+			bottom_alpha = 0.1;
+			lower_alpha = 0.1;
+			break;
+	}
+
+	murrine_pattern_add_color_stop_rgba (pat, 0.00,     &shade1, top_alpha*alpha_value);
+	murrine_pattern_add_color_stop_rgba (pat, 0.49,     &shade2, mid_alpha*alpha_value);
+	murrine_pattern_add_color_stop_rgba (pat, 0.49,     &shade3, mid_alpha*alpha_value);
+	murrine_pattern_add_color_stop_rgba (pat, fill_pos, &shade4, bottom_alpha*alpha_value);
+	murrine_pattern_add_color_stop_rgba (pat, fill_pos, &shade4, lower_alpha*alpha_value);
+	murrine_pattern_add_color_stop_rgba (pat, 1.00,     &shade4, lower_alpha*alpha_value);
 	cairo_set_source (cr, pat);
 	cairo_pattern_destroy (pat);
 

@@ -2309,15 +2309,13 @@ murrine_draw_radiobutton (cairo_t *cr,
 	gboolean inconsistent = FALSE;
 	gboolean draw_box = !checkbox->in_menu;
 	gboolean draw_bullet = (checkbox->shadow_type == GTK_SHADOW_IN);
-	int roundness = 5;
+	int roundness = width+height;
 	double highlight_shade_new = widget->highlight_shade;
 	double lightborder_shade_new = widget->lightborder_shade;
 	MurrineGradients mrn_gradient_new = widget->mrn_gradient;
 
 	inconsistent = (checkbox->shadow_type == GTK_SHADOW_ETCHED_IN);
 	draw_bullet |= inconsistent;
-
-	width = height = 14;
 
 	if (widget->state_type == GTK_STATE_INSENSITIVE)
 	{
@@ -2410,8 +2408,8 @@ murrine_draw_radiobutton (cairo_t *cr,
 			cairo_set_line_cap(cr, CAIRO_LINE_CAP_ROUND);
 			cairo_set_line_width (cr, 2.0);
 
-			cairo_move_to(cr, 5, 7);
-			cairo_line_to(cr, 9, 7);
+			cairo_move_to(cr, 5, (double)height/2);
+			cairo_line_to(cr, width-5, (double)height/2);
 
 			murrine_set_color_rgba (cr, dot, trans);
 			cairo_stroke (cr);
@@ -2420,9 +2418,9 @@ murrine_draw_radiobutton (cairo_t *cr,
 		else
 		{
 			if (!draw_box)
-				cairo_arc (cr, 7, 7, 3, 0, G_PI*2);
+				cairo_arc (cr, (double)width/2, (double)height/2, (double)(width+height)/4-4, 0, G_PI*2);
 			else
-				cairo_arc (cr, 7, 7, 2.5, 0, G_PI*2);
+				cairo_arc (cr, (double)width/2, (double)height/2, (double)(width+height)/4-4.5, 0, G_PI*2);
 
 			murrine_set_color_rgba (cr, dot, trans);
 			cairo_fill (cr);
@@ -2451,8 +2449,6 @@ murrine_draw_checkbox (cairo_t *cr,
 
 	inconsistent = (checkbox->shadow_type == GTK_SHADOW_ETCHED_IN);
 	draw_bullet |= inconsistent;
-
-	width = height = 14;
 
 	if (widget->state_type == GTK_STATE_INSENSITIVE)
 	{
@@ -2543,8 +2539,8 @@ murrine_draw_checkbox (cairo_t *cr,
 		{
 			cairo_save (cr);
 			cairo_set_line_width (cr, 2.0);
-			cairo_move_to (cr, 3, height*0.5);
-			cairo_line_to (cr, width-3, height*0.5);
+			cairo_move_to (cr, 3, (double)height/2);
+			cairo_line_to (cr, width-3, (double)height/2);
 			cairo_restore (cr);
 		}
 		else
@@ -2552,13 +2548,13 @@ murrine_draw_checkbox (cairo_t *cr,
 			
 			if (!draw_box)
 			{
-				cairo_scale (cr, 0.7, 0.7);
-				cairo_translate (cr, 3.0, 4.0);
+				cairo_scale (cr, (double)width/18.0, (double)height/18.0);
+				cairo_translate (cr, 2.0, 2.0);
 			}
 			else
 			{
-				cairo_scale (cr, 0.8, 0.8);
-				cairo_translate (cr, 4.1, 1.1);
+				cairo_scale (cr, (double)width/18.0, (double)height/18.0);
+				cairo_translate (cr, 4.0, 2.0);
 			}
 			cairo_move_to (cr, 0.0, 6.0);
 			cairo_line_to (cr, 0.0, 8.0);

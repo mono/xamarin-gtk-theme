@@ -77,10 +77,10 @@
 			<label>Arrow</label>
 		</enumeration>
 		<enumeration value="1">
-			<label>Circle with plus and minus/label>
+			<label>Circle with plus and minus</label>
 		</enumeration>
 		<enumeration value="2">
-			<label>Button with plus and minus/label>
+			<label>Button with plus and minus</label>
 		</enumeration>
 	</option>
 

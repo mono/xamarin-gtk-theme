@@ -2546,14 +2546,17 @@ murrine_draw_checkbox (cairo_t *cr,
 			cairo_rel_line_to (cr, -2.3, -2.5);
 			*/
 
-			cairo_scale (cr, width / 19.0, height / 20.0);
-			cairo_translate(cr, 2.1, 4.75);
-			cairo_move_to (cr, 1.0, 8.0);
-			cairo_rel_line_to (cr, 2.0, -2.50);
-			cairo_rel_line_to (cr, 3.5, 2.75);
-			cairo_rel_line_to (cr, 5.25, -8.5);
-			cairo_rel_line_to (cr, 1.95, 0.0);
-			cairo_rel_line_to (cr, -6.95, 12.5);
+			cairo_scale (cr, 0.8, 0.8);
+			cairo_translate (cr, 4.1, 1.1);
+			cairo_move_to (cr, 0.0, 6.0);
+			cairo_line_to (cr, 0.0, 8.0);
+			cairo_line_to (cr, 4.0, 12.0);
+			cairo_line_to (cr, 6.0, 12.0);
+			cairo_line_to (cr, 15.0, 1.0);
+			cairo_line_to (cr, 15.0, 0.0);
+			cairo_line_to (cr, 14.0, 0.0);
+			cairo_line_to (cr, 5.0, 9.0);
+			cairo_line_to (cr, 1.0, 5.0);
 			cairo_close_path (cr);
 		}
 

@@ -1686,6 +1686,7 @@ murrine_rgba_draw_radiobutton (cairo_t *cr,
 	const MurrineRGB *dot;
 	const MurrineRGB *bg = &colors->base[0];
 	gboolean inconsistent = FALSE;
+	gboolean draw_box = !checkbox->in_menu;
 	gboolean draw_bullet = (checkbox->shadow_type == GTK_SHADOW_IN);
 	int roundness = 5;
 	double highlight_shade_new = widget->highlight_shade;
@@ -1724,60 +1725,63 @@ murrine_rgba_draw_radiobutton (cairo_t *cr,
 
 	cairo_translate (cr, x, y);
 
-	if (widget->xthickness > 2 && widget->ythickness > 2)
+	if (draw_box)
 	{
-		if (widget->reliefstyle > 1 && draw_bullet && widget->state_type != GTK_STATE_INSENSITIVE)
+		if (widget->xthickness > 2 && widget->ythickness > 2)
 		{
-			MurrineRGB shadow;
-			murrine_shade (&border, 0.9, &shadow);
+			if (widget->reliefstyle > 1 && draw_bullet && widget->state_type != GTK_STATE_INSENSITIVE)
+			{
+				MurrineRGB shadow;
+				murrine_shade (&border, 0.9, &shadow);
 
-			murrine_draw_shadow (cr, &shadow,
-			                     0.5, 0.5, width-1, height-1,
-			                     roundness+1, widget->corners,
-			                     widget->reliefstyle,
-			                     mrn_gradient_new, 0.08);
+				murrine_draw_shadow (cr, &shadow,
+					             0.5, 0.5, width-1, height-1,
+					             roundness+1, widget->corners,
+					             widget->reliefstyle,
+					             mrn_gradient_new, 0.08);
+			}
+			else if (widget->reliefstyle != 0)
+				murrine_draw_inset (cr, &widget->parentbg, 0.5, 0.5, width-1, height-1, roundness+1, widget->corners);
 		}
-		else if (widget->reliefstyle != 0)
-			murrine_draw_inset (cr, &widget->parentbg, 0.5, 0.5, width-1, height-1, roundness+1, widget->corners);
-	}
 
-	cairo_save (cr);
+		cairo_save (cr);
 
-	murrine_rounded_rectangle_closed (cr, 1.5, 1.5, width-3, height-3, roundness, widget->corners);
-	cairo_clip_preserve (cr);
+		murrine_rounded_rectangle_closed (cr, 1.5, 1.5, width-3, height-3, roundness, widget->corners);
+		cairo_clip_preserve (cr);
 
-	if (draw_bullet)
-	{
-		murrine_draw_glaze (cr, bg,
-		                    widget->glow_shade, highlight_shade_new, lightborder_shade_new,
-		                    mrn_gradient_new, widget, 2, 2, width-4, height-4,
-		                    roundness, widget->corners, TRUE);
-	}
-	else
-	{
-		murrine_set_color_rgb (cr, bg);
-		cairo_fill (cr);
-	}
+		if (draw_bullet)
+		{
+			murrine_draw_glaze (cr, bg,
+				            widget->glow_shade, highlight_shade_new, lightborder_shade_new,
+				            mrn_gradient_new, widget, 2, 2, width-4, height-4,
+				            roundness, widget->corners, TRUE);
+		}
+		else
+		{
+			murrine_set_color_rgb (cr, bg);
+			cairo_fill (cr);
+		}
 
-	cairo_restore (cr);
+		cairo_restore (cr);
 
-	if (checkbox->in_menu || checkbox->in_cell)
-	{
-		mrn_gradient_new.border_shades[0] = 1.0;
-		mrn_gradient_new.border_shades[1] = 1.0;
-		if (!draw_bullet)
+		if (checkbox->in_cell)
+		{
+			mrn_gradient_new.border_shades[0] = 1.0;
+			mrn_gradient_new.border_shades[1] = 1.0;
+			if (!draw_bullet)
+				mrn_gradient_new.has_border_colors = FALSE;
+		}
+		else if (!draw_bullet)
+		{
+			mrn_gradient_new = murrine_get_inverted_border_shades (mrn_gradient_new);
 			mrn_gradient_new.has_border_colors = FALSE;
-	}
-	else if (!draw_bullet)
-	{
-		mrn_gradient_new = murrine_get_inverted_border_shades (mrn_gradient_new);
-		mrn_gradient_new.has_border_colors = FALSE;
-	}
+		}
 
-	murrine_draw_border (cr, &border,
-	                     1.5, 1.5, width-3, height-3,
-	                     roundness, widget->corners,
-	                     mrn_gradient_new, 1.0);
+		murrine_draw_border (cr, &border,
+			             1.5, 1.5, width-3, height-3,
+			             roundness, widget->corners,
+			             mrn_gradient_new, 1.0);
+	}
 
 	if (draw_bullet)
 	{
@@ -1787,16 +1791,21 @@ murrine_rgba_draw_radiobutton (cairo_t *cr,
 			cairo_set_line_cap(cr, CAIRO_LINE_CAP_ROUND);
 			cairo_set_line_width (cr, 2.0);
 
-			murrine_set_color_rgba (cr, dot, trans);
 			cairo_move_to(cr, 5, 7);
 			cairo_line_to(cr, 9, 7);
+
+			murrine_set_color_rgba (cr, dot, trans);
 			cairo_stroke (cr);
 			cairo_restore (cr);
 		}
 		else
 		{
+			if (!draw_box)
+				cairo_arc (cr, 7, 7, 3, 0, G_PI*2);
+			else
+				cairo_arc (cr, 7, 7, 2.5, 0, G_PI*2);
+
 			murrine_set_color_rgba (cr, dot, trans);
-			cairo_arc (cr, 7, 7, 2.5, 0, G_PI*2);
 			cairo_fill (cr);
 		}
 	}
@@ -1814,6 +1823,7 @@ murrine_rgba_draw_checkbox (cairo_t *cr,
 	const MurrineRGB *dot;
 	const MurrineRGB *bg = &colors->base[0];
 	gboolean inconsistent = FALSE;
+	gboolean draw_box = !checkbox->in_menu;
 	gboolean draw_bullet = (checkbox->shadow_type == GTK_SHADOW_IN);
 	int roundness = CLAMP (widget->roundness, 0, 2);
 	double highlight_shade_new = widget->highlight_shade;
@@ -1852,60 +1862,63 @@ murrine_rgba_draw_checkbox (cairo_t *cr,
 
 	cairo_translate (cr, x, y);
 
-	if (widget->xthickness > 2 && widget->ythickness > 2)
+	if (draw_box)
 	{
-		if (widget->reliefstyle > 1 && draw_bullet && widget->state_type != GTK_STATE_INSENSITIVE)
+		if (widget->xthickness > 2 && widget->ythickness > 2)
 		{
-			MurrineRGB shadow;
-			murrine_shade (&border, 0.9, &shadow);
+			if (widget->reliefstyle > 1 && draw_bullet && widget->state_type != GTK_STATE_INSENSITIVE)
+			{
+				MurrineRGB shadow;
+				murrine_shade (&border, 0.9, &shadow);
 
-			murrine_draw_shadow (cr, &shadow,
-			                     0.5, 0.5, width-1, height-1,
-			                     roundness+1, widget->corners,
-			                     widget->reliefstyle,
-			                     mrn_gradient_new, 0.08);
+				murrine_draw_shadow (cr, &shadow,
+					             0.5, 0.5, width-1, height-1,
+					             roundness+1, widget->corners,
+					             widget->reliefstyle,
+					             mrn_gradient_new, 0.08);
+			}
+			else if (widget->reliefstyle != 0)
+				murrine_draw_inset (cr, &widget->parentbg, 0.5, 0.5, width-1, height-1, roundness+1, widget->corners);
 		}
-		else if (widget->reliefstyle != 0)
-			murrine_draw_inset (cr, &widget->parentbg, 0.5, 0.5, width-1, height-1, roundness+1, widget->corners);
-	}
 
-	cairo_save (cr);
+		cairo_save (cr);
 
-	murrine_rounded_rectangle_closed (cr, 1.5, 1.5, width-3, height-3, roundness, widget->corners);
-	cairo_clip_preserve (cr);
+		murrine_rounded_rectangle_closed (cr, 1.5, 1.5, width-3, height-3, roundness, widget->corners);
+		cairo_clip_preserve (cr);
 
-	if (draw_bullet)
-	{
-		murrine_draw_glaze (cr, bg,
-		                    widget->glow_shade, highlight_shade_new, lightborder_shade_new,
-		                    mrn_gradient_new, widget, 2, 2, width-4, height-4,
-		                    roundness, widget->corners, TRUE);
-	}
-	else
-	{
-		murrine_set_color_rgb (cr, bg);
-		cairo_fill (cr);
-	}
+		if (draw_bullet)
+		{
+			murrine_draw_glaze (cr, bg,
+				            widget->glow_shade, highlight_shade_new, lightborder_shade_new,
+				            mrn_gradient_new, widget, 2, 2, width-4, height-4,
+				            roundness, widget->corners, TRUE);
+		}
+		else
+		{
+			murrine_set_color_rgb (cr, bg);
+			cairo_fill (cr);
+		}
 
-	cairo_restore (cr);
+		cairo_restore (cr);
 
-	if (checkbox->in_menu || checkbox->in_cell)
-	{
-		mrn_gradient_new.border_shades[0] = 1.0;
-		mrn_gradient_new.border_shades[1] = 1.0;
-		if (!draw_bullet)
+		if (checkbox->in_cell)
+		{
+			mrn_gradient_new.border_shades[0] = 1.0;
+			mrn_gradient_new.border_shades[1] = 1.0;
+			if (!draw_bullet)
+				mrn_gradient_new.has_border_colors = FALSE;
+		}
+		else if (!draw_bullet)
+		{
+			mrn_gradient_new = murrine_get_inverted_border_shades (mrn_gradient_new);
 			mrn_gradient_new.has_border_colors = FALSE;
-	}
-	else if (!draw_bullet)
-	{
-		mrn_gradient_new = murrine_get_inverted_border_shades (mrn_gradient_new);
-		mrn_gradient_new.has_border_colors = FALSE;
-	}
+		}
 
-	murrine_draw_border (cr, &border,
-	                     1.5, 1.5, width-3, height-3,
-	                     roundness, widget->corners,
-	                     mrn_gradient_new, 1.0);
+		murrine_draw_border (cr, &border,
+			             1.5, 1.5, width-3, height-3,
+			             roundness, widget->corners,
+			             mrn_gradient_new, 1.0);
+	}
 
 	if (draw_bullet)
 	{
@@ -1919,17 +1932,27 @@ murrine_rgba_draw_checkbox (cairo_t *cr,
 		}
 		else
 		{
-			cairo_scale (cr, width / 19.0, height / 20.0);
-			cairo_translate(cr, 2.1, 4.75);
-			cairo_move_to (cr, 1.0, 8.0);
-			cairo_rel_line_to (cr, 2.0, -2.50);
-			cairo_rel_line_to (cr, 3.5, 2.75);
-			cairo_rel_line_to (cr, 5.25, -8.5);
-			cairo_rel_line_to (cr, 1.95, 0.0);
-			cairo_rel_line_to (cr, -6.95, 12.5);
+			if (!draw_box)
+			{
+				cairo_scale (cr, 0.7, 0.7);
+				cairo_translate (cr, 3.0, 4.0);
+			}
+			else
+			{
+				cairo_scale (cr, 0.8, 0.8);
+				cairo_translate (cr, 4.1, 1.1);
+			}
+			cairo_move_to (cr, 0.0, 6.0);
+			cairo_line_to (cr, 0.0, 8.0);
+			cairo_line_to (cr, 4.0, 12.0);
+			cairo_line_to (cr, 6.0, 12.0);
+			cairo_line_to (cr, 15.0, 1.0);
+			cairo_line_to (cr, 15.0, 0.0);
+			cairo_line_to (cr, 14.0, 0.0);
+			cairo_line_to (cr, 5.0, 9.0);
+			cairo_line_to (cr, 1.0, 5.0);
 			cairo_close_path (cr);
 		}
-
 		murrine_set_color_rgba (cr, dot, trans);
 		cairo_fill (cr);
 	}

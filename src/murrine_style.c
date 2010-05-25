@@ -2076,64 +2076,31 @@ murrine_style_draw_expander (GtkStyle        *style,
 {
 	MurrineStyle  *murrine_style = MURRINE_STYLE (style);
 	MurrineColors *colors = &murrine_style->colors;
-	WidgetParameters params;
+
 	cairo_t *cr;
-	gint expander_size;
 
 	CHECK_ARGS
 
 	cr = murrine_begin_paint (window, area);
+
+	WidgetParameters params;
+	ExpanderParameters expander;
 
 	murrine_set_widget_parameters (widget, style, state_type, &params);
 
 	if (widget &&
 	    gtk_widget_class_find_style_property (GTK_WIDGET_GET_CLASS (widget), "expander-size"))
 	{
-		gtk_widget_style_get (widget, "expander-size", &expander_size, NULL);
+		gtk_widget_style_get (widget, "expander-size", &expander.size, NULL);
 	}
 	else
-		expander_size = 13;
+		expander.size = 7;
 
-	if (expander_size % 2 == 0)
-		expander_size--;
+	expander.expander_style = expander_style;
+	expander.text_direction = murrine_get_direction (widget);
+	expander.style = 0;
 
-	cairo_translate (cr, x-expander_size/2, y-expander_size/2);
-
-	cairo_save (cr);
-
-	murrine_rounded_rectangle_closed (cr, 1, 1, expander_size-2, expander_size-2, params.roundness, params.corners);
-	cairo_clip_preserve (cr);
-
-	murrine_draw_glaze (cr, &colors->bg[state_type],
-	                    params.glow_shade, params.highlight_shade, params.lightborder_shade,
-	                    params.mrn_gradient, &params, 1, 1, expander_size-2, expander_size-2,
-	                    params.roundness, params.corners, TRUE);
-
-	cairo_restore (cr);
-
-	switch (expander_style)
-	{
-		case GTK_EXPANDER_SEMI_COLLAPSED:
-		case GTK_EXPANDER_COLLAPSED:
-			cairo_move_to (cr, (double)expander_size/2-expander_size/4-0.5, (double)expander_size/2);
-			cairo_line_to (cr, (double)expander_size/2+expander_size/4+0.5, (double)expander_size/2);
-			cairo_move_to (cr, (double)expander_size/2, (double)expander_size/2-expander_size/4-0.5);
-			cairo_line_to (cr, (double)expander_size/2, (double)expander_size/2+expander_size/4+0.5);
-		break;
-		case GTK_EXPANDER_SEMI_EXPANDED:
-		case GTK_EXPANDER_EXPANDED:
-			cairo_move_to (cr, (double)expander_size/2-expander_size/4-0.5, (double)expander_size/2);
-			cairo_line_to (cr, (double)expander_size/2+expander_size/4+0.5, (double)expander_size/2);
-		break;
-		default:
-			g_assert_not_reached ();
-	}
-	murrine_set_color_rgb  (cr, &colors->fg[state_type]);
-	cairo_stroke (cr);
-
-	murrine_rounded_rectangle (cr, 0.5, 0.5, expander_size-1, expander_size-1, params.roundness, params.corners);
-	murrine_set_color_rgb (cr, &colors->shade[4]);
-	cairo_stroke (cr);
+	STYLE_FUNCTION(draw_expander) (cr, colors, &params, &expander, x, y, expander.size, expander.size);
 
 	cairo_destroy (cr);
 }

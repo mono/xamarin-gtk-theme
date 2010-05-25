@@ -238,6 +238,15 @@ typedef struct
 
 typedef struct
 {
+	boolean in_treeview;	
+	int size;
+	int style;
+	GtkExpanderStyle expander_style;
+	GtkTextDirection text_direction;
+} ExpanderParameters;
+
+typedef struct
+{
 	MurrineFocusType    type;
 	MurrineContinue     continue_side;
 	MurrineRGB          color;
@@ -421,6 +430,12 @@ struct _MurrineStyleFunctions
 	                               const WidgetParameters *widget,
 	                               const EntryProgressParameters *progress,
 	                               int x, int y, int width, int height);
+
+	void (*draw_expander) (cairo_t *cr,
+	                       const MurrineColors    *colors,
+	                       const WidgetParameters *widget,
+	                       const ExpanderParameters *expander,
+	                       int x, int y, int width, int height);
 
 	void (*draw_spinbutton) (cairo_t *cr,
 	                         const MurrineColors    *colors,

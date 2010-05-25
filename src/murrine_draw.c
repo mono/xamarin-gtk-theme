@@ -2153,7 +2153,7 @@ murrine_draw_normal_arrow_new (cairo_t *cr,
 {
 	int arrow_width = width;
 	int arrow_height = height;
-	cairo_pattern_t *pattern;
+	cairo_pattern_t *pat;
 
 	cairo_save (cr);
 
@@ -2163,12 +2163,12 @@ murrine_draw_normal_arrow_new (cairo_t *cr,
 	cairo_line_to (cr, arrow_width/2, -arrow_height/2);
 	cairo_close_path (cr);
 
-	pattern = cairo_pattern_create_linear (0, -arrow_height/2, 0, arrow_height/2);
-	cairo_pattern_add_color_stop_rgba (pattern, 0.0, color->r, color->g, color->b, 0.6);
-	cairo_pattern_add_color_stop_rgba (pattern, 1.0, color->r, color->g, color->b, 0.8);
-	cairo_set_source (cr, pattern);
+	pat = cairo_pattern_create_linear (0, -arrow_height/2, 0, arrow_height/2);
+	murrine_pattern_add_color_stop_rgba (pat, 0.0, color, 0.6);
+	murrine_pattern_add_color_stop_rgba (pat, 1.0, color, 0.8);
+	cairo_set_source (cr, pat);
 	cairo_fill_preserve (cr);
-	cairo_pattern_destroy (pattern);
+	cairo_pattern_destroy (pat);
 
 	murrine_set_color_rgb (cr, color);
 	cairo_stroke (cr);
@@ -2647,6 +2647,127 @@ murrine_draw_classic_focus (cairo_t *cr,
 	cairo_stroke (cr);
 }
 
+static void
+murrine_draw_expander_arrow (cairo_t *cr,
+	                     const MurrineColors    *colors,
+	                     const WidgetParameters *widget,
+	                     const ExpanderParameters *expander,
+	                     int x, int y, int width, int height)
+{
+	MurrineRGB color;
+	cairo_pattern_t *pat;
+
+	int diameter;
+	double vertical_overshoot;
+	double radius;
+	double interp; /* interpolation factor for center position */
+	double x_double_horz, y_double_horz;
+	double x_double_vert, y_double_vert;
+	double x_double, y_double;
+	gint degrees = 0;
+	gint line_width = 1;
+
+	switch (expander->expander_style)
+	{
+		case GTK_EXPANDER_COLLAPSED:
+			degrees = (expander->text_direction == GTK_TEXT_DIR_RTL) ? 180 : 0;
+			interp = 0.0;
+			break;
+		case GTK_EXPANDER_SEMI_COLLAPSED:
+			degrees = (expander->text_direction == GTK_TEXT_DIR_RTL) ? 150 : 30;
+			interp = 0.25;
+			break;
+		case GTK_EXPANDER_SEMI_EXPANDED:
+			degrees = (expander->text_direction == GTK_TEXT_DIR_RTL) ? 120 : 60;
+			interp = 0.75;
+			break;
+		case GTK_EXPANDER_EXPANDED:
+			degrees = 90;
+			interp = 1.0;
+			break;
+		default:
+			g_assert_not_reached ();
+	}
+
+	/* Compute distance that the stroke extends beyonds the end
+	* of the triangle we draw.
+	*/
+	vertical_overshoot = line_width / 2.0 * (1. / tan (G_PI / 8));
+
+	/* For odd line widths, we end the vertical line of the triangle
+	* at a half pixel, so we round differently.
+	*/
+	if (line_width % 2 == 1)
+		vertical_overshoot = ceil (0.5 + vertical_overshoot) - 0.5;
+	else
+		vertical_overshoot = ceil (vertical_overshoot);
+
+	/* Adjust the size of the triangle we draw so that the entire stroke fits
+	*/
+	diameter = MAX (3, expander->size - 2 * vertical_overshoot);
+
+	/* If the line width is odd, we want the diameter to be even,
+	* and vice versa, so force the sum to be odd. This relationship
+	* makes the point of the triangle look right.
+	*/
+	diameter -= (1 - (diameter + line_width) % 2);
+
+	radius = diameter / 2. + 4;
+
+	/* Adjust the center so that the stroke is properly aligned with
+	* the pixel grid. The center adjustment is different for the
+	* horizontal and vertical orientations. For intermediate positions
+	* we interpolate between the two.
+	*/
+	x_double_vert = floor (x - (radius + line_width) / 2.) + (radius + line_width) / 2. + ceil (radius / 8.0);
+	y_double_vert = y - 0.5;
+
+	x_double_horz = x - 0.5 + ceil (radius / 8.0);
+	y_double_horz = floor (y - (radius + line_width) / 2.) + (radius + line_width) / 2.;
+
+	x_double = x_double_vert * (1 - interp) + x_double_horz * interp;
+	y_double = y_double_vert * (1 - interp) + y_double_horz * interp;
+
+	cairo_translate (cr, x_double, y_double);
+	cairo_rotate (cr, degrees * G_PI / 180);
+
+	cairo_move_to (cr, -radius / 2.0, -radius / 2.0);
+	cairo_line_to (cr,  radius / 2.0,  0);
+	cairo_line_to (cr, -radius / 2.0,  radius / 2.0);
+	cairo_close_path (cr);
+	
+	if (expander->in_treeview)
+		color = colors->text[widget->state_type];
+	else
+		color = colors->fg[widget->state_type];
+
+	pat = cairo_pattern_create_linear (-radius/2.0, 0, radius/2.0, 0);
+	murrine_pattern_add_color_stop_rgba (pat, 0.0, &color, 0.6);
+	murrine_pattern_add_color_stop_rgba (pat, 1.0, &color, 0.8);
+	cairo_set_source (cr, pat);
+	cairo_fill_preserve (cr);
+	cairo_pattern_destroy (pat);
+
+	murrine_set_color_rgb (cr, &color);
+	cairo_stroke (cr);
+}
+
+void 
+murrine_draw_expander (cairo_t *cr,
+	               const MurrineColors    *colors,
+	               const WidgetParameters *widget,
+	               const ExpanderParameters *expander,
+	               int x, int y, int width, int height)
+{
+	switch (expander->style)
+	{
+		default:
+		case 0:
+			murrine_draw_expander_arrow (cr, colors, widget, expander, x, y, width, height);
+			break;
+	}
+}
+
 void
 murrine_draw_focus (cairo_t *cr,
                     const MurrineColors    *colors,
@@ -2755,6 +2876,7 @@ murrine_register_style_murrine (MurrineStyleFunctions *functions)
 	functions->draw_progressbar_fill   = murrine_draw_progressbar_fill;
 	functions->draw_entry              = murrine_draw_entry;
 	functions->draw_entry_progress     = murrine_draw_entry_progress;
+	functions->draw_expander           = murrine_draw_expander;
 	functions->draw_slider_handle      = murrine_draw_slider_handle;
 	functions->draw_spinbutton         = murrine_draw_spinbutton;
 	functions->draw_spinbutton_down    = murrine_draw_spinbutton_down;

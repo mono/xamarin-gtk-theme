@@ -2769,9 +2769,9 @@ murrine_draw_expander_circle (cairo_t *cr,
 	cairo_arc (cr, expander_size/2.0, expander_size/2.0, expander_size/2.0, 0, G_PI*2);
 
 	if (expander->in_treeview)
-		murrine_set_color_rgb  (cr, &colors->text[widget->state_type]);
+		murrine_set_color_rgb (cr, &colors->text[widget->state_type]);
 	else
-		murrine_set_color_rgb  (cr, &colors->fg[widget->state_type]);
+		murrine_set_color_rgb (cr, &colors->fg[widget->state_type]);
 
 	cairo_fill (cr);
 
@@ -2796,9 +2796,9 @@ murrine_draw_expander_circle (cairo_t *cr,
 	}
 
 	if (expander->in_treeview)
-		murrine_set_color_rgb  (cr, &colors->base[widget->state_type]);
+		murrine_set_color_rgb (cr, &colors->base[widget->state_type]);
 	else
-		murrine_set_color_rgb  (cr, &colors->bg[widget->state_type]);
+		murrine_set_color_rgb (cr, &colors->bg[widget->state_type]);
 	cairo_stroke (cr);
 }
 

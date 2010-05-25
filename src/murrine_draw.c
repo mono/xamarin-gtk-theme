@@ -2652,7 +2652,7 @@ murrine_draw_expander_arrow (cairo_t *cr,
 	                     const MurrineColors    *colors,
 	                     const WidgetParameters *widget,
 	                     const ExpanderParameters *expander,
-	                     int x, int y, int width, int height)
+	                     int x, int y)
 {
 	MurrineRGB color;
 	cairo_pattern_t *pat;
@@ -2752,18 +2752,125 @@ murrine_draw_expander_arrow (cairo_t *cr,
 	cairo_stroke (cr);
 }
 
+static void
+murrine_draw_expander_circle (cairo_t *cr,
+	                      const MurrineColors    *colors,
+	                      const WidgetParameters *widget,
+	                      const ExpanderParameters *expander,
+	                      int x, int y)
+{
+	int expander_size = expander->size;
+
+	if (expander_size % 2 != 0)
+		expander_size--;
+
+	cairo_translate (cr, x-expander_size/2, y-expander_size/2);
+
+	cairo_arc (cr, expander_size/2.0, expander_size/2.0, expander_size/2.0, 0, G_PI*2);
+
+	if (expander->in_treeview)
+		murrine_set_color_rgb  (cr, &colors->text[widget->state_type]);
+	else
+		murrine_set_color_rgb  (cr, &colors->fg[widget->state_type]);
+
+	cairo_fill (cr);
+
+	cairo_set_line_width (cr, 2.0);
+
+	switch (expander->expander_style)
+	{
+		case GTK_EXPANDER_SEMI_COLLAPSED:
+		case GTK_EXPANDER_COLLAPSED:
+			cairo_move_to (cr, (double)expander_size/2-expander_size/4-0.5, (double)expander_size/2);
+			cairo_line_to (cr, (double)expander_size/2+expander_size/4+0.5, (double)expander_size/2);
+			cairo_move_to (cr, (double)expander_size/2, (double)expander_size/2-expander_size/4-0.5);
+			cairo_line_to (cr, (double)expander_size/2, (double)expander_size/2+expander_size/4+0.5);
+		break;
+		case GTK_EXPANDER_SEMI_EXPANDED:
+		case GTK_EXPANDER_EXPANDED:
+			cairo_move_to (cr, (double)expander_size/2-expander_size/4-0.5, (double)expander_size/2);
+			cairo_line_to (cr, (double)expander_size/2+expander_size/4+0.5, (double)expander_size/2);
+		break;
+		default:
+			g_assert_not_reached ();
+	}
+
+	if (expander->in_treeview)
+		murrine_set_color_rgb  (cr, &colors->base[widget->state_type]);
+	else
+		murrine_set_color_rgb  (cr, &colors->bg[widget->state_type]);
+	cairo_stroke (cr);
+}
+
+static void
+murrine_draw_expander_button (cairo_t *cr,
+	                      const MurrineColors    *colors,
+	                      const WidgetParameters *widget,
+	                      const ExpanderParameters *expander,
+	                      int x, int y)
+{
+	int expander_size = expander->size;
+
+	if (expander_size % 2 == 0)
+		expander_size--;
+
+	cairo_translate (cr, x-expander_size/2, y-expander_size/2);
+
+	cairo_save (cr);
+
+	murrine_rounded_rectangle_closed (cr, 1, 1, expander_size-2, expander_size-2, widget->roundness-1, widget->corners);
+	cairo_clip_preserve (cr);
+
+	murrine_draw_glaze (cr, &colors->bg[widget->state_type],
+	                    widget->glow_shade, widget->highlight_shade, widget->lightborder_shade,
+	                    widget->mrn_gradient, widget, 1, 1, expander_size-2, expander_size-2,
+	                    widget->roundness, widget->corners, TRUE);
+
+	cairo_restore (cr);
+
+	switch (expander->expander_style)
+	{
+		case GTK_EXPANDER_SEMI_COLLAPSED:
+		case GTK_EXPANDER_COLLAPSED:
+			cairo_move_to (cr, (double)expander_size/2-expander_size/4-0.5, (double)expander_size/2);
+			cairo_line_to (cr, (double)expander_size/2+expander_size/4+0.5, (double)expander_size/2);
+			cairo_move_to (cr, (double)expander_size/2, (double)expander_size/2-expander_size/4-0.5);
+			cairo_line_to (cr, (double)expander_size/2, (double)expander_size/2+expander_size/4+0.5);
+		break;
+		case GTK_EXPANDER_SEMI_EXPANDED:
+		case GTK_EXPANDER_EXPANDED:
+			cairo_move_to (cr, (double)expander_size/2-expander_size/4-0.5, (double)expander_size/2);
+			cairo_line_to (cr, (double)expander_size/2+expander_size/4+0.5, (double)expander_size/2);
+		break;
+		default:
+			g_assert_not_reached ();
+	}
+	murrine_set_color_rgb  (cr, &colors->fg[widget->state_type]);
+	cairo_stroke (cr);
+
+	murrine_rounded_rectangle (cr, 0.5, 0.5, expander_size-1, expander_size-1, widget->roundness, widget->corners);
+	murrine_set_color_rgb (cr, &colors->shade[4]);
+	cairo_stroke (cr);
+}
+
 void 
 murrine_draw_expander (cairo_t *cr,
 	               const MurrineColors    *colors,
 	               const WidgetParameters *widget,
 	               const ExpanderParameters *expander,
-	               int x, int y, int width, int height)
+	               int x, int y)
 {
 	switch (expander->style)
 	{
 		default:
 		case 0:
-			murrine_draw_expander_arrow (cr, colors, widget, expander, x, y, width, height);
+			murrine_draw_expander_arrow (cr, colors, widget, expander, x, y);
+			break;
+		case 1:
+			murrine_draw_expander_circle (cr, colors, widget, expander, x, y);
+			break;		
+		case 2:
+			murrine_draw_expander_button (cr, colors, widget, expander, x, y);
 			break;
 	}
 }

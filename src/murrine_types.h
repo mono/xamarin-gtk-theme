@@ -435,7 +435,7 @@ struct _MurrineStyleFunctions
 	                       const MurrineColors    *colors,
 	                       const WidgetParameters *widget,
 	                       const ExpanderParameters *expander,
-	                       int x, int y, int width, int height);
+	                       int x, int y);
 
 	void (*draw_spinbutton) (cairo_t *cr,
 	                         const MurrineColors    *colors,

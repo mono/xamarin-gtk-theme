@@ -2097,7 +2097,7 @@ murrine_style_draw_expander (GtkStyle        *style,
 	expander.text_direction = murrine_get_direction (widget);
 	expander.style = murrine_style->expanderstyle;
 
-	STYLE_FUNCTION(draw_expander) (cr, colors, &params, &expander, x, y, expander.size, expander.size);
+	STYLE_FUNCTION(draw_expander) (cr, colors, &params, &expander, x, y);
 
 	cairo_destroy (cr);
 }

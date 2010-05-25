@@ -56,6 +56,7 @@ struct _MurrineStyle
 	guint8   arrowstyle;
 	guint8   cellstyle;
 	guint8   comboboxstyle;
+	guint8   expanderstyle;
 	guint8   glazestyle;
 	guint8   glowstyle;
 	guint8   lightborderstyle;

@@ -2088,17 +2088,14 @@ murrine_style_draw_expander (GtkStyle        *style,
 
 	murrine_set_widget_parameters (widget, style, state_type, &params);
 
-	if (widget &&
-	    gtk_widget_class_find_style_property (GTK_WIDGET_GET_CLASS (widget), "expander-size"))
-	{
+	if (widget && gtk_widget_class_find_style_property (GTK_WIDGET_GET_CLASS (widget), "expander-size"))
 		gtk_widget_style_get (widget, "expander-size", &expander.size, NULL);
-	}
 	else
 		expander.size = 7;
 
 	expander.expander_style = expander_style;
 	expander.text_direction = murrine_get_direction (widget);
-	expander.style = 0;
+	expander.style = murrine_style->expanderstyle;
 
 	STYLE_FUNCTION(draw_expander) (cr, colors, &params, &expander, x, y, expander.size, expander.size);
 
@@ -2331,6 +2328,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	murrine_style->contrast            = MURRINE_RC_STYLE (rc_style)->contrast;
 	murrine_style->colorize_scrollbar  = MURRINE_RC_STYLE (rc_style)->colorize_scrollbar;
 	murrine_style->disable_focus       = MURRINE_RC_STYLE (rc_style)->disable_focus;
+	murrine_style->expanderstyle       = MURRINE_RC_STYLE (rc_style)->expanderstyle;
 	murrine_style->has_border_colors   = MURRINE_RC_STYLE (rc_style)->has_border_colors;
 	murrine_style->has_focus_color     = MURRINE_RC_STYLE (rc_style)->flags & MRN_FLAG_FOCUS_COLOR;
 	murrine_style->has_gradient_colors = MURRINE_RC_STYLE (rc_style)->has_gradient_colors;
@@ -2464,6 +2462,7 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	mrn_style->comboboxstyle       = mrn_src->comboboxstyle;
 	mrn_style->contrast            = mrn_src->contrast;
 	mrn_style->disable_focus       = mrn_src->disable_focus;
+	mrn_style->expanderstyle       = mrn_src->expanderstyle;
 	mrn_style->focus_color         = mrn_src->focus_color;
 	mrn_style->glazestyle          = mrn_src->glazestyle;
 	mrn_style->glow_shade          = mrn_src->glow_shade;

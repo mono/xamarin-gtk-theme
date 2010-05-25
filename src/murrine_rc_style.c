@@ -44,6 +44,7 @@ enum
 	TOKEN_COMBOBOXSTYLE,
 	TOKEN_CONTRAST,
 	TOKEN_DISABLE_FOCUS,
+	TOKEN_EXPANDERSTYLE,
 	TOKEN_FOCUS_COLOR,
 	TOKEN_GLAZESTYLE,
 	TOKEN_GLOW_SHADE,
@@ -105,6 +106,7 @@ theme_symbols[] =
 	{ "comboboxstyle",       TOKEN_COMBOBOXSTYLE },
 	{ "contrast",            TOKEN_CONTRAST },
 	{ "disable_focus",       TOKEN_DISABLE_FOCUS },
+	{ "expanderstyle",       TOKEN_EXPANDERSTYLE },
 	{ "focus_color",         TOKEN_FOCUS_COLOR },
 	{ "glazestyle",          TOKEN_GLAZESTYLE },
 	{ "glow_shade",          TOKEN_GLOW_SHADE },
@@ -172,6 +174,7 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->comboboxstyle = 0;
 	murrine_rc->contrast = 1.0;
 	murrine_rc->disable_focus = FALSE;
+	murrine_rc->expanderstyle = 0;
 	murrine_rc->has_border_colors = FALSE;
 	murrine_rc->has_gradient_colors = FALSE;
 	murrine_rc->glazestyle = 1;
@@ -648,6 +651,10 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_boolean (settings, scanner, &murrine_style->disable_focus);
 				murrine_style->bflags |= MRN_FLAG_DISABLE_FOCUS;
 				break;
+			case TOKEN_EXPANDERSTYLE:
+				token = theme_parse_int (settings, scanner, &murrine_style->expanderstyle);
+				murrine_style->flags |= MRN_FLAG_EXPANDERSTYLE;
+				break;
 			case TOKEN_FOCUS_COLOR:
 				token = theme_parse_color (settings, scanner, rc_style, &murrine_style->focus_color);
 				murrine_style->flags |= MRN_FLAG_FOCUS_COLOR;
@@ -851,6 +858,8 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->cellstyle = src_w->cellstyle;
 	if (flags & MRN_FLAG_COMBOBOXSTYLE)
 		dest_w->comboboxstyle = src_w->comboboxstyle;
+	if (flags & MRN_FLAG_EXPANDERSTYLE)
+		dest_w->expanderstyle = src_w->expanderstyle;
 	if (flags & MRN_FLAG_FOCUS_COLOR)
 		dest_w->focus_color = src_w->focus_color;
 	if (flags & MRN_FLAG_GLAZESTYLE)

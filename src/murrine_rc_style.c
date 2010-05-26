@@ -51,6 +51,7 @@ enum
 	TOKEN_GLOWSTYLE,
 	TOKEN_GRADIENT_COLORS,
 	TOKEN_GRADIENT_SHADES,
+	TOKEN_HANDLESTYLE,
 	TOKEN_HIGHLIGHT_SHADE,
 	TOKEN_LIGHTBORDER_SHADE,
 	TOKEN_LIGHTBORDERSTYLE,
@@ -113,6 +114,7 @@ theme_symbols[] =
 	{ "glowstyle",           TOKEN_GLOWSTYLE },
 	{ "gradient_colors",     TOKEN_GRADIENT_COLORS },
 	{ "gradient_shades",     TOKEN_GRADIENT_SHADES },
+	{ "handlestyle",         TOKEN_HANDLESTYLE },
 	{ "highlight_shade",     TOKEN_HIGHLIGHT_SHADE },
 	{ "lightborder_shade",   TOKEN_LIGHTBORDER_SHADE },
 	{ "lightborderstyle",    TOKEN_LIGHTBORDERSTYLE },
@@ -177,6 +179,7 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->expanderstyle = 0;
 	murrine_rc->has_border_colors = FALSE;
 	murrine_rc->has_gradient_colors = FALSE;
+	murrine_rc->handlestyle = 0;
 	murrine_rc->glazestyle = 1;
 	murrine_rc->glow_shade = 1.0;
 	murrine_rc->glowstyle = 0;
@@ -679,6 +682,10 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_gradient (settings, scanner, murrine_style->gradient_shades);
 				murrine_style->gflags |= MRN_FLAG_GRADIENT_SHADES;
 				break;
+			case TOKEN_HANDLESTYLE:
+				token = theme_parse_int (settings, scanner, &murrine_style->handlestyle);
+				murrine_style->flags |= MRN_FLAG_HANDLESTYLE;
+				break;
 			case TOKEN_HIGHLIGHT_SHADE:
 				token = theme_parse_shade (settings, scanner, &murrine_style->highlight_shade);
 				murrine_style->flags |= MRN_FLAG_HIGHLIGHT_SHADE;
@@ -868,6 +875,8 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->glow_shade = src_w->glow_shade;
 	if (flags & MRN_FLAG_GLOWSTYLE)
 		dest_w->glowstyle = src_w->glowstyle;
+	if (flags & MRN_FLAG_HANDLESTYLE)
+		dest_w->handlestyle = src_w->handlestyle;
 	if (flags & MRN_FLAG_HIGHLIGHT_SHADE)
 		dest_w->highlight_shade = src_w->highlight_shade;
 	if (flags & MRN_FLAG_LIGHTBORDER_SHADE)

@@ -139,6 +139,18 @@
 		</enumeration>
 	</option>
 
+	<option type="enumeration" name="handlestyle" default="0">
+		<_long_name>Handle Style</_long_name>
+		<section>General</section>
+		<enumeration value="0">
+			<label>Small lines</label>
+		</enumeration>
+		<enumeration value="1">
+			<label>Small lines with inset</label>
+		</enumeration>
+	</option>
+
+
 	<option type="real" name="highlight_shade" default="1.1">
 		<_long_name>Highlight Shade</_long_name>
 		<_description>Increse/Decrease the highlight shade</_description>

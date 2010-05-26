@@ -59,6 +59,7 @@ struct _MurrineStyle
 	guint8   expanderstyle;
 	guint8   glazestyle;
 	guint8   glowstyle;
+	guint8   handlestyle;
 	guint8   lightborderstyle;
 	guint8   listviewheaderstyle;
 	guint8   listviewstyle;

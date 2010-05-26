@@ -270,6 +270,7 @@ typedef struct
 {
 	MurrineHandleType type;
 	boolean           horizontal;
+	int               style;
 } HandleParameters;
 
 typedef struct
@@ -303,6 +304,7 @@ typedef struct
 	boolean         horizontal;
 	boolean         has_color;
 	boolean         within_bevel;
+	int             handlestyle;
 	int             style;
 	int             stepperstyle;
 	double          prelight_shade;
@@ -403,6 +405,7 @@ struct _MurrineStyleFunctions
 	void (*draw_slider_handle) (cairo_t *cr,
 	                            const MurrineColors    *colors,
 	                            const WidgetParameters *widget,
+	                            const HandleParameters *handle,
 	                            int x, int y, int width, int height,
 	                            boolean horizontal);
 

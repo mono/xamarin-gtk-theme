@@ -18,6 +18,8 @@ Changes in this release:
 - New option: gradient_colors = { "#ffffff", "#ffffff", "#ffffff", "#ffffff" }
               to set the colors used on the gradient of many widgets.
               gradient_colors = FALSE to disable.
+- New option: handlestyle = 0 for three simple lines
+              handlestyle = 1 for three simple lines with inset.
 - New option: prelight_shade = 1.0 to select the shade level used in the
               scrollbar's slider, GtkComboBox with comboboxstyle = 1 and
               in the prelight state with gradient_colors.

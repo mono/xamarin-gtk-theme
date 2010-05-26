@@ -726,6 +726,7 @@ murrine_style_draw_handle (DRAW_ARGS, GtkOrientation orientation)
 
 		handle.type = MRN_HANDLE_TOOLBAR;
 		handle.horizontal = (orientation == GTK_ORIENTATION_HORIZONTAL);
+		handle.style = murrine_style->handlestyle;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 
@@ -738,6 +739,7 @@ murrine_style_draw_handle (DRAW_ARGS, GtkOrientation orientation)
 
 		handle.type = MRN_HANDLE_SPLITTER;
 		handle.horizontal = (orientation == GTK_ORIENTATION_HORIZONTAL);
+		handle.style = murrine_style->handlestyle;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 
@@ -750,6 +752,7 @@ murrine_style_draw_handle (DRAW_ARGS, GtkOrientation orientation)
 
 		handle.type = MRN_HANDLE_TOOLBAR;
 		handle.horizontal = (orientation == GTK_ORIENTATION_HORIZONTAL);
+		handle.style = murrine_style->handlestyle;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 
@@ -1284,7 +1287,12 @@ murrine_style_draw_box (DRAW_ARGS)
 		STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, x, y, width, height, horizontal);
 
 		if (murrine_style->sliderstyle == 1)
-			STYLE_FUNCTION(draw_slider_handle) (cr, &murrine_style->colors, &params, x, y, width, height, horizontal);
+		{
+			HandleParameters handle;
+			handle.style = murrine_style->handlestyle;
+
+			STYLE_FUNCTION(draw_slider_handle) (cr, &murrine_style->colors, &params, &handle, x, y, width, height, horizontal);
+		}
 	}
 	else if (DETAIL ("optionmenu"))
 	{
@@ -1352,6 +1360,7 @@ murrine_style_draw_box (DRAW_ARGS)
 		scrollbar.has_color      = FALSE;
 		scrollbar.horizontal     = TRUE;
 		scrollbar.junction       = murrine_scrollbar_get_junction (widget);
+		scrollbar.handlestyle    = murrine_style->handlestyle;
 		scrollbar.steppers       = murrine_scrollbar_visible_steppers (widget);
 		scrollbar.style          = murrine_style->scrollbarstyle;
 		scrollbar.stepperstyle   = murrine_style->stepperstyle;
@@ -2333,6 +2342,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	murrine_style->has_focus_color     = MURRINE_RC_STYLE (rc_style)->flags & MRN_FLAG_FOCUS_COLOR;
 	murrine_style->has_gradient_colors = MURRINE_RC_STYLE (rc_style)->has_gradient_colors;
 	murrine_style->glowstyle           = MURRINE_RC_STYLE (rc_style)->glowstyle;
+	murrine_style->handlestyle         = MURRINE_RC_STYLE (rc_style)->handlestyle;
 	murrine_style->lightborderstyle    = MURRINE_RC_STYLE (rc_style)->lightborderstyle;
 	murrine_style->listviewheaderstyle = MURRINE_RC_STYLE (rc_style)->listviewheaderstyle;
 	murrine_style->listviewstyle       = MURRINE_RC_STYLE (rc_style)->listviewstyle;
@@ -2475,6 +2485,7 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	mrn_style->gradient_shades[1]  = mrn_src->gradient_shades[1];
 	mrn_style->gradient_shades[2]  = mrn_src->gradient_shades[2];
 	mrn_style->gradient_shades[3]  = mrn_src->gradient_shades[3];
+	mrn_style->handlestyle         = mrn_src->handlestyle;
 	mrn_style->has_border_colors   = mrn_src->has_border_colors;
 	mrn_style->has_focus_color     = mrn_src->has_focus_color;
 	mrn_style->has_gradient_colors = mrn_src->has_gradient_colors;

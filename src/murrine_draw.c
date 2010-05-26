@@ -591,14 +591,15 @@ static void
 murrine_draw_slider_handle (cairo_t *cr,
                             const MurrineColors    *colors,
                             const WidgetParameters *widget,
+                            const HandleParameters *handle,
                             int x, int y, int width, int height,
                             boolean horizontal)
 {
 	int num_handles = 2, bar_x, i;
-	MurrineRGB handle;
-	murrine_shade (&colors->shade[6], 0.95, &handle);
+	MurrineRGB color, inset;
+	murrine_shade (&colors->shade[6], 0.95, &color);
 
-	murrine_mix_color (&handle, &colors->bg[widget->state_type], 0.4, &handle);
+	murrine_mix_color (&color, &colors->bg[widget->state_type], 0.4, &color);
 
 	if (!horizontal)
 	{
@@ -611,13 +612,43 @@ murrine_draw_slider_handle (cairo_t *cr,
 	bar_x = width/2 - num_handles;
 
 	cairo_translate (cr, 0.5, 0.5);
-	for (i=0; i<num_handles; i++)
+
+	switch (handle->style)
 	{
-		cairo_move_to (cr, bar_x, 3.5);
-		cairo_line_to (cr, bar_x, height-4.5);
-		murrine_set_color_rgb (cr, &handle);
-		cairo_stroke (cr);
-		bar_x += 3;
+		default:
+		case 0:
+		{
+			for (i=0; i<num_handles; i++)
+			{
+				cairo_move_to (cr, bar_x, 3.5);
+				cairo_line_to (cr, bar_x, height-4.5);
+				murrine_set_color_rgb (cr, &color);
+				cairo_stroke (cr);
+
+				bar_x += 3;
+			}			
+			break;
+		}
+		case 1:
+		{	
+			murrine_shade (&colors->bg[widget->state_type], 1.08, &inset);
+
+			for (i=0; i<num_handles; i++)
+			{
+				cairo_move_to (cr, bar_x, 3.5);
+				cairo_line_to (cr, bar_x, height-4.5);
+				murrine_set_color_rgb (cr, &color);
+				cairo_stroke (cr);
+
+				cairo_move_to (cr, bar_x+1, 3.5);
+				cairo_line_to (cr, bar_x+1, height-4.5);
+				murrine_set_color_rgb (cr, &inset);
+				cairo_stroke (cr);
+
+				bar_x += 3;
+			}			
+			break;
+		}		
 	}
 }
 
@@ -720,10 +751,10 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 	cairo_save (cr);
 
 	murrine_rounded_rectangle_closed (cr, 2, 1, width-4+roundness, height-2,
-	                                  roundness, MRN_CORNER_TOPLEFT | MRN_CORNER_BOTTOMLEFT);
+	                                  roundness-1, MRN_CORNER_TOPLEFT | MRN_CORNER_BOTTOMLEFT);
 	cairo_clip (cr);
 	murrine_rounded_rectangle_closed (cr, 2-roundness, 1, width-4+roundness, height-2,
-	                                  roundness, MRN_CORNER_TOPRIGHT | MRN_CORNER_BOTTOMRIGHT);
+	                                  roundness-1, MRN_CORNER_TOPRIGHT | MRN_CORNER_BOTTOMRIGHT);
 	cairo_clip (cr);
 
 	cairo_rectangle (cr, 2, 1, width-4, height-2);
@@ -785,10 +816,10 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 	cairo_save (cr);
 
 	murrine_rounded_rectangle_closed (cr, 1, 0, width-2+roundness, height,
-	                                  roundness, MRN_CORNER_TOPLEFT | MRN_CORNER_BOTTOMLEFT);
+	                                  roundness-1, MRN_CORNER_TOPLEFT | MRN_CORNER_BOTTOMLEFT);
 	cairo_clip (cr);
 	murrine_rounded_rectangle_closed (cr, 1-roundness, 0, width-2+roundness, height,
-	                                  roundness, MRN_CORNER_TOPRIGHT | MRN_CORNER_BOTTOMRIGHT);
+	                                  roundness-1, MRN_CORNER_TOPRIGHT | MRN_CORNER_BOTTOMRIGHT);
 	cairo_clip (cr);
 
 	/* Draw border */
@@ -1941,14 +1972,44 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
 	{
 		double bar_x = width/2-3.5;
 		int i;
-		for (i=0; i<3; i++)
-		{
-			cairo_move_to (cr, bar_x, 5);
-			cairo_line_to (cr, bar_x, height-5);
-			murrine_set_color_rgb (cr, &border);
-			cairo_stroke (cr);
 
-			bar_x += 3;
+		switch (scrollbar->handlestyle)
+		{
+			default:
+			case 0:
+			{
+				for (i=0; i<3; i++)
+				{
+					cairo_move_to (cr, bar_x, 5);
+					cairo_line_to (cr, bar_x, height-5);
+					murrine_set_color_rgb (cr, &border);
+					cairo_stroke (cr);
+
+					bar_x += 3;
+				}
+				break;
+			}
+			case 1:
+			{
+				MurrineRGB inset;				
+				murrine_shade (&fill, 1.08, &inset);
+
+				for (i=0; i<3; i++)
+				{
+					cairo_move_to (cr, bar_x, 5);
+					cairo_line_to (cr, bar_x, height-5);
+					murrine_set_color_rgb (cr, &border);
+					cairo_stroke (cr);
+
+					cairo_move_to (cr, bar_x+1, 5);
+					cairo_line_to (cr, bar_x+1, height-5);
+					murrine_set_color_rgb (cr, &inset);
+					cairo_stroke (cr);
+
+					bar_x += 3;
+				}
+				break;
+			}
 		}
 	}
 
@@ -2104,14 +2165,40 @@ murrine_draw_handle (cairo_t *cr,
 		cairo_translate (cr, x+width/2-bar_width/2, y+height/2-bar_height/2+0.5);
 	}
 
-	for (i=0; i<num_bars; i++)
+	switch (handle->style)
 	{
-		cairo_move_to (cr, 0, bar_y);
-		cairo_line_to (cr, bar_width, bar_y);
-		murrine_set_color_rgb (cr, &colors->shade[4]);
-		cairo_stroke (cr);
+		default:
+		case 0:
+		{
+			for (i=0; i<num_bars; i++)
+			{
+				cairo_move_to (cr, 0, bar_y);
+				cairo_line_to (cr, bar_width, bar_y);
+				murrine_set_color_rgb (cr, &colors->shade[4]);
+				cairo_stroke (cr);
 
-		bar_y += bar_spacing;
+				bar_y += bar_spacing;
+			}			
+			break;
+		}
+		case 1:
+		{	
+			for (i=0; i<num_bars; i++)
+			{
+				cairo_move_to (cr, 0, bar_y);
+				cairo_line_to (cr, bar_width, bar_y);
+				murrine_set_color_rgb (cr, &colors->shade[4]);
+				cairo_stroke (cr);
+
+				cairo_move_to (cr, 0, bar_y+1);
+				cairo_line_to (cr, bar_width, bar_y+1);
+				murrine_set_color_rgb (cr, &colors->shade[0]);
+				cairo_stroke (cr);
+
+				bar_y += bar_spacing;
+			}			
+			break;
+		}		
 	}
 }
 

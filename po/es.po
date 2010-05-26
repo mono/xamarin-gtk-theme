@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: murrine.po.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=murrine&component=general\n"
-"POT-Creation-Date: 2010-05-25 20:21+0000\n"
-"PO-Revision-Date: 2010-05-25 23:04+0200\n"
+"POT-Creation-Date: 2010-05-26 13:41+0000\n"
+"PO-Revision-Date: 2010-05-26 17:59+0200\n"
 "Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -80,7 +80,6 @@ msgid "Enable/Disable RGBA support"
 msgstr "Activar/desactivar soporte para RGBA"
 
 #: ../schema/murrine.xml.in.in.h:15
-#| msgid "Glaze Style"
 msgid "Expander Style"
 msgstr "Estilo del expansor"
 
@@ -101,102 +100,107 @@ msgid "Glow Style"
 msgstr "Estilo del brillo"
 
 #: ../schema/murrine.xml.in.in.h:20
+#| msgid "Expander Style"
+msgid "Handle Style"
+msgstr "Estilo del manejador"
+
+#: ../schema/murrine.xml.in.in.h:21
 msgid "Highlight Shade"
 msgstr "Sombra de resaltado"
 
-#: ../schema/murrine.xml.in.in.h:21
+#: ../schema/murrine.xml.in.in.h:22
 msgid "Increse/Decrease the highlight shade"
 msgstr "Aumentar/reducir la sombra de resaltado"
 
-#: ../schema/murrine.xml.in.in.h:22
+#: ../schema/murrine.xml.in.in.h:23
 msgid "Increse/Decrease the lightborder shade"
 msgstr "Aumentar/reducir la sombra del borde"
 
-#: ../schema/murrine.xml.in.in.h:23
+#: ../schema/murrine.xml.in.in.h:24
 msgid "Increse/Decrease the prelight shade"
 msgstr "Aumentar/reducir la sombra con preiluminación"
 
-#: ../schema/murrine.xml.in.in.h:24
+#: ../schema/murrine.xml.in.in.h:25
 msgid "Increse/Decrease the text shadow shade"
 msgstr "Aumentar/reducir la sombra del texto"
 
-#: ../schema/murrine.xml.in.in.h:25
+#: ../schema/murrine.xml.in.in.h:26
 msgid "Lightborder Shade"
 msgstr "Sombra del borde"
 
-#: ../schema/murrine.xml.in.in.h:26
+#: ../schema/murrine.xml.in.in.h:27
 msgid "Lightborder Style"
 msgstr "Estilo de la sombra del borde"
 
-#: ../schema/murrine.xml.in.in.h:27
+#: ../schema/murrine.xml.in.in.h:28
 msgid "Listview header style"
 msgstr "Cabecera de la sombra del borde"
 
-#: ../schema/murrine.xml.in.in.h:28
+#: ../schema/murrine.xml.in.in.h:29
 msgid "Listview separators"
 msgstr "Separadores de la vista de lista"
 
-#: ../schema/murrine.xml.in.in.h:29
+#: ../schema/murrine.xml.in.in.h:30
 msgid "MenuItem Style"
 msgstr "Estilo de los elementos de menú"
 
-#: ../schema/murrine.xml.in.in.h:30
+#: ../schema/murrine.xml.in.in.h:31
 msgid "Menubar Style"
 msgstr "Estilo de la barra de menú"
 
-#: ../schema/murrine.xml.in.in.h:31
+#: ../schema/murrine.xml.in.in.h:32
 msgid "MenubarItem Style"
 msgstr "Estilo del elemento de la barra de menú"
 
-#: ../schema/murrine.xml.in.in.h:32
+#: ../schema/murrine.xml.in.in.h:33
 msgid "Prelight Shade"
 msgstr "Sombra con preiluminación"
 
-#: ../schema/murrine.xml.in.in.h:33
+#: ../schema/murrine.xml.in.in.h:34
 msgid "Progressbar style"
 msgstr "Estilo de la barra de progreso"
 
-#: ../schema/murrine.xml.in.in.h:34
+#: ../schema/murrine.xml.in.in.h:35
 msgid "Relief style of widget"
 msgstr "Estilo de sustitución del widget"
 
-#: ../schema/murrine.xml.in.in.h:35
+#: ../schema/murrine.xml.in.in.h:36
 msgid "Roundness"
 msgstr "Redondez"
 
-#: ../schema/murrine.xml.in.in.h:36
+#: ../schema/murrine.xml.in.in.h:37
 msgid "Separator style"
 msgstr "Estilo del separador"
 
-#: ../schema/murrine.xml.in.in.h:37
+#: ../schema/murrine.xml.in.in.h:38
 msgid "Sets the Color of Focus"
 msgstr "Establece el color del foco"
 
-#: ../schema/murrine.xml.in.in.h:38
+#: ../schema/murrine.xml.in.in.h:39
 msgid "Slider style"
 msgstr "Estilo del deslizador"
 
-#: ../schema/murrine.xml.in.in.h:39
+#: ../schema/murrine.xml.in.in.h:40
 msgid "Spinbutton Style"
 msgstr "Estilo del marcador incrementable"
 
-#: ../schema/murrine.xml.in.in.h:40
+#: ../schema/murrine.xml.in.in.h:41
 msgid "Stepper style"
 msgstr "Estilo del paso"
 
-#: ../schema/murrine.xml.in.in.h:41
+#: ../schema/murrine.xml.in.in.h:42
 msgid "Text Shade"
 msgstr "Sombra del texto"
 
-#: ../schema/murrine.xml.in.in.h:42
+#: ../schema/murrine.xml.in.in.h:43
 msgid "Text Style"
 msgstr "Estilo del texto"
 
-#: ../schema/murrine.xml.in.in.h:43
+#: ../schema/murrine.xml.in.in.h:44
 msgid "Toolbar style"
 msgstr "Estilo de barra de herramientas"
 
-#: ../schema/murrine.xml.in.in.h:44
+#: ../schema/murrine.xml.in.in.h:45
 msgid "Vertical bars in menus"
 msgstr "Barras verticales en los menús"
 

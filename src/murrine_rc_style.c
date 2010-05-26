@@ -43,9 +43,10 @@ enum
 	TOKEN_CELLSTYLE,
 	TOKEN_COMBOBOXSTYLE,
 	TOKEN_CONTRAST,
-	TOKEN_DISABLE_FOCUS,
+	TOKEN_DEFAULT_BUTTON_COLOR,
 	TOKEN_EXPANDERSTYLE,
 	TOKEN_FOCUS_COLOR,
+	TOKEN_FOCUSSTYLE,
 	TOKEN_GLAZESTYLE,
 	TOKEN_GLOW_SHADE,
 	TOKEN_GLOWSTYLE,
@@ -106,9 +107,10 @@ theme_symbols[] =
 	{ "cellstyle",           TOKEN_CELLSTYLE },	
 	{ "comboboxstyle",       TOKEN_COMBOBOXSTYLE },
 	{ "contrast",            TOKEN_CONTRAST },
-	{ "disable_focus",       TOKEN_DISABLE_FOCUS },
+	{ "default_button_color", TOKEN_DEFAULT_BUTTON_COLOR },
 	{ "expanderstyle",       TOKEN_EXPANDERSTYLE },
 	{ "focus_color",         TOKEN_FOCUS_COLOR },
+	{ "focusstyle",          TOKEN_FOCUSSTYLE },
 	{ "glazestyle",          TOKEN_GLAZESTYLE },
 	{ "glow_shade",          TOKEN_GLOW_SHADE },
 	{ "glowstyle",           TOKEN_GLOWSTYLE },
@@ -175,9 +177,10 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->colorize_scrollbar = TRUE;
 	murrine_rc->comboboxstyle = 0;
 	murrine_rc->contrast = 1.0;
-	murrine_rc->disable_focus = FALSE;
 	murrine_rc->expanderstyle = 0;
+	murrine_rc->focusstyle = 2;
 	murrine_rc->has_border_colors = FALSE;
+	murrine_rc->has_default_button_color = FALSE;
 	murrine_rc->has_gradient_colors = FALSE;
 	murrine_rc->handlestyle = 0;
 	murrine_rc->glazestyle = 1;
@@ -650,9 +653,9 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_shade (settings, scanner, &murrine_style->contrast);
 				murrine_style->bflags |= MRN_FLAG_CONTRAST;
 				break;
-			case TOKEN_DISABLE_FOCUS:
-				token = theme_parse_boolean (settings, scanner, &murrine_style->disable_focus);
-				murrine_style->bflags |= MRN_FLAG_DISABLE_FOCUS;
+			case TOKEN_DEFAULT_BUTTON_COLOR:
+				token = theme_parse_color (settings, scanner, rc_style, &murrine_style->default_button_color);
+				murrine_style->flags |= MRN_FLAG_DEFAULT_BUTTON_COLOR;
 				break;
 			case TOKEN_EXPANDERSTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->expanderstyle);
@@ -661,6 +664,10 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 			case TOKEN_FOCUS_COLOR:
 				token = theme_parse_color (settings, scanner, rc_style, &murrine_style->focus_color);
 				murrine_style->flags |= MRN_FLAG_FOCUS_COLOR;
+				break;
+			case TOKEN_FOCUSSTYLE:
+				token = theme_parse_int (settings, scanner, &murrine_style->focusstyle);
+				murrine_style->flags |= MRN_FLAG_FOCUSSTYLE;
 				break;
 			case TOKEN_GLAZESTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->glazestyle);
@@ -865,10 +872,20 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->cellstyle = src_w->cellstyle;
 	if (flags & MRN_FLAG_COMBOBOXSTYLE)
 		dest_w->comboboxstyle = src_w->comboboxstyle;
+	if (flags & MRN_FLAG_DEFAULT_BUTTON_COLOR)
+	{
+		dest_w->has_default_button_color = src_w->has_default_button_color;
+		dest_w->default_button_color = src_w->default_button_color;
+	}
 	if (flags & MRN_FLAG_EXPANDERSTYLE)
 		dest_w->expanderstyle = src_w->expanderstyle;
 	if (flags & MRN_FLAG_FOCUS_COLOR)
+	{
+		dest_w->has_focus_color = src_w->has_focus_color;
 		dest_w->focus_color = src_w->focus_color;
+	}
+	if (flags & MRN_FLAG_FOCUSSTYLE)
+		dest_w->focusstyle = src_w->focusstyle;
 	if (flags & MRN_FLAG_GLAZESTYLE)
 		dest_w->glazestyle = src_w->glazestyle;
 	if (flags & MRN_FLAG_GLOW_SHADE)
@@ -929,8 +946,6 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->colorize_scrollbar = src_w->colorize_scrollbar;
 	if (bflags & MRN_FLAG_CONTRAST)
 		dest_w->contrast = src_w->contrast;
-	if (bflags & MRN_FLAG_DISABLE_FOCUS)
-		dest_w->disable_focus = src_w->disable_focus;
 	if (bflags & MRN_FLAG_RGBA)
 		dest_w->rgba = src_w->rgba;
 	if (bflags & MRN_FLAG_ROUNDNESS)

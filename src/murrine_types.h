@@ -206,6 +206,12 @@ typedef struct
 
 typedef struct
 {
+	MurrineRGB default_button_color;
+	boolean    has_default_button_color;
+} ButtonParameters;
+
+typedef struct
+{
 	int style;
 } CellParameters;
 
@@ -255,6 +261,7 @@ typedef struct
 	gint                padding;
 	guint8*             dash_list;
 	boolean             interior;
+	int                 style;
 } FocusParameters;
 
 typedef struct
@@ -386,6 +393,7 @@ struct _MurrineStyleFunctions
 	void (*draw_button) (cairo_t *cr,
 	                     const MurrineColors    *colors,
 	                     const WidgetParameters *widget,
+	                     const ButtonParameters *button,
 	                     int x, int y, int width, int height,
 	                     boolean vertical);
 

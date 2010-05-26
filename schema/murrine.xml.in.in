@@ -64,10 +64,10 @@
 		<precision>2</precision>
 	</option>
 
-	<option type="boolean" name="disable_focus" default="FALSE">
-		<_long_name>Disable Focus</_long_name>
-		<_description>Disable focus drawing</_description>
+	<option type="color" name="default_button_color" default="#000000">
+		<_long_name>Default Button Color</_long_name>
 		<section>General</section>
+		<_description>Sets the Color of Default button 2px border</_description>
 	</option>
 
 	<option type="enumeration" name="expanderstyle" default="0">
@@ -88,6 +88,23 @@
 		<_long_name>Focus Color</_long_name>
 		<section>General</section>
 		<_description>Sets the Color of Focus</_description>
+	</option>
+
+	<option type="enumeration" name="focusstyle" default="2">
+		<_long_name>Focus Style</_long_name>
+		<section>General</section>
+		<enumeration value="0">
+			<label>No focus</label>
+		</enumeration>
+		<enumeration value="1">
+			<label>Dots</label>
+		</enumeration>
+		<enumeration value="2">
+			<label>Inner rectangle</label>
+		</enumeration>
+		<enumeration value="3">
+			<label>Rectangle from borders</label>
+		</enumeration>
 	</option>
 
 	<option type="enumeration" name="glazestyle" default="0">

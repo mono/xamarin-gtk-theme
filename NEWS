@@ -11,10 +11,16 @@ Changes in this release:
 - New option: cellstyle = 0 to remove the border around the selected cell.
               cellstyle = 1 for the border around the selected cell (as before).
 - New option: comboboxstyle = 1 to colorize the GtkComboBox below the arrow.
-- New option: disable_focus = TRUE to disable focus drawing.
+- New option: default_button_color = "#ffffff" to specify a 2px border for the
+              default button.
+- New option: disable_focus = TRUE 
 - New option: expanderstyle = 0 to draw arrows.
               expanderstyle = 1 to draw circles with plus and minus.
               expanderstyle = 2 to draw buttons with plus and minus.
+- New option: focusstyle = 0 to disable focus drawing.
+              focusstyle = 1 to use dots.
+              focusstyle = 2 to use a small colored rectangle.
+              focusstyle = 3 to use a colored rectangle that touches the borders.             
 - New option: gradient_colors = { "#ffffff", "#ffffff", "#ffffff", "#ffffff" }
               to set the colors used on the gradient of many widgets.
               gradient_colors = FALSE to disable.

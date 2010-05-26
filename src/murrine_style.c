@@ -131,7 +131,7 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	params->state_type = (MurrineStateType)state_type;
 	params->corners    = MRN_CORNER_ALL;
 	params->ltr        = murrine_widget_is_ltr ((GtkWidget*)widget);
-	params->focus      = !MURRINE_STYLE (style)->disable_focus && widget && GTK_WIDGET_HAS_FOCUS (widget);
+	params->focus      = (MURRINE_STYLE (style)->focusstyle != 0) && widget && GTK_WIDGET_HAS_FOCUS (widget);
 	params->is_default = widget && GTK_WIDGET_HAS_DEFAULT (widget);
 
 	params->xthickness = style->xthickness;
@@ -855,9 +855,21 @@ murrine_style_draw_box (DRAW_ARGS)
 	else if (DETAIL ("button"))
 	{
 		WidgetParameters params;
+		ButtonParameters button;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 		params.active = shadow_type == GTK_SHADOW_IN;
+
+		/* Default button color */
+		if (murrine_style->has_default_button_color)
+		{
+			murrine_gdk_color_to_rgb (&murrine_style->default_button_color, &button.default_button_color.r,
+				                                                        &button.default_button_color.g,
+				                                                        &button.default_button_color.b);
+			button.has_default_button_color = TRUE;
+		}
+		else
+			button.has_default_button_color = FALSE;
 
 		boolean horizontal = TRUE;
 		if (((float)width/height<0.5) ||
@@ -896,7 +908,7 @@ murrine_style_draw_box (DRAW_ARGS)
 		if (!MRN_IS_COMBO_BOX(widget->parent) ||
 		     MRN_IS_COMBO_BOX_ENTRY (widget->parent) ||
 		     MRN_IS_COMBO (widget->parent))
-			STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, x, y, width, height, horizontal);
+			STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, &button, x, y, width, height, horizontal);
 		else
 		{
 			ComboBoxParameters combobox;
@@ -1273,8 +1285,11 @@ murrine_style_draw_box (DRAW_ARGS)
 	{
 		WidgetParameters params;
 		/* SliderParameters slider; */
+		ButtonParameters button;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
+
+		button.has_default_button_color = FALSE;
 
 		boolean horizontal = TRUE;
 		if (DETAIL ("vscale"))
@@ -1284,7 +1299,7 @@ murrine_style_draw_box (DRAW_ARGS)
 		if (params.disabled)
 			params.reliefstyle = 0;
 
-		STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, x, y, width, height, horizontal);
+		STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, &button, x, y, width, height, horizontal);
 
 		if (murrine_style->sliderstyle == 1)
 		{
@@ -1339,6 +1354,9 @@ murrine_style_draw_box (DRAW_ARGS)
 
 		if (widget && MRN_IS_MENU_BAR (widget->parent) && murrine_style->menubaritemstyle)
 		{
+			ButtonParameters button;
+			button.has_default_button_color = FALSE;
+
 			params.active = FALSE;
 			params.prelight = TRUE;
 			params.focus = TRUE;
@@ -1348,7 +1366,7 @@ murrine_style_draw_box (DRAW_ARGS)
 			params.reliefstyle = 0;
 			params.corners = MRN_CORNER_TOPRIGHT | MRN_CORNER_TOPLEFT;
 
-			STYLE_FUNCTION(draw_button) (cr, colors, &params, x, y, width, height+1, TRUE);
+			STYLE_FUNCTION(draw_button) (cr, colors, &params, &button, x, y, width, height+1, TRUE);
 		}
 	}
 	else if (DETAIL ("hscrollbar") || DETAIL ("vscrollbar") || DETAIL ("slider") || DETAIL ("stepper"))
@@ -2128,7 +2146,7 @@ murrine_style_draw_focus (GtkStyle *style, GdkWindow *window, GtkStateType state
 	SANITIZE_SIZE
 
 	/* Just return if focus drawing is disabled. */
-	if (murrine_style->disable_focus)
+	if (murrine_style->focusstyle == 0)
 		return;
 
 	cr = gdk_cairo_create (window);
@@ -2155,6 +2173,7 @@ murrine_style_draw_focus (GtkStyle *style, GdkWindow *window, GtkStateType state
 	focus.interior = FALSE;
 	focus.line_width = 1;
 	focus.padding = 1;
+	focus.style = murrine_style->focusstyle;
 	dash_list = NULL;
 
 	if (widget)
@@ -2336,12 +2355,13 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	murrine_style->comboboxstyle       = MURRINE_RC_STYLE (rc_style)->comboboxstyle;
 	murrine_style->contrast            = MURRINE_RC_STYLE (rc_style)->contrast;
 	murrine_style->colorize_scrollbar  = MURRINE_RC_STYLE (rc_style)->colorize_scrollbar;
-	murrine_style->disable_focus       = MURRINE_RC_STYLE (rc_style)->disable_focus;
 	murrine_style->expanderstyle       = MURRINE_RC_STYLE (rc_style)->expanderstyle;
+	murrine_style->focusstyle          = MURRINE_RC_STYLE (rc_style)->focusstyle;
+	murrine_style->glowstyle           = MURRINE_RC_STYLE (rc_style)->glowstyle;
 	murrine_style->has_border_colors   = MURRINE_RC_STYLE (rc_style)->has_border_colors;
+	murrine_style->has_default_button_color = MURRINE_RC_STYLE (rc_style)->flags & MRN_FLAG_DEFAULT_BUTTON_COLOR;
 	murrine_style->has_focus_color     = MURRINE_RC_STYLE (rc_style)->flags & MRN_FLAG_FOCUS_COLOR;
 	murrine_style->has_gradient_colors = MURRINE_RC_STYLE (rc_style)->has_gradient_colors;
-	murrine_style->glowstyle           = MURRINE_RC_STYLE (rc_style)->glowstyle;
 	murrine_style->handlestyle         = MURRINE_RC_STYLE (rc_style)->handlestyle;
 	murrine_style->lightborderstyle    = MURRINE_RC_STYLE (rc_style)->lightborderstyle;
 	murrine_style->listviewheaderstyle = MURRINE_RC_STYLE (rc_style)->listviewheaderstyle;
@@ -2368,6 +2388,8 @@ murrine_style_init_from_rc (GtkStyle   *style,
 		murrine_style->border_colors[0] = MURRINE_RC_STYLE (rc_style)->border_colors[0];
 		murrine_style->border_colors[1] = MURRINE_RC_STYLE (rc_style)->border_colors[1];
 	}
+	if (murrine_style->has_default_button_color)
+		murrine_style->default_button_color = MURRINE_RC_STYLE (rc_style)->default_button_color;
 	if (murrine_style->has_focus_color)
 		murrine_style->focus_color = MURRINE_RC_STYLE (rc_style)->focus_color;
 	if (murrine_style->has_gradient_colors)
@@ -2471,8 +2493,9 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	mrn_style->colors              = mrn_src->colors;
 	mrn_style->comboboxstyle       = mrn_src->comboboxstyle;
 	mrn_style->contrast            = mrn_src->contrast;
-	mrn_style->disable_focus       = mrn_src->disable_focus;
+	mrn_style->default_button_color = mrn_src->default_button_color;
 	mrn_style->expanderstyle       = mrn_src->expanderstyle;
+	mrn_style->focusstyle          = mrn_src->focusstyle;
 	mrn_style->focus_color         = mrn_src->focus_color;
 	mrn_style->glazestyle          = mrn_src->glazestyle;
 	mrn_style->glow_shade          = mrn_src->glow_shade;
@@ -2487,6 +2510,7 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	mrn_style->gradient_shades[3]  = mrn_src->gradient_shades[3];
 	mrn_style->handlestyle         = mrn_src->handlestyle;
 	mrn_style->has_border_colors   = mrn_src->has_border_colors;
+	mrn_style->has_default_button_color = mrn_src->has_default_button_color;
 	mrn_style->has_focus_color     = mrn_src->has_focus_color;
 	mrn_style->has_gradient_colors = mrn_src->has_gradient_colors;
 	mrn_style->highlight_shade     = mrn_src->highlight_shade;

@@ -144,6 +144,7 @@ static void
 murrine_rgba_draw_button (cairo_t *cr,
                           const MurrineColors    *colors,
                           const WidgetParameters *widget,
+                          const ButtonParameters *button,
                           int x, int y, int width, int height,
                           boolean horizontal)
 {
@@ -258,6 +259,16 @@ murrine_rgba_draw_button (cairo_t *cr,
 	                     os+0.5, os+0.5, width-(os*2)-1, height-(os*2)-1,
 	                     widget->roundness, widget->corners,
 	                     mrn_gradient_new, 1.0);
+
+	if (widget->is_default && !widget->disabled && button->has_default_button_color)
+	{
+		cairo_save (cr);
+		cairo_set_line_width (cr, 2.0);
+		murrine_rounded_rectangle (cr, os, os, width-(os*2), height-(os*2), widget->roundness, widget->corners);
+		murrine_set_color_rgba (cr, &button->default_button_color, 0.4);
+		cairo_stroke (cr);
+		cairo_restore (cr);	
+	}
 }
 
 static void
@@ -436,9 +447,12 @@ murrine_rgba_draw_spinbutton (cairo_t *cr,
 	                          int x, int y, int width, int height,
 	                          boolean horizontal)
 {
+	ButtonParameters button;
+	button.has_default_button_color = FALSE;
+
 	cairo_save (cr);
 
-	widget->style_functions->draw_button (cr, colors, widget, x, y, width, height, horizontal);
+	widget->style_functions->draw_button (cr, colors, widget, &button, x, y, width, height, horizontal);
 
 	cairo_restore (cr);
 

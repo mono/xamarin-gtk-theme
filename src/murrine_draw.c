@@ -144,6 +144,7 @@ static void
 murrine_draw_button (cairo_t *cr,
                      const MurrineColors    *colors,
                      const WidgetParameters *widget,
+                     const ButtonParameters *button,
                      int x, int y, int width, int height,
                      boolean horizontal)
 {
@@ -261,6 +262,16 @@ murrine_draw_button (cairo_t *cr,
 	                     os+0.5, os+0.5, width-(os*2)-1, height-(os*2)-1,
 	                     widget->roundness, widget->corners,
 	                     mrn_gradient_new, 1.0);
+
+	if (widget->is_default && !widget->disabled && button->has_default_button_color)
+	{
+		cairo_save (cr);
+		cairo_set_line_width (cr, 2.0);
+		murrine_rounded_rectangle (cr, os, os, width-(os*2), height-(os*2), widget->roundness, widget->corners);
+		murrine_set_color_rgba (cr, &button->default_button_color, 0.4);
+		cairo_stroke (cr);
+		cairo_restore (cr);	
+	}
 }
 
 static void
@@ -401,9 +412,12 @@ murrine_draw_spinbutton (cairo_t *cr,
 	                     int x, int y, int width, int height,
 	                     boolean horizontal)
 {
+	ButtonParameters button;
+	button.has_default_button_color = FALSE;
+
 	cairo_save (cr);
-	
-	widget->style_functions->draw_button (cr, colors, widget, x, y, width, height, horizontal);
+
+	widget->style_functions->draw_button (cr, colors, widget, &button, x, y, width, height, horizontal);
 
 	cairo_restore (cr);
 
@@ -843,12 +857,19 @@ murrine_draw_combobox (cairo_t *cr,
 	{
 		default:
 		case 0:
-			widget.style_functions->draw_button (cr, &colors, &widget, x, y, w, h, horizontal);
+		{
+			ButtonParameters button;
+			button.has_default_button_color = FALSE;
+
+			widget.style_functions->draw_button (cr, &colors, &widget, &button, x, y, w, h, horizontal);
 			break;
+		}
 		case 1:
 		{
 			WidgetParameters params = widget;
 			MurrineColors colors_new = colors;
+			ButtonParameters button;
+			button.has_default_button_color = FALSE;
 			int box_w = (widget.xthickness > 2 && widget.ythickness > 2) ? combobox->box_w : combobox->box_w-3;
 			int os = (widget.xthickness > 2 && widget.ythickness > 2) ? 1 : 0;
 			colors_new.bg[GTK_STATE_NORMAL] = colors.spot[1];
@@ -857,7 +878,7 @@ murrine_draw_combobox (cairo_t *cr,
 
 			if (combobox->as_list)
 			{
-				params.style_functions->draw_button (cr, &colors_new, &params, x, y, w, h, horizontal);
+				params.style_functions->draw_button (cr, &colors_new, &params, &button, x, y, w, h, horizontal);
 				break;
 			}
 
@@ -867,14 +888,14 @@ murrine_draw_combobox (cairo_t *cr,
 				params.corners = MRN_CORNER_TOPLEFT | MRN_CORNER_BOTTOMLEFT;
 				cairo_rectangle (cr, x, y, w-box_w, h);
 				cairo_clip (cr);
-				params.style_functions->draw_button (cr, &colors, &params, x, y, w-box_w+1+os, h, horizontal);
+				params.style_functions->draw_button (cr, &colors, &params, &button, x, y, w-box_w+1+os, h, horizontal);
 			}
 			else
 			{
 				params.corners = MRN_CORNER_TOPRIGHT | MRN_CORNER_BOTTOMRIGHT;
 				cairo_rectangle (cr, x+box_w, y, w-box_w, h);
 				cairo_clip (cr);
-				params.style_functions->draw_button (cr, &colors, &params, x+box_w-1-os, y, w-box_w+1+os, h, horizontal);
+				params.style_functions->draw_button (cr, &colors, &params, &button, x+box_w-1-os, y, w-box_w+1+os, h, horizontal);
 			}
 			cairo_restore (cr);
 
@@ -887,14 +908,14 @@ murrine_draw_combobox (cairo_t *cr,
 				params.corners = MRN_CORNER_TOPRIGHT | MRN_CORNER_BOTTOMRIGHT;
 				cairo_rectangle (cr, x+w-box_w, y, box_w, h);
 				cairo_clip (cr);
-				params.style_functions->draw_button (cr, &colors_new, &params, x+w-(box_w+os), y, box_w+os, h, horizontal);
+				params.style_functions->draw_button (cr, &colors_new, &params, &button, x+w-(box_w+os), y, box_w+os, h, horizontal);
 			}
 			else
 			{
 				params.corners = MRN_CORNER_TOPLEFT | MRN_CORNER_BOTTOMLEFT;
 				cairo_rectangle (cr, x, y, box_w, h);
 				cairo_clip (cr);
-				params.style_functions->draw_button (cr, &colors_new, &params, x, y, box_w+os, h, horizontal);
+				params.style_functions->draw_button (cr, &colors_new, &params, &button, x, y, box_w+os, h, horizontal);
 			}
 			cairo_restore (cr);
 			break;
@@ -909,13 +930,15 @@ murrine_draw_optionmenu (cairo_t *cr,
                          const OptionMenuParameters *optionmenu,
                          int x, int y, int width, int height)
 {
+	ButtonParameters button;
+	button.has_default_button_color = FALSE;
 	int offset = widget->ythickness + 1;
 
 	boolean horizontal = TRUE;
 	if (((float)width/height<0.5) || (widget->glazestyle > 0 && width<height))
 		horizontal = FALSE;
 
-	widget->style_functions->draw_button (cr, colors, widget, x, y, width, height, horizontal);
+	widget->style_functions->draw_button (cr, colors, widget, &button, x, y, width, height, horizontal);
 
 	/* Draw the separator */
 	MurrineRGB *dark = (MurrineRGB*)&colors->shade[6];
@@ -2690,51 +2713,6 @@ murrine_draw_resize_grip (cairo_t *cr,
 }
 
 static void
-murrine_draw_classic_focus (cairo_t *cr,
-                            const MurrineColors    *colors,
-                            const WidgetParameters *widget,
-                            const FocusParameters  *focus,
-                            int x, int y, int width, int height)
-{
-	cairo_set_line_width (cr, focus->line_width);
-
-	if (focus->has_color)
-		murrine_set_color_rgb (cr, &focus->color);
-	else if (focus->type == MRN_FOCUS_COLOR_WHEEL_LIGHT)
-		cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
-	else if (focus->type == MRN_FOCUS_COLOR_WHEEL_DARK)
-		cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
-	else
-		murrine_set_color_rgba (cr, &colors->fg[widget->state_type], 0.7);
-
-	if (focus->dash_list[0])
-	{
-		gint n_dashes = strlen ((gchar *)focus->dash_list);
-		gdouble *dashes = g_new (gdouble, n_dashes);
-		gdouble total_length = 0;
-		gdouble dash_offset;
-		gint i;
-
-		for (i = 0; i < n_dashes; i++)
-		{
-			dashes[i] = focus->dash_list[i];
-			total_length += focus->dash_list[i];
-		}
-
-		dash_offset = -focus->line_width / 2.0;
-		while (dash_offset < 0)
-			dash_offset += total_length;
-
-		cairo_set_dash (cr, dashes, n_dashes, dash_offset);
-		g_free (dashes);
-	}
-
-	cairo_rectangle (cr, x+focus->line_width/2.0, y+focus->line_width/2.0,
-	                     width-focus->line_width, height-focus->line_width);
-	cairo_stroke (cr);
-}
-
-static void
 murrine_draw_expander_arrow (cairo_t *cr,
 	                     const MurrineColors    *colors,
 	                     const WidgetParameters *widget,
@@ -2962,12 +2940,153 @@ murrine_draw_expander (cairo_t *cr,
 	}
 }
 
-void
-murrine_draw_focus (cairo_t *cr,
-                    const MurrineColors    *colors,
-                    const WidgetParameters *widget,
-                    const FocusParameters  *focus,
-                    int x, int y, int width, int height)
+static void
+murrine_draw_focus_classic (cairo_t *cr,
+                            const MurrineColors    *colors,
+                            const WidgetParameters *widget,
+                            const FocusParameters  *focus,
+                            int x, int y, int width, int height)
+{
+	cairo_set_line_width (cr, focus->line_width);
+
+	if (focus->has_color)
+		murrine_set_color_rgb (cr, &focus->color);
+	else if (focus->type == MRN_FOCUS_COLOR_WHEEL_LIGHT)
+		cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+	else if (focus->type == MRN_FOCUS_COLOR_WHEEL_DARK)
+		cairo_set_source_rgb (cr, 1.0, 1.0, 1.0);
+	else
+		murrine_set_color_rgba (cr, &colors->fg[widget->state_type], 0.7);
+
+	if (focus->dash_list[0])
+	{
+		gint n_dashes = strlen ((gchar *)focus->dash_list);
+		gdouble *dashes = g_new (gdouble, n_dashes);
+		gdouble total_length = 0;
+		gdouble dash_offset;
+		gint i;
+
+		for (i = 0; i < n_dashes; i++)
+		{
+			dashes[i] = focus->dash_list[i];
+			total_length += focus->dash_list[i];
+		}
+
+		dash_offset = -focus->line_width / 2.0;
+		while (dash_offset < 0)
+			dash_offset += total_length;
+
+		cairo_set_dash (cr, dashes, n_dashes, dash_offset);
+		g_free (dashes);
+	}
+
+	cairo_rectangle (cr, x+focus->line_width/2.0, y+focus->line_width/2.0,
+	                     width-focus->line_width, height-focus->line_width);
+	cairo_stroke (cr);
+}
+
+static void
+murrine_draw_focus_border (cairo_t *cr,
+                           const MurrineColors    *colors,
+                           const WidgetParameters *widget,
+                           const FocusParameters  *focus,
+                           int x, int y, int width, int height)
+{
+	MurrineRGB fill = focus->color;
+
+	/* Default values */
+	int radius = 0;
+	double xoffset = 1.0;
+	double yoffset = 1.0;
+	double border_alpha = 0.72;
+	double fill_alpha = 0.18;
+	boolean focus_fill = TRUE;
+	boolean focus_border = TRUE;
+
+	/* Do some useful things to adjust focus */
+	switch (focus->type)
+	{
+		case MRN_FOCUS_BUTTON:
+			xoffset = -(focus->padding)-2.0;
+			yoffset = -(focus->padding)-2.0;
+			radius = widget->roundness;
+			break;
+		case MRN_FOCUS_BUTTON_FLAT:
+			xoffset = -(focus->padding)-2.0;
+			yoffset = -(focus->padding)-2.0;
+			radius = widget->roundness;
+			break;
+		case MRN_FOCUS_LABEL:
+			xoffset = 0.0;
+			yoffset = 0.0;
+			radius = widget->roundness;
+			break;
+		case MRN_FOCUS_TREEVIEW:
+			xoffset = -1.0;
+			yoffset = -1.0;
+			focus_border = FALSE;
+			break;
+		case MRN_FOCUS_TREEVIEW_DND:
+			radius = widget->roundness;
+			break;
+		case MRN_FOCUS_TREEVIEW_HEADER:
+			cairo_translate (cr, -1, 0);
+			radius = widget->roundness-1;
+			break;
+		case MRN_FOCUS_TREEVIEW_ROW:
+			if (widget->state_type == GTK_STATE_SELECTED)
+			{
+				/* Fallback to classic function, dots */
+				murrine_draw_focus_classic (cr, colors, widget, focus, x, y, width, height);
+				return;
+			}
+			xoffset = 1.0;
+			yoffset = 1.0;
+			radius = widget->roundness;
+			break;
+		case MRN_FOCUS_TAB:
+			xoffset = 0.0;
+			yoffset = 0.0;
+			radius = widget->roundness-1;
+			break;
+		case MRN_FOCUS_SCALE:
+			radius = widget->roundness;
+			break;
+		case MRN_FOCUS_ICONVIEW:
+			break;
+		case MRN_FOCUS_UNKNOWN:
+			/* Fallback to classic function, dots */
+			murrine_draw_focus_classic (cr, colors, widget, focus, x, y, width, height);
+			return;
+			break;
+		default:
+			break;
+	};
+
+	cairo_translate (cr, x, y);
+	cairo_set_line_width (cr, focus->line_width);
+
+	if (focus_fill)
+	{
+		clearlooks_rounded_rectangle (cr, xoffset, yoffset, width-(xoffset*2), height-(yoffset*2), radius, widget->corners);
+		murrine_set_color_rgba (cr, &fill, fill_alpha);
+		cairo_fill (cr);
+	}
+
+	if (focus_border)
+	{
+		clearlooks_rounded_rectangle (cr, xoffset+0.5, yoffset+0.5, width-(xoffset*2)-1, height-(yoffset*2)-1, radius, widget->corners);
+		murrine_set_color_rgba (cr, &fill, border_alpha);
+		cairo_stroke (cr);
+	}
+}
+
+static void
+murrine_draw_focus_inner (cairo_t *cr,
+                          const MurrineColors    *colors,
+                          const WidgetParameters *widget,
+                          const FocusParameters  *focus,
+                          int x, int y, int width, int height)
 {
 	MurrineRGB fill = focus->color;
 
@@ -3014,7 +3133,7 @@ murrine_draw_focus (cairo_t *cr,
 			if (widget->state_type == GTK_STATE_SELECTED)
 			{
 				/* Fallback to classic function, dots */
-				murrine_draw_classic_focus (cr, colors, widget, focus, x, y, width, height);
+				murrine_draw_focus_classic (cr, colors, widget, focus, x, y, width, height);
 				return;
 			}
 			xoffset = 1.0;
@@ -3033,7 +3152,7 @@ murrine_draw_focus (cairo_t *cr,
 			break;
 		case MRN_FOCUS_UNKNOWN:
 			/* Fallback to classic function, dots */
-			murrine_draw_classic_focus (cr, colors, widget, focus, x, y, width, height);
+			murrine_draw_focus_classic (cr, colors, widget, focus, x, y, width, height);
 			return;
 			break;
 		default:
@@ -3055,6 +3174,28 @@ murrine_draw_focus (cairo_t *cr,
 		clearlooks_rounded_rectangle (cr, xoffset+0.5, yoffset+0.5, width-(xoffset*2)-1, height-(yoffset*2)-1, radius, widget->corners);
 		murrine_set_color_rgba (cr, &fill, border_alpha);
 		cairo_stroke (cr);
+	}
+}
+
+void
+murrine_draw_focus (cairo_t *cr,
+                    const MurrineColors    *colors,
+                    const WidgetParameters *widget,
+                    const FocusParameters  *focus,
+                    int x, int y, int width, int height)
+{
+	switch (focus->style)
+	{
+		default:
+		case 1:
+			murrine_draw_focus_classic (cr, colors, widget, focus, x, y, width, height);
+			break;
+		case 2:
+			murrine_draw_focus_inner (cr, colors, widget, focus, x, y, width, height);
+			break;
+		case 3:
+			murrine_draw_focus_border (cr, colors, widget, focus, x, y, width, height);
+			break;
 	}
 }
 

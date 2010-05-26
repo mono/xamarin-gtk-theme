@@ -57,6 +57,7 @@ struct _MurrineStyle
 	guint8   cellstyle;
 	guint8   comboboxstyle;
 	guint8   expanderstyle;
+	guint8   focusstyle;
 	guint8   glazestyle;
 	guint8   glowstyle;
 	guint8   handlestyle;
@@ -80,13 +81,14 @@ struct _MurrineStyle
 
 	gboolean animation;
 	gboolean colorize_scrollbar;
-	gboolean disable_focus;
 	gboolean has_border_colors;
+	gboolean has_default_button_color;
 	gboolean has_focus_color;
 	gboolean has_gradient_colors;
 	gboolean rgba;
 
 	GdkColor border_colors[2];
+	GdkColor default_button_color;
 	GdkColor focus_color;
 	GdkColor gradient_colors[4];
 };

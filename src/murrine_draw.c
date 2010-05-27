@@ -182,6 +182,13 @@ murrine_draw_button (cairo_t *cr,
 		murrine_shade (&border, 0.8, &border);
 		murrine_mix_color (&fill, &colors->spot[1], 0.2, &fill);
 
+		if (button->has_default_button_color)
+		{
+			mrn_gradient_new.has_border_colors = FALSE;
+			mrn_gradient_new.has_gradient_colors = FALSE;
+			murrine_mix_color (&fill, &button->default_button_color, 0.8, &fill);
+		}
+
 		if (mrn_gradient_new.has_border_colors)
 		{
 			murrine_shade (&mrn_gradient_new.border_colors[0], 0.8, &mrn_gradient_new.border_colors[0]);
@@ -262,16 +269,6 @@ murrine_draw_button (cairo_t *cr,
 	                     os+0.5, os+0.5, width-(os*2)-1, height-(os*2)-1,
 	                     widget->roundness, widget->corners,
 	                     mrn_gradient_new, 1.0);
-
-	if (widget->is_default && !widget->disabled && button->has_default_button_color)
-	{
-		cairo_save (cr);
-		cairo_set_line_width (cr, 2.0);
-		murrine_rounded_rectangle (cr, os, os, width-(os*2), height-(os*2), widget->roundness, widget->corners);
-		murrine_set_color_rgba (cr, &button->default_button_color, 0.4);
-		cairo_stroke (cr);
-		cairo_restore (cr);	
-	}
 }
 
 static void
@@ -3000,16 +2997,31 @@ murrine_draw_focus_border (cairo_t *cr,
 	double yoffset = 1.0;
 	double border_alpha = 0.72;
 	double fill_alpha = 0.18;
+	double shadow_alpha = 0.36;
 	boolean focus_fill = TRUE;
 	boolean focus_border = TRUE;
+	boolean focus_shadow = FALSE;
 
 	/* Do some useful things to adjust focus */
 	switch (focus->type)
 	{
+		case MRN_FOCUS_BUTTON_DEFAULT:
+			xoffset = -(focus->padding)-2.0;
+			yoffset = -(focus->padding)-2.0;
+			radius = widget->roundness;
+			focus_fill = FALSE;
+			focus_shadow = TRUE;
+			border_alpha = 0.2;
+			shadow_alpha = 0.4;
+			break;
 		case MRN_FOCUS_BUTTON:
 			xoffset = -(focus->padding)-2.0;
 			yoffset = -(focus->padding)-2.0;
 			radius = widget->roundness;
+			focus_fill = FALSE;
+			focus_shadow = TRUE;
+			border_alpha = 0.8;
+			shadow_alpha = 0.4;			
 			break;
 		case MRN_FOCUS_BUTTON_FLAT:
 			xoffset = -(focus->padding)-2.0;
@@ -3079,6 +3091,14 @@ murrine_draw_focus_border (cairo_t *cr,
 		murrine_set_color_rgba (cr, &fill, border_alpha);
 		cairo_stroke (cr);
 	}
+	
+	if (focus_shadow)
+	{
+		clearlooks_rounded_rectangle (cr, xoffset-0.5, yoffset-0.5, width-(xoffset*2)+1, height-(yoffset*2)+1, radius+1, widget->corners);
+		murrine_set_color_rgba (cr, &fill, shadow_alpha);
+		cairo_stroke (cr);
+	}
+
 }
 
 static void
@@ -3102,6 +3122,7 @@ murrine_draw_focus_inner (cairo_t *cr,
 	/* Do some useful things to adjust focus */
 	switch (focus->type)
 	{
+		case MRN_FOCUS_BUTTON_DEFAULT:
 		case MRN_FOCUS_BUTTON:
 			xoffset = -(focus->padding)+1.0;
 			yoffset = -(focus->padding)+1.0;

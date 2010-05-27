@@ -176,6 +176,13 @@ murrine_rgba_draw_button (cairo_t *cr,
 		murrine_shade (&border, 0.8, &border);
 		murrine_mix_color (&fill, &colors->spot[1], 0.2, &fill);
 
+		if (button->has_default_button_color)
+		{
+			mrn_gradient_new.has_border_colors = FALSE;
+			mrn_gradient_new.has_gradient_colors = FALSE;
+			murrine_mix_color (&fill, &button->default_button_color, 0.8, &fill);
+		}
+
 		if (mrn_gradient_new.has_border_colors)
 		{
 			murrine_shade (&mrn_gradient_new.border_colors[0], 0.8, &mrn_gradient_new.border_colors[0]);
@@ -259,16 +266,6 @@ murrine_rgba_draw_button (cairo_t *cr,
 	                     os+0.5, os+0.5, width-(os*2)-1, height-(os*2)-1,
 	                     widget->roundness, widget->corners,
 	                     mrn_gradient_new, 1.0);
-
-	if (widget->is_default && !widget->disabled && button->has_default_button_color)
-	{
-		cairo_save (cr);
-		cairo_set_line_width (cr, 2.0);
-		murrine_rounded_rectangle (cr, os, os, width-(os*2), height-(os*2), widget->roundness, widget->corners);
-		murrine_set_color_rgba (cr, &button->default_button_color, 0.4);
-		cairo_stroke (cr);
-		cairo_restore (cr);	
-	}
 }
 
 static void

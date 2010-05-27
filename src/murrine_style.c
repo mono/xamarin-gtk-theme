@@ -766,7 +766,7 @@ static void
 murrine_style_draw_box (DRAW_ARGS)
 {
 	MurrineStyle *murrine_style = MURRINE_STYLE (style);
-	const MurrineColors *colors = &murrine_style->colors;
+	MurrineColors *colors = &murrine_style->colors;
 	cairo_t *cr;
 
 	CHECK_ARGS
@@ -1125,6 +1125,17 @@ murrine_style_draw_box (DRAW_ARGS)
 			progressbar.orientation = gtk_progress_bar_get_orientation (GTK_PROGRESS_BAR (widget));
 		else
 			progressbar.orientation = MRN_ORIENTATION_LEFT_TO_RIGHT;
+
+/*		if (gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(widget)) > 0.98)*/
+/*		{*/
+/*			colors->spot[1].r = 0.5;*/
+/*			colors->spot[1].g = 1.0;*/
+/*			colors->spot[1].b = 0.5;*/
+
+/*			colors->spot[2].r = 0.2;*/
+/*			colors->spot[2].g = 0.5;*/
+/*			colors->spot[2].b = 0.2;*/
+/*		}*/
 
 		if (!params.ltr)
 		{
@@ -2206,8 +2217,14 @@ murrine_style_draw_focus (GtkStyle *style, GdkWindow *window, GtkStateType state
 			if (widget && GTK_IS_BUTTON (widget))
 				g_object_get (G_OBJECT (widget), "relief", &relief, NULL);
 
+
 			if (relief == GTK_RELIEF_NORMAL)
-				focus.type = MRN_FOCUS_BUTTON;
+			{
+				if (widget && GTK_WIDGET_HAS_DEFAULT (widget))
+					focus.type = MRN_FOCUS_BUTTON_DEFAULT;
+				else
+					focus.type = MRN_FOCUS_BUTTON;
+			}
 			else
 				focus.type = MRN_FOCUS_BUTTON_FLAT;
 

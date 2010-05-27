@@ -2983,6 +2983,16 @@ murrine_draw_focus_classic (cairo_t *cr,
 }
 
 static void
+murrine_draw_tab_focus (cairo_t *cr,
+                        const MurrineColors    *colors,
+                        const WidgetParameters *widget,
+                        const FocusParameters  *focus,
+                        int x, int y, int width, int height)
+{
+
+}
+
+static void
 murrine_draw_focus_border (cairo_t *cr,
                            const MurrineColors    *colors,
                            const WidgetParameters *widget,
@@ -3057,9 +3067,10 @@ murrine_draw_focus_border (cairo_t *cr,
 			radius = widget->roundness;
 			break;
 		case MRN_FOCUS_TAB:
-			xoffset = 0.0;
-			yoffset = 0.0;
-			radius = widget->roundness-1;
+			xoffset = CLAMP (-(widget->xthickness)-1.0, -3.0, 0);
+			yoffset = CLAMP (-(widget->ythickness)-1.0, -3.0, 0);
+			radius = widget->roundness-1;			
+			focus_border = FALSE;
 			break;
 		case MRN_FOCUS_SCALE:
 			radius = widget->roundness;

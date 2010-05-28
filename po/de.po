@@ -1,20 +1,21 @@
 # German translation of murrine.
 # Mario Blättermann <mariobl@gnome.org>, 2009.
-#
+# Christian Kirbach  <Christian.Kirbach@googlemail.com>, 2010.
 msgid ""
 msgstr ""
 "Project-Id-Version: murrine master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=murrine&component=general\n"
-"POT-Creation-Date: 2009-12-08 15:19+0000\n"
-"PO-Revision-Date: 2009-12-12 11:44+0100\n"
+"POT-Creation-Date: 2010-05-27 16:36+0000\n"
+"PO-Revision-Date: 2010-05-27 19:19+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
-"Language-Team: German <gnome-de@gnome.org>\n"
+"Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: German\n"
 "X-Poedit-Country: GERMANY\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: ../schema/murrine.xml.in.in.h:1
 msgid "Additional scrollbar features"
@@ -25,152 +26,192 @@ msgid "Animations"
 msgstr "Animationen"
 
 #: ../schema/murrine.xml.in.in.h:3
-#| msgid "Style"
 msgid "Arrow Style"
 msgstr "Stil der Pfeile"
 
 #: ../schema/murrine.xml.in.in.h:4
+msgid "Cell Style"
+msgstr "Zellenstil"
+
+#: ../schema/murrine.xml.in.in.h:5
 msgid "Colorize scrollbar"
 msgstr "Rollbalken einfärben"
 
-#: ../schema/murrine.xml.in.in.h:5
-#| msgid "Colorize scrollbar"
+#: ../schema/murrine.xml.in.in.h:6
 msgid "Colorize scrollbar with bg[SELECTED]"
 msgstr "Rollbalken einfärben mit bg[SELECTED]"
 
-#: ../schema/murrine.xml.in.in.h:6
+#: ../schema/murrine.xml.in.in.h:7
 msgid "Combobox Style"
 msgstr "Stil der Kombinationsfelder"
 
-#: ../schema/murrine.xml.in.in.h:7
+#: ../schema/murrine.xml.in.in.h:8
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: ../schema/murrine.xml.in.in.h:8
+#: ../schema/murrine.xml.in.in.h:9
 msgid ""
 "Dangerous, should be MODIFIED ONLY BY HAND in gtkrc into separated sections"
 msgstr ""
 "Gefährlich, dies sollte NUR VON HAND in der gtkrc in separaten Abschnitten "
 "festgelegt werden"
 
-#: ../schema/murrine.xml.in.in.h:9
-msgid "Enable and set the Glow Shade"
-msgstr ""
-
 #: ../schema/murrine.xml.in.in.h:10
+msgid "Default Button Color"
+msgstr "Vorgegebene Knopffarbe"
+
+#: ../schema/murrine.xml.in.in.h:11
+msgid "Enable and set the Glow Shade"
+msgstr "Glutschattierung verstärken/abschwächen"
+
+#: ../schema/murrine.xml.in.in.h:12
 msgid "Enable animations on progressbars, radio and checkbuttons"
 msgstr ""
 "Animationen für Fortschrittsleisten, Radioknöpfe und Ankreuzfelder aktivieren"
 
-#: ../schema/murrine.xml.in.in.h:11
+#: ../schema/murrine.xml.in.in.h:13
 msgid "Enable/Disable RGBA support"
 msgstr "RGBA-Unterstützung aktivieren/deaktivieren"
 
-#: ../schema/murrine.xml.in.in.h:12
+#: ../schema/murrine.xml.in.in.h:14
+msgid "Expander Style"
+msgstr "Stil des Ausklappers"
+
+#: ../schema/murrine.xml.in.in.h:15
 msgid "Focus Color"
 msgstr "Farbe des Fokus"
 
-#: ../schema/murrine.xml.in.in.h:13
-msgid "Glaze Style"
-msgstr ""
-
-#: ../schema/murrine.xml.in.in.h:14
-msgid "Glow Shade"
-msgstr ""
-
-#: ../schema/murrine.xml.in.in.h:15
-msgid "Glow Style"
-msgstr ""
-
 #: ../schema/murrine.xml.in.in.h:16
-msgid "Highlight Shade"
-msgstr ""
+msgid "Focus Style"
+msgstr "Stil des Fokus"
 
 #: ../schema/murrine.xml.in.in.h:17
-msgid "Increse/Decrease the highlight shade"
-msgstr ""
+msgid "Glaze Style"
+msgstr "Lasurstil"
 
 #: ../schema/murrine.xml.in.in.h:18
-msgid "Increse/Decrease the lightborder shade"
-msgstr ""
+msgid "Glow Shade"
+msgstr "Glutschattierung"
 
 #: ../schema/murrine.xml.in.in.h:19
+msgid "Glow Style"
+msgstr "Glutstil"
+
+#: ../schema/murrine.xml.in.in.h:20
+msgid "Handle Style"
+msgstr "Stil des Anfassers"
+
+#: ../schema/murrine.xml.in.in.h:21
+msgid "Highlight Shade"
+msgstr "Schattierung der Hervorhebung"
+
+#: ../schema/murrine.xml.in.in.h:22
+msgid "Increse/Decrease the highlight shade"
+msgstr "Hervorhebungsschattierung verstärken/abschwächen"
+
+#: ../schema/murrine.xml.in.in.h:23
+msgid "Increse/Decrease the lightborder shade"
+msgstr "Lichtrandschattierung verstärken/abschwächen"
+
+#: ../schema/murrine.xml.in.in.h:24
 msgid "Increse/Decrease the prelight shade"
 msgstr ""
 
-#: ../schema/murrine.xml.in.in.h:20
+#: ../schema/murrine.xml.in.in.h:25
+msgid "Increse/Decrease the text shadow shade"
+msgstr "Textschattierung verstärken/abschwächen"
+
+#: ../schema/murrine.xml.in.in.h:26
 msgid "Lightborder Shade"
-msgstr ""
+msgstr "Schattierung des Lichtrands"
 
-#: ../schema/murrine.xml.in.in.h:21
+#: ../schema/murrine.xml.in.in.h:27
 msgid "Lightborder Style"
-msgstr ""
+msgstr "Stil des Lichtrands"
 
-#: ../schema/murrine.xml.in.in.h:22
+#: ../schema/murrine.xml.in.in.h:28
 msgid "Listview header style"
 msgstr "Stil der Kopfzeilen der Listenansicht"
 
-#: ../schema/murrine.xml.in.in.h:23
+#: ../schema/murrine.xml.in.in.h:29
 msgid "Listview separators"
 msgstr "Trenner der Listenansicht"
 
-#: ../schema/murrine.xml.in.in.h:24
+#: ../schema/murrine.xml.in.in.h:30
 msgid "MenuItem Style"
 msgstr "Stil der Menüeinträge"
 
-#: ../schema/murrine.xml.in.in.h:25
+#: ../schema/murrine.xml.in.in.h:31
 msgid "Menubar Style"
 msgstr "Stil der Menüleiste"
 
-#: ../schema/murrine.xml.in.in.h:26
+#: ../schema/murrine.xml.in.in.h:32
 msgid "MenubarItem Style"
 msgstr "Stil der Menüleistenobjekte"
 
-#: ../schema/murrine.xml.in.in.h:27
+#: ../schema/murrine.xml.in.in.h:33
 msgid "Prelight Shade"
 msgstr ""
 
-#: ../schema/murrine.xml.in.in.h:28
+#: ../schema/murrine.xml.in.in.h:34
 msgid "Progressbar style"
 msgstr "Stil der Fortschrittsleiste"
 
-#: ../schema/murrine.xml.in.in.h:29
+#: ../schema/murrine.xml.in.in.h:35
 msgid "Relief style of widget"
 msgstr "Relief-Stil der Elemente"
 
-#: ../schema/murrine.xml.in.in.h:30
+#: ../schema/murrine.xml.in.in.h:36
 msgid "Roundness"
 msgstr "Rundung"
 
-#: ../schema/murrine.xml.in.in.h:31
+#: ../schema/murrine.xml.in.in.h:37
+msgid "Separator style"
+msgstr "Stil des Trenners"
+
+#: ../schema/murrine.xml.in.in.h:38
+msgid "Sets the Color of Default button 2px border"
+msgstr ""
+"Legt die vorgegebene Farbe für den 2 Pixel breiten Rand des Knopfes fest"
+
+#: ../schema/murrine.xml.in.in.h:39
 msgid "Sets the Color of Focus"
 msgstr "Legt die Farbe für den Fokus fest"
 
-#: ../schema/murrine.xml.in.in.h:32
+#: ../schema/murrine.xml.in.in.h:40
 msgid "Slider style"
 msgstr "Stil der Schieberegler"
 
-#: ../schema/murrine.xml.in.in.h:33
-#| msgid "MenuItem Style"
+#: ../schema/murrine.xml.in.in.h:41
 msgid "Spinbutton Style"
 msgstr "Stil der Einstellfelder"
 
-#: ../schema/murrine.xml.in.in.h:34
+#: ../schema/murrine.xml.in.in.h:42
+#, fuzzy
 msgid "Stepper style"
-msgstr ""
+msgstr "Stil des Steppers"
 
-#: ../schema/murrine.xml.in.in.h:35
-#| msgid "MenuItem Style"
+#: ../schema/murrine.xml.in.in.h:43
+msgid "Text Shade"
+msgstr "Textschattierung"
+
+#: ../schema/murrine.xml.in.in.h:44
 msgid "Text Style"
 msgstr "Textstil"
 
-#: ../schema/murrine.xml.in.in.h:36
+#: ../schema/murrine.xml.in.in.h:45
 msgid "Toolbar style"
 msgstr "Stil der Werkzeugleisten"
 
-#: ../schema/murrine.xml.in.in.h:37
+#: ../schema/murrine.xml.in.in.h:46
 msgid "Vertical bars in menus"
 msgstr "Vertikale Balken in Menüs"
+
+#~ msgid "Disable Focus"
+#~ msgstr "Fokus deaktivieren"
+
+#~ msgid "Disable focus drawing"
+#~ msgstr "Fokusmarkierung deaktivieren"
 
 #~ msgid "Enable/Disable gradients"
 #~ msgstr "Farbverläufe aktivieren/deaktivieren"

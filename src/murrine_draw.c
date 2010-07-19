@@ -2656,7 +2656,7 @@ murrine_draw_checkbox (cairo_t *cr,
 			if (!draw_box)
 			{
 				cairo_scale (cr, (double)width/18.0, (double)height/18.0);
-				cairo_translate (cr, 2.0, 2.0);
+				cairo_translate (cr, 2.0, 3.0);
 			}
 			else
 			{

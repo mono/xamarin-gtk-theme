@@ -160,17 +160,17 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	{
 		mrn_gradient.has_gradient_colors = TRUE;
 		murrine_gdk_color_to_rgb (&murrine_style->gradient_colors[0], &mrn_gradient.gradient_colors[0].r,
-	                                                                      &mrn_gradient.gradient_colors[0].g,
-	                                                                      &mrn_gradient.gradient_colors[0].b);
+		                                                              &mrn_gradient.gradient_colors[0].g,
+		                                                              &mrn_gradient.gradient_colors[0].b);
 		murrine_gdk_color_to_rgb (&murrine_style->gradient_colors[1], &mrn_gradient.gradient_colors[1].r,
-	                                                                      &mrn_gradient.gradient_colors[1].g,
-	                                                                      &mrn_gradient.gradient_colors[1].b);
+		                                                              &mrn_gradient.gradient_colors[1].g,
+		                                                              &mrn_gradient.gradient_colors[1].b);
 		murrine_gdk_color_to_rgb (&murrine_style->gradient_colors[2], &mrn_gradient.gradient_colors[2].r,
-	                                                                      &mrn_gradient.gradient_colors[2].g,
-	                                                                      &mrn_gradient.gradient_colors[2].b);
+		                                                              &mrn_gradient.gradient_colors[2].g,
+		                                                              &mrn_gradient.gradient_colors[2].b);
 		murrine_gdk_color_to_rgb (&murrine_style->gradient_colors[3], &mrn_gradient.gradient_colors[3].r,
-	                                                                      &mrn_gradient.gradient_colors[3].g,
-	                                                                      &mrn_gradient.gradient_colors[3].b);
+		                                                              &mrn_gradient.gradient_colors[3].g,
+		                                                              &mrn_gradient.gradient_colors[3].b);
 		if (params->prelight && !MRN_IS_PROGRESS_BAR(widget)) //progressbar is prelight, no change in shade
 		{
 			mrn_gradient.gradient_shades[0] *= murrine_style->prelight_shade;
@@ -2205,8 +2205,8 @@ murrine_style_draw_focus (GtkStyle *style, GdkWindow *window, GtkStateType state
 	if (DETAIL("button"))
 	{
 		if (widget && widget->parent &&
-	            (MRN_IS_TREE_VIEW (widget->parent) ||
-	             MRN_IS_CLIST (widget->parent)))
+		    (MRN_IS_TREE_VIEW (widget->parent) ||
+		     MRN_IS_CLIST (widget->parent)))
 		{
 			focus.type = MRN_FOCUS_TREEVIEW_HEADER;
 		}

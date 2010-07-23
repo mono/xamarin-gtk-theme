@@ -2198,7 +2198,7 @@ murrine_draw_handle (cairo_t *cr,
 				cairo_stroke (cr);
 
 				bar_y += bar_spacing;
-			}			
+			}
 			break;
 		}
 		case 1:
@@ -2216,9 +2216,9 @@ murrine_draw_handle (cairo_t *cr,
 				cairo_stroke (cr);
 
 				bar_y += bar_spacing;
-			}			
+			}
 			break;
-		}		
+		}
 	}
 }
 
@@ -2258,7 +2258,7 @@ murrine_draw_normal_arrow_new (cairo_t *cr,
                                const MurrineRGB *color,
                                double x, double y, double width, double height)
 {
-	int arrow_width = width;
+	int arrow_width = width+2;
 	int arrow_height = height;
 	cairo_pattern_t *pat;
 
@@ -2355,6 +2355,8 @@ _murrine_draw_arrow (cairo_t *cr,
 			case 0:
 				murrine_draw_normal_arrow (cr, color, 0, 0, width, height);
 				break;
+			case 2:
+				cairo_translate (cr, 0, 1.0);
 			case 1:
 				murrine_draw_normal_arrow_new (cr, color, 0, 0, width, height);
 				break;
@@ -2370,6 +2372,7 @@ _murrine_draw_arrow (cairo_t *cr,
 				murrine_draw_combo_arrow (cr, color, 0, 0, width, height);
 				break;
 			case 1:
+			case 2:
 				murrine_draw_combo_arrow_new (cr, color, 0, 0, width, height);
 				break;
 		}

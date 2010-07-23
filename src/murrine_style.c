@@ -1891,7 +1891,7 @@ murrine_style_draw_arrow (GtkStyle     *style,
 
 	murrine_set_widget_parameters (widget, style, state_type, &params);
 
-	if (arrow.style == 1)
+	if (arrow.style == 1 || arrow.style == 2)
 	{
 		if (DETAIL ("menuitem"))
 		{
@@ -1935,10 +1935,22 @@ murrine_style_draw_arrow (GtkStyle     *style,
 			y = y + height / 2 - 1;
 			height = 4; width = 5;
 
-			if (arrow.direction == MRN_DIRECTION_UP)
-				y--;
-			if (arrow.direction == MRN_DIRECTION_DOWN)
-				y++;
+			if (arrow.style == 2)
+			{
+				width -= 2;
+				x++;
+				if (arrow.direction == MRN_DIRECTION_UP)
+					y++;
+				if (arrow.direction == MRN_DIRECTION_DOWN)
+					y--;
+			}
+			else
+			{
+				if (arrow.direction == MRN_DIRECTION_UP)
+					y--;
+				if (arrow.direction == MRN_DIRECTION_DOWN)
+					y++;
+			}
 		}
 		else if (arrow.direction == MRN_DIRECTION_UP || arrow.direction == MRN_DIRECTION_DOWN)
 		{

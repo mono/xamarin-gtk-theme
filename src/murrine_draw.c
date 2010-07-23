@@ -2528,9 +2528,20 @@ murrine_draw_radiobutton (cairo_t *cr,
 		else
 		{
 			if (!draw_box)
+			{
 				cairo_arc (cr, (double)width/2, (double)height/2, (double)(width+height)/4-4, 0, G_PI*2);
+			}
 			else
-				cairo_arc (cr, (double)width/2, (double)height/2, (double)(width+height)/4-4.5, 0, G_PI*2);
+			{
+				MurrineRGB outline;
+				murrine_invert_text (dot, &outline);
+
+				cairo_arc (cr, (double)width/2, (double)height/2, (double)(width+height)/4-4, 0, G_PI*2);
+				murrine_set_color_rgba (cr, &outline, 0.3*trans);
+				cairo_fill (cr);
+
+				cairo_arc (cr, (double)width/2, (double)height/2, (double)(width+height)/4-5, 0, G_PI*2);
+			}
 
 			murrine_set_color_rgba (cr, dot, trans);
 			cairo_fill (cr);
@@ -2638,9 +2649,9 @@ murrine_draw_checkbox (cairo_t *cr,
 		}
 
 		murrine_draw_border (cr, border,
-			             1.5, 1.5, width-3, height-3,
-			             roundness, widget->corners,
-			             mrn_gradient_new, 1.0);
+		                     1.5, 1.5, width-3, height-3,
+		                     roundness, widget->corners,
+		                     mrn_gradient_new, 1.0);
 	}
 
 	if (draw_bullet)
@@ -2663,9 +2674,27 @@ murrine_draw_checkbox (cairo_t *cr,
 			}
 			else
 			{
+				MurrineRGB outline;
+				murrine_invert_text (dot, &outline);
+
 				cairo_scale (cr, (double)width/18.0, (double)height/18.0);
+
+				cairo_move_to (cr, 5.0, 5.65);
+				cairo_line_to (cr, 8.95, 9.57);
+				cairo_line_to (cr, 16.0, 2.54);
+				cairo_line_to (cr, 16.0, 8.36);
+				cairo_line_to (cr, 10.6, 15.1);
+				cairo_line_to (cr, 7.6, 15.1);
+				cairo_line_to (cr, 2.95, 10.48);
+				cairo_line_to (cr, 2.95, 7.65);
+				cairo_close_path (cr);
+
+				murrine_set_color_rgba (cr, &outline, 0.5*trans);
+				cairo_fill (cr);
+
 				cairo_translate (cr, 4.0, 2.0);
 			}
+
 			cairo_move_to (cr, 0.0, 6.0);
 			cairo_line_to (cr, 0.0, 8.0);
 			cairo_line_to (cr, 4.0, 12.0);
@@ -2920,10 +2949,10 @@ murrine_draw_expander_button (cairo_t *cr,
 
 void 
 murrine_draw_expander (cairo_t *cr,
-	               const MurrineColors    *colors,
-	               const WidgetParameters *widget,
-	               const ExpanderParameters *expander,
-	               int x, int y)
+                       const MurrineColors    *colors,
+                       const WidgetParameters *widget,
+                       const ExpanderParameters *expander,
+                       int x, int y)
 {
 	switch (expander->style)
 	{
@@ -2933,7 +2962,7 @@ murrine_draw_expander (cairo_t *cr,
 			break;
 		case 1:
 			murrine_draw_expander_circle (cr, colors, widget, expander, x, y);
-			break;		
+			break;
 		case 2:
 			murrine_draw_expander_button (cr, colors, widget, expander, x, y);
 			break;
@@ -3034,7 +3063,7 @@ murrine_draw_focus_border (cairo_t *cr,
 			focus_fill = FALSE;
 			focus_shadow = TRUE;
 			border_alpha = 0.8;
-			shadow_alpha = 0.4;			
+			shadow_alpha = 0.4;
 			break;
 		case MRN_FOCUS_BUTTON_FLAT:
 			xoffset = -(focus->padding)-2.0;

@@ -1597,7 +1597,7 @@ murrine_rgba_draw_scrollbar_slider (cairo_t *cr,
 			}
 			case 1:
 			{
-				MurrineRGB inset;				
+				MurrineRGB inset;
 				murrine_shade (&fill, 1.08, &inset);
 
 				for (i=0; i<3; i++)
@@ -1714,7 +1714,7 @@ murrine_rgba_draw_handle (cairo_t *cr,
 				cairo_stroke (cr);
 
 				bar_y += bar_spacing;
-			}			
+			}
 			break;
 		}
 		case 1:
@@ -1732,9 +1732,9 @@ murrine_rgba_draw_handle (cairo_t *cr,
 				cairo_stroke (cr);
 
 				bar_y += bar_spacing;
-			}			
+			}
 			break;
-		}		
+		}
 	}
 }
 
@@ -1864,9 +1864,20 @@ murrine_rgba_draw_radiobutton (cairo_t *cr,
 		else
 		{
 			if (!draw_box)
+			{
 				cairo_arc (cr, (double)width/2, (double)height/2, (double)(width+height)/4-4, 0, G_PI*2);
+			}
 			else
-				cairo_arc (cr, (double)width/2, (double)height/2, (double)(width+height)/4-4.5, 0, G_PI*2);
+			{
+				MurrineRGB outline;
+				murrine_invert_text (dot, &outline);
+
+				cairo_arc (cr, (double)width/2, (double)height/2, (double)(width+height)/4-4, 0, G_PI*2);
+				murrine_set_color_rgba (cr, &outline, 0.3*trans);
+				cairo_fill (cr);
+
+				cairo_arc (cr, (double)width/2, (double)height/2, (double)(width+height)/4-5, 0, G_PI*2);
+			}
 
 			murrine_set_color_rgba (cr, dot, trans);
 			cairo_fill (cr);
@@ -2000,7 +2011,24 @@ murrine_rgba_draw_checkbox (cairo_t *cr,
 			}
 			else
 			{
+				MurrineRGB outline;
+				murrine_invert_text (dot, &outline);
+
 				cairo_scale (cr, (double)width/18.0, (double)height/18.0);
+
+				cairo_move_to (cr, 5.0, 5.65);
+				cairo_line_to (cr, 8.95, 9.57);
+				cairo_line_to (cr, 16.0, 2.54);
+				cairo_line_to (cr, 16.0, 8.36);
+				cairo_line_to (cr, 10.6, 15.1);
+				cairo_line_to (cr, 7.6, 15.1);
+				cairo_line_to (cr, 2.95, 10.48);
+				cairo_line_to (cr, 2.95, 7.65);
+				cairo_close_path (cr);
+
+				murrine_set_color_rgba (cr, &outline, 0.5*trans);
+				cairo_fill (cr);
+
 				cairo_translate (cr, 4.0, 2.0);
 			}
 			cairo_move_to (cr, 0.0, 6.0);

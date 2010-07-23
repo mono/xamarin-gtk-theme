@@ -25,6 +25,8 @@
 
 G_GNUC_INTERNAL void murrine_shade (const MurrineRGB *a, float k, MurrineRGB *b);
 
+G_GNUC_INTERNAL void murrine_invert_text (const MurrineRGB *a, MurrineRGB *b);
+
 G_GNUC_INTERNAL void murrine_mix_color (const MurrineRGB *color1, const MurrineRGB *color2,
                                         gdouble mix_factor, MurrineRGB *composite);
 

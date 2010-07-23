@@ -25,6 +25,9 @@
 		<enumeration value="1">
 			<label>Filled arrow</label>
 		</enumeration>
+		<enumeration value="1">
+			<label>Fat filled arrow</label>
+		</enumeration>
 	</option>
 
 	<option type="boolean" name="colorize_scrollbar" default="TRUE">

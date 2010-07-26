@@ -2258,6 +2258,36 @@ murrine_draw_normal_arrow_filled (cairo_t *cr,
                                   const MurrineRGB *color,
                                   double x, double y, double width, double height)
 {
+	int arrow_width = width;
+	int arrow_height = height;
+	cairo_pattern_t *pat;
+
+	cairo_save (cr);
+
+	cairo_translate (cr, 0, -0.5);
+	cairo_move_to (cr, -arrow_width/2, -arrow_height/2);
+	cairo_line_to (cr, 0, arrow_height/2);
+	cairo_line_to (cr, arrow_width/2, -arrow_height/2);
+	cairo_close_path (cr);
+
+	pat = cairo_pattern_create_linear (0, -arrow_height/2, 0, arrow_height/2);
+	murrine_pattern_add_color_stop_rgba (pat, 0.0, color, 0.6);
+	murrine_pattern_add_color_stop_rgba (pat, 1.0, color, 0.8);
+	cairo_set_source (cr, pat);
+	cairo_fill_preserve (cr);
+	cairo_pattern_destroy (pat);
+
+	murrine_set_color_rgb (cr, color);
+	cairo_stroke (cr);
+
+	cairo_restore (cr);
+}
+
+static void
+murrine_draw_normal_arrow_filled_equilateral (cairo_t *cr,
+                                              const MurrineRGB *color,
+                                              double x, double y, double width, double height)
+{
 	int arrow_width = width+2;
 	int arrow_height = height;
 	cairo_pattern_t *pat;
@@ -2331,12 +2361,12 @@ murrine_draw_combo_arrow_filled_equilateral (cairo_t *cr,
 	cairo_save (cr);
 	cairo_translate (cr, x-1, y-5.5);
 	cairo_rotate (cr, M_PI);
-	murrine_draw_normal_arrow_filled (cr, color, 0, 0, arrow_width, arrow_height);
+	murrine_draw_normal_arrow_filled_equilateral (cr, color, 0, 0, arrow_width, arrow_height);
 	cairo_restore (cr);
 
 	cairo_translate (cr, x-1, y+4.5);
 
-	murrine_draw_normal_arrow_filled (cr, color, 0, 0, arrow_width, arrow_height);
+	murrine_draw_normal_arrow_filled_equilateral (cr, color, 0, 0, arrow_width, arrow_height);
 }
 
 static void
@@ -2379,7 +2409,7 @@ _murrine_draw_arrow (cairo_t *cr,
 				break;
 			case 2:
 				cairo_translate (cr, 0, 1.0);
-				murrine_draw_normal_arrow_filled (cr, color, 1, 1, width-2, height-2);
+				murrine_draw_normal_arrow_filled_equilateral (cr, color, 1, 1, width-2, height-2);
 				break;
 		}
 	}

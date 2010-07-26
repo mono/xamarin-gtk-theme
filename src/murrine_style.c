@@ -1946,14 +1946,12 @@ murrine_style_draw_arrow (GtkStyle     *style,
 				if (arrow.direction == MRN_DIRECTION_UP)
 					y++;
 				if (arrow.direction == MRN_DIRECTION_DOWN)
-					y--;
+					y-=2;
 			}
 			else
 			{
 				if (arrow.direction == MRN_DIRECTION_UP)
 					y--;
-				if (arrow.direction == MRN_DIRECTION_DOWN)
-					y++;
 			}
 		}
 		else if (arrow.direction == MRN_DIRECTION_UP || arrow.direction == MRN_DIRECTION_DOWN)

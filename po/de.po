@@ -1,13 +1,14 @@
 # German translation of murrine.
-# Mario Blättermann <mariobl@gnome.org>, 2009.
+# Mario Blättermann <mariobl@gnome.org>, 2009, 2010.
 # Christian Kirbach  <Christian.Kirbach@googlemail.com>, 2010.
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: murrine master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=murrine&component=general\n"
-"POT-Creation-Date: 2010-05-27 16:36+0000\n"
-"PO-Revision-Date: 2010-05-27 19:19+0100\n"
+"POT-Creation-Date: 2010-05-28 14:00+0000\n"
+"PO-Revision-Date: 2010-07-27 00:26+0100\n"
 "Last-Translator: Mario Blättermann <mariobl@gnome.org>\n"
 "Language-Team: Deutsch <gnome-de@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -115,7 +116,7 @@ msgstr "Lichtrandschattierung verstärken/abschwächen"
 
 #: ../schema/murrine.xml.in.in.h:24
 msgid "Increse/Decrease the prelight shade"
-msgstr ""
+msgstr "Schattierung der Markierung erhöhen/verringern"
 
 #: ../schema/murrine.xml.in.in.h:25
 msgid "Increse/Decrease the text shadow shade"
@@ -151,7 +152,7 @@ msgstr "Stil der Menüleistenobjekte"
 
 #: ../schema/murrine.xml.in.in.h:33
 msgid "Prelight Shade"
-msgstr ""
+msgstr "Schattierung der Markierung"
 
 #: ../schema/murrine.xml.in.in.h:34
 msgid "Progressbar style"
@@ -187,7 +188,6 @@ msgid "Spinbutton Style"
 msgstr "Stil der Einstellfelder"
 
 #: ../schema/murrine.xml.in.in.h:42
-#, fuzzy
 msgid "Stepper style"
 msgstr "Stil des Steppers"
 

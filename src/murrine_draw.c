@@ -2254,9 +2254,9 @@ murrine_draw_normal_arrow (cairo_t *cr,
 }
 
 static void
-murrine_draw_normal_arrow_new (cairo_t *cr,
-                               const MurrineRGB *color,
-                               double x, double y, double width, double height)
+murrine_draw_normal_arrow_filled (cairo_t *cr,
+                                  const MurrineRGB *color,
+                                  double x, double y, double width, double height)
 {
 	int arrow_width = width+2;
 	int arrow_height = height;
@@ -2302,9 +2302,9 @@ murrine_draw_combo_arrow (cairo_t *cr,
 }
 
 static void
-murrine_draw_combo_arrow_new (cairo_t *cr,
-                              const MurrineRGB *color,
-                              double x, double y, double width, double height)
+murrine_draw_combo_arrow_filled (cairo_t *cr,
+                                 const MurrineRGB *color,
+                                 double x, double y, double width, double height)
 {
 	double arrow_width = 4;
 	double arrow_height = 5;
@@ -2312,12 +2312,31 @@ murrine_draw_combo_arrow_new (cairo_t *cr,
 	cairo_save (cr);
 	cairo_translate (cr, x, y-5.5);
 	cairo_rotate (cr, M_PI);
-	murrine_draw_normal_arrow_new (cr, color, 0, 0, arrow_width, arrow_height);
+	murrine_draw_normal_arrow_filled (cr, color, 0, 0, arrow_width, arrow_height);
 	cairo_restore (cr);
 
 	cairo_translate (cr, x, y+5.5);
 
-	murrine_draw_normal_arrow_new (cr, color, 0, 0, arrow_width, arrow_height);
+	murrine_draw_normal_arrow_filled (cr, color, 0, 0, arrow_width, arrow_height);
+}
+
+static void
+murrine_draw_combo_arrow_filled_equilateral (cairo_t *cr,
+                                             const MurrineRGB *color,
+                                             double x, double y, double width, double height)
+{
+	double arrow_width = 3;
+	double arrow_height = 3;
+
+	cairo_save (cr);
+	cairo_translate (cr, x-1, y-5.5);
+	cairo_rotate (cr, M_PI);
+	murrine_draw_normal_arrow_filled (cr, color, 0, 0, arrow_width, arrow_height);
+	cairo_restore (cr);
+
+	cairo_translate (cr, x-1, y+4.5);
+
+	murrine_draw_normal_arrow_filled (cr, color, 0, 0, arrow_width, arrow_height);
 }
 
 static void
@@ -2355,10 +2374,12 @@ _murrine_draw_arrow (cairo_t *cr,
 			case 0:
 				murrine_draw_normal_arrow (cr, color, 0, 0, width, height);
 				break;
+			case 1:
+				murrine_draw_normal_arrow_filled (cr, color, 0, 0, width, height);
+				break;
 			case 2:
 				cairo_translate (cr, 0, 1.0);
-			case 1:
-				murrine_draw_normal_arrow_new (cr, color, 0, 0, width, height);
+				murrine_draw_normal_arrow_filled (cr, color, 1, 1, width-2, height-2);
 				break;
 		}
 	}
@@ -2372,8 +2393,10 @@ _murrine_draw_arrow (cairo_t *cr,
 				murrine_draw_combo_arrow (cr, color, 0, 0, width, height);
 				break;
 			case 1:
+				murrine_draw_combo_arrow_filled (cr, color, 0, 0, width, height);
+				break;
 			case 2:
-				murrine_draw_combo_arrow_new (cr, color, 0, 0, width, height);
+				murrine_draw_combo_arrow_filled_equilateral (cr, color, 1, 1, width-2, height-2);
 				break;
 		}
 	}

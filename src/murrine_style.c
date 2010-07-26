@@ -1928,6 +1928,12 @@ murrine_style_draw_arrow (GtkStyle     *style,
 				y = y + height / 2 - 2;
 				height = 5; width = 4;
 			}
+			
+			if (arrow.style == 2)
+			{
+				x--; y--;
+				height += 2; width += 2;
+			}
 		}
 		else if (DETAIL ("spinbutton"))
 		{
@@ -1937,8 +1943,6 @@ murrine_style_draw_arrow (GtkStyle     *style,
 
 			if (arrow.style == 2)
 			{
-				width -= 2;
-				x++;
 				if (arrow.direction == MRN_DIRECTION_UP)
 					y++;
 				if (arrow.direction == MRN_DIRECTION_DOWN)

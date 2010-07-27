@@ -1303,7 +1303,6 @@ murrine_style_draw_box (DRAW_ARGS)
 		button.has_default_button_color = FALSE;
 
 		boolean horizontal = TRUE;
-
 		/* Different heuristic:
 		 * if (DETAIL ("vscale"))
 		 *	horizontal = FALSE;
@@ -2078,6 +2077,8 @@ murrine_style_draw_layout (GtkStyle     *style,
 				murrine_shade (&colors->base[state_type], shade_level, &temp);
 			else
 				murrine_shade (&colors->bg[state_type], shade_level, &temp);
+				
+			
 		}
 		else if (DETAIL ("cellrenderertext"))
 			murrine_shade (&colors->base[state_type], shade_level, &temp);
@@ -2089,6 +2090,16 @@ murrine_style_draw_layout (GtkStyle     *style,
 		etched.blue = (int) (temp.b*65535);
 
 		gdk_draw_layout_with_colors (window, gc, x+xos, y+yos, layout, &etched, NULL);
+
+		/* with cairo *
+		 */
+/*		cairo_t *cr; */
+/*		cr = murrine_begin_paint (window, area); */
+/*		cairo_translate (cr, x+xos, y+yos); */
+/*		murrine_set_color_rgb (cr, &temp); */
+/*		murrine_set_color_rgba (cr, &temp, 0.5);*/
+/*		pango_cairo_show_layout (cr, layout);*/
+/*		cairo_destroy (cr);*/
 
 /*		printf( "draw_layout: %s %s\n", detail, G_OBJECT_TYPE_NAME (widget->parent));*/
 	}

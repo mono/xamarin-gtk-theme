@@ -1303,8 +1303,13 @@ murrine_style_draw_box (DRAW_ARGS)
 		button.has_default_button_color = FALSE;
 
 		boolean horizontal = TRUE;
-		if (DETAIL ("vscale"))
-			horizontal = FALSE;
+
+		/* Different heuristic:
+		 * if (DETAIL ("vscale"))
+		 *	horizontal = FALSE;
+		 */
+		if (height > width)
+			horizontal = !horizontal;
 
 		/* Use reliefstyle to remove inset on disabled slider button */
 		if (params.disabled)

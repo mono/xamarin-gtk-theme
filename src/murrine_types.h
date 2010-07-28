@@ -246,6 +246,7 @@ typedef struct
 typedef struct
 {
 	boolean in_treeview;	
+	int arrowstyle;
 	int size;
 	int style;
 	GtkExpanderStyle expander_style;

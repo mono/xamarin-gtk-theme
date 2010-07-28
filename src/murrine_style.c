@@ -2163,6 +2163,7 @@ murrine_style_draw_expander (GtkStyle        *style,
 
 	expander.expander_style = expander_style;
 	expander.text_direction = murrine_get_direction (widget);
+	expander.arrowstyle = murrine_style->arrowstyle;
 	expander.style = murrine_style->expanderstyle;
 
 	STYLE_FUNCTION(draw_expander) (cr, colors, &params, &expander, x, y);

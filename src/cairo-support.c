@@ -466,6 +466,43 @@ clearlooks_rounded_rectangle (cairo_t *cr,
 }
 
 void
+murrine_rounded_rectangle_inverted (cairo_t *cr,
+                                    double x, double y, double w, double h,
+                                    int radius, uint8 corners)
+{
+	radius = MIN (radius, MIN (w/2.0, h/2.0));
+
+	cairo_translate(cr, x, y);
+
+	if (corners & MRN_CORNER_TOPLEFT)
+		cairo_move_to(cr, 0, -radius);
+	else
+		cairo_move_to(cr, 0, 0);
+
+	if (corners & MRN_CORNER_BOTTOMLEFT)
+		cairo_arc(cr, radius, h + radius, radius, M_PI * 1.0, M_PI * 1.5);
+	else
+		cairo_line_to(cr, 0, h);
+
+	if (corners & MRN_CORNER_BOTTOMRIGHT)
+		cairo_arc(cr, w - radius, h + radius, radius, M_PI * 1.5, M_PI * 2.0);
+	else
+		cairo_line_to(cr, w, h);
+
+	if (corners & MRN_CORNER_TOPRIGHT)
+		cairo_arc(cr, w - radius, -radius, radius, M_PI * 0.0, M_PI * 0.5);
+	else
+		cairo_line_to(cr, w, 0);
+
+	if (corners & MRN_CORNER_TOPLEFT)
+		cairo_arc(cr, radius, -radius, radius, M_PI * 0.5, M_PI * 1.0);
+	else
+		cairo_line_to(cr, 0, 0);
+
+	cairo_translate(cr, -x, -y);
+}
+
+void
 murrine_rounded_rectangle (cairo_t *cr,
                            double x, double y, double w, double h,
                            int radius, uint8 corners)
@@ -882,11 +919,10 @@ murrine_set_gradient (cairo_t *cr,
 }
 
 void
-murrine_draw_border (cairo_t *cr,
-                     const MurrineRGB  *color,
-                     double x, double y, double width, double height,
-                     int roundness, uint8 corners,
-                     MurrineGradients mrn_gradient, double alpha)
+murrine_draw_border_from_path (cairo_t *cr,
+                               const MurrineRGB  *color,
+                               double x, double y, double width, double height,
+                               MurrineGradients mrn_gradient, double alpha)
 {
 	if (mrn_gradient.has_border_colors)
 	{
@@ -922,17 +958,26 @@ murrine_draw_border (cairo_t *cr,
 	else
 		murrine_set_color_rgba (cr, color, alpha);
 
-	murrine_rounded_rectangle (cr, x, y, width, height, roundness, corners);
 	cairo_stroke (cr);
 }
 
 void
-murrine_draw_shadow (cairo_t *cr,
+murrine_draw_border (cairo_t *cr,
                      const MurrineRGB  *color,
                      double x, double y, double width, double height,
                      int roundness, uint8 corners,
-                     int reliefstyle,
                      MurrineGradients mrn_gradient, double alpha)
+{
+	murrine_rounded_rectangle (cr, x, y, width, height, roundness, corners);
+	murrine_draw_border_from_path (cr, color, x, y, width, height, mrn_gradient, alpha);
+}
+
+void
+murrine_draw_shadow_from_path (cairo_t *cr,
+                               const MurrineRGB  *color,
+                               double x, double y, double width, double height,
+                               int reliefstyle,
+                               MurrineGradients mrn_gradient, double alpha)
 {
 	if (mrn_gradient.shadow_shades[0] != 1.0 ||
 	    mrn_gradient.shadow_shades[1] != 1.0 ||
@@ -954,8 +999,48 @@ murrine_draw_shadow (cairo_t *cr,
 	else
 		murrine_set_color_rgba (cr, color, alpha);
 
-	murrine_rounded_rectangle (cr, x, y, width, height, roundness, corners);
 	cairo_stroke (cr);
+}
+
+void
+murrine_draw_shadow (cairo_t *cr,
+                     const MurrineRGB  *color,
+                     double x, double y, double width, double height,
+                     int roundness, uint8 corners,
+                     int reliefstyle,
+                     MurrineGradients mrn_gradient, double alpha)
+{
+	murrine_rounded_rectangle (cr, x, y, width, height, roundness, corners);
+	murrine_draw_shadow_from_path (cr, color, x, y, width, height, reliefstyle, mrn_gradient, alpha);
+}
+
+void
+murrine_draw_trough_from_path (cairo_t *cr,
+                               const MurrineRGB  *color,
+                               double x, double y, double width, double height,
+                               MurrineGradients mrn_gradient, double alpha,
+                               boolean horizontal)
+{
+	if (mrn_gradient.trough_shades[0] != 1.0 ||
+	    mrn_gradient.trough_shades[1] != 1.0) // improve
+	{
+		cairo_pattern_t *pat;
+		MurrineRGB shade1, shade2;
+
+		murrine_shade (color, mrn_gradient.trough_shades[0], &shade1);
+		murrine_shade (color, mrn_gradient.trough_shades[1], &shade2);
+
+		pat = cairo_pattern_create_linear (x, y, horizontal ? x : width+x, horizontal ? height+y : y);
+		murrine_pattern_add_color_stop_rgba (pat, 0.00, &shade1, alpha);
+		murrine_pattern_add_color_stop_rgba (pat, 1.00, &shade2, alpha);
+
+		cairo_set_source (cr, pat);
+		cairo_pattern_destroy (pat);
+	}
+	else
+		murrine_set_color_rgba (cr, color, alpha);
+
+	cairo_fill (cr);
 }
 
 void
@@ -966,14 +1051,27 @@ murrine_draw_trough (cairo_t *cr,
                      MurrineGradients mrn_gradient, double alpha,
                      boolean horizontal)
 {
-	if (mrn_gradient.trough_shades[0] != 1.0 ||
+	murrine_rounded_rectangle_closed (cr, x, y, width, height, roundness, corners);
+	murrine_draw_trough_from_path (cr, color, x, y, width, height, mrn_gradient, alpha, horizontal);
+}
+
+void
+murrine_draw_trough_border_from_path (cairo_t *cr,
+                                      const MurrineRGB  *color,
+                                      double x, double y, double width, double height,
+                                      MurrineGradients mrn_gradient, double alpha,
+                                      boolean horizontal)
+{
+	if (mrn_gradient.trough_border_shades[0] != 1.0 ||
+	    mrn_gradient.trough_border_shades[1] != 1.0 ||
+	    mrn_gradient.trough_shades[0] != 1.0 ||
 	    mrn_gradient.trough_shades[1] != 1.0) // improve
 	{
 		cairo_pattern_t *pat;
 		MurrineRGB shade1, shade2;
 
-		murrine_shade (color, mrn_gradient.trough_shades[0], &shade1);
-		murrine_shade (color, mrn_gradient.trough_shades[1], &shade2);
+		murrine_shade (color, mrn_gradient.trough_shades[0]*mrn_gradient.trough_border_shades[0], &shade1);
+		murrine_shade (color, mrn_gradient.trough_shades[1]*mrn_gradient.trough_border_shades[1], &shade2);
 
 		pat = cairo_pattern_create_linear (x, y, horizontal ? x : width+x, horizontal ? height+y : y);
 		murrine_pattern_add_color_stop_rgba (pat, 0.00, &shade1, alpha);
@@ -985,8 +1083,7 @@ murrine_draw_trough (cairo_t *cr,
 	else
 		murrine_set_color_rgba (cr, color, alpha);
 
-	murrine_rounded_rectangle_closed (cr, x, y, width, height, roundness, corners);
-	cairo_fill (cr);
+	cairo_stroke (cr);
 }
 
 void
@@ -997,27 +1094,8 @@ murrine_draw_trough_border (cairo_t *cr,
                             MurrineGradients mrn_gradient, double alpha,
                             boolean horizontal)
 {
-	if (mrn_gradient.trough_shades[0] != 1.0 ||
-	    mrn_gradient.trough_shades[1] != 1.0) // improve
-	{
-		cairo_pattern_t *pat;
-		MurrineRGB shade1, shade2;
-
-		murrine_shade (color, mrn_gradient.trough_shades[0], &shade1);
-		murrine_shade (color, mrn_gradient.trough_shades[1], &shade2);
-
-		pat = cairo_pattern_create_linear (x, y, horizontal ? x : width+x, horizontal ? height+y : y);
-		murrine_pattern_add_color_stop_rgba (pat, 0.00, &shade1, alpha);
-		murrine_pattern_add_color_stop_rgba (pat, 1.00, &shade2, alpha);
-
-		cairo_set_source (cr, pat);
-		cairo_pattern_destroy (pat);
-	}
-	else
-		murrine_set_color_rgba (cr, color, alpha);
-
 	murrine_rounded_rectangle (cr, x, y, width, height, roundness, corners);
-	cairo_stroke (cr);
+	murrine_draw_trough_border_from_path (cr, color, x, y, width, height, mrn_gradient, alpha, horizontal);
 }
 
 void

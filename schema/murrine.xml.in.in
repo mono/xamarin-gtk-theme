@@ -168,6 +168,9 @@
 		<enumeration value="1">
 			<label>Small lines with inset</label>
 		</enumeration>
+		<enumeration value="2">
+			<label>Small near lines with inset</label>
+		</enumeration>
 	</option>
 
 

@@ -197,6 +197,8 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 
 	mrn_gradient.shadow_shades[0] = murrine_style->shadow_shades[0];
 	mrn_gradient.shadow_shades[1] = murrine_style->shadow_shades[1];
+	mrn_gradient.trough_border_shades[0] = murrine_style->trough_border_shades[0];
+	mrn_gradient.trough_border_shades[1] = murrine_style->trough_border_shades[1];
 	mrn_gradient.trough_shades[0] = murrine_style->trough_shades[0];
 	mrn_gradient.trough_shades[1] = murrine_style->trough_shades[1];
 
@@ -208,6 +210,8 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	    murrine_style->gradient_shades[3] != 1.0 ||
 	    murrine_style->shadow_shades[0] != 1.0 ||
 	    murrine_style->shadow_shades[1] != 1.0 ||
+	    murrine_style->trough_border_shades[0] != 1.0 ||
+	    murrine_style->trough_border_shades[1] != 1.0 ||
 	    murrine_style->trough_shades[0] != 1.0 ||
 	    murrine_style->trough_shades[1] != 1.0)
 		mrn_gradient.gradients = TRUE;
@@ -1087,6 +1091,7 @@ murrine_style_draw_box (DRAW_ARGS)
 		scrollbar.steppers     = murrine_scrollbar_visible_steppers (widget);
 		scrollbar.stepperstyle = murrine_style->stepperstyle;
 		scrollbar.within_bevel = within_bevel;
+		gtk_widget_style_get (widget, "stepper-size", &scrollbar.steppersize, NULL);
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 
@@ -1096,7 +1101,7 @@ murrine_style_draw_box (DRAW_ARGS)
 		if (MRN_IS_RANGE (widget))
 			scrollbar.horizontal = GTK_RANGE (widget)->orientation == GTK_ORIENTATION_HORIZONTAL;
 
-		if (murrine_style->stepperstyle != 1 && !params.mrn_gradient.use_rgba)
+		if (murrine_style->stepperstyle != 1 && murrine_style->stepperstyle != 3 && !params.mrn_gradient.use_rgba)
 		{
 			if (scrollbar.horizontal)
 			{
@@ -1295,7 +1300,7 @@ murrine_style_draw_box (DRAW_ARGS)
 	else if (DETAIL ("hscale") || DETAIL ("vscale"))
 	{
 		WidgetParameters params;
-		/* SliderParameters slider; */
+		SliderParameters slider; 
 		ButtonParameters button;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
@@ -1307,16 +1312,24 @@ murrine_style_draw_box (DRAW_ARGS)
 		 * if (DETAIL ("vscale"))
 		 *	horizontal = FALSE;
 		 */
+
+		slider.horizontal = TRUE;
+		if (DETAIL ("vscale"))
+			slider.horizontal = FALSE;
+
 		if (height > width)
 			horizontal = !horizontal;
 
 		/* Use reliefstyle to remove inset on disabled slider button */
 		if (params.disabled)
 			params.reliefstyle = 0;
+		
+		if (murrine_style->sliderstyle <= 1)
+			STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, &button, x, y, width, height, horizontal);
+		else
+			STYLE_FUNCTION(draw_slider) (cr, &murrine_style->colors, &params, &slider, x, y, width-1, height-1);
 
-		STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, &button, x, y, width, height, horizontal);
-
-		if (murrine_style->sliderstyle == 1)
+		if (murrine_style->sliderstyle == 1 || murrine_style->sliderstyle == 3)
 		{
 			HandleParameters handle;
 			handle.style = murrine_style->handlestyle;
@@ -1398,6 +1411,7 @@ murrine_style_draw_box (DRAW_ARGS)
 		scrollbar.style          = murrine_style->scrollbarstyle;
 		scrollbar.stepperstyle   = murrine_style->stepperstyle;
 		scrollbar.prelight_shade = murrine_style->prelight_shade;
+		gtk_widget_style_get (widget, "stepper-size", &scrollbar.steppersize, NULL);
 
 		if (MRN_IS_RANGE (widget))
 			scrollbar.horizontal = GTK_RANGE (widget)->orientation == GTK_ORIENTATION_HORIZONTAL;
@@ -1426,6 +1440,7 @@ murrine_style_draw_box (DRAW_ARGS)
 			if (trough_border > 0 ||
 			    trough_under_steppers == 0 ||
 			    scrollbar.stepperstyle == 2 ||
+			    scrollbar.stepperstyle == 3 ||
 			    murrine_style->roundness == 1)
 				params.corners = MRN_CORNER_ALL;
 			else
@@ -1471,7 +1486,7 @@ murrine_style_draw_box (DRAW_ARGS)
 			if (scrollbar.stepperstyle == 2)
 				params.corners = MRN_CORNER_NONE;
 
-			if (murrine_style->stepperstyle != 1)
+			if (scrollbar.stepperstyle != 1 && scrollbar.stepperstyle != 3)
 				STYLE_FUNCTION(draw_scrollbar_stepper) (cr, colors, &params, &scrollbar, x, y, width, height);
 		}
 	}
@@ -1914,29 +1929,50 @@ murrine_style_draw_arrow (GtkStyle     *style,
 		}
 		else if (DETAIL ("hscrollbar") || DETAIL ("vscrollbar"))
 		{
+			int steppersize;
+			gtk_widget_style_get (widget, "stepper-size", &steppersize, NULL);	
 
-			if (arrow.direction == MRN_DIRECTION_DOWN)
-				y++;
-			else if (arrow.direction == MRN_DIRECTION_RIGHT)
-				x++;
-
-			if (arrow.direction == MRN_DIRECTION_UP || arrow.direction == MRN_DIRECTION_DOWN)
+			switch (arrow.direction)
 			{
-				x = x + width / 2 - 2;
-				y = y + height / 2 - 2;
-				height = 4; width = 5;
-			}
-			else
-			{
-				x = x + width / 2 - 2;
-				y = y + height / 2 - 2;
-				height = 5; width = 4;
+				case MRN_DIRECTION_UP:
+					x += width/2 - 2;
+					y += height/2 - steppersize % 2 == 0 ? 2 : 1;
+					height = 4; width = 5;
+					break;
+				case MRN_DIRECTION_DOWN:
+					x += width/2 - 2;
+					y += height/2 - 1;
+					height = 4; width = 5;
+					break;
+				case MRN_DIRECTION_LEFT:
+					x += width/2 - steppersize % 2 == 0 ? 2 : 1;
+					y += height/2 - 2;
+					height = 5; width = 4;
+					break;
+				case MRN_DIRECTION_RIGHT:
+					x += width/2 - 1;
+					y += height/2 - 2;
+					height = 5; width = 4;
+					break;
 			}
 			
 			if (arrow.style == 2)
-			{
-				x--; y--;
-				height += 2; width += 2;
+			{	
+				switch (arrow.direction)
+				{
+					case MRN_DIRECTION_UP:
+						y+=steppersize % 2 == 0 ? 1 : 2;
+						break;
+					case MRN_DIRECTION_DOWN:
+						y-=2;
+						break;
+					case MRN_DIRECTION_LEFT:
+						x+=steppersize % 2 == 0 ? 1 : 2;;
+						break;
+					case MRN_DIRECTION_RIGHT:
+						x--;
+						break;
+				}
 			}
 		}
 		else if (DETAIL ("spinbutton"))
@@ -2383,6 +2419,8 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	                                                        MURRINE_RC_STYLE (rc_style)->contrast);
 	murrine_style->shadow_shades[0]   = MURRINE_RC_STYLE (rc_style)->shadow_shades[0];
 	murrine_style->shadow_shades[1]   = MURRINE_RC_STYLE (rc_style)->shadow_shades[1];
+	murrine_style->trough_border_shades[0] = MURRINE_RC_STYLE (rc_style)->trough_border_shades[0];
+	murrine_style->trough_border_shades[1] = MURRINE_RC_STYLE (rc_style)->trough_border_shades[1];
 	murrine_style->trough_shades[0]   = MURRINE_RC_STYLE (rc_style)->trough_shades[0];
 	murrine_style->trough_shades[1]   = MURRINE_RC_STYLE (rc_style)->trough_shades[1];
 
@@ -2585,6 +2623,8 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	mrn_style->textstyle           = mrn_src->textstyle;
 	mrn_style->text_shade          = mrn_src->text_shade;
 	mrn_style->toolbarstyle        = mrn_src->toolbarstyle;
+	mrn_style->trough_border_shades[0] = mrn_src->trough_border_shades[0];
+	mrn_style->trough_border_shades[1] = mrn_src->trough_border_shades[1];
 	mrn_style->trough_shades[0]    = mrn_src->trough_shades[0];
 	mrn_style->trough_shades[1]    = mrn_src->trough_shades[1];
 

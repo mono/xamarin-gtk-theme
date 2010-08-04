@@ -27,6 +27,7 @@ Changes in this release:
               gradient_colors = FALSE to disable.
 - New option: handlestyle = 0 for three simple lines.
               handlestyle = 1 for three simple lines with inset.
+              handlestyle = 2 for three near simple lines with inset.
 - New option: prelight_shade = 1.0 to select the shade level used in the
               scrollbar's slider, GtkComboBox with comboboxstyle = 1 and
               in the prelight state with gradient_colors.
@@ -39,10 +40,12 @@ Changes in this release:
               textstyle = 3 for a shadow at the bottom right of the text.
               textstyle = 4 for a shadow at the top left of the text.
 - New option: text_shade = 1.0 to specify the shade effect of the text's shadow.
+- New option: trough_border_shades = { 1.0, 1.0 } to draw a gradient on
+              the border of the trough of GtkScrollbar and GtkProgressBar.
 - New option: trough_shades = { 1.0, 1.0 } to draw a gradient on
               the trough of GtkScrollbar and GtkProgressBar.
 - Changed option: listviewstyle = 2 for a solid line.
-- Changed option: reliefstyle = 3 for a gradient on shadow,
+- Changed option: reliefstyle = 3 for a gradient on shadow.
                   reliefstyle = 4 for a stronger shadow.
 - Changed option: stepperstyle = 2 for squared steppers with a rounded slider.
 - Deprecated option: gradients, please unset the other options instead.

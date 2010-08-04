@@ -76,7 +76,8 @@ enum
 	TOKEN_TEXTSTYLE,
 	TOKEN_TEXT_SHADE,
 	TOKEN_TOOLBARSTYLE,
-	TOKEN_TROUGH_SHADES,
+	TOKEN_TROUGH_BORDER_SHADES,
+	TOKEN_TROUGH_SHADES,	
 
 	TOKEN_TRUE,
 	TOKEN_FALSE,
@@ -140,6 +141,7 @@ theme_symbols[] =
 	{ "textstyle",           TOKEN_TEXTSTYLE },
 	{ "text_shade",          TOKEN_TEXT_SHADE },
 	{ "toolbarstyle",        TOKEN_TOOLBARSTYLE },
+	{ "trough_border_shades", TOKEN_TROUGH_BORDER_SHADES },
 	{ "trough_shades",       TOKEN_TROUGH_SHADES },
 
 	{ "TRUE",                TOKEN_TRUE },
@@ -214,6 +216,8 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->textstyle = 0;
 	murrine_rc->text_shade = 1.06;
 	murrine_rc->toolbarstyle = 0;
+	murrine_rc->trough_border_shades[0] = 1.0;
+	murrine_rc->trough_border_shades[1] = 1.0;
 	murrine_rc->trough_shades[0] = 1.0;
 	murrine_rc->trough_shades[1] = 1.0;
 }
@@ -785,6 +789,10 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_int (settings, scanner, &murrine_style->toolbarstyle);
 				murrine_style->flags |= MRN_FLAG_TOOLBARSTYLE;
 				break;
+			case TOKEN_TROUGH_BORDER_SHADES:
+				token = theme_parse_border (settings, scanner, murrine_style->trough_border_shades);
+				murrine_style->gflags |= MRN_FLAG_TROUGH_BORDER_SHADES;
+				break;
 			case TOKEN_TROUGH_SHADES:
 				token = theme_parse_border (settings, scanner, murrine_style->trough_shades);
 				murrine_style->gflags |= MRN_FLAG_TROUGH_SHADES;
@@ -986,6 +994,11 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 	{
 		dest_w->shadow_shades[0] = src_w->shadow_shades[0];
 		dest_w->shadow_shades[1] = src_w->shadow_shades[1];
+	}
+	if (gflags & MRN_FLAG_TROUGH_BORDER_SHADES)
+	{
+		dest_w->trough_border_shades[0] = src_w->trough_border_shades[0];
+		dest_w->trough_border_shades[1] = src_w->trough_border_shades[1];
 	}
 	if (gflags & MRN_FLAG_TROUGH_SHADES)
 	{

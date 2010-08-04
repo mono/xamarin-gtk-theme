@@ -437,6 +437,96 @@ murrine_rgba_draw_scale_trough (cairo_t *cr,
 }
 
 static void
+murrine_draw_slider_path (cairo_t *cr,
+                          int x, int y, int width, int height,
+                          int roundness)
+{
+	int radius = MIN (roundness, MIN (width/2.0, height/2.0));
+
+	cairo_move_to (cr, x+radius, y);
+	cairo_arc (cr, x+width-radius, y+radius, radius, M_PI*1.5, M_PI*2);
+	cairo_line_to (cr, x+width, y+height-width/2.0);
+	cairo_line_to (cr, x+width/2.0, y+height);
+	cairo_line_to (cr, x, y+height-width/2.0);
+	cairo_arc (cr, x+radius, y+radius, radius, M_PI, M_PI*1.5);
+}
+
+static void
+murrine_rgba_draw_slider (cairo_t *cr,
+                          const MurrineColors    *colors,
+                          const WidgetParameters *widget,
+                          const SliderParameters *slider,
+                          int x, int y, int width, int height)
+{
+	int os = (widget->xthickness > 2 && widget->ythickness > 2) ? 1 : 0;
+	double glow_shade_new = widget->glow_shade;
+	double highlight_shade_new = widget->highlight_shade;
+	double lightborder_shade_new = widget->lightborder_shade;
+	MurrineGradients mrn_gradient_new = widget->mrn_gradient;
+	MurrineRGB border = colors->shade[!widget->disabled ? 8 : 6];
+	MurrineRGB fill = colors->bg[widget->state_type];
+
+	murrine_get_fill_color (&fill, &mrn_gradient_new);
+
+	if (widget->disabled)
+	{
+		mrn_gradient_new = murrine_get_decreased_gradient_shades (widget->mrn_gradient, 3.0);
+		mrn_gradient_new.border_shades[0] = murrine_get_decreased_shade (widget->mrn_gradient.border_shades[0], 2.0);
+		mrn_gradient_new.border_shades[1] = murrine_get_decreased_shade (widget->mrn_gradient.border_shades[1], 2.0);
+		glow_shade_new = murrine_get_decreased_shade (widget->glow_shade, 2.0);
+		highlight_shade_new = murrine_get_decreased_shade (widget->highlight_shade, 2.0);
+		lightborder_shade_new = murrine_get_decreased_shade (widget->lightborder_shade, 2.0);
+	}
+	else
+		murrine_shade (&colors->shade[6], 0.95, &border);
+
+	if (!slider->horizontal)
+		murrine_exchange_axis (cr, &x, &y, &width, &height);
+
+	cairo_save (cr);
+	
+	cairo_translate (cr, x+0.5, y+0.5);
+
+	if (!widget->active && !widget->disabled && widget->reliefstyle > 1 && os > 0)
+	{
+		murrine_draw_slider_path (cr, os-1, os, width-(os*2)+2, height-(os*2)+1, widget->roundness+1);
+		murrine_draw_shadow_from_path (cr, &border,
+		                               os-1, os, width-(os*2)+2, height-(os*2)+1,
+		                               widget->reliefstyle,
+		                               mrn_gradient_new, 0.08);
+	}
+
+	murrine_mix_color (&border, &widget->parentbg, 0.2, &border);
+	murrine_mix_color (&border, &fill, 0.25, &border);
+
+	cairo_save (cr);
+
+	cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
+
+	murrine_draw_slider_path (cr, os, os+1, width-(os*2), height-(os*2)-1, widget->roundness);
+	cairo_clip_preserve (cr);
+
+	murrine_draw_glaze (cr, &fill,
+	                    glow_shade_new, highlight_shade_new, !widget->active ? lightborder_shade_new : 1.0,
+	                    mrn_gradient_new, widget,
+	                    os, os+1, width-(os*2), height-(os*2)-1,
+	                    widget->roundness, widget->corners, TRUE);
+
+	cairo_restore (cr);
+	
+	murrine_draw_slider_path (cr, os, os+1, width-(os*2), height-(os*2)-1, widget->roundness);
+
+	murrine_draw_border_from_path (cr, &border,
+	                     os, os+1, width-(os*2), height-(os*2)-1,
+	                     mrn_gradient_new, 1.0);
+
+	cairo_restore (cr);
+	 
+	if (!slider->horizontal)
+		murrine_exchange_axis (cr, &x, &y, &width, &height);
+}
+
+static void
 murrine_rgba_draw_spinbutton (cairo_t *cr,
 	                          const MurrineColors    *colors,
 	                          const WidgetParameters *widget,
@@ -602,7 +692,7 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 			rotate_mirror_translate (cr, M_PI/2, x, y+width, TRUE, FALSE);
 	}
 
-	roundness = MIN (widget->roundness, (height-2.0)/2.0);
+	roundness = MIN (widget->roundness-widget->xthickness, (height-2.0)/2.0);
 	stroke_width = height*2;
 	x_step = (((float)stroke_width/10)*offset);
 
@@ -1356,6 +1446,35 @@ murrine_rgba_draw_scrollbar_trough (cairo_t *cr,
 	/* Draw fill */
 	murrine_draw_trough (cr, &fill, 0, 0, width, height, widget->roundness, widget->corners, widget->mrn_gradient, 0.4, FALSE);
 
+	if (scrollbar->stepperstyle == 3)
+	{
+		uint8 corners;
+		MurrineRGB fill_stepper;
+		MurrineRGB border_stepper;
+
+		murrine_shade (&widget->parentbg, 1.02, &fill_stepper);
+		murrine_shade (&border, (widget->mrn_gradient.trough_shades[0]+widget->mrn_gradient.trough_shades[1])/2.0, &border_stepper);
+
+		cairo_save (cr);
+
+		murrine_rounded_rectangle_closed (cr, 0.5, 0.5, width-1, height-1, widget->roundness, widget->corners);
+		cairo_clip (cr);
+
+		corners = MRN_CORNER_BOTTOMLEFT | MRN_CORNER_BOTTOMRIGHT;
+		murrine_rounded_rectangle_inverted (cr, 0.5, 0.5, width-1, scrollbar->steppersize, widget->roundness, corners);
+		murrine_set_color_rgb (cr, &fill_stepper);
+		cairo_fill_preserve (cr);
+		murrine_draw_trough_border_from_path (cr, &border,0.5, 0.5, width-1, scrollbar->steppersize, widget->mrn_gradient, 1.0, FALSE);
+
+		corners = MRN_CORNER_TOPLEFT | MRN_CORNER_TOPRIGHT;
+		murrine_rounded_rectangle_inverted (cr, 0.5, height-scrollbar->steppersize-0.5, width-1, scrollbar->steppersize, widget->roundness, corners);
+		murrine_set_color_rgb (cr, &fill_stepper);
+		cairo_fill_preserve (cr);
+		murrine_draw_trough_border_from_path (cr, &border, 0.5, height-scrollbar->steppersize-0.5, width-1, scrollbar->steppersize, widget->mrn_gradient, 1.0, FALSE);
+
+		cairo_restore (cr);
+	}
+
 	/* Draw border */
 	if (!scrollbar->within_bevel)
 		murrine_draw_trough_border (cr, &border, 0.5, 0.5, width-1, height-1, widget->roundness, widget->corners, widget->mrn_gradient, 0.82, FALSE);
@@ -1432,7 +1551,7 @@ murrine_rgba_draw_scrollbar_slider (cairo_t *cr,
 
 	murrine_get_fill_color (&fill, &mrn_gradient_new);
 
-	if (scrollbar->stepperstyle != 1)
+	if (scrollbar->stepperstyle != 1 && scrollbar->stepperstyle != 3)
 	{
 		if (scrollbar->junction & MRN_JUNCTION_BEGIN)
 		{
@@ -1616,6 +1735,29 @@ murrine_rgba_draw_scrollbar_slider (cairo_t *cr,
 				}
 				break;
 			}
+			case 1:
+			{
+				MurrineRGB inset;
+				murrine_shade (&fill, 1.04, &inset);
+
+				bar_x++;
+
+				for (i=0; i<3; i++)
+				{
+					cairo_move_to (cr, bar_x, 5);
+					cairo_line_to (cr, bar_x, height-5);
+					murrine_set_color_rgb (cr, &border);
+					cairo_stroke (cr);
+
+					cairo_move_to (cr, bar_x+1, 5);
+					cairo_line_to (cr, bar_x+1, height-5);
+					murrine_set_color_rgb (cr, &inset);
+					cairo_stroke (cr);
+
+					bar_x += 2;
+				}
+				break;
+			}
 		}
 	}
 
@@ -1732,6 +1874,26 @@ murrine_rgba_draw_handle (cairo_t *cr,
 				cairo_stroke (cr);
 
 				bar_y += bar_spacing;
+			}
+			break;
+		}
+		case 2:
+		{
+			bar_y++;
+
+			for (i=0; i<num_bars; i++)
+			{
+				cairo_move_to (cr, 0, bar_y);
+				cairo_line_to (cr, bar_width, bar_y);
+				murrine_set_color_rgb (cr, &colors->shade[5]);
+				cairo_stroke (cr);
+
+				cairo_move_to (cr, 0, bar_y+1);
+				cairo_line_to (cr, bar_width, bar_y+1);
+				murrine_set_color_rgb (cr, &colors->shade[0]);
+				cairo_stroke (cr);
+
+				bar_y += 2;
 			}
 			break;
 		}
@@ -2115,6 +2277,7 @@ murrine_register_style_rgba (MurrineStyleFunctions *functions)
 	functions->draw_button             = murrine_rgba_draw_button;
 	functions->draw_entry              = murrine_rgba_draw_entry;
 	functions->draw_scale_trough       = murrine_rgba_draw_scale_trough;
+	functions->draw_slider             = murrine_rgba_draw_slider;
 	functions->draw_spinbutton         = murrine_rgba_draw_spinbutton;
 	functions->draw_progressbar_trough = murrine_rgba_draw_progressbar_trough;
 	functions->draw_progressbar_fill   = murrine_rgba_draw_progressbar_fill;

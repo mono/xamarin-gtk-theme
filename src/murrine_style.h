@@ -51,6 +51,7 @@ struct _MurrineStyle
 	double   prelight_shade;
 	double   shadow_shades[2];
 	double   text_shade;
+	double   trough_border_shades[2];
 	double   trough_shades[2];
 
 	guint8   arrowstyle;

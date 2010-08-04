@@ -186,6 +186,7 @@ typedef struct
 	double  border_shades[2];
 	double  gradient_shades[4];
 	double  shadow_shades[2];
+	double  trough_border_shades[2];
 	double  trough_shades[2];
 	double  rgba_opacity;
 
@@ -315,6 +316,7 @@ typedef struct
 	boolean         within_bevel;
 	int             handlestyle;
 	int             style;
+	int             steppersize;
 	int             stepperstyle;
 	double          prelight_shade;
 } ScrollBarParameters;
@@ -411,6 +413,12 @@ struct _MurrineStyleFunctions
 	                           const WidgetParameters *widget,
 	                           const SliderParameters *slider,
 	                           int x, int y, int width, int height);
+
+	void (*draw_slider) (cairo_t *cr,
+	                     const MurrineColors    *colors,
+	                     const WidgetParameters *widget,
+	                     const SliderParameters *slider,
+	                     int x, int y, int width, int height);
 
 	void (*draw_slider_handle) (cairo_t *cr,
 	                            const MurrineColors    *colors,

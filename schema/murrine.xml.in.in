@@ -410,6 +410,12 @@
 		<enumeration value="1">
 			<label>Unified</label>
 		</enumeration>
+		<enumeration value="2">
+			<label>Squared</label>
+		</enumeration>
+		<enumeration value="1">
+			<label>Rounded in the trough</label>
+		</enumeration>
 	</option>
 
 	<option type="enumeration" name="textstyle" default="0">

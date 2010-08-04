@@ -1427,9 +1427,9 @@ murrine_rgba_draw_scrollbar_trough (cairo_t *cr,
 	MurrineRGB fill;
 
 	murrine_shade (&widget->parentbg,
-	               murrine_get_contrast (scrollbar->stepperstyle < 1 ? 0.82 : 0.75, widget->contrast),
+	               murrine_get_contrast (scrollbar->stepperstyle != 1 ? 0.82 : 0.75, widget->contrast),
 	               &border);
-	murrine_shade (&widget->parentbg, scrollbar->stepperstyle < 1 ? 0.95 : 1.065, &fill);
+	murrine_shade (&widget->parentbg, scrollbar->stepperstyle != 1 ? 0.95 : 1.065, &fill);
 
 	if (!scrollbar->horizontal)
 	{

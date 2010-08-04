@@ -503,10 +503,8 @@ murrine_scale_draw_gradient (cairo_t *cr,
                              int x, int y, int width, int height,
                              boolean horizontal)
 {
-	int radius = MIN (roundness, MIN ((double)width/2.0, (double)height/2.0));
-
 	murrine_set_color_rgb (cr, c1);
-	murrine_rounded_rectangle_closed (cr, x, y, width, height, radius, corners);
+	murrine_rounded_rectangle_closed (cr, x, y, width, height, roundness, corners);
 	cairo_fill (cr);
 
 	if (lightborder_shade != 1.0)
@@ -517,8 +515,8 @@ murrine_scale_draw_gradient (cairo_t *cr,
 		MurrineRGB lightborder;
 		murrine_shade (c1, lightborder_shade, &lightborder);
 
-		radius < 2 ? cairo_rectangle (cr, x, y, width, height) :
-		             clearlooks_rounded_rectangle (cr, x+1, y+1, width-2, height-2, radius-1, corners);
+		roundness < 2 ? cairo_rectangle (cr, x, y, width, height) :
+		                clearlooks_rounded_rectangle (cr, x+1, y+1, width-2, height-2, roundness-1, corners);
 		pat = cairo_pattern_create_linear (x+1, y+1, horizontal ? x+1 : width+x+1, horizontal ? height+y+1 : y+1);
 
 		murrine_pattern_add_color_stop_rgba (pat, 0.00,     &lightborder, 0.75);
@@ -533,8 +531,21 @@ murrine_scale_draw_gradient (cairo_t *cr,
 	}
 
 	murrine_set_color_rgb (cr, c2);
-	murrine_rounded_rectangle (cr, x, y, width, height, radius, corners);
+	murrine_rounded_rectangle (cr, x, y, width, height, roundness, corners);
 	cairo_stroke (cr);
+}
+
+static void
+murrine_scale_draw_trough (cairo_t *cr,
+                           const MurrineRGB *c1,
+                           const MurrineRGB *c2,
+                           MurrineGradients mrn_gradient,
+                           int roundness, uint8 corners,
+                           int x, int y, int width, int height,
+                           boolean horizontal)
+{
+	murrine_draw_trough (cr, c1, x, y, width, height, roundness, corners, mrn_gradient, 1.0, horizontal);
+	murrine_draw_trough_border (cr, c2, x, y, width, height, roundness, corners, mrn_gradient, 1.0, horizontal);
 }
 
 #define TROUGH_SIZE 6
@@ -578,12 +589,10 @@ murrine_draw_scale_trough (cairo_t *cr,
 		murrine_shade (&colors->bg[widget->state_type], 1.0, &fill);
 		murrine_shade (&colors->bg[!widget->disabled ? GTK_STATE_ACTIVE : GTK_STATE_INSENSITIVE], murrine_get_contrast(0.82, widget->contrast), &border);
 
-		murrine_scale_draw_gradient (cr, &fill, &border,
-		                             1.0,
-		                             widget->lightborderstyle,
-		                             widget->roundness, widget->corners,
-		                             1.0, 1.0, trough_width-2, trough_height-2,
-		                             slider->horizontal);
+		murrine_scale_draw_trough (cr, &fill, &border, widget->mrn_gradient,
+		                           widget->roundness, widget->corners,
+		                           1.0, 1.0, trough_width-2, trough_height-2,
+		                           slider->horizontal);
 	}
 	else
 	{

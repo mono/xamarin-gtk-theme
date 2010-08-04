@@ -2176,7 +2176,7 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
 			
 				bar_x++;
 
-				for (i=0; i<num_handles; i++)
+				for (i=0; i<3; i++)
 				{
 					cairo_move_to (cr, bar_x, 5);
 					cairo_line_to (cr, bar_x, height-5);

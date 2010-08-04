@@ -1735,7 +1735,7 @@ murrine_rgba_draw_scrollbar_slider (cairo_t *cr,
 				}
 				break;
 			}
-			case 1:
+			case 2:
 			{
 				MurrineRGB inset;
 				murrine_shade (&fill, 1.04, &inset);

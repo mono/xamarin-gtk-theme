@@ -1324,7 +1324,7 @@ murrine_style_draw_box (DRAW_ARGS)
 		if (params.disabled)
 			params.reliefstyle = 0;
 		
-		if (murrine_style->sliderstyle <= 1)
+		if (murrine_style->sliderstyle < 2)
 			STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, &button, x, y, width, height, horizontal);
 		else
 			STYLE_FUNCTION(draw_slider) (cr, &murrine_style->colors, &params, &slider, x, y, width-1, height-1);

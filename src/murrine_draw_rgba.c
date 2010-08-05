@@ -2263,24 +2263,25 @@ murrine_rgba_draw_menu_frame (cairo_t *cr,
 		raico_blur_t* blur = NULL;
 		cairo_t *cr_surface; 
 		cairo_surface_t *surface; 
+		int bradius = 20;
 
 		MurrineRGB fill;
 		murrine_shade (&colors->bg[0], 0.1, &fill);
 
 		/* draw glow */
-		surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width+40, height+40);
+		surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width+bradius*2, height+bradius*2);
 		cr_surface = cairo_create (surface); 
 		blur = raico_blur_create (RAICO_BLUR_QUALITY_LOW);
-		raico_blur_set_radius (blur, 20);
+		raico_blur_set_radius (blur, bradius);
 		cairo_set_line_width (cr_surface, 4.0);
-		cairo_rectangle (cr_surface, 20, 15, width, height+5);
+		cairo_rectangle (cr_surface, bradius, bradius-5, width, height+5);
 		murrine_set_color_rgb (cr_surface, &fill);
 		cairo_stroke (cr_surface);
 		raico_blur_apply (blur, surface);
-		cairo_set_source_surface (cr, surface, -20, -20); 
+		cairo_set_source_surface (cr, surface, -bradius, -bradius); 
 		cairo_paint (cr);
 		cairo_surface_destroy (surface); 
-		cairo_destroy (cr_surface); 
+		cairo_destroy (cr_surface);
 	}
 }
 

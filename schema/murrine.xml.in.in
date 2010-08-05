@@ -157,6 +157,9 @@
 		<enumeration value="4">
 			<label>Centered glow</label>
 		</enumeration>
+		<enumeration value="5">
+			<label>Glow around edges</label>
+		</enumeration>
 	</option>
 
 	<option type="enumeration" name="handlestyle" default="0">

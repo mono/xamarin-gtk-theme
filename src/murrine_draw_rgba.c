@@ -25,6 +25,7 @@
 #include "murrine_types.h"
 #include "support.h"
 #include "cairo-support.h"
+#include "raico-blur.h"
 
 static void
 murrine_draw_inset (cairo_t *cr,

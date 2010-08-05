@@ -2225,7 +2225,7 @@ murrine_rgba_draw_menu_frame (cairo_t *cr,
                               int x, int y, int width, int height,
                               int menustyle)
 {
-	const MurrineRGB *border = &colors->shade[5];
+	const MurrineRGB *border = &colors->shade[menustyle == 2 ? 2 : 5];
 	uint8 corners = (menustyle == 1 ? MRN_CORNER_BOTTOMRIGHT :
 	                                  MRN_CORNER_BOTTOMLEFT | MRN_CORNER_BOTTOMRIGHT);
 
@@ -2255,6 +2255,31 @@ murrine_rgba_draw_menu_frame (cairo_t *cr,
 
 		murrine_set_color_rgb (cr, fill);
 		cairo_fill (cr);
+	}
+
+	if (menustyle == 2)
+	{
+		raico_blur_t* blur = NULL;
+		cairo_t *cr_surface; 
+		cairo_surface_t *surface; 
+
+		MurrineRGB fill;
+		murrine_shade (&colors->bg[0], 0.1, &fill);
+
+		/* draw glow */
+		surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width+40, height+40);
+		cr_surface = cairo_create (surface); 
+		blur = raico_blur_create (RAICO_BLUR_QUALITY_LOW);
+		raico_blur_set_radius (blur, 20);
+		cairo_set_line_width (cr_surface, 4.0);
+		cairo_rectangle (cr_surface, 20, 15, width, height+5);
+		murrine_set_color_rgb (cr_surface, &fill);
+		cairo_stroke (cr_surface);
+		raico_blur_apply (blur, surface);
+		cairo_set_source_surface (cr, surface, -20, -20); 
+		cairo_paint (cr);
+		cairo_surface_destroy (surface); 
+		cairo_destroy (cr_surface); 
 	}
 }
 

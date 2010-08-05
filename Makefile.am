@@ -24,7 +24,15 @@ libmurrine_la_SOURCES = \
 	./src/murrine_draw.c \
 	./src/murrine_draw_rgba.c \
 	./src/murrine_draw.h \
-	./src/murrine_types.h
+	./src/murrine_types.h \
+	./src/exponential-blur.c \
+	./src/exponential-blur.h \
+	./src/gaussian-blur.c \
+	./src/gaussian-blur.h \
+	./src/raico-blur.c \
+	./src/raico-blur.h \
+	./src/stack-blur.c \
+	./src/stack-blur.h
 
 libmurrine_la_LDFLAGS = -module -avoid-version -no-undefined
 libmurrine_la_LIBADD =  $(GTK_LIBS)

@@ -701,7 +701,15 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 			rotate_mirror_translate (cr, M_PI/2, x, y+width, TRUE, FALSE);
 	}
 
-	roundness = MIN (widget->roundness-widget->xthickness, (height-2.0)/2.0);
+	roundness = MIN (widget->roundness-widget->xthickness, height/2.0);
+	int yos = 0;
+	if ((2*roundness > width) && roundness > 0)
+	{
+		int h = height*sin((M_PI*(width))/(4*roundness));
+		roundness = round(width/2.0);
+		yos = 0.5+(height-h)/2.0;
+		height = h;
+	}
 	stroke_width = height*2;
 	x_step = (((float)stroke_width/10)*offset);
 
@@ -709,18 +717,14 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 
 	cairo_set_operator (cr, CAIRO_OPERATOR_SOURCE);
 
-	murrine_rounded_rectangle_closed (cr, 2, 1, width-4+roundness, height-2,
-	                                  roundness, MRN_CORNER_TOPLEFT | MRN_CORNER_BOTTOMLEFT);
-	cairo_clip (cr);
-	murrine_rounded_rectangle_closed (cr, 2-roundness, 1, width-4+roundness, height-2,
-	                                  roundness, MRN_CORNER_TOPRIGHT | MRN_CORNER_BOTTOMRIGHT);
+	murrine_rounded_rectangle_closed (cr, 2, 1+yos, width-4, height-2, roundness-1, widget->corners);
 	cairo_clip (cr);
 
-	cairo_rectangle (cr, 2, 1, width-4, height-2);
+	cairo_rectangle (cr, 2, 1+yos, width-4, height-2);
 
 	murrine_draw_glaze (cr, &fill,
 	                    widget->glow_shade, widget->highlight_shade, widget->lightborder_shade,
-	                    widget->mrn_gradient, widget, 2, 1, width-4, height-2,
+	                    widget->mrn_gradient, widget, 2, 1+yos, width-4, height-2,
 	                    roundness, widget->corners, TRUE);
 
 	cairo_set_operator (cr, CAIRO_OPERATOR_OVER);
@@ -778,17 +782,13 @@ murrine_rgba_draw_progressbar_fill (cairo_t *cr,
 
 	cairo_save (cr);
 
-	murrine_rounded_rectangle_closed (cr, 1, 0, width-2+roundness, height,
-	                                  roundness, MRN_CORNER_TOPLEFT | MRN_CORNER_BOTTOMLEFT);
-	cairo_clip (cr);
-	murrine_rounded_rectangle_closed (cr, 1-roundness, 0, width-2+roundness, height,
-	                                  roundness, MRN_CORNER_TOPRIGHT | MRN_CORNER_BOTTOMRIGHT);
+	murrine_rounded_rectangle_closed (cr, 0.5, -0.5+yos, width-1, height+1, roundness-1, widget->corners);
 	cairo_clip (cr);
 
 	/* Draw border */
 	murrine_mix_color (&border, &fill, 0.28, &border);
 	murrine_draw_border (cr, &border,
-	                     1.5, 0.5, width-3, height-1,
+	                     1.5, 0.5+yos, width-3, height-1,
 	                     roundness, widget->corners,
 	                     widget->mrn_gradient, 1.0);
 	cairo_restore (cr);

@@ -1131,17 +1131,6 @@ murrine_style_draw_box (DRAW_ARGS)
 		else
 			progressbar.orientation = MRN_ORIENTATION_LEFT_TO_RIGHT;
 
-/*		if (gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(widget)) > 0.98)*/
-/*		{*/
-/*			colors->spot[1].r = 0.5;*/
-/*			colors->spot[1].g = 1.0;*/
-/*			colors->spot[1].b = 0.5;*/
-
-/*			colors->spot[2].r = 0.2;*/
-/*			colors->spot[2].g = 0.5;*/
-/*			colors->spot[2].b = 0.2;*/
-/*		}*/
-
 		if (!params.ltr)
 		{
 			if (progressbar.orientation == GTK_PROGRESS_LEFT_TO_RIGHT)

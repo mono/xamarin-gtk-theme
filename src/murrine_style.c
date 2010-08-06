@@ -2061,7 +2061,7 @@ murrine_style_draw_layout (GtkStyle     *style,
 
 		if (state_type == GTK_STATE_INSENSITIVE)
 		{
-			shade_level = 1.12;
+			shade_level = 1.24;
 			xos = 1;
 			yos = 1;
 		}
@@ -2114,17 +2114,16 @@ murrine_style_draw_layout (GtkStyle     *style,
 		etched.green = (int) (temp.g*65535);
 		etched.blue = (int) (temp.b*65535);
 
-		gdk_draw_layout_with_colors (window, gc, x+xos, y+yos, layout, &etched, NULL);
+/*		gdk_draw_layout_with_colors (window, gc, x+xos, y+yos, layout, &etched, NULL);*/
 
 		/* with cairo *
 		 */
-/*		cairo_t *cr; */
-/*		cr = murrine_begin_paint (window, area); */
-/*		cairo_translate (cr, x+xos, y+yos); */
-/*		murrine_set_color_rgb (cr, &temp); */
-/*		murrine_set_color_rgba (cr, &temp, 0.5);*/
-/*		pango_cairo_show_layout (cr, layout);*/
-/*		cairo_destroy (cr);*/
+		cairo_t *cr; 
+		cr = murrine_begin_paint (window, area); 
+		cairo_translate (cr, x+xos, y+yos); 
+		murrine_set_color_rgba (cr, &temp, 0.5);
+		pango_cairo_show_layout (cr, layout);
+		cairo_destroy (cr);
 
 /*		printf( "draw_layout: %s %s\n", detail, G_OBJECT_TYPE_NAME (widget->parent));*/
 	}
@@ -2141,7 +2140,7 @@ murrine_style_draw_layout (GtkStyle     *style,
 		GdkColor etched;
 		MurrineRGB temp;
 
-		murrine_mix_color (&colors->fg[state_type], &params.parentbg, 0.4, &temp);
+		murrine_mix_color (&colors->fg[state_type], &params.parentbg, state_type != GTK_STATE_PRELIGHT ? 0.4 : 0.2, &temp);
 
 		etched.red = (int) (temp.r*65535);
 		etched.green = (int) (temp.g*65535);

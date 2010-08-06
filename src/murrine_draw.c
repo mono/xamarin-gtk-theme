@@ -2301,7 +2301,7 @@ murrine_draw_menu_frame (cairo_t *cr,
 		raico_blur_t* blur = NULL;
 		cairo_t *cr_surface; 
 		cairo_surface_t *surface; 
-		int bradius = 20;
+		int bradius = 30;
 
 		MurrineRGB fill;
 		murrine_shade (&colors->bg[0], 0.1, &fill);
@@ -2809,7 +2809,7 @@ murrine_draw_radiobutton (cairo_t *cr,
 				murrine_invert_text (dot, &outline);
 
 				cairo_arc (cr, (double)width/2, (double)height/2, (double)(width+height)/4-4, 0, G_PI*2);
-				murrine_set_color_rgba (cr, &outline, 0.3*trans);
+				murrine_set_color_rgba (cr, &outline, 0.3*trans*(widget->state_type == GTK_STATE_INSENSITIVE? 0.2 : 1.0));
 				cairo_fill (cr);
 
 				cairo_arc (cr, (double)width/2, (double)height/2, (double)(width+height)/4-5, 0, G_PI*2);
@@ -2961,7 +2961,7 @@ murrine_draw_checkbox (cairo_t *cr,
 				cairo_line_to (cr, 2.95, 7.65);
 				cairo_close_path (cr);
 
-				murrine_set_color_rgba (cr, &outline, 0.5*trans);
+				murrine_set_color_rgba (cr, &outline, 0.5*trans*(widget->state_type == GTK_STATE_INSENSITIVE ? 0.2 : 1.0));
 				cairo_fill (cr);
 
 				cairo_translate (cr, 4.0, 2.0);

@@ -2045,7 +2045,7 @@ murrine_rgba_draw_radiobutton (cairo_t *cr,
 				murrine_invert_text (dot, &outline);
 
 				cairo_arc (cr, (double)width/2, (double)height/2, (double)(width+height)/4-4, 0, G_PI*2);
-				murrine_set_color_rgba (cr, &outline, 0.3*trans);
+				murrine_set_color_rgba (cr, &outline, 0.3*trans*(widget->state_type == GTK_STATE_INSENSITIVE ? 0.2 : 1.0));
 				cairo_fill (cr);
 
 				cairo_arc (cr, (double)width/2, (double)height/2, (double)(width+height)/4-5, 0, G_PI*2);
@@ -2198,7 +2198,7 @@ murrine_rgba_draw_checkbox (cairo_t *cr,
 				cairo_line_to (cr, 2.95, 7.65);
 				cairo_close_path (cr);
 
-				murrine_set_color_rgba (cr, &outline, 0.5*trans);
+				murrine_set_color_rgba (cr, &outline, 0.5*trans*(widget->state_type == GTK_STATE_INSENSITIVE ? 0.2 : 1.0));
 				cairo_fill (cr);
 
 				cairo_translate (cr, 4.0, 2.0);

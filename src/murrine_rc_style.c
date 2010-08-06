@@ -214,7 +214,7 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->spinbuttonstyle = 0;
 	murrine_rc->stepperstyle = 0;
 	murrine_rc->textstyle = 0;
-	murrine_rc->text_shade = 1.06;
+	murrine_rc->text_shade = 1.12;
 	murrine_rc->toolbarstyle = 0;
 	murrine_rc->trough_border_shades[0] = 1.0;
 	murrine_rc->trough_border_shades[1] = 1.0;

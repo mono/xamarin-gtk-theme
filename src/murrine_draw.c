@@ -2273,53 +2273,96 @@ murrine_draw_menu_frame (cairo_t *cr,
                          int x, int y, int width, int height,
                          int menustyle)
 {
-	const MurrineRGB *border = &colors->shade[menustyle == 2 ? 2 : 5];
-
 	cairo_translate       (cr, x, y);
 
-	murrine_set_color_rgb (cr, border);
-	cairo_rectangle       (cr, 0.5, 0.5, width-1, height-1);
-	cairo_stroke          (cr);
-
-
-	if (menustyle == 1)
+	switch (menustyle)
 	{
-		MurrineRGB *fill = (MurrineRGB*)&colors->spot[1];
-		MurrineRGB border2;
-		murrine_shade (fill, 0.5, &border2);
+		case 1:
+		{
+			MurrineRGB *fill = (MurrineRGB*)&colors->spot[1];
+			MurrineRGB border2;
+			murrine_shade (fill, 0.5, &border2);
 
-		murrine_set_color_rgb (cr, &border2);
-		cairo_rectangle (cr, 0.5, 0.5, 3, height-1);
-		cairo_stroke_preserve (cr);
+			murrine_set_color_rgb (cr, &border2);
+			cairo_rectangle (cr, 0.5, 0.5, 3, height-1);
+			cairo_stroke_preserve (cr);
 
-		murrine_set_color_rgb (cr, fill);
-		cairo_fill (cr);
-	}
+			murrine_set_color_rgb (cr, fill);
+			cairo_fill (cr);
+		}
+		default:
+		case 0:
+		{
+			const MurrineRGB *border = &colors->shade[5];
 
-	if (menustyle == 2)
-	{
-		raico_blur_t* blur = NULL;
-		cairo_t *cr_surface; 
-		cairo_surface_t *surface; 
-		int bradius = 30;
+			murrine_set_color_rgb (cr, border);
+			cairo_rectangle       (cr, 0.5, 0.5, width-1, height-1);
+			cairo_stroke          (cr);
+			break;
+		}
+		case 2:
+		{
+			const MurrineRGB *border = &colors->shade[2];
+			MurrineRGB fill;
+			raico_blur_t* blur = NULL;
+			cairo_t *cr_surface; 
+			cairo_surface_t *surface; 
+			int bradius = 30;
 
-		MurrineRGB fill;
-		murrine_shade (&colors->bg[0], 0.1, &fill);
+			murrine_shade (&colors->bg[0], 0.1, &fill);
 
-		/* draw glow */
-		surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width+bradius*2, height+bradius*2);
-		cr_surface = cairo_create (surface); 
-		blur = raico_blur_create (RAICO_BLUR_QUALITY_LOW);
-		raico_blur_set_radius (blur, bradius);
-		cairo_set_line_width (cr_surface, 4.0);
-		cairo_rectangle (cr_surface, bradius, bradius-5, width, height+5);
-		murrine_set_color_rgb (cr_surface, &fill);
-		cairo_stroke (cr_surface);
-		raico_blur_apply (blur, surface);
-		cairo_set_source_surface (cr, surface, -bradius, -bradius); 
-		cairo_paint (cr);
-		cairo_surface_destroy (surface); 
-		cairo_destroy (cr_surface); 
+			murrine_set_color_rgb (cr, border);
+			cairo_rectangle       (cr, 0.5, 0.5, width-1, height-1);
+			cairo_stroke          (cr);
+
+			/* draw glow */
+			surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width+bradius*2, height+bradius*2);
+			cr_surface = cairo_create (surface); 
+			blur = raico_blur_create (RAICO_BLUR_QUALITY_LOW);
+			raico_blur_set_radius (blur, bradius);
+			cairo_set_line_width (cr_surface, 4.0);
+			cairo_rectangle (cr_surface, bradius, bradius-5, width, height+5);
+			murrine_set_color_rgb (cr_surface, &fill);
+			cairo_stroke (cr_surface);
+			raico_blur_apply (blur, surface);
+			cairo_set_source_surface (cr, surface, -bradius, -bradius); 
+			cairo_paint (cr);
+			cairo_surface_destroy (surface); 
+			cairo_destroy (cr_surface);
+			break;
+		}
+		case 3:
+		{
+			MurrineRGB border;
+			MurrineRGB fill;
+			raico_blur_t* blur = NULL;
+			cairo_t *cr_surface; 
+			cairo_surface_t *surface; 
+			int bradius = 30;
+
+			murrine_shade (&colors->bg[0], murrine_get_contrast(1.1, widget->contrast), &border);
+			murrine_shade (&colors->bg[0], 1.9, &fill);
+
+			murrine_set_color_rgb (cr, &border);
+			cairo_rectangle       (cr, 0.5, 0.5, width-1, height-1);
+			cairo_stroke          (cr);
+
+			/* draw glow */
+			surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width+bradius*2, height+bradius*2);
+			cr_surface = cairo_create (surface); 
+			blur = raico_blur_create (RAICO_BLUR_QUALITY_LOW);
+			raico_blur_set_radius (blur, bradius);
+			cairo_set_line_width (cr_surface, 4.0);
+			cairo_rectangle (cr_surface, bradius, bradius-5, width, height+5);
+			murrine_set_color_rgb (cr_surface, &fill);
+			cairo_stroke (cr_surface);
+			raico_blur_apply (blur, surface);
+			cairo_set_source_surface (cr, surface, -bradius, -bradius); 
+			cairo_paint (cr);
+			cairo_surface_destroy (surface); 
+			cairo_destroy (cr_surface);
+			break;
+		}
 	}
 }
 

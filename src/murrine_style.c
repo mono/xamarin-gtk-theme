@@ -1521,7 +1521,8 @@ murrine_style_draw_box (DRAW_ARGS)
 	}
 	else if (DETAIL ("infobar") ||
 	         DETAIL ("infobar-error") ||
-	         DETAIL ("infobar-info") || 
+	         DETAIL ("infobar-info") ||
+	         DETAIL ("infobar-question") ||
 	         DETAIL ("infobar-warning"))
 	{
 		WidgetParameters params;

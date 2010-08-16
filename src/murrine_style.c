@@ -290,6 +290,25 @@ murrine_style_draw_flat_box (DRAW_ARGS)
 
 		cairo_destroy (cr);
 	}
+	else if (DETAIL ("icon_view_item"))
+	{
+		MurrineStyle  *murrine_style = MURRINE_STYLE (style);
+		MurrineColors *colors = &murrine_style->colors;
+		cairo_t       *cr;
+
+		CHECK_ARGS
+		SANITIZE_SIZE
+
+		cr = murrine_begin_paint (window, area);
+
+		WidgetParameters params;
+
+		murrine_set_widget_parameters (widget, style, state_type, &params);
+
+		STYLE_FUNCTION(draw_iconview) (cr, colors, &params, x, y, width, height);
+
+		cairo_destroy (cr);	
+	}
 	else
 	{
 		if (DETAIL ("base") || DETAIL ("eventbox") || DETAIL ("entry_bg") || DETAIL ("trough"))
@@ -348,7 +367,7 @@ murrine_style_draw_flat_box (DRAW_ARGS)
 		}
 		else
 		{
-			// //printf( "draw_flat_box: %s %s\n", detail, G_OBJECT_TYPE_NAME (widget));
+/*			printf( "draw_flat_box: %s %s\n", detail, G_OBJECT_TYPE_NAME (widget));*/
 			GTK_STYLE_CLASS (murrine_style_parent_class)->draw_flat_box (style, window, state_type,
 			                                                             shadow_type,
 			                                                             area, widget, detail,

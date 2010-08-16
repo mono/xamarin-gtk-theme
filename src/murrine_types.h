@@ -564,6 +564,11 @@ struct _MurrineStyleFunctions
 	                      const WidgetParameters *widget,
 	                      int x, int y, int width, int height);
 
+	void (*draw_iconview) (cairo_t *cr,
+	                       const MurrineColors    *colors,
+	                       const WidgetParameters *widget,
+	                       int x, int y, int width, int height);
+
 	void (*draw_handle) (cairo_t *cr,
 	                     const MurrineColors    *colors,
 	                     const WidgetParameters *widget,

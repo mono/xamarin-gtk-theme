@@ -229,7 +229,7 @@ murrine_draw_button (cairo_t *cr,
 	                    glow_shade_new, highlight_shade_new, !widget->active ? lightborder_shade_new : 1.0,
 	                    mrn_gradient_new, widget,
 	                    os+1, os+1, width-(os*2)-2, height-(os*2)-2,
-	                    widget->roundness, widget->corners, horizontal);
+	                    widget->roundness-1, widget->corners, horizontal);
 
 	cairo_restore (cr);
 
@@ -2401,6 +2401,42 @@ murrine_draw_tooltip (cairo_t *cr,
 }
 
 static void
+murrine_draw_iconview (cairo_t *cr,
+                       const MurrineColors    *colors,
+                       const WidgetParameters *widget,
+                       int x, int y, int width, int height)
+{
+	MurrineRGB border;
+	MurrineRGB fill = widget->focus ? colors->base[widget->state_type] :
+	                                  colors->base[GTK_STATE_ACTIVE];
+
+	murrine_shade (&fill, murrine_get_contrast(0.6, widget->contrast), &border);
+	murrine_get_fill_color (&fill, &widget->mrn_gradient);
+
+	cairo_save (cr);
+
+	cairo_translate (cr, x, y);
+	cairo_save (cr);
+
+	murrine_rounded_rectangle_closed (cr, 1, 1, width-2, height-2, widget->roundness-1, widget->corners);
+	cairo_clip_preserve (cr);
+
+	murrine_draw_glaze (cr, &fill,
+	                    widget->glow_shade, widget->highlight_shade, widget->lightborder_shade,
+	                    widget->mrn_gradient, widget, 1, 1, width-2, height-2,
+	                    widget->roundness-1, widget->corners, TRUE);
+
+	cairo_restore (cr);
+
+	murrine_draw_border (cr, &border,
+	                     0.5, 0.5, width-1, height-1,
+	                     widget->roundness, widget->corners,
+	                     widget->mrn_gradient, 1.0);
+
+	cairo_restore (cr);
+}
+
+static void
 murrine_draw_handle (cairo_t *cr,
                      const MurrineColors    *colors,
                      const WidgetParameters *widget,
@@ -3424,6 +3460,7 @@ murrine_draw_focus_border (cairo_t *cr,
 			radius = widget->roundness;
 			break;
 		case MRN_FOCUS_ICONVIEW:
+			return;
 			break;
 		case MRN_FOCUS_UNKNOWN:
 			/* Fallback to classic function, dots */
@@ -3529,6 +3566,7 @@ murrine_draw_focus_inner (cairo_t *cr,
 			radius = widget->roundness;
 			break;
 		case MRN_FOCUS_ICONVIEW:
+			return;
 			break;
 		case MRN_FOCUS_UNKNOWN:
 			/* Fallback to classic function, dots */
@@ -3613,6 +3651,7 @@ murrine_register_style_murrine (MurrineStyleFunctions *functions)
 	functions->draw_statusbar          = murrine_draw_statusbar;
 	functions->draw_menu_frame         = murrine_draw_menu_frame;
 	functions->draw_tooltip            = murrine_draw_tooltip;
+	functions->draw_iconview           = murrine_draw_iconview;
 	functions->draw_handle             = murrine_draw_handle;
 	functions->draw_resize_grip        = murrine_draw_resize_grip;
 	functions->draw_arrow              = murrine_draw_arrow;

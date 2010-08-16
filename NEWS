@@ -2,6 +2,7 @@ Overview of Changes in 0.91.0 (since 0.90.3)
 ============================================
 Changes in this release:
 - New supported widget: GtkExpander is now themed by the engine.
+- New supported widget: GtkIconView is now themed by the engine.
 - New supported widget: GtkInfoBar is now themed by the engine.
 - New option: arrowstyle = 1 to draw filled arrows.
               arrowstyle = 2 to draw fat filled arrows.
@@ -46,7 +47,8 @@ Changes in this release:
               the trough of GtkScrollbar and GtkProgressBar.
 - Changed option: glowstyle = 5 for a glow around the edges.
 - Changed option: listviewstyle = 2 for a solid line.
-- Changed option: menustyle = 2 for glow on the sides of the menu.
+- Changed option: menustyle = 2 for a dark glow on the sides of the menu.
+                  menustyle = 3 for a bright glow on the sides of the menu.
 - Changed option: reliefstyle = 3 for a gradient on shadow.
                   reliefstyle = 4 for a stronger shadow.
 - Changed option: stepperstyle = 2 for squared steppers with a rounded slider.

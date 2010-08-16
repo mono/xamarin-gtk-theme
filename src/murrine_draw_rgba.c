@@ -226,7 +226,7 @@ murrine_rgba_draw_button (cairo_t *cr,
 	                    glow_shade_new, highlight_shade_new, !widget->active ? lightborder_shade_new : 1.0,
 	                    mrn_gradient_new, widget,
 	                    os+1, os+1, width-(os*2)-2, height-(os*2)-2,
-	                    widget->roundness, widget->corners, horizontal);
+	                    widget->roundness-1, widget->corners, horizontal);
 
 	cairo_restore (cr);
 

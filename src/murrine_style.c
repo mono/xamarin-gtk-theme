@@ -928,6 +928,18 @@ murrine_style_draw_box (DRAW_ARGS)
 				params.reliefstyle = 1;
 		}
 
+		/* Basic hack to theme the task list when x/y thickness == 0 */
+		if (widget->parent && widget->parent->parent && 
+                    MRN_IS_PANEL_APPLET(widget->parent->parent))
+		{
+			if (params.xthickness == 0 && params.ythickness == 0)
+			{
+				x--; width+=1;
+				y--; height+=2;
+				params.roundness = 0;
+			}		
+		}
+
 		if (!MRN_IS_COMBO_BOX(widget->parent) ||
 		     MRN_IS_COMBO_BOX_ENTRY (widget->parent) ||
 		     MRN_IS_COMBO (widget->parent))

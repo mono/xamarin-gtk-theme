@@ -62,7 +62,8 @@
 #define MRN_IS_BONOBO_TOOLBAR(object) ((object) && murrine_object_is_a ((GObject*)(object), "BonoboUIToolbar"))
 #define MRN_IS_EGG_TOOLBAR(object) ((object) && murrine_object_is_a ((GObject*)(object), "Toolbar"))
 #define MRN_IS_TOOLBAR(object) ((object) && murrine_object_is_a ((GObject*)(object), "GtkToolbar"))
-#define MRN_IS_PANEL_WIDGET(object) ((object) && (murrine_object_is_a ((GObject*)(object), "PanelWidget") || murrine_object_is_a ((GObject*)(object), "PanelApplet")))
+#define MRN_IS_PANEL_APPLET(object) ((object) && murrine_object_is_a ((GObject*)(object), "PanelApplet"))
+#define MRN_IS_PANEL_WIDGET(object) ((object) && murrine_object_is_a ((GObject*)(object), "PanelWidget"))
 
 #define MRN_IS_COMBO_BOX_ENTRY(object) ((object) && murrine_object_is_a ((GObject*)(object), "GtkComboBoxEntry"))
 #define MRN_IS_COMBO_BOX(object) ((object) && murrine_object_is_a ((GObject*)(object), "GtkComboBox"))

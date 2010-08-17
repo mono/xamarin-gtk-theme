@@ -175,12 +175,12 @@ murrine_draw_button (cairo_t *cr,
 		lightborder_shade_new = murrine_get_decreased_shade (widget->lightborder_shade, 2.0);
 	}
 	else
-		murrine_shade (&colors->shade[6], 0.95, &border);
+		murrine_shade (&fill, murrine_get_contrast(0.475, widget->contrast), &border);
 
 	/* Default button */
 	if (widget->is_default && !widget->disabled)
 	{
-		murrine_shade (&border, 0.8, &border);
+		murrine_shade (&border, murrine_get_contrast(0.8, widget->contrast), &border);
 		murrine_mix_color (&fill, &colors->spot[1], 0.2, &fill);
 
 		if (button->has_default_button_color)

@@ -169,12 +169,12 @@ murrine_rgba_draw_button (cairo_t *cr,
 		lightborder_shade_new = murrine_get_decreased_shade (widget->lightborder_shade, 2.0);
 	}
 	else
-		murrine_shade (&colors->shade[8], 0.95, &border);
+		murrine_shade (&fill, murrine_get_contrast(0.38, widget->contrast), &border);
 
 	/* Default button */
 	if (widget->is_default)
 	{
-		murrine_shade (&border, 0.8, &border);
+		murrine_shade (&border, murrine_get_contrast(0.8, widget->contrast), &border);
 		murrine_mix_color (&fill, &colors->spot[1], 0.2, &fill);
 
 		if (button->has_default_button_color)

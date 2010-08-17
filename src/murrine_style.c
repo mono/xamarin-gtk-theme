@@ -935,7 +935,7 @@ murrine_style_draw_box (DRAW_ARGS)
 			if (params.xthickness == 0 && params.ythickness == 0)
 			{
 				x--; width+=1;
-				y--; height+=2;
+				y-=2; height+=4;
 				params.roundness = 0;
 			}		
 		}

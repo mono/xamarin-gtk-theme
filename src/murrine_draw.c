@@ -587,8 +587,8 @@ murrine_draw_scale_trough (cairo_t *cr,
 	if (!slider->lower && !slider->fill_level)
 	{
 		MurrineRGB fill, border;
-		murrine_shade (&colors->bg[widget->state_type], 1.0, &fill);
-		murrine_shade (&colors->bg[!widget->disabled ? GTK_STATE_ACTIVE : GTK_STATE_INSENSITIVE], murrine_get_contrast(0.82, widget->contrast), &border);
+		murrine_shade (&colors->bg[GTK_STATE_ACTIVE], 1.0, &fill);
+		murrine_shade (&colors->bg[GTK_STATE_ACTIVE], murrine_get_contrast(0.82, widget->contrast), &border);
 
 		murrine_scale_draw_trough (cr, &fill, &border, widget->mrn_gradient,
 		                           widget->roundness, widget->corners,
@@ -597,7 +597,12 @@ murrine_draw_scale_trough (cairo_t *cr,
 	}
 	else
 	{
-		murrine_scale_draw_gradient (cr, &colors->spot[1], &colors->spot[2],
+		MurrineRGB fill, border;
+		murrine_shade (&colors->bg[GTK_STATE_SELECTED], 1.0, &fill);
+		murrine_mix_color (&fill, &widget->parentbg, widget->disabled ? 0.25 : 0.0, &fill);
+		murrine_shade (&fill, murrine_get_contrast(0.65, widget->contrast), &border);
+
+		murrine_scale_draw_gradient (cr, &fill, &border,
 		                             widget->disabled ? 1.0 : widget->lightborder_shade,
 		                             widget->lightborderstyle,
 		                             widget->roundness, widget->corners,

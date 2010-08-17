@@ -154,7 +154,7 @@ murrine_draw_button (cairo_t *cr,
 	double highlight_shade_new = widget->highlight_shade;
 	double lightborder_shade_new = widget->lightborder_shade;
 	MurrineGradients mrn_gradient_new = widget->mrn_gradient;
-	MurrineRGB border = colors->shade[!widget->disabled ? 6 : 5];
+	MurrineRGB border = colors->shade[!widget->disabled ? 6 : 4];
 	MurrineRGB fill = colors->bg[widget->state_type];
 /*
 	if (widget->active)

@@ -154,7 +154,7 @@ murrine_rgba_draw_button (cairo_t *cr,
 	double highlight_shade_new = widget->highlight_shade;
 	double lightborder_shade_new = widget->lightborder_shade;
 	MurrineGradients mrn_gradient_new = widget->mrn_gradient;
-	MurrineRGB border = colors->shade[!widget->disabled ? 8 : 6];
+	MurrineRGB border;
 	MurrineRGB fill = colors->bg[widget->state_type];
 
 	murrine_get_fill_color (&fill, &mrn_gradient_new);
@@ -167,6 +167,7 @@ murrine_rgba_draw_button (cairo_t *cr,
 		glow_shade_new = murrine_get_decreased_shade (widget->glow_shade, 2.0);
 		highlight_shade_new = murrine_get_decreased_shade (widget->highlight_shade, 2.0);
 		lightborder_shade_new = murrine_get_decreased_shade (widget->lightborder_shade, 2.0);
+		murrine_shade (&fill, murrine_get_contrast(0.5, widget->contrast), &border);
 	}
 	else
 		murrine_shade (&fill, murrine_get_contrast(0.38, widget->contrast), &border);
@@ -477,7 +478,7 @@ murrine_rgba_draw_slider (cairo_t *cr,
 	double highlight_shade_new = widget->highlight_shade;
 	double lightborder_shade_new = widget->lightborder_shade;
 	MurrineGradients mrn_gradient_new = widget->mrn_gradient;
-	MurrineRGB border = colors->shade[!widget->disabled ? 8 : 6];
+	MurrineRGB border;
 	MurrineRGB fill = colors->bg[widget->state_type];
 
 	murrine_get_fill_color (&fill, &mrn_gradient_new);
@@ -490,9 +491,10 @@ murrine_rgba_draw_slider (cairo_t *cr,
 		glow_shade_new = murrine_get_decreased_shade (widget->glow_shade, 2.0);
 		highlight_shade_new = murrine_get_decreased_shade (widget->highlight_shade, 2.0);
 		lightborder_shade_new = murrine_get_decreased_shade (widget->lightborder_shade, 2.0);
+		murrine_shade (&fill, murrine_get_contrast(0.5, widget->contrast), &border);
 	}
 	else
-		murrine_shade (&colors->shade[6], 0.95, &border);
+		murrine_shade (&fill, murrine_get_contrast(0.38, widget->contrast), &border);
 
 	if (!slider->horizontal)
 		murrine_exchange_axis (cr, &x, &y, &width, &height);

@@ -1,19 +1,19 @@
 # Danish translation for murrine.
-# Copyright (C) 2009 murrine & Joe Hansen.
+# Copyright (C) 2010 murrine & Joe Hansen.
 # This file is distributed under the same license as the murrine package.
-# Joe Hansen <joedalton2@yahoo.dk>, 2009.
+# Joe Hansen <joedalton2@yahoo.dk>, 2009, 2010.
 #
 # feature -> egenskab
 # glaze -> glaseret (måske glasur)
 # progressbar -> statuslinje
-# scrollbar -> rullebjælke 
+# scrollbar -> rullebjælke
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: murrine master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-26 00:35+0100\n"
-"PO-Revision-Date: 2009-11-11 21:55-0400\n"
+"POT-Creation-Date: 2010-08-21 12:54+0200\n"
+"PO-Revision-Date: 2010-07-22 19:31+0100\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "MIME-Version: 1.0\n"
@@ -30,156 +30,198 @@ msgid "Animations"
 msgstr "Animationer"
 
 #: ../schema/murrine.xml.in.in.h:3
+msgid "Arrow Style"
+msgstr "Pilstil"
+
+#: ../schema/murrine.xml.in.in.h:4
+msgid "Cell Style"
+msgstr "Cellestil"
+
+#: ../schema/murrine.xml.in.in.h:5
 msgid "Colorize scrollbar"
 msgstr "Farvelæg rullebjælke"
 
-#: ../schema/murrine.xml.in.in.h:4
+#: ../schema/murrine.xml.in.in.h:6
+msgid "Colorize scrollbar with bg[SELECTED]"
+msgstr "Farvelæg rullebjælke med bg[SELECTED]"
+
+#: ../schema/murrine.xml.in.in.h:7
+msgid "Combobox Style"
+msgstr "Stil for kombinationsboks"
+
+#: ../schema/murrine.xml.in.in.h:8
 msgid "Contrast"
 msgstr "Kontrast"
 
-#: ../schema/murrine.xml.in.in.h:5
+#: ../schema/murrine.xml.in.in.h:9
 msgid ""
 "Dangerous, should be MODIFIED ONLY BY HAND in gtkrc into separated sections"
 msgstr "Farligt, bør KUN ÆNDRES MANUELT i gtkrc i adskilte sektioner"
 
-#: ../schema/murrine.xml.in.in.h:6
+#: ../schema/murrine.xml.in.in.h:10
+msgid "Default Button Color"
+msgstr "Knapstandardfarve"
+
+#: ../schema/murrine.xml.in.in.h:11
 msgid "Enable and set the Glow Shade"
 msgstr "Slå til og angiv Glødende skygge"
 
 # Skal det være afkrydsningsknapper fremfor tjekknapper?
-#: ../schema/murrine.xml.in.in.h:7
+#: ../schema/murrine.xml.in.in.h:12
 msgid "Enable animations on progressbars, radio and checkbuttons"
 msgstr "Slå animationer på statuslinjer, radio og tjekknapper til"
 
-#: ../schema/murrine.xml.in.in.h:8
+#: ../schema/murrine.xml.in.in.h:13
 msgid "Enable/Disable RGBA support"
 msgstr "Slå RGBA-understøttelse til/fra"
 
-#: ../schema/murrine.xml.in.in.h:9
-msgid "Enable/Disable gradients"
-msgstr "Slå farveovergang til/fra"
+#: ../schema/murrine.xml.in.in.h:14
+msgid "Expander Style"
+msgstr "Stil for udvider"
 
-#: ../schema/murrine.xml.in.in.h:10
+#: ../schema/murrine.xml.in.in.h:15
 msgid "Focus Color"
 msgstr "Fokusfarve"
 
-#: ../schema/murrine.xml.in.in.h:11
+#: ../schema/murrine.xml.in.in.h:16
+msgid "Focus Style"
+msgstr "Stil for fokus"
+
+#: ../schema/murrine.xml.in.in.h:17
 msgid "Glaze Style"
 msgstr "Glaseret stil"
 
-#: ../schema/murrine.xml.in.in.h:12
+#: ../schema/murrine.xml.in.in.h:18
 msgid "Glow Shade"
 msgstr "Glødende skygge"
 
 # Glødstil, glødmåde, glødtype
-#: ../schema/murrine.xml.in.in.h:13
+#: ../schema/murrine.xml.in.in.h:19
 msgid "Glow Style"
 msgstr "Glødestil"
 
-#: ../schema/murrine.xml.in.in.h:14
-msgid "Gradients"
-msgstr "Farveovergange"
+#: ../schema/murrine.xml.in.in.h:20
+msgid "Handle Style"
+msgstr "Stil for håndtag"
 
-#: ../schema/murrine.xml.in.in.h:15
+#: ../schema/murrine.xml.in.in.h:21
 msgid "Highlight Shade"
 msgstr "Fremhæv skygge"
 
 # måske ubestemt form fremhævelsesskygge
-#: ../schema/murrine.xml.in.in.h:16
+#: ../schema/murrine.xml.in.in.h:22
 msgid "Increse/Decrease the highlight shade"
 msgstr "Øg/nedsæt fremhævelsesskyggen"
 
 # måske ubestemt form fremhævelsesskygge
-#: ../schema/murrine.xml.in.in.h:17
+#: ../schema/murrine.xml.in.in.h:23
 msgid "Increse/Decrease the lightborder shade"
 msgstr "Øg/nedsæt lysgrænseskyggen"
 
-#: ../schema/murrine.xml.in.in.h:18
+#: ../schema/murrine.xml.in.in.h:24
+msgid "Increse/Decrease the prelight shade"
+msgstr "Øg/nedsæt prælysskyggen"
+
+# både shadow og shade?
+# fejl?
+#: ../schema/murrine.xml.in.in.h:25
+msgid "Increse/Decrease the text shadow shade"
+msgstr "Øg/nedsæt tekstskygge"
+
+#: ../schema/murrine.xml.in.in.h:26
 msgid "Lightborder Shade"
 msgstr "Lysgrænseskygge"
 
 # style = stil eller type (valgt stil)
-#: ../schema/murrine.xml.in.in.h:19
+#: ../schema/murrine.xml.in.in.h:27
 msgid "Lightborder Style"
 msgstr "Lysgrænsestil"
 
-#: ../schema/murrine.xml.in.in.h:20
+#: ../schema/murrine.xml.in.in.h:28
 msgid "Listview header style"
 msgstr "Stil for kolonneoverskrifter i lister"
 
-#: ../schema/murrine.xml.in.in.h:21
+#: ../schema/murrine.xml.in.in.h:29
 msgid "Listview separators"
 msgstr "Skilletegn i lister"
 
-#: ../schema/murrine.xml.in.in.h:22
+#: ../schema/murrine.xml.in.in.h:30
 msgid "MenuItem Style"
 msgstr "Stil for menupunkt"
 
-#: ../schema/murrine.xml.in.in.h:23
+#: ../schema/murrine.xml.in.in.h:31
 msgid "Menubar Style"
 msgstr "Menubjælkestil"
 
-#: ../schema/murrine.xml.in.in.h:24
+#: ../schema/murrine.xml.in.in.h:32
 msgid "MenubarItem Style"
 msgstr "Stil for menubjælkepunkt"
+
+#: ../schema/murrine.xml.in.in.h:33
+msgid "Prelight Shade"
+msgstr "Prælysskygge"
 
 # Normalt er statuslinjen vel noget andet. "Stil for fremgangsbjælke" /
 # fremskridtsbjælke / procesbjælke
 # Jeg ser, at du generelt oversætter progress bar til statuslinje. Er du
 # sikker på, det ikke skaber misforståelser? Ja det burde være standarden,
 # altså statuslinjestil.
-#: ../schema/murrine.xml.in.in.h:25
+#: ../schema/murrine.xml.in.in.h:34
 msgid "Progressbar style"
 msgstr "Statuslinjestil"
 
-#: ../schema/murrine.xml.in.in.h:26
+#: ../schema/murrine.xml.in.in.h:35
 msgid "Relief style of widget"
 msgstr "Afløsningsstil på kontrol"
 
-#: ../schema/murrine.xml.in.in.h:27
+#: ../schema/murrine.xml.in.in.h:36
 msgid "Roundness"
 msgstr "Afrundethed"
 
-#: ../schema/murrine.xml.in.in.h:28
-msgid "Scrollbar Color"
-msgstr "Rullebjælkefarve"
+#: ../schema/murrine.xml.in.in.h:37
+msgid "Separator style"
+msgstr "Stil for skilletegn"
 
-#: ../schema/murrine.xml.in.in.h:29
+#: ../schema/murrine.xml.in.in.h:38
+msgid "Sets the Color of Default button 2px border"
+msgstr "Angiver farven på standardknappens 2pkt-kant"
+
+#: ../schema/murrine.xml.in.in.h:39
 msgid "Sets the Color of Focus"
 msgstr "Angiver fokusfarven"
 
-#: ../schema/murrine.xml.in.in.h:30
-msgid "Sets the Color of Scrollbars"
-msgstr "Angiver farven på rullebjælker"
-
 # GNOME gnome-alsamixer: Slider Style  har Rullebjælkestil
-# men ellers bruges skyder og glider i forskellige oversættelser 
+# men ellers bruges skyder og glider i forskellige oversættelser
 # i KDE og Gnome
 # "Stil for skydeknap"/"skydeknapstil"?
-#: ../schema/murrine.xml.in.in.h:31
+#: ../schema/murrine.xml.in.in.h:40
 msgid "Slider style"
 msgstr "Rullebjælkestil"
+
+#: ../schema/murrine.xml.in.in.h:41
+msgid "Spinbutton Style"
+msgstr "Stil for snurreknap"
 
 # har ikke rigtig kunnet finde noget
 # Den er svær. "Stil for op-/nedtællingsknapper"? Hvad oversætter MS spin
 # buttons til? Det er måske en helt anden type knap, der menes?
 # Trinstil
-#: ../schema/murrine.xml.in.in.h:32
+#: ../schema/murrine.xml.in.in.h:42
 msgid "Stepper style"
 msgstr "Stil for op-/nedtællingsknapper"
 
-#: ../schema/murrine.xml.in.in.h:33
-msgid "Style"
-msgstr "Stil"
+#: ../schema/murrine.xml.in.in.h:43
+msgid "Text Shade"
+msgstr "Tekstskygge"
 
-#: ../schema/murrine.xml.in.in.h:34
+#: ../schema/murrine.xml.in.in.h:44
+msgid "Text Style"
+msgstr "Tekststil"
+
+#: ../schema/murrine.xml.in.in.h:45
 msgid "Toolbar style"
 msgstr "Værktøjsbjælkestil"
 
-#: ../schema/murrine.xml.in.in.h:35
-msgid "Use colorized scrollbars"
-msgstr "Bruge farvede rullebjælker"
-
-#: ../schema/murrine.xml.in.in.h:36
+#: ../schema/murrine.xml.in.in.h:46
 msgid "Vertical bars in menus"
 msgstr "Vertikale bjælker i menuer"

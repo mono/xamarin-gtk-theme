@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: murrine master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=murrine&component=general\n"
-"POT-Creation-Date: 2010-02-06 21:24+0000\n"
-"PO-Revision-Date: 2010-02-13 18:04+0800\n"
+"POT-Creation-Date: 2010-07-23 13:44+0000\n"
+"PO-Revision-Date: 2010-07-23 22:48+0800\n"
 "Last-Translator: YunQiang Su <wzssyqa@gmail.com>\n"
 "Language-Team: Chinese (China) <i18n-zh@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -29,138 +29,174 @@ msgid "Arrow Style"
 msgstr "箭头风格"
 
 #: ../schema/murrine.xml.in.in.h:4
+msgid "Cell Style"
+msgstr "细格风格"
+
+#: ../schema/murrine.xml.in.in.h:5
 msgid "Colorize scrollbar"
 msgstr "滚动条上色"
 
-#: ../schema/murrine.xml.in.in.h:5
+#: ../schema/murrine.xml.in.in.h:6
 msgid "Colorize scrollbar with bg[SELECTED]"
 msgstr "使用背景[选中的]对滚动条上色"
 
-#: ../schema/murrine.xml.in.in.h:6
+#: ../schema/murrine.xml.in.in.h:7
 msgid "Combobox Style"
 msgstr "组合框风格"
 
-#: ../schema/murrine.xml.in.in.h:7
+#: ../schema/murrine.xml.in.in.h:8
 msgid "Contrast"
 msgstr "对比"
 
-#: ../schema/murrine.xml.in.in.h:8
+#: ../schema/murrine.xml.in.in.h:9
 msgid ""
 "Dangerous, should be MODIFIED ONLY BY HAND in gtkrc into separated sections"
 msgstr "危险，只能手动在 gtkrc 的单独节中修改"
 
-#: ../schema/murrine.xml.in.in.h:9
+#: ../schema/murrine.xml.in.in.h:10
+msgid "Default Button Color"
+msgstr "默认按钮颜色"
+
+#: ../schema/murrine.xml.in.in.h:11
 msgid "Enable and set the Glow Shade"
 msgstr "启用和设置发光阴影"
 
-#: ../schema/murrine.xml.in.in.h:10
+#: ../schema/murrine.xml.in.in.h:12
 msgid "Enable animations on progressbars, radio and checkbuttons"
 msgstr "在进度条、单选和复选框中启用动画"
 
-#: ../schema/murrine.xml.in.in.h:11
+#: ../schema/murrine.xml.in.in.h:13
 msgid "Enable/Disable RGBA support"
 msgstr "启用/禁用 RGBA 支持"
 
-#: ../schema/murrine.xml.in.in.h:12
+#: ../schema/murrine.xml.in.in.h:14
+msgid "Expander Style"
+msgstr "膨胀风格"
+
+#: ../schema/murrine.xml.in.in.h:15
 msgid "Focus Color"
 msgstr "焦点颜色"
 
-#: ../schema/murrine.xml.in.in.h:13
+#: ../schema/murrine.xml.in.in.h:16
+msgid "Focus Style"
+msgstr "焦点风格"
+
+#: ../schema/murrine.xml.in.in.h:17
 msgid "Glaze Style"
 msgstr "釉风格"
 
-#: ../schema/murrine.xml.in.in.h:14
+#: ../schema/murrine.xml.in.in.h:18
 msgid "Glow Shade"
 msgstr "发光阴影"
 
-#: ../schema/murrine.xml.in.in.h:15
+#: ../schema/murrine.xml.in.in.h:19
 msgid "Glow Style"
 msgstr "发光风格"
 
-#: ../schema/murrine.xml.in.in.h:16
+#: ../schema/murrine.xml.in.in.h:20
+msgid "Handle Style"
+msgstr "处理风格"
+
+#: ../schema/murrine.xml.in.in.h:21
 msgid "Highlight Shade"
 msgstr "突出阴影"
 
-#: ../schema/murrine.xml.in.in.h:17
+#: ../schema/murrine.xml.in.in.h:22
 msgid "Increse/Decrease the highlight shade"
 msgstr "增加/减少突出阴影"
 
-#: ../schema/murrine.xml.in.in.h:18
+#: ../schema/murrine.xml.in.in.h:23
 msgid "Increse/Decrease the lightborder shade"
-msgstr ""
+msgstr "增加/减少亮边阴影"
 
-#: ../schema/murrine.xml.in.in.h:19
+#: ../schema/murrine.xml.in.in.h:24
 msgid "Increse/Decrease the prelight shade"
 msgstr ""
 
-#: ../schema/murrine.xml.in.in.h:20
+#: ../schema/murrine.xml.in.in.h:25
+msgid "Increse/Decrease the text shadow shade"
+msgstr "增加/减少文本阴影"
+
+#: ../schema/murrine.xml.in.in.h:26
 msgid "Lightborder Shade"
-msgstr ""
+msgstr "亮边阴影"
 
-#: ../schema/murrine.xml.in.in.h:21
+#: ../schema/murrine.xml.in.in.h:27
 msgid "Lightborder Style"
-msgstr ""
+msgstr "亮边类型"
 
-#: ../schema/murrine.xml.in.in.h:22
+#: ../schema/murrine.xml.in.in.h:28
 msgid "Listview header style"
 msgstr ""
 
-#: ../schema/murrine.xml.in.in.h:23
+#: ../schema/murrine.xml.in.in.h:29
 msgid "Listview separators"
 msgstr ""
 
-#: ../schema/murrine.xml.in.in.h:24
+#: ../schema/murrine.xml.in.in.h:30
 msgid "MenuItem Style"
 msgstr "菜单条目风格"
 
-#: ../schema/murrine.xml.in.in.h:25
+#: ../schema/murrine.xml.in.in.h:31
 msgid "Menubar Style"
 msgstr "菜单栏风格"
 
-#: ../schema/murrine.xml.in.in.h:26
+#: ../schema/murrine.xml.in.in.h:32
 msgid "MenubarItem Style"
 msgstr "菜单栏条目风格"
 
-#: ../schema/murrine.xml.in.in.h:27
+#: ../schema/murrine.xml.in.in.h:33
 msgid "Prelight Shade"
 msgstr ""
 
-#: ../schema/murrine.xml.in.in.h:28
+#: ../schema/murrine.xml.in.in.h:34
 msgid "Progressbar style"
 msgstr "进度条风格"
 
-#: ../schema/murrine.xml.in.in.h:29
+#: ../schema/murrine.xml.in.in.h:35
 msgid "Relief style of widget"
 msgstr ""
 
-#: ../schema/murrine.xml.in.in.h:30
+#: ../schema/murrine.xml.in.in.h:36
 msgid "Roundness"
 msgstr "圆润程度"
 
-#: ../schema/murrine.xml.in.in.h:31
+#: ../schema/murrine.xml.in.in.h:37
+msgid "Separator style"
+msgstr "分割风格"
+
+#: ../schema/murrine.xml.in.in.h:38
+msgid "Sets the Color of Default button 2px border"
+msgstr "设置默认按钮两像素边的颜色"
+
+#: ../schema/murrine.xml.in.in.h:39
 msgid "Sets the Color of Focus"
 msgstr "设置焦点颜色"
 
-#: ../schema/murrine.xml.in.in.h:32
+#: ../schema/murrine.xml.in.in.h:40
 msgid "Slider style"
 msgstr "滑块风格"
 
-#: ../schema/murrine.xml.in.in.h:33
+#: ../schema/murrine.xml.in.in.h:41
 msgid "Spinbutton Style"
 msgstr "上下箭头风格"
 
-#: ../schema/murrine.xml.in.in.h:34
+#: ../schema/murrine.xml.in.in.h:42
 msgid "Stepper style"
 msgstr "步进风格"
 
-#: ../schema/murrine.xml.in.in.h:35
+#: ../schema/murrine.xml.in.in.h:43
+msgid "Text Shade"
+msgstr "文本阴影"
+
+#: ../schema/murrine.xml.in.in.h:44
 msgid "Text Style"
 msgstr "文本风格"
 
-#: ../schema/murrine.xml.in.in.h:36
+#: ../schema/murrine.xml.in.in.h:45
 msgid "Toolbar style"
 msgstr "工具栏风格"
 
-#: ../schema/murrine.xml.in.in.h:37
+#: ../schema/murrine.xml.in.in.h:46
 msgid "Vertical bars in menus"
 msgstr "菜单中的竖直条"

@@ -2312,26 +2312,35 @@ murrine_draw_menu_frame (cairo_t *cr,
 			MurrineRGB fill;
 			raico_blur_t* blur = NULL;
 			cairo_t *cr_surface; 
-			cairo_surface_t *surface; 
+			cairo_surface_t *surface;
+			cairo_pattern_t *pat;
 			int bradius = 30;
+			int bheight = MIN (height, 300);
 
-			murrine_shade (&colors->bg[0], 0.1, &fill);
+			murrine_shade (&colors->bg[0], 1.14, &fill);
 
 			murrine_set_color_rgb (cr, border);
 			cairo_rectangle       (cr, 0.5, 0.5, width-1, height-1);
 			cairo_stroke          (cr);
 
 			/* draw glow */
-			surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width+bradius*2, height+bradius*2);
+			surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, bheight);
 			cr_surface = cairo_create (surface); 
 			blur = raico_blur_create (RAICO_BLUR_QUALITY_LOW);
 			raico_blur_set_radius (blur, bradius);
-			cairo_set_line_width (cr_surface, 4.0);
-			cairo_rectangle (cr_surface, bradius, bradius-5, width, height+5);
+			cairo_set_line_width (cr_surface, 1.0);
+			cairo_rectangle (cr_surface, bradius, bradius-15, width-bradius*2, bheight-bradius*2+15);
 			murrine_set_color_rgb (cr_surface, &fill);
-			cairo_stroke (cr_surface);
+			cairo_fill (cr_surface);
 			raico_blur_apply (blur, surface);
-			cairo_set_source_surface (cr, surface, -bradius, -bradius); 
+			cairo_rectangle (cr_surface, 0, -15, width, bheight+15);
+			pat = cairo_pattern_create_linear (0, -15, 0.0, bheight+15);
+			murrine_pattern_add_color_stop_rgba (pat, 0.25, &colors->bg[0], 0.0);
+			murrine_pattern_add_color_stop_rgba (pat, 1.0, &colors->bg[0], 1.0);
+			cairo_set_source (cr_surface, pat);
+			cairo_pattern_destroy (pat);
+			cairo_fill (cr_surface);
+			cairo_set_source_surface (cr, surface, 0, 0); 
 			cairo_paint (cr);
 			cairo_surface_destroy (surface); 
 			cairo_destroy (cr_surface);

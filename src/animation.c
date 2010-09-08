@@ -47,7 +47,7 @@ static int         animation_timer_id = 0;
 static gboolean animation_timeout_handler (gpointer data);
 
 /* This forces a redraw on a widget */
-static gboolean
+static void
 force_widget_redraw (GtkWidget *widget)
 {
 	if (GTK_IS_PROGRESS_BAR (widget))

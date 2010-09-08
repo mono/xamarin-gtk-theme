@@ -1745,6 +1745,7 @@ murrine_style_draw_vline (GtkStyle     *style,
 
 	WidgetParameters params;
 
+	params.contrast = murrine_style->contrast;
 	params.style = MRN_STYLE_MURRINE;
 	if (murrine_widget_is_rgba (toplevel))
 	{
@@ -1756,7 +1757,7 @@ murrine_style_draw_vline (GtkStyle     *style,
 	    MRN_IS_TOGGLE_BUTTON (widget->parent->parent) &&
 	    MRN_IS_COMBO_BOX (widget->parent->parent->parent)))
 	{
-		STYLE_FUNCTION(draw_separator) (cr, colors, NULL, &separator, x, y1, 2, y2-y1);
+		STYLE_FUNCTION(draw_separator) (cr, colors, &params, &separator, x, y1, 2, y2-y1);
 	}
 
 	cairo_destroy (cr);
@@ -1790,13 +1791,14 @@ murrine_style_draw_hline (GtkStyle     *style,
 
 	WidgetParameters params;
 
+	params.contrast = murrine_style->contrast;
 	params.style = MRN_STYLE_MURRINE;
 	if (murrine_widget_is_rgba (toplevel))
 	{
 		params.style = MRN_STYLE_RGBA;
 	}
 
-	STYLE_FUNCTION(draw_separator) (cr, colors, NULL, &separator, x1, y, x2-x1, 2);
+	STYLE_FUNCTION(draw_separator) (cr, colors, &params, &separator, x1, y, x2-x1, 2);
 
 	cairo_destroy (cr);
 }

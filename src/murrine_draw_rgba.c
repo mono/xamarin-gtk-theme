@@ -1117,121 +1117,6 @@ murrine_rgba_draw_frame (cairo_t *cr,
 }
 
 static void
-murrine_rgba_draw_separator (cairo_t *cr,
-                             const MurrineColors       *colors,
-                             const WidgetParameters    *widget,
-                             const SeparatorParameters *separator,
-                             int x, int y, int width, int height)
-{
-	const MurrineRGB *dark      = &colors->shade[4];
-	const MurrineRGB *highlight = &colors->shade[0];
-
-	if (separator->horizontal)
-	{
-		cairo_translate (cr, x, y+0.5);
-
-		switch (separator->style)
-		{
-			default:
-			case 0:
-				murrine_set_color_rgb (cr, dark);
-				break;
-			case 1:
-			{
-				cairo_pattern_t *pat;
-				pat = cairo_pattern_create_linear (0, 0, width, 0);
-				murrine_pattern_add_color_stop_rgba (pat, 0.00, dark, 0.0);
-				murrine_pattern_add_color_stop_rgba (pat, 0.25, dark, 1.0);
-				murrine_pattern_add_color_stop_rgba (pat, 0.75, dark, 1.0);
-				murrine_pattern_add_color_stop_rgba (pat, 1.00, dark, 0.0);
-				cairo_set_source (cr, pat);
-				cairo_pattern_destroy (pat);
-				break;
-			}
-		}
-		
-		cairo_move_to (cr, 0.0,     0.0);
-		cairo_line_to (cr, width+1, 0.0);
-		cairo_stroke  (cr);
-
-		switch (separator->style)
-		{
-			default:
-			case 0:
-				murrine_set_color_rgba (cr, highlight, 0.5);
-				break;
-			case 1:
-			{
-				cairo_pattern_t *pat;
-				pat = cairo_pattern_create_linear (0, 0, width, 0);
-				murrine_pattern_add_color_stop_rgba (pat, 0.00, highlight, 0.0);
-				murrine_pattern_add_color_stop_rgba (pat, 0.25, highlight, 0.5);
-				murrine_pattern_add_color_stop_rgba (pat, 0.75, highlight, 0.5);
-				murrine_pattern_add_color_stop_rgba (pat, 1.00, highlight, 0.0);
-				cairo_set_source (cr, pat);
-				cairo_pattern_destroy (pat);
-				break;
-			}
-		}
-
-		cairo_move_to (cr, 0.0,   1.0);
-		cairo_line_to (cr, width, 1.0);
-		cairo_stroke  (cr);
-	}
-	else
-	{
-		cairo_translate (cr, x+0.5, y);
-
-		switch (separator->style)
-		{
-			default:
-			case 0:
-				murrine_set_color_rgb (cr, dark);
-				break;
-			case 1:
-			{
-				cairo_pattern_t *pat;
-				pat = cairo_pattern_create_linear (0, 0, 0, height);
-				murrine_pattern_add_color_stop_rgba (pat, 0.00, dark, 0.0);
-				murrine_pattern_add_color_stop_rgba (pat, 0.25, dark, 1.0);
-				murrine_pattern_add_color_stop_rgba (pat, 0.75, dark, 1.0);
-				murrine_pattern_add_color_stop_rgba (pat, 1.00, dark, 0.0);
-				cairo_set_source (cr, pat);
-				cairo_pattern_destroy (pat);
-				break;
-			}
-		}
-		cairo_move_to (cr, 0.0, 0.0);
-		cairo_line_to (cr, 0.0, height);
-		cairo_stroke  (cr);
-
-		switch (separator->style)
-		{
-			default:
-			case 0:
-				murrine_set_color_rgba (cr, highlight, 0.5);
-				break;
-			case 1:
-			{
-				cairo_pattern_t *pat;
-				pat = cairo_pattern_create_linear (0, 0, 0, height);
-				murrine_pattern_add_color_stop_rgba (pat, 0.00, highlight, 0.0);
-				murrine_pattern_add_color_stop_rgba (pat, 0.25, highlight, 0.5);
-				murrine_pattern_add_color_stop_rgba (pat, 0.75, highlight, 0.5);
-				murrine_pattern_add_color_stop_rgba (pat, 1.00, highlight, 0.0);
-				cairo_set_source (cr, pat);
-				cairo_pattern_destroy (pat);
-				break;
-			}
-		}
-
-		cairo_move_to (cr, 1.0, 0.0);
-		cairo_line_to (cr, 1.0, height);
-		cairo_stroke  (cr);
-	}
-}
-
-static void
 murrine_rgba_draw_tab (cairo_t *cr,
                        const MurrineColors    *colors,
                        const WidgetParameters *widget,
@@ -2276,26 +2161,35 @@ murrine_rgba_draw_menu_frame (cairo_t *cr,
 			MurrineRGB fill;
 			raico_blur_t* blur = NULL;
 			cairo_t *cr_surface; 
-			cairo_surface_t *surface; 
+			cairo_surface_t *surface;
+			cairo_pattern_t *pat;
 			int bradius = 30;
+			int bheight = MIN (height, 300);
 
-			murrine_shade (&colors->bg[0], 0.1, &fill);
+			murrine_shade (&colors->bg[0], 1.14, &fill);
 
 			murrine_set_color_rgb (cr, border);
-			murrine_rounded_rectangle (cr, 0.5, 0.5, width-1, height-1, widget->roundness, corners);
+			cairo_rectangle       (cr, 0.5, 0.5, width-1, height-1);
 			cairo_stroke          (cr);
 
 			/* draw glow */
-			surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width+bradius*2, height+bradius*2);
+			surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, bheight);
 			cr_surface = cairo_create (surface); 
 			blur = raico_blur_create (RAICO_BLUR_QUALITY_LOW);
 			raico_blur_set_radius (blur, bradius);
-			cairo_set_line_width (cr_surface, 4.0);
-			cairo_rectangle (cr_surface, bradius, bradius-5, width, height+5);
+			cairo_set_line_width (cr_surface, 1.0);
+			cairo_rectangle (cr_surface, bradius, bradius-15, width-bradius*2, bheight-bradius*2+15);
 			murrine_set_color_rgb (cr_surface, &fill);
-			cairo_stroke (cr_surface);
+			cairo_fill (cr_surface);
 			raico_blur_apply (blur, surface);
-			cairo_set_source_surface (cr, surface, -bradius, -bradius); 
+			cairo_rectangle (cr_surface, 0, -15, width, bheight+15);
+			pat = cairo_pattern_create_linear (0, -15, 0.0, bheight+15);
+			murrine_pattern_add_color_stop_rgba (pat, 0.25, &colors->bg[0], 0.0);
+			murrine_pattern_add_color_stop_rgba (pat, 1.0, &colors->bg[0], 1.0);
+			cairo_set_source (cr_surface, pat);
+			cairo_pattern_destroy (pat);
+			cairo_fill (cr_surface);
+			cairo_set_source_surface (cr, surface, 0, 0); 
 			cairo_paint (cr);
 			cairo_surface_destroy (surface); 
 			cairo_destroy (cr_surface);
@@ -2307,27 +2201,36 @@ murrine_rgba_draw_menu_frame (cairo_t *cr,
 			MurrineRGB fill;
 			raico_blur_t* blur = NULL;
 			cairo_t *cr_surface; 
-			cairo_surface_t *surface; 
+			cairo_surface_t *surface;
+			cairo_pattern_t *pat;
 			int bradius = 30;
+			int bheight = MIN (height, 300);
 
 			murrine_shade (&colors->bg[0], murrine_get_contrast(1.1, widget->contrast), &border);
-			murrine_shade (&colors->bg[0], 1.9, &fill);
+			murrine_shade (&colors->bg[0], 0.96, &fill);
 
 			murrine_set_color_rgb (cr, &border);
-			murrine_rounded_rectangle (cr, 0.5, 0.5, width-1, height-1, widget->roundness, corners);
+			cairo_rectangle       (cr, 0.5, 0.5, width-1, height-1);
 			cairo_stroke          (cr);
 
 			/* draw glow */
-			surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width+bradius*2, height+bradius*2);
+			surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, width, bheight);
 			cr_surface = cairo_create (surface); 
 			blur = raico_blur_create (RAICO_BLUR_QUALITY_LOW);
 			raico_blur_set_radius (blur, bradius);
-			cairo_set_line_width (cr_surface, 4.0);
-			cairo_rectangle (cr_surface, bradius, bradius-5, width, height+5);
+			cairo_set_line_width (cr_surface, 1.0);
+			cairo_rectangle (cr_surface, bradius, bradius-15, width-bradius*2, bheight-bradius*2+15);
 			murrine_set_color_rgb (cr_surface, &fill);
-			cairo_stroke (cr_surface);
+			cairo_fill (cr_surface);
 			raico_blur_apply (blur, surface);
-			cairo_set_source_surface (cr, surface, -bradius, -bradius); 
+			cairo_rectangle (cr_surface, 0, -15, width, bheight+15);
+			pat = cairo_pattern_create_linear (0, -15, 0.0, bheight+15);
+			murrine_pattern_add_color_stop_rgba (pat, 0.25, &colors->bg[0], 0.0);
+			murrine_pattern_add_color_stop_rgba (pat, 1.0, &colors->bg[0], 1.0);
+			cairo_set_source (cr_surface, pat);
+			cairo_pattern_destroy (pat);
+			cairo_fill (cr_surface);
+			cairo_set_source_surface (cr, surface, 0, 0); 
 			cairo_paint (cr);
 			cairo_surface_destroy (surface); 
 			cairo_destroy (cr_surface);
@@ -2371,7 +2274,6 @@ murrine_register_style_rgba (MurrineStyleFunctions *functions)
 	functions->draw_menubar            = murrine_rgba_draw_menubar;
 	functions->draw_toolbar            = murrine_rgba_draw_toolbar;
 	functions->draw_frame              = murrine_rgba_draw_frame;
-	functions->draw_separator          = murrine_rgba_draw_separator;
 	functions->draw_tab                = murrine_rgba_draw_tab;
 	functions->draw_scrollbar_trough   = murrine_rgba_draw_scrollbar_trough;
 	functions->draw_scrollbar_stepper  = murrine_rgba_draw_scrollbar_stepper;

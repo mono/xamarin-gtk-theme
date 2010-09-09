@@ -2072,32 +2072,32 @@ murrine_style_draw_layout (GtkStyle     *style,
 		MurrineRGB temp;
 
 		double shade_level = murrine_style->text_shade;
-		int xos = 0;
-		int yos = 0;
+		double xos = 0;
+		double yos = 0;
 
 		switch (murrine_style->textstyle)
 		{
 			case 1:
-				yos = 1;
+				yos = +0.5;
 				break;
 			case 2:
-				yos = -1;
+				yos = -0.5;
 				break;
 			case 3:
-				xos = 1;
-				yos = 1;
+				xos = 0.5;
+				yos = 0.5;
 				break;
 			case 4:
-				xos = -1;
-				yos = -1;
+				xos = -0.5;
+				yos = -0.5;
 				break;
 		}
 
 		if (state_type == GTK_STATE_INSENSITIVE)
 		{
 			shade_level = 1.24;
-			xos = 1;
-			yos = 1;
+			xos = 0.5;
+			yos = 0.5;
 		}
 
 		if (!gtk_widget_get_has_window (widget))
@@ -2136,8 +2136,6 @@ murrine_style_draw_layout (GtkStyle     *style,
 				murrine_shade (&colors->base[state_type], shade_level, &temp);
 			else
 				murrine_shade (&colors->bg[state_type], shade_level, &temp);
-				
-			
 		}
 		else if (DETAIL ("cellrenderertext"))
 			murrine_shade (&colors->base[state_type], shade_level, &temp);

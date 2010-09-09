@@ -2155,8 +2155,9 @@ murrine_style_draw_layout (GtkStyle     *style,
 		cairo_t *cr; 
 		cr = murrine_begin_paint (window, area); 
 		cairo_translate (cr, x+xos, y+yos); 
+		pango_cairo_layout_path (cr, layout);
 		murrine_set_color_rgba (cr, &temp, 0.5);
-		pango_cairo_show_layout (cr, layout);
+		cairo_stroke (cr);
 		cairo_destroy (cr);
 
 /*		printf( "draw_layout: %s %s\n", detail, G_OBJECT_TYPE_NAME (widget->parent));*/

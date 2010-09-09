@@ -176,14 +176,16 @@ murrine_rgba_draw_button (cairo_t *cr,
 	if (widget->is_default)
 	{
 		murrine_shade (&border, murrine_get_contrast(0.8, widget->contrast), &border);
-		murrine_mix_color (&fill, &colors->spot[1], 0.2, &fill);
-
+		
 		if (button->has_default_button_color)
 		{
 			mrn_gradient_new.has_border_colors = FALSE;
 			mrn_gradient_new.has_gradient_colors = FALSE;
 			murrine_mix_color (&fill, &button->default_button_color, 0.8, &fill);
 		}
+		else
+			murrine_mix_color (&fill, &colors->spot[1], 0.2, &fill);
+
 
 		if (mrn_gradient_new.has_border_colors)
 		{

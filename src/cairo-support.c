@@ -699,7 +699,6 @@ murrine_draw_blur_glow (cairo_t *cr,
 	cairo_destroy (cr_surface); 
 }
 
-
 static void
 murrine_draw_lightborder (cairo_t *cr,
                           const MurrineRGB *fill,

@@ -1,4 +1,4 @@
-Overview of Changes in 0.91.0 (since 0.90.3)
+Overview of Changes in 0.98.0 (since 0.90.3)
 ============================================
 Changes in this release:
 - New supported widget: GtkExpander is now themed by the engine.
@@ -47,8 +47,8 @@ Changes in this release:
               the trough of GtkScrollbar and GtkProgressBar.
 - Changed option: glowstyle = 5 for a glow around the edges.
 - Changed option: listviewstyle = 2 for a solid line.
-- Changed option: menustyle = 2 for a dark glow on the sides of the menu.
-                  menustyle = 3 for a bright glow on the sides of the menu.
+- Changed option: menustyle = 2 for a bright glow inside the menu.
+                  menustyle = 3 for a dark glow inside the menu.
 - Changed option: reliefstyle = 3 for a gradient on shadow.
                   reliefstyle = 4 for a stronger shadow.
 - Changed option: stepperstyle = 2 for squared steppers with a rounded slider.
@@ -56,6 +56,8 @@ Changes in this release:
 - Deprecated option: profile, please manually adjust the other options.
 - Deprecated option: scrollbar_color, please use a custom bg[SELECTED].
 - Improved rendering: rounded GtkScale trough.
+- Improved rendering: disabled GtkScale trough.
+- Improved rendering: contrast function in GtkButton.
 - Improved rendering: draw lightborder with on menubar (with menubarstyle = 1).
 - Improved rendering: draw lightborder with on toolbar (with toolbarstyle = 1).
 - Improved rendering: better GtkTooltip theming.
@@ -67,7 +69,9 @@ Bugfixes in this release:
 - Support for automake-1.11.
 - Some minor fixes on big-endian systems.
 - Fixes transparent WebKitGtk window with RGBA colormaps.
-- Minor fixes.
+- https://bugzilla.gnome.org/show_bug.cgi?id=554871
+- https://bugs.launchpad.net/ubuntu/+source/gtk2-engines-murrine/+bug/624901
+- Minor fixes and maybe more bugs I forgot to link. :)
 
 Overview of Changes in 0.90.3 (since 0.90.2)
 ============================================

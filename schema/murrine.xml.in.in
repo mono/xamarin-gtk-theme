@@ -25,7 +25,7 @@
 		<enumeration value="1">
 			<label>Filled arrow</label>
 		</enumeration>
-		<enumeration value="1">
+		<enumeration value="2">
 			<label>Fat filled arrow</label>
 		</enumeration>
 	</option>
@@ -229,7 +229,7 @@
 		<enumeration value="1">
 			<label>Dotted separators</label>
 		</enumeration>
-		<enumeration value="1">
+		<enumeration value="2">
 			<label>Solid line</label>
 		</enumeration>
 	</option>
@@ -280,13 +280,19 @@
 	</option>
 
 	<option type="enumeration" name="menustyle" default="1">
-		<_long_name>Vertical bars in menus</_long_name>
+		<_long_name>Menu Style</_long_name>
 		<section>Menus and Toolbars</section>
 		<enumeration value="0">
-			<label>Disable</label>
+			<label>Flat</label>
 		</enumeration>
 		<enumeration value="1">
-			<label>Enable</label>
+			<label>Vertical bars</label>
+		</enumeration>
+		<enumeration value="2">
+			<label>Bright glow</label>
+		</enumeration>
+		<enumeration value="3">
+			<label>Dark glow</label>
 		</enumeration>
 	</option>
 
@@ -416,7 +422,7 @@
 		<enumeration value="2">
 			<label>Squared</label>
 		</enumeration>
-		<enumeration value="1">
+		<enumeration value="3">
 			<label>Rounded in the trough</label>
 		</enumeration>
 	</option>

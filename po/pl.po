@@ -1,0 +1,209 @@
+# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+# Aviary.pl
+# Jeśli masz jakiekolwiek uwagi odnoszące się do tłumaczenia lub chcesz
+# pomóc w jego rozwijaniu i pielęgnowaniu, napisz do nas:
+# gnomepl@aviary.pl
+# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+msgid ""
+msgstr ""
+"Project-Id-Version: murrine\n"
+"Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
+"product=murrine&component=general\n"
+"POT-Creation-Date: 2010-09-22 17:27+0000\n"
+"PO-Revision-Date: 2010-09-22 17:27+0000\n"
+"Last-Translator: Piotr Drąg <piotrdrag@gmail.com>\n"
+"Language-Team: Polish <gnomepl@aviary.pl>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2);\n"
+"X-Poedit-Language: Polish\n"
+"X-Poedit-Country: Poland\n"
+
+#: ../schema/murrine.xml.in.in.h:1
+msgid "Additional scrollbar features"
+msgstr "Dodatkowe funkcje paska przewijania"
+
+#: ../schema/murrine.xml.in.in.h:2
+msgid "Animations"
+msgstr "Animacje"
+
+#: ../schema/murrine.xml.in.in.h:3
+msgid "Arrow Style"
+msgstr "Styl strzałek"
+
+#: ../schema/murrine.xml.in.in.h:4
+msgid "Cell Style"
+msgstr "Styl komórek"
+
+#: ../schema/murrine.xml.in.in.h:5
+msgid "Colorize scrollbar"
+msgstr "Koloryzacja paska przewijania"
+
+#: ../schema/murrine.xml.in.in.h:6
+msgid "Colorize scrollbar with bg[SELECTED]"
+msgstr "Koloryzacja paska przewijania za pomocą bg[WYBRANE]"
+
+#: ../schema/murrine.xml.in.in.h:7
+msgid "Combobox Style"
+msgstr "Styl pola kombinowanego"
+
+#: ../schema/murrine.xml.in.in.h:8
+msgid "Contrast"
+msgstr "Kontrast"
+
+#: ../schema/murrine.xml.in.in.h:9
+msgid ""
+"Dangerous, should be MODIFIED ONLY BY HAND in gtkrc into separated sections"
+msgstr ""
+"Niebezpieczne, powinno być MODYFIKOWANE TYLKO RĘCZNIE w pliku gtkrc w "
+"oddzielnych sekcjach"
+
+#: ../schema/murrine.xml.in.in.h:10
+msgid "Default Button Color"
+msgstr "Domyślny kolor przycisków"
+
+#: ../schema/murrine.xml.in.in.h:11
+msgid "Enable and set the Glow Shade"
+msgstr "Włączenie i ustawienie cienia poświaty"
+
+#: ../schema/murrine.xml.in.in.h:12
+msgid "Enable animations on progressbars, radio and checkbuttons"
+msgstr "Włączenie animacji pasków postępów, przycisków radiowych i pól wyboru"
+
+#: ../schema/murrine.xml.in.in.h:13
+msgid "Enable/Disable RGBA support"
+msgstr "Włączenie/wyłączenie obsługi RGBA"
+
+#: ../schema/murrine.xml.in.in.h:14
+msgid "Expander Style"
+msgstr "Styl rozwijania"
+
+#: ../schema/murrine.xml.in.in.h:15
+msgid "Focus Color"
+msgstr "Kolor aktywności"
+
+#: ../schema/murrine.xml.in.in.h:16
+msgid "Focus Style"
+msgstr "Styl aktywności"
+
+#: ../schema/murrine.xml.in.in.h:17
+msgid "Glaze Style"
+msgstr "Styl emalii"
+
+#: ../schema/murrine.xml.in.in.h:18
+msgid "Glow Shade"
+msgstr "Cień poświaty"
+
+#: ../schema/murrine.xml.in.in.h:19
+msgid "Glow Style"
+msgstr "Styl poświaty"
+
+#: ../schema/murrine.xml.in.in.h:20
+msgid "Handle Style"
+msgstr "Styl uchwytów"
+
+#: ../schema/murrine.xml.in.in.h:21
+msgid "Highlight Shade"
+msgstr "Cień wyróżnienia"
+
+#: ../schema/murrine.xml.in.in.h:22
+msgid "Increse/Decrease the highlight shade"
+msgstr "Powiększenie/pomniejszenie cienia wyróżnienia"
+
+#: ../schema/murrine.xml.in.in.h:23
+msgid "Increse/Decrease the lightborder shade"
+msgstr "Powiększenie/pomniejszenie cienia lekkiej ramki"
+
+#: ../schema/murrine.xml.in.in.h:24
+msgid "Increse/Decrease the prelight shade"
+msgstr "Powiększenie/pomniejszenie cienia wstępnego wyróżnienia"
+
+#: ../schema/murrine.xml.in.in.h:25
+msgid "Increse/Decrease the text shadow shade"
+msgstr "Powiększenie/pomniejszenie cienia tekstu"
+
+#: ../schema/murrine.xml.in.in.h:26
+msgid "Lightborder Shade"
+msgstr "Cień lekkiej ramki"
+
+#: ../schema/murrine.xml.in.in.h:27
+msgid "Lightborder Style"
+msgstr "Styl lekkiej ramki"
+
+#: ../schema/murrine.xml.in.in.h:28
+msgid "Listview header style"
+msgstr "Styl nagłówka widoku listy"
+
+#: ../schema/murrine.xml.in.in.h:29
+msgid "Listview separators"
+msgstr "Separatory widoku listy"
+
+#: ../schema/murrine.xml.in.in.h:30
+msgid "Menu Style"
+msgstr "Styl menu"
+
+#: ../schema/murrine.xml.in.in.h:31
+msgid "MenuItem Style"
+msgstr "Styl elementu menu"
+
+#: ../schema/murrine.xml.in.in.h:32
+msgid "Menubar Style"
+msgstr "Styl paska menu"
+
+#: ../schema/murrine.xml.in.in.h:33
+msgid "MenubarItem Style"
+msgstr "Styl elementu paska menu"
+
+#: ../schema/murrine.xml.in.in.h:34
+msgid "Prelight Shade"
+msgstr "Cień wstępnego wyróżnienia"
+
+#: ../schema/murrine.xml.in.in.h:35
+msgid "Progressbar style"
+msgstr "Styl paska postępu"
+
+#: ../schema/murrine.xml.in.in.h:36
+msgid "Relief style of widget"
+msgstr "Styl reliefu widżetu"
+
+#: ../schema/murrine.xml.in.in.h:37
+msgid "Roundness"
+msgstr "Okrągłość"
+
+#: ../schema/murrine.xml.in.in.h:38
+msgid "Separator style"
+msgstr "Styl separatorów"
+
+#: ../schema/murrine.xml.in.in.h:39
+msgid "Sets the Color of Default button 2px border"
+msgstr "Ustawia kolor domyślnej krawędzi 2px przycisku"
+
+#: ../schema/murrine.xml.in.in.h:40
+msgid "Sets the Color of Focus"
+msgstr "Ustawia kolor aktywności"
+
+#: ../schema/murrine.xml.in.in.h:41
+msgid "Slider style"
+msgstr "Styl suwaka"
+
+#: ../schema/murrine.xml.in.in.h:42
+msgid "Spinbutton Style"
+msgstr "Styl przycisku liczbowego"
+
+#: ../schema/murrine.xml.in.in.h:43
+msgid "Stepper style"
+msgstr "Styl przycisku kroku"
+
+#: ../schema/murrine.xml.in.in.h:44
+msgid "Text Shade"
+msgstr "Cień tekstu"
+
+#: ../schema/murrine.xml.in.in.h:45
+msgid "Text Style"
+msgstr "Styl tekstu"
+
+#: ../schema/murrine.xml.in.in.h:46
+msgid "Toolbar style"
+msgstr "Styl paska narzędziowego"

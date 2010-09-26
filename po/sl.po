@@ -1,4 +1,4 @@
-# Slovenian translation for murrine.
+# Slovenian translations for murrine.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the murrine package.
 #
@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: murrine\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?product=murrine&component=general\n"
-"POT-Creation-Date: 2010-05-26 17:19+0000\n"
-"PO-Revision-Date: 2010-05-27 09:23+0100\n"
+"POT-Creation-Date: 2010-09-25 08:42+0000\n"
+"PO-Revision-Date: 2010-09-26 19:21+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -137,93 +137,89 @@ msgid "Listview separators"
 msgstr "Ločnice seznamskega pogleda"
 
 #: ../schema/murrine.xml.in.in.h:30
+msgid "Menu Style"
+msgstr "Slog menija"
+
+#: ../schema/murrine.xml.in.in.h:31
 msgid "MenuItem Style"
 msgstr "Slog predmeta menija"
 
-#: ../schema/murrine.xml.in.in.h:31
+#: ../schema/murrine.xml.in.in.h:32
 msgid "Menubar Style"
 msgstr "Slog menijske vrstice"
 
-#: ../schema/murrine.xml.in.in.h:32
+#: ../schema/murrine.xml.in.in.h:33
 msgid "MenubarItem Style"
 msgstr "Slog predmeta menijske vrstice"
 
-#: ../schema/murrine.xml.in.in.h:33
+#: ../schema/murrine.xml.in.in.h:34
 msgid "Prelight Shade"
 msgstr "Senca posvetlitve"
 
-#: ../schema/murrine.xml.in.in.h:34
+#: ../schema/murrine.xml.in.in.h:35
 msgid "Progressbar style"
 msgstr "Slog vrstice napredka"
 
-#: ../schema/murrine.xml.in.in.h:35
+#: ../schema/murrine.xml.in.in.h:36
 msgid "Relief style of widget"
 msgstr "Reliefni slog gradnika"
 
-#: ../schema/murrine.xml.in.in.h:36
+#: ../schema/murrine.xml.in.in.h:37
 msgid "Roundness"
 msgstr "Okroglost"
 
-#: ../schema/murrine.xml.in.in.h:37
+#: ../schema/murrine.xml.in.in.h:38
 msgid "Separator style"
 msgstr "Slog ločilnika"
 
-#: ../schema/murrine.xml.in.in.h:38
+#: ../schema/murrine.xml.in.in.h:39
 msgid "Sets the Color of Default button 2px border"
 msgstr "Določi privzeto barvo robov gumba"
 
-#: ../schema/murrine.xml.in.in.h:39
+#: ../schema/murrine.xml.in.in.h:40
 msgid "Sets the Color of Focus"
 msgstr "Določitev barve okna v žarišču"
 
-#: ../schema/murrine.xml.in.in.h:40
+#: ../schema/murrine.xml.in.in.h:41
 msgid "Slider style"
 msgstr "Slog vodoravnega drsnika"
 
-#: ../schema/murrine.xml.in.in.h:41
+#: ../schema/murrine.xml.in.in.h:42
 msgid "Spinbutton Style"
 msgstr "Slog vrtilnega gumba"
 
-#: ../schema/murrine.xml.in.in.h:42
+#: ../schema/murrine.xml.in.in.h:43
 msgid "Stepper style"
 msgstr "Slog koračnika"
 
-#: ../schema/murrine.xml.in.in.h:43
+#: ../schema/murrine.xml.in.in.h:44
 msgid "Text Shade"
 msgstr "Senca besedila"
 
-#: ../schema/murrine.xml.in.in.h:44
+#: ../schema/murrine.xml.in.in.h:45
 msgid "Text Style"
 msgstr "Slog besedila"
 
-#: ../schema/murrine.xml.in.in.h:45
+#: ../schema/murrine.xml.in.in.h:46
 msgid "Toolbar style"
 msgstr "Slog orodne vrstice"
 
-#: ../schema/murrine.xml.in.in.h:46
-msgid "Vertical bars in menus"
-msgstr "Navpične vrstice menija"
-
+#~ msgid "Vertical bars in menus"
+#~ msgstr "Navpične vrstice menija"
 #~ msgid "Disable Focus"
 #~ msgstr "Onemogoči žarišče"
-
 #~ msgid "Disable focus drawing"
 #~ msgstr "Onemogoči žariščno risanje"
-
 #~ msgid "Enable/Disable gradients"
 #~ msgstr "Omogoči/Onemogoči preliv"
-
 #~ msgid "Gradients"
 #~ msgstr "Prelivi"
-
 #~ msgid "Scrollbar Color"
 #~ msgstr "Barva drsnika"
-
 #~ msgid "Sets the Color of Scrollbars"
 #~ msgstr "Določitev barve drsnikov"
-
 #~ msgid "Style"
 #~ msgstr "Slog"
-
 #~ msgid "Use colorized scrollbars"
 #~ msgstr "Uporabi obarvane drsnike"
+

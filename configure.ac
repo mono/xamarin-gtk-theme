@@ -1,4 +1,4 @@
-AC_INIT([murrine], [0.98.0])
+AC_INIT([murrine], [0.98.1])
 AC_CONFIG_SRCDIR([README])
 
 AM_INIT_AUTOMAKE
@@ -41,6 +41,8 @@ AC_ARG_ENABLE(rgba,
 
 PKG_CHECK_MODULES(GTK, gtk+-2.0 >= 2.18.0,,
                   AC_MSG_ERROR([GTK+-2.18 is required to compile murrine]))
+
+PKG_CHECK_MODULES(pixman,[pixman-1],,AC_MSG_ERROR([Pixman is required to compile murrine]))
 
 AC_SUBST(GTK_CFLAGS)
 AC_SUBST(GTK_LIBS)

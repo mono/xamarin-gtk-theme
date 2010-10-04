@@ -6,7 +6,8 @@ DIST_SUBDIRS = $(SUBDIRS) po
 enginedir = $(libdir)/gtk-2.0/$(GTK_VERSION)/engines
 engine_LTLIBRARIES = libmurrine.la
 
-EXTRA_DIST = ./src/config.h.in
+EXTRA_DIST = ./src/config.h.in \
+	./COPYING.2.1
 
 libmurrine_la_SOURCES = \
 	./src/animation.c \

@@ -11,10 +11,11 @@ msgstr ""
 "Project-Id-Version: murrine master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
 "product=murrine&component=general\n"
-"POT-Creation-Date: 2010-02-20 08:45+0000\n"
+"POT-Creation-Date: 2010-10-04 17:22+0000\n"
 "PO-Revision-Date: 2010-02-20 16:21+0300\n"
 "Last-Translator: Rene Pärts <rene87@hot.ee>\n"
 "Language-Team: Estonian <gnome-et@linux.ee>\n"
+"Language: et\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -28,6 +29,10 @@ msgstr "Animatsioonid"
 
 msgid "Arrow Style"
 msgstr "Noole stiil"
+
+#, fuzzy
+msgid "Cell Style"
+msgstr "Kuma stiil"
 
 msgid "Colorize scrollbar"
 msgstr "Kerimisribade toonimine"
@@ -45,6 +50,9 @@ msgid ""
 "Dangerous, should be MODIFIED ONLY BY HAND in gtkrc into separated sections"
 msgstr "Ohtlik, tuleks MUUTA VAID KÄSITSI gtkrc faili eraldi sektsioonides"
 
+msgid "Default Button Color"
+msgstr ""
+
 msgid "Enable and set the Glow Shade"
 msgstr ""
 
@@ -54,8 +62,16 @@ msgstr "Edenemisribade, raadionuppude ja märkeruutude animeerimine"
 msgid "Enable/Disable RGBA support"
 msgstr "RGBA toe lubamine/keelamine"
 
+#, fuzzy
+msgid "Expander Style"
+msgstr "Liuguri stiil"
+
 msgid "Focus Color"
 msgstr "Fookuse värv"
+
+#, fuzzy
+msgid "Focus Style"
+msgstr "Kuma stiil"
 
 msgid "Glaze Style"
 msgstr ""
@@ -64,6 +80,10 @@ msgid "Glow Shade"
 msgstr ""
 
 msgid "Glow Style"
+msgstr "Kuma stiil"
+
+#, fuzzy
+msgid "Handle Style"
 msgstr "Kuma stiil"
 
 msgid "Highlight Shade"
@@ -78,6 +98,9 @@ msgstr ""
 msgid "Increse/Decrease the prelight shade"
 msgstr ""
 
+msgid "Increse/Decrease the text shadow shade"
+msgstr ""
+
 msgid "Lightborder Shade"
 msgstr ""
 
@@ -89,6 +112,10 @@ msgstr "Loendivaate päise stiil"
 
 msgid "Listview separators"
 msgstr "Loendivaate eraldajad"
+
+#, fuzzy
+msgid "Menu Style"
+msgstr "Menüüriba stiil"
 
 msgid "MenuItem Style"
 msgstr "Menüükirje stiil"
@@ -111,6 +138,13 @@ msgstr ""
 msgid "Roundness"
 msgstr "Ümarus"
 
+#, fuzzy
+msgid "Separator style"
+msgstr "Liuguri stiil"
+
+msgid "Sets the Color of Default button 2px border"
+msgstr ""
+
 msgid "Sets the Color of Focus"
 msgstr "Fookuse värvide määramine"
 
@@ -123,11 +157,15 @@ msgstr "Kerimisnupu stiil"
 msgid "Stepper style"
 msgstr ""
 
+#, fuzzy
+msgid "Text Shade"
+msgstr "Teksti stiil"
+
 msgid "Text Style"
 msgstr "Teksti stiil"
 
 msgid "Toolbar style"
 msgstr "Tööriistariba stiil"
 
-msgid "Vertical bars in menus"
-msgstr "Vertikaalribad menüüs"
+#~ msgid "Vertical bars in menus"
+#~ msgstr "Vertikaalribad menüüs"

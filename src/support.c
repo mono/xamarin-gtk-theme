@@ -202,6 +202,22 @@ murrine_is_combo_box (GtkWidget *widget)
 	return (murrine_find_combo_box_widget(widget) != NULL);
 }
 
+gboolean
+murrine_is_combo_box_entry (GtkWidget *widget)
+{
+	gboolean result = FALSE;
+
+	if ((widget) && (widget->parent))
+	{
+		if (GTK_IS_COMBO_BOX_ENTRY (widget->parent))
+			result = TRUE;
+		else
+			result = murrine_is_combo_box_entry (widget->parent);
+	}
+
+	return result;
+}
+
 MurrineStepper
 murrine_scrollbar_get_stepper (GtkWidget    *widget,
                                GdkRectangle *stepper)

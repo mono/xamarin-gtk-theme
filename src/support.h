@@ -123,6 +123,7 @@ G_GNUC_INTERNAL GtkWidget *murrine_special_get_ancestor (GtkWidget *widget, GTyp
 G_GNUC_INTERNAL GdkColor* murrine_get_parent_bgcolor (GtkWidget *widget);
 G_GNUC_INTERNAL GtkWidget* murrine_get_parent_window (GtkWidget *widget);
 G_GNUC_INTERNAL gboolean murrine_is_combo_box (GtkWidget *widget);
+G_GNUC_INTERNAL gboolean murrine_is_combo_box_entry (GtkWidget *widget);
 G_GNUC_INTERNAL GtkWidget* murrine_find_combo_box_widget(GtkWidget *widget);
 G_GNUC_INTERNAL void murrine_gtk_treeview_get_header_index (GtkTreeView *tv,
                                                             GtkWidget   *header,

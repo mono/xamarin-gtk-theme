@@ -1,0 +1,202 @@
+# Norwegian bokmål translation of murrine.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# Kjartan Maraas <kmaraas@gnome.org>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: murrine\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-02-24 11:30+0100\n"
+"PO-Revision-Date: 2011-02-24 11:32+0100\n"
+"Last-Translator: Kjartan Maraas <kmaraas@gnome.org>\n"
+"Language-Team: Norwegian bokmål <i18n-nb@lister.ping.uio.no>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../schema/murrine.xml.in.in.h:1
+msgid "Additional scrollbar features"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:2
+msgid "Animations"
+msgstr "Animasjoner"
+
+#: ../schema/murrine.xml.in.in.h:3
+msgid "Arrow Style"
+msgstr "Stil for pil"
+
+#: ../schema/murrine.xml.in.in.h:4
+msgid "Cell Style"
+msgstr "Stil for celle"
+
+#: ../schema/murrine.xml.in.in.h:5
+msgid "Colorize scrollbar"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:6
+msgid "Colorize scrollbar with bg[SELECTED]"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:7
+msgid "Combobox Style"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:8
+msgid "Contrast"
+msgstr "Kontrast"
+
+#: ../schema/murrine.xml.in.in.h:9
+msgid ""
+"Dangerous, should be MODIFIED ONLY BY HAND in gtkrc into separated sections"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:10
+msgid "Default Button Color"
+msgstr "Forvalgt farge på knapp"
+
+#: ../schema/murrine.xml.in.in.h:11
+msgid "Enable and set the Glow Shade"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:12
+msgid "Enable animations on progressbars, radio and checkbuttons"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:13
+msgid "Enable/Disable RGBA support"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:14
+msgid "Expander Style"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:15
+msgid "Focus Color"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:16
+msgid "Focus Style"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:17
+msgid "Glaze Style"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:18
+msgid "Glow Shade"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:19
+msgid "Glow Style"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:20
+msgid "Handle Style"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:21
+msgid "Highlight Shade"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:22
+msgid "Increse/Decrease the highlight shade"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:23
+msgid "Increse/Decrease the lightborder shade"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:24
+msgid "Increse/Decrease the prelight shade"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:25
+msgid "Increse/Decrease the text shadow shade"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:26
+msgid "Lightborder Shade"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:27
+msgid "Lightborder Style"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:28
+msgid "Listview header style"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:29
+msgid "Listview separators"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:30
+msgid "Menu Style"
+msgstr "Stil for meny"
+
+#: ../schema/murrine.xml.in.in.h:31
+msgid "MenuItem Style"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:32
+msgid "Menubar Style"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:33
+msgid "MenubarItem Style"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:34
+msgid "Prelight Shade"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:35
+msgid "Progressbar style"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:36
+msgid "Relief style of widget"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:37
+msgid "Roundness"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:38
+msgid "Separator style"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:39
+msgid "Sets the Color of Default button 2px border"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:40
+msgid "Sets the Color of Focus"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:41
+msgid "Slider style"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:42
+msgid "Spinbutton Style"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:43
+msgid "Stepper style"
+msgstr ""
+
+#: ../schema/murrine.xml.in.in.h:44
+msgid "Text Shade"
+msgstr "Tekstskygge"
+
+#: ../schema/murrine.xml.in.in.h:45
+msgid "Text Style"
+msgstr "Tekststil"
+
+#: ../schema/murrine.xml.in.in.h:46
+msgid "Toolbar style"
+msgstr "Verktøylinjestil"

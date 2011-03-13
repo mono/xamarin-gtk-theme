@@ -1,7 +1,7 @@
 # Danish translation for murrine.
 # Copyright (C) 2010 murrine & Joe Hansen.
 # This file is distributed under the same license as the murrine package.
-# Joe Hansen <joedalton2@yahoo.dk>, 2009, 2010.
+# Joe Hansen <joedalton2@yahoo.dk>, 2009, 2010, 2011.
 #
 # feature -> egenskab
 # glaze -> glaseret (måske glasur)
@@ -12,10 +12,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: murrine master\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-08-21 12:54+0200\n"
-"PO-Revision-Date: 2010-07-22 19:31+0100\n"
+"POT-Creation-Date: 2011-03-13 12:05+0100\n"
+"PO-Revision-Date: 2011-03-01 19:31+0100\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -146,18 +147,22 @@ msgid "Listview separators"
 msgstr "Skilletegn i lister"
 
 #: ../schema/murrine.xml.in.in.h:30
+msgid "Menu Style"
+msgstr "Menustil"
+
+#: ../schema/murrine.xml.in.in.h:31
 msgid "MenuItem Style"
 msgstr "Stil for menupunkt"
 
-#: ../schema/murrine.xml.in.in.h:31
+#: ../schema/murrine.xml.in.in.h:32
 msgid "Menubar Style"
 msgstr "Menubjælkestil"
 
-#: ../schema/murrine.xml.in.in.h:32
+#: ../schema/murrine.xml.in.in.h:33
 msgid "MenubarItem Style"
 msgstr "Stil for menubjælkepunkt"
 
-#: ../schema/murrine.xml.in.in.h:33
+#: ../schema/murrine.xml.in.in.h:34
 msgid "Prelight Shade"
 msgstr "Prælysskygge"
 
@@ -166,27 +171,27 @@ msgstr "Prælysskygge"
 # Jeg ser, at du generelt oversætter progress bar til statuslinje. Er du
 # sikker på, det ikke skaber misforståelser? Ja det burde være standarden,
 # altså statuslinjestil.
-#: ../schema/murrine.xml.in.in.h:34
+#: ../schema/murrine.xml.in.in.h:35
 msgid "Progressbar style"
 msgstr "Statuslinjestil"
 
-#: ../schema/murrine.xml.in.in.h:35
+#: ../schema/murrine.xml.in.in.h:36
 msgid "Relief style of widget"
 msgstr "Afløsningsstil på kontrol"
 
-#: ../schema/murrine.xml.in.in.h:36
+#: ../schema/murrine.xml.in.in.h:37
 msgid "Roundness"
 msgstr "Afrundethed"
 
-#: ../schema/murrine.xml.in.in.h:37
+#: ../schema/murrine.xml.in.in.h:38
 msgid "Separator style"
 msgstr "Stil for skilletegn"
 
-#: ../schema/murrine.xml.in.in.h:38
+#: ../schema/murrine.xml.in.in.h:39
 msgid "Sets the Color of Default button 2px border"
 msgstr "Angiver farven på standardknappens 2pkt-kant"
 
-#: ../schema/murrine.xml.in.in.h:39
+#: ../schema/murrine.xml.in.in.h:40
 msgid "Sets the Color of Focus"
 msgstr "Angiver fokusfarven"
 
@@ -194,11 +199,11 @@ msgstr "Angiver fokusfarven"
 # men ellers bruges skyder og glider i forskellige oversættelser
 # i KDE og Gnome
 # "Stil for skydeknap"/"skydeknapstil"?
-#: ../schema/murrine.xml.in.in.h:40
+#: ../schema/murrine.xml.in.in.h:41
 msgid "Slider style"
 msgstr "Rullebjælkestil"
 
-#: ../schema/murrine.xml.in.in.h:41
+#: ../schema/murrine.xml.in.in.h:42
 msgid "Spinbutton Style"
 msgstr "Stil for snurreknap"
 
@@ -206,22 +211,21 @@ msgstr "Stil for snurreknap"
 # Den er svær. "Stil for op-/nedtællingsknapper"? Hvad oversætter MS spin
 # buttons til? Det er måske en helt anden type knap, der menes?
 # Trinstil
-#: ../schema/murrine.xml.in.in.h:42
+#: ../schema/murrine.xml.in.in.h:43
 msgid "Stepper style"
 msgstr "Stil for op-/nedtællingsknapper"
 
-#: ../schema/murrine.xml.in.in.h:43
+#: ../schema/murrine.xml.in.in.h:44
 msgid "Text Shade"
 msgstr "Tekstskygge"
 
-#: ../schema/murrine.xml.in.in.h:44
+#: ../schema/murrine.xml.in.in.h:45
 msgid "Text Style"
 msgstr "Tekststil"
 
-#: ../schema/murrine.xml.in.in.h:45
+#: ../schema/murrine.xml.in.in.h:46
 msgid "Toolbar style"
 msgstr "Værktøjsbjælkestil"
 
-#: ../schema/murrine.xml.in.in.h:46
-msgid "Vertical bars in menus"
-msgstr "Vertikale bjælker i menuer"
+#~ msgid "Vertical bars in menus"
+#~ msgstr "Vertikale bjælker i menuer"

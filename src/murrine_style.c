@@ -2107,17 +2107,27 @@ murrine_style_draw_layout (GtkStyle     *style,
 		if (!gtk_widget_get_has_window (widget))
 		{
 			boolean use_parentbg = TRUE;
+
 			while (widget->parent)
 			{
-				if (MRN_IS_BUTTON(widget->parent) ||
-				    MRN_IS_TOGGLE_BUTTON(widget->parent) ||
-				    MRN_IS_COMBO_BOX(widget->parent) ||
-				    MRN_IS_COMBO_BOX_ENTRY(widget->parent) ||
-				    MRN_IS_COMBO(widget->parent) ||
-				    MRN_IS_OPTION_MENU(widget->parent) ||
-				    MRN_IS_NOTEBOOK(widget->parent))
+				if (GTK_IS_SCROLLED_WINDOW (widget->parent))
+					goto out;
+
+				widget = widget->parent;
+			}
+
+			while (widget->parent)
+			{
+				if (MRN_IS_BUTTON (widget->parent) ||
+				    MRN_IS_TOGGLE_BUTTON (widget->parent) ||
+				    MRN_IS_COMBO_BOX (widget->parent) ||
+				    MRN_IS_COMBO_BOX_ENTRY (widget->parent) ||
+				    MRN_IS_COMBO (widget->parent) ||
+				    MRN_IS_OPTION_MENU (widget->parent) ||
+				    MRN_IS_NOTEBOOK (widget->parent))
 				{
 					GtkReliefStyle relief = GTK_RELIEF_NORMAL;
+
 					/* Check for the shadow type. */
 					if (MRN_IS_BUTTON (widget->parent))
 						g_object_get (G_OBJECT (widget->parent), "relief", &relief, NULL);
@@ -2131,6 +2141,7 @@ murrine_style_draw_layout (GtkStyle     *style,
 
 					break;
 				}
+
 				widget = widget->parent;
 			}
 
@@ -2146,24 +2157,29 @@ murrine_style_draw_layout (GtkStyle     *style,
 		else
 			murrine_shade (&colors->bg[state_type], shade_level, &temp);
 
-		etched.red = (int) (temp.r*65535);
-		etched.green = (int) (temp.g*65535);
-		etched.blue = (int) (temp.b*65535);
-
-/*		gdk_draw_layout_with_colors (window, gc, x+xos, y+yos, layout, &etched, NULL);*/
-
-		/* with cairo *
-		 */
-		cairo_t *cr; 
-		cr = murrine_begin_paint (window, area); 
-		cairo_translate (cr, x+xos, y+yos); 
-		pango_cairo_layout_path (cr, layout);
-		murrine_set_color_rgba (cr, &temp, 0.5);
-		cairo_stroke (cr);
-		cairo_destroy (cr);
-
+		if (DETAIL ("cellrenderertext"))
+		{
+			cairo_t *cr; 
+			cr = murrine_begin_paint (window, area);
+			cairo_translate (cr, x+xos, y+yos);
+			murrine_set_color_rgba (cr, &temp, 0.5);
+			pango_cairo_show_layout (cr, layout);
+			cairo_destroy (cr);
+		}
+		else
+		{
+			cairo_t *cr; 
+			cr = murrine_begin_paint (window, area); 
+			cairo_translate (cr, x+xos, y+yos); 
+			pango_cairo_layout_path (cr, layout);
+			murrine_set_color_rgba (cr, &temp, 0.5);
+			cairo_stroke (cr);
+			cairo_destroy (cr);
+		}
 /*		printf( "draw_layout: %s %s\n", detail, G_OBJECT_TYPE_NAME (widget->parent));*/
 	}
+
+	out:
 
 	if (DETAIL ("accellabel"))
 	{

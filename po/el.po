@@ -109,17 +109,14 @@ msgid "Highlight Shade"
 msgstr "Σκίαση επισήμανσης"
 
 #: ../schema/murrine.xml.in.in.h:22
-#, fuzzy
 msgid "Increse/Decrease the highlight shade"
 msgstr "Αύξηση/Μείωση σκίασης της επισήμανσης"
 
 #: ../schema/murrine.xml.in.in.h:23
-#, fuzzy
 msgid "Increse/Decrease the lightborder shade"
 msgstr "Αύξηση/Μείωση της σκίασης φωτεινού περιγράμματος"
 
 #: ../schema/murrine.xml.in.in.h:24
-#, fuzzy
 msgid "Increse/Decrease the prelight shade"
 msgstr "Αύξηση/Μείωση της σκίασης εκ των προτέρων φωτισμού"
 
@@ -128,24 +125,20 @@ msgid "Increse/Decrease the text shadow shade"
 msgstr "Αύξηση/Μείωση της σκίασης κειμένου"
 
 #: ../schema/murrine.xml.in.in.h:26
-#, fuzzy
 msgid "Lightborder Shade"
 msgstr "Σκίαση φωτεινού περιγράμματος"
 
 #: ../schema/murrine.xml.in.in.h:27
-#, fuzzy
 msgid "Lightborder Style"
 msgstr "Τύπος φωτεινού περιγράμματος"
 
 #: ../schema/murrine.xml.in.in.h:28
-#, fuzzy
 msgid "Listview header style"
-msgstr "Τύπος επικεφαλίδας λίστας γραφικών"
+msgstr "Τύπος επικεφαλίδας προβολής λίστας"
 
 #: ../schema/murrine.xml.in.in.h:29
-#, fuzzy
 msgid "Listview separators"
-msgstr "Διαχωριστικά λίστας γραφικών"
+msgstr "Διαχωριστικά προβολής λίστας"
 
 #: ../schema/murrine.xml.in.in.h:30
 msgid "Menu Style"
@@ -164,9 +157,8 @@ msgid "MenubarItem Style"
 msgstr "Τύπος στοιχείου από τη γραμμή μενού"
 
 #: ../schema/murrine.xml.in.in.h:34
-#, fuzzy
 msgid "Prelight Shade"
-msgstr "Σκίαση εκ των προτέρων φωτισμού"
+msgstr "Σκίαση εκ των προτέρων φωτισμού (prelight)"
 
 #: ../schema/murrine.xml.in.in.h:35
 msgid "Progressbar style"
@@ -201,9 +193,8 @@ msgid "Spinbutton Style"
 msgstr "Τύπος κουμπιού αυξομείωσης"
 
 #: ../schema/murrine.xml.in.in.h:43
-#, fuzzy
 msgid "Stepper style"
-msgstr "Τύπος βηματικού στοιχείου"
+msgstr "Τύπος βηματικού στοιχείου (stepper)"
 
 #: ../schema/murrine.xml.in.in.h:44
 msgid "Text Shade"

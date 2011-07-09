@@ -1,0 +1,205 @@
+# Catalan translation for murrine.
+# Copyright (C) 2010 murrine's COPYRIGHT HOLDER
+# This file is distributed under the same license as the murrine package.
+# Marc  Dabad <marcdabad@yahoo.ca>, 2010.
+# Gil Forcada <gilforcada@guifi.net>, 2011.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: murrine master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-07-10 00:41+0200\n"
+"PO-Revision-Date: 2011-07-10 00:40+0200\n"
+"Last-Translator: Marc Dabad <marcdabad@yahoo.ca>\n"
+"Language-Team: Catalan <tradgnome@softcatala.org>\n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../schema/murrine.xml.in.in.h:1
+msgid "Additional scrollbar features"
+msgstr "Paràmetres addicionals de la barra de desplaçament"
+
+#: ../schema/murrine.xml.in.in.h:2
+msgid "Animations"
+msgstr "Animacions"
+
+#: ../schema/murrine.xml.in.in.h:3
+msgid "Arrow Style"
+msgstr "Estil del cursor"
+
+#: ../schema/murrine.xml.in.in.h:4
+msgid "Cell Style"
+msgstr "Estil de la cel·la"
+
+#: ../schema/murrine.xml.in.in.h:5
+msgid "Colorize scrollbar"
+msgstr "Acoloreix la barra de desplaçament"
+
+#: ../schema/murrine.xml.in.in.h:6
+msgid "Colorize scrollbar with bg[SELECTED]"
+msgstr "Acoloreix la barra de desplaçament amb bg[SELECTED]"
+
+#: ../schema/murrine.xml.in.in.h:7
+msgid "Combobox Style"
+msgstr "Estil del quadre combinat"
+
+#: ../schema/murrine.xml.in.in.h:8
+msgid "Contrast"
+msgstr "Contrast"
+
+#: ../schema/murrine.xml.in.in.h:9
+msgid ""
+"Dangerous, should be MODIFIED ONLY BY HAND in gtkrc into separated sections"
+msgstr "Només s'ha de modificar a mà en el gtkrc en seccions separades"
+
+#: ../schema/murrine.xml.in.in.h:10
+msgid "Default Button Color"
+msgstr "Color predeterminat del botó"
+
+#: ../schema/murrine.xml.in.in.h:11
+msgid "Enable and set the Glow Shade"
+msgstr "Habilita i configura la intensitat d'ombrejat"
+
+#: ../schema/murrine.xml.in.in.h:12
+msgid "Enable animations on progressbars, radio and checkbuttons"
+msgstr ""
+"Habilita les animacions en les barres de progrés, els botons d'opcions i les "
+"caselles de verificació"
+
+#: ../schema/murrine.xml.in.in.h:13
+msgid "Enable/Disable RGBA support"
+msgstr "Activa/desactiva l'espai de colors RGBA"
+
+#: ../schema/murrine.xml.in.in.h:14
+msgid "Expander Style"
+msgstr "Estil de l'expansor"
+
+#: ../schema/murrine.xml.in.in.h:15
+msgid "Focus Color"
+msgstr "Focalitza el color"
+
+#: ../schema/murrine.xml.in.in.h:16
+msgid "Focus Style"
+msgstr "Estil del focus"
+
+#: ../schema/murrine.xml.in.in.h:17
+msgid "Glaze Style"
+msgstr "Estil de brillantor"
+
+#: ../schema/murrine.xml.in.in.h:18
+msgid "Glow Shade"
+msgstr "Intensitat d'ombrejat"
+
+#: ../schema/murrine.xml.in.in.h:19
+msgid "Glow Style"
+msgstr "Estil de la intensitat"
+
+#: ../schema/murrine.xml.in.in.h:20
+msgid "Handle Style"
+msgstr "Estil de la nansa"
+
+#: ../schema/murrine.xml.in.in.h:21
+msgid "Highlight Shade"
+msgstr "Ombrejat de resalt"
+
+#: ../schema/murrine.xml.in.in.h:22
+msgid "Increse/Decrease the highlight shade"
+msgstr "Augmenta/disminueix l'ombrejat de resalt"
+
+#: ../schema/murrine.xml.in.in.h:23
+msgid "Increse/Decrease the lightborder shade"
+msgstr "Augmenta/disminueix l'ombrejat de la vora lluminosa"
+
+#: ../schema/murrine.xml.in.in.h:24
+msgid "Increse/Decrease the prelight shade"
+msgstr "Augmenta/disminueix l'ombra en estar actiu"
+
+#: ../schema/murrine.xml.in.in.h:25
+msgid "Increse/Decrease the text shadow shade"
+msgstr "Augmenta/disminueix l'ombrejat de l'ombra del text"
+
+#: ../schema/murrine.xml.in.in.h:26
+msgid "Lightborder Shade"
+msgstr "Ombrejat de la vora lluminosa"
+
+#: ../schema/murrine.xml.in.in.h:27
+msgid "Lightborder Style"
+msgstr "Estila de la vora lluminosa"
+
+#: ../schema/murrine.xml.in.in.h:28
+msgid "Listview header style"
+msgstr "Estil de la capçalera de la vista de llista"
+
+#: ../schema/murrine.xml.in.in.h:29
+msgid "Listview separators"
+msgstr "Separadors de la vista de llista"
+
+#: ../schema/murrine.xml.in.in.h:30
+msgid "Menu Style"
+msgstr "Estil del menú"
+
+#: ../schema/murrine.xml.in.in.h:31
+msgid "MenuItem Style"
+msgstr "Estil dels elements del menú"
+
+#: ../schema/murrine.xml.in.in.h:32
+msgid "Menubar Style"
+msgstr "Estil de la barra de menú"
+
+#: ../schema/murrine.xml.in.in.h:33
+msgid "MenubarItem Style"
+msgstr "Estil dels elements de la barra de menú"
+
+#: ../schema/murrine.xml.in.in.h:34
+msgid "Prelight Shade"
+msgstr "Ombrejat en estar actiu"
+
+#: ../schema/murrine.xml.in.in.h:35
+msgid "Progressbar style"
+msgstr "Estil de la barra de progrés"
+
+#: ../schema/murrine.xml.in.in.h:36
+msgid "Relief style of widget"
+msgstr "Estil del relleu del giny"
+
+#: ../schema/murrine.xml.in.in.h:37
+msgid "Roundness"
+msgstr "Arrodoniment"
+
+#: ../schema/murrine.xml.in.in.h:38
+msgid "Separator style"
+msgstr "Estil del separador"
+
+#: ../schema/murrine.xml.in.in.h:39
+msgid "Sets the Color of Default button 2px border"
+msgstr "Estableix el color de la vora de 2px dels botons predeterminats"
+
+#: ../schema/murrine.xml.in.in.h:40
+msgid "Sets the Color of Focus"
+msgstr "Estableix el color del focus"
+
+#: ../schema/murrine.xml.in.in.h:41
+msgid "Slider style"
+msgstr "Estil dels botons lliscants"
+
+#: ../schema/murrine.xml.in.in.h:42
+msgid "Spinbutton Style"
+msgstr "Estil dels botons de selecció de valor"
+
+#: ../schema/murrine.xml.in.in.h:43
+msgid "Stepper style"
+msgstr "Estil del lliscador"
+
+#: ../schema/murrine.xml.in.in.h:44
+msgid "Text Shade"
+msgstr "Ombrejat del text"
+
+#: ../schema/murrine.xml.in.in.h:45
+msgid "Text Style"
+msgstr "Estil de text"
+
+#: ../schema/murrine.xml.in.in.h:46
+msgid "Toolbar style"
+msgstr "Estil de la barra d'eines"

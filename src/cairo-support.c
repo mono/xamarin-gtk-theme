@@ -1022,7 +1022,7 @@ murrine_draw_shadow_from_path (cairo_t *cr,
 
 		pat = cairo_pattern_create_linear (x, y, x, height+y);
 		murrine_pattern_add_color_stop_rgba (pat, 0.00, &shade1, reliefstyle == 3 ? 0.5*alpha : alpha);
-		murrine_pattern_add_color_stop_rgba (pat, 1.00, &shade2, reliefstyle >= 3 ? 2.0*alpha : alpha);
+		murrine_pattern_add_color_stop_rgba (pat, 1.00, &shade2, reliefstyle >= 3 && reliefstyle != 5 ? 2.0*alpha : alpha);
 
 		cairo_set_source (cr, pat);
 		cairo_pattern_destroy (pat);

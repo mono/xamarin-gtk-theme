@@ -337,6 +337,9 @@
 		<enumeration value="4">
 			<label>Value 2+3</label>
 		</enumeration>
+		<enumeration value="5">
+			<label>A more controllable inset</label>
+		</enumeration>
 	</option>
 
 	<option type="boolean" name="rgba" default="TRUE">

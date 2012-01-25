@@ -206,11 +206,20 @@ murrine_draw_button (cairo_t *cr,
 
 	if (!widget->active && !widget->disabled && widget->reliefstyle > 1 && os > 0)
 	{
-		murrine_draw_shadow (cr, &border,
-		                     os-0.5, os-0.5, width-(os*2)+1, height-(os*2)+1,
-		                     widget->roundness+1, widget->corners,
-		                     widget->reliefstyle,
-		                     mrn_gradient_new, 0.08);
+		if (widget->reliefstyle == 5)
+			murrine_draw_shadow (cr, &widget->parentbg,
+			                     0.5, 0.5, width-1, height-1,
+			                     widget->roundness+1, widget->corners,
+			                     widget->reliefstyle,
+			                     mrn_gradient_new, 0.5);
+		else
+		{
+			murrine_draw_shadow (cr, &border,
+			                     os-0.5, os-0.5, width-(os*2)+1, height-(os*2)+1,
+			                     widget->roundness+1, widget->corners,
+			                     widget->reliefstyle,
+			                     mrn_gradient_new, 0.08);
+		}
 	}
 	else if (widget->reliefstyle != 0 && os > 0)
 	{
@@ -669,10 +678,16 @@ murrine_draw_slider (cairo_t *cr,
 	if (!widget->active && !widget->disabled && widget->reliefstyle > 1 && os > 0)
 	{
 		murrine_draw_slider_path (cr, os-1, os, width-(os*2)+2, height-(os*2)+1, widget->roundness+1);
-		murrine_draw_shadow_from_path (cr, &border,
-		                               os-1, os, width-(os*2)+2, height-(os*2)+1,
-		                               widget->reliefstyle,
-		                               mrn_gradient_new, 0.08);
+		if (widget->reliefstyle == 5)
+			murrine_draw_shadow_from_path (cr, &widget->parentbg,
+			                               os-1, os, width-(os*2)+2, height-(os*2)+1,
+			                               widget->reliefstyle,
+			                               mrn_gradient_new, 0.5);
+		else
+			murrine_draw_shadow_from_path (cr, &border,
+			                              os-1, os, width-(os*2)+2, height-(os*2)+1,
+			                              widget->reliefstyle,
+			                              mrn_gradient_new, 0.08);
 	}
 
 	murrine_mix_color (&border, &fill, 0.2, &border);
@@ -2841,14 +2856,23 @@ murrine_draw_radiobutton (cairo_t *cr,
 		{
 			if (widget->reliefstyle > 1 && draw_bullet && widget->state_type != GTK_STATE_INSENSITIVE)
 			{
-				MurrineRGB shadow;
-				murrine_shade (border, 0.9, &shadow);
+				if (widget->reliefstyle == 5)
+					murrine_draw_shadow (cr, &widget->parentbg,
+					                     0.5, 0.5, width-1, height-1,
+					                     roundness+1, widget->corners,
+					                     widget->reliefstyle,
+					                     mrn_gradient_new, 0.5);
+				else
+				{
+					MurrineRGB shadow;
+					murrine_shade (border, 0.9, &shadow);
 
-				murrine_draw_shadow (cr, &shadow,
-					             0.5, 0.5, width-1, height-1,
-					             roundness+1, widget->corners,
-					             widget->reliefstyle,
-					             mrn_gradient_new, 0.08);
+					murrine_draw_shadow (cr, &shadow,
+					                     0.5, 0.5, width-1, height-1,
+					                     roundness+1, widget->corners,
+					                     widget->reliefstyle,
+					                     mrn_gradient_new, 0.08);
+				}
 			}
 			else if (widget->reliefstyle != 0)
 				murrine_draw_inset (cr, &widget->parentbg, 0.5, 0.5, width-1, height-1, roundness+1, widget->corners);
@@ -2985,14 +3009,23 @@ murrine_draw_checkbox (cairo_t *cr,
 		{
 			if (widget->reliefstyle > 1 && draw_bullet && widget->state_type != GTK_STATE_INSENSITIVE)
 			{
-				MurrineRGB shadow;
-				murrine_shade (border, 0.9, &shadow);
+				if (widget->reliefstyle == 5)
+					murrine_draw_shadow (cr, &widget->parentbg,
+					                     0.5, 0.5, width-1, height-1,
+					                     roundness+1, widget->corners,
+					                     widget->reliefstyle,
+					                     mrn_gradient_new, 0.5);
+				else
+				{
+					MurrineRGB shadow;
+					murrine_shade (border, 0.9, &shadow);
 
-				murrine_draw_shadow (cr, &shadow,
-					             0.5, 0.5, width-1, height-1,
-					             roundness+1, widget->corners,
-					             widget->reliefstyle,
-					             mrn_gradient_new, 0.08);
+					murrine_draw_shadow (cr, &shadow,
+					                     0.5, 0.5, width-1, height-1,
+					                     roundness+1, widget->corners,
+					                     widget->reliefstyle,
+					                     mrn_gradient_new, 0.08);
+				}
 			}
 			else if (widget->reliefstyle != 0)
 				murrine_draw_inset (cr, &widget->parentbg, 0.5, 0.5, width-1, height-1, roundness+1, widget->corners);

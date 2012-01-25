@@ -1,4 +1,4 @@
-INCLUDES = $(GTK_CFLAGS)
+INCLUDES = $(GTK_CFLAGS) $(pixman_CFLAGS)
 
 SUBDIRS = schema
 DIST_SUBDIRS = $(SUBDIRS) po
@@ -36,5 +36,5 @@ libmurrine_la_SOURCES = \
 	./src/stack-blur.h
 
 libmurrine_la_LDFLAGS = -module -avoid-version -no-undefined
-libmurrine_la_LIBADD =  $(GTK_LIBS)
+libmurrine_la_LIBADD =  $(GTK_LIBS) $(pixman_LIBS)
 

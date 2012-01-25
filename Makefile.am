@@ -36,5 +36,5 @@ libmurrine_la_SOURCES = \
 	./src/stack-blur.h
 
 libmurrine_la_LDFLAGS = -module -avoid-version -no-undefined
-libmurrine_la_LIBADD =  $(GTK_LIBS) $(pixman_LIBS)
+libmurrine_la_LIBADD =  $(GTK_LIBS) $(pixman_LIBS) -lm
 

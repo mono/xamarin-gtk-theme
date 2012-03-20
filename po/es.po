@@ -3,15 +3,16 @@
 # Copyright (C) 2009 murrine's COPYRIGHT HOLDER
 # This file is distributed under the same license as the murrine package.
 # Jorge González <jorgegonz@svn.gnome.org>, 2009, 2010.
+# Daniel Mustieles <daniel.mustieles@gmail.com>, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: murrine.po.master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=murrine&component=general\n"
-"POT-Creation-Date: 2010-09-22 13:33+0000\n"
-"PO-Revision-Date: 2010-09-25 10:42+0200\n"
-"Last-Translator: Jorge González <jorgegonz@svn.gnome.org>\n"
+"product=murrine&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2012-03-20 13:42+0000\n"
+"PO-Revision-Date: 2012-03-20 17:17+0100\n"
+"Last-Translator: Daniel Mustieles <daniel.mustieles@gmail.com>\n"
 "Language-Team: Español <gnome-es-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,28 +21,30 @@ msgstr ""
 "X-Generator: KBabel 1.11.4\n"
 
 #: ../schema/murrine.xml.in.in.h:1
-msgid "Additional scrollbar features"
-msgstr "Características adicionales de las barras de desplazamiento"
-
-#: ../schema/murrine.xml.in.in.h:2
 msgid "Animations"
 msgstr "Animaciones"
+
+#: ../schema/murrine.xml.in.in.h:2
+msgid "Enable animations on progressbars, radio and checkbuttons"
+msgstr ""
+"Activar las animaciones en las barras de progreso, botones de radio y de "
+"selección"
 
 #: ../schema/murrine.xml.in.in.h:3
 msgid "Arrow Style"
 msgstr "Estilo de flecha"
 
 #: ../schema/murrine.xml.in.in.h:4
-msgid "Cell Style"
-msgstr "Estilo de celda"
-
-#: ../schema/murrine.xml.in.in.h:5
 msgid "Colorize scrollbar"
 msgstr "Colorizar las barras de desplazamiento"
 
-#: ../schema/murrine.xml.in.in.h:6
+#: ../schema/murrine.xml.in.in.h:5
 msgid "Colorize scrollbar with bg[SELECTED]"
 msgstr "Colorizar las barras de desplazamiento con fondo [SELECCIONADAS]"
+
+#: ../schema/murrine.xml.in.in.h:6
+msgid "Cell Style"
+msgstr "Estilo de celda"
 
 #: ../schema/murrine.xml.in.in.h:7
 msgid "Combobox Style"
@@ -62,38 +65,36 @@ msgid "Default Button Color"
 msgstr "Color predeterminado de los botones"
 
 #: ../schema/murrine.xml.in.in.h:11
-msgid "Enable and set the Glow Shade"
-msgstr "Activar y configurar la sombra del brillo"
+msgid "Sets the Color of Default button 2px border"
+msgstr "Establece el color predeterminado del borde de 2px de los botones"
 
 #: ../schema/murrine.xml.in.in.h:12
-msgid "Enable animations on progressbars, radio and checkbuttons"
-msgstr ""
-"Activar las animaciones en las barras de progreso, botones de radio y de "
-"selección"
-
-#: ../schema/murrine.xml.in.in.h:13
-msgid "Enable/Disable RGBA support"
-msgstr "Activar/desactivar soporte para RGBA"
-
-#: ../schema/murrine.xml.in.in.h:14
 msgid "Expander Style"
 msgstr "Estilo del expansor"
 
-#: ../schema/murrine.xml.in.in.h:15
+#: ../schema/murrine.xml.in.in.h:13
 msgid "Focus Color"
 msgstr "Color de enfocado"
 
-#: ../schema/murrine.xml.in.in.h:16
+#: ../schema/murrine.xml.in.in.h:14
+msgid "Sets the Color of Focus"
+msgstr "Establece el color del foco"
+
+#: ../schema/murrine.xml.in.in.h:15
 msgid "Focus Style"
 msgstr "Estilo del foco"
 
-#: ../schema/murrine.xml.in.in.h:17
+#: ../schema/murrine.xml.in.in.h:16
 msgid "Glaze Style"
 msgstr "Estilo del vidriado"
 
-#: ../schema/murrine.xml.in.in.h:18
+#: ../schema/murrine.xml.in.in.h:17
 msgid "Glow Shade"
 msgstr "Sombra del brillo"
+
+#: ../schema/murrine.xml.in.in.h:18
+msgid "Enable and set the Glow Shade"
+msgstr "Activar y configurar la sombra del brillo"
 
 #: ../schema/murrine.xml.in.in.h:19
 msgid "Glow Style"
@@ -108,101 +109,104 @@ msgid "Highlight Shade"
 msgstr "Sombra de resaltado"
 
 #: ../schema/murrine.xml.in.in.h:22
-msgid "Increse/Decrease the highlight shade"
+#| msgid "Increse/Decrease the highlight shade"
+msgid "Increase/Decrease the highlight shade"
 msgstr "Aumentar/reducir la sombra de resaltado"
 
 #: ../schema/murrine.xml.in.in.h:23
-msgid "Increse/Decrease the lightborder shade"
-msgstr "Aumentar/reducir la sombra del borde"
-
-#: ../schema/murrine.xml.in.in.h:24
-msgid "Increse/Decrease the prelight shade"
-msgstr "Aumentar/reducir la sombra con preiluminación"
-
-#: ../schema/murrine.xml.in.in.h:25
-msgid "Increse/Decrease the text shadow shade"
-msgstr "Aumentar/reducir la sombra del texto"
-
-#: ../schema/murrine.xml.in.in.h:26
 msgid "Lightborder Shade"
 msgstr "Sombra del borde"
 
-#: ../schema/murrine.xml.in.in.h:27
+#: ../schema/murrine.xml.in.in.h:24
+#| msgid "Increse/Decrease the lightborder shade"
+msgid "Increase/Decrease the lightborder shade"
+msgstr "Aumentar/reducir la sombra del borde"
+
+#: ../schema/murrine.xml.in.in.h:25
 msgid "Lightborder Style"
 msgstr "Estilo de la sombra del borde"
 
-#: ../schema/murrine.xml.in.in.h:28
+#: ../schema/murrine.xml.in.in.h:26
 msgid "Listview header style"
 msgstr "Cabecera de la sombra del borde"
 
-#: ../schema/murrine.xml.in.in.h:29
+#: ../schema/murrine.xml.in.in.h:27
 msgid "Listview separators"
 msgstr "Separadores de la vista de lista"
 
-#: ../schema/murrine.xml.in.in.h:30
-#| msgid "Menubar Style"
-msgid "Menu Style"
-msgstr "Estilo del menú"
-
-#: ../schema/murrine.xml.in.in.h:31
-msgid "MenuItem Style"
-msgstr "Estilo de los elementos de menú"
-
-#: ../schema/murrine.xml.in.in.h:32
-msgid "Menubar Style"
-msgstr "Estilo de la barra de menú"
-
-#: ../schema/murrine.xml.in.in.h:33
+#: ../schema/murrine.xml.in.in.h:28
 msgid "MenubarItem Style"
 msgstr "Estilo del elemento de la barra de menú"
 
-#: ../schema/murrine.xml.in.in.h:34
+#: ../schema/murrine.xml.in.in.h:29
+msgid "Menubar Style"
+msgstr "Estilo de la barra de menú"
+
+#: ../schema/murrine.xml.in.in.h:30
+msgid "MenuItem Style"
+msgstr "Estilo de los elementos de menú"
+
+#: ../schema/murrine.xml.in.in.h:31
+msgid "Menu Style"
+msgstr "Estilo del menú"
+
+#: ../schema/murrine.xml.in.in.h:32
 msgid "Prelight Shade"
 msgstr "Sombra con preiluminación"
 
-#: ../schema/murrine.xml.in.in.h:35
+#: ../schema/murrine.xml.in.in.h:33
+#| msgid "Increse/Decrease the prelight shade"
+msgid "Increase/Decrease the prelight shade"
+msgstr "Aumentar/reducir la sombra con preiluminación"
+
+#: ../schema/murrine.xml.in.in.h:34
 msgid "Progressbar style"
 msgstr "Estilo de la barra de progreso"
 
-#: ../schema/murrine.xml.in.in.h:36
+#: ../schema/murrine.xml.in.in.h:35
 msgid "Relief style of widget"
 msgstr "Estilo de sustitución del widget"
+
+#: ../schema/murrine.xml.in.in.h:36
+msgid "Enable/Disable RGBA support"
+msgstr "Activar/desactivar soporte para RGBA"
 
 #: ../schema/murrine.xml.in.in.h:37
 msgid "Roundness"
 msgstr "Redondez"
 
 #: ../schema/murrine.xml.in.in.h:38
+msgid "Additional scrollbar features"
+msgstr "Características adicionales de las barras de desplazamiento"
+
+#: ../schema/murrine.xml.in.in.h:39
 msgid "Separator style"
 msgstr "Estilo del separador"
 
-#: ../schema/murrine.xml.in.in.h:39
-msgid "Sets the Color of Default button 2px border"
-msgstr "Establece el color predeterminado del borde de 2px de los botones"
-
 #: ../schema/murrine.xml.in.in.h:40
-msgid "Sets the Color of Focus"
-msgstr "Establece el color del foco"
-
-#: ../schema/murrine.xml.in.in.h:41
 msgid "Slider style"
 msgstr "Estilo del deslizador"
 
-#: ../schema/murrine.xml.in.in.h:42
+#: ../schema/murrine.xml.in.in.h:41
 msgid "Spinbutton Style"
 msgstr "Estilo del marcador incrementable"
 
-#: ../schema/murrine.xml.in.in.h:43
+#: ../schema/murrine.xml.in.in.h:42
 msgid "Stepper style"
 msgstr "Estilo del paso"
+
+#: ../schema/murrine.xml.in.in.h:43
+msgid "Text Style"
+msgstr "Estilo del texto"
 
 #: ../schema/murrine.xml.in.in.h:44
 msgid "Text Shade"
 msgstr "Sombra del texto"
 
 #: ../schema/murrine.xml.in.in.h:45
-msgid "Text Style"
-msgstr "Estilo del texto"
+#| msgid "Increse/Decrease the text shadow shade"
+msgid "Increase/Decrease the text shadow shade"
+msgstr "Aumentar/reducir la sombra del texto"
 
 #: ../schema/murrine.xml.in.in.h:46
 msgid "Toolbar style"

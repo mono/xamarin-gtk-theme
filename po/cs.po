@@ -1,15 +1,16 @@
 # Czech translation for murrine.
 # Copyright (C) 2009 the author(s) of murrine.
 # This file is distributed under the same license as the murrine package.
-# Marek Černocký <marek@manet.cz>, 2009, 2010.
+#
+# Marek Černocký <marek@manet.cz>, 2009, 2010, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: murrine master\n"
 "Report-Msgid-Bugs-To: http://bugzilla.gnome.org/enter_bug.cgi?"
-"product=murrine&component=general\n"
-"POT-Creation-Date: 2010-09-22 13:33+0000\n"
-"PO-Revision-Date: 2010-09-22 16:24+0200\n"
+"product=murrine&keywords=I18N+L10N&component=general\n"
+"POT-Creation-Date: 2012-03-20 13:42+0000\n"
+"PO-Revision-Date: 2012-03-25 22:54+0200\n"
 "Last-Translator: Marek Černocký <marek@manet.cz>\n"
 "Language-Team: Czech <gnome-cs-list@gnome.org>\n"
 "MIME-Version: 1.0\n"
@@ -20,28 +21,29 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 
 #: ../schema/murrine.xml.in.in.h:1
-msgid "Additional scrollbar features"
-msgstr "Doplňkové vlastnosti posuvníku"
-
-#: ../schema/murrine.xml.in.in.h:2
 msgid "Animations"
 msgstr "Animace"
+
+#: ../schema/murrine.xml.in.in.h:2
+msgid "Enable animations on progressbars, radio and checkbuttons"
+msgstr ""
+"Zapnout animace ukazatele průběhu, skupinových přepínačů a zaškrtávacích polí"
 
 #: ../schema/murrine.xml.in.in.h:3
 msgid "Arrow Style"
 msgstr "Styl šipky"
 
 #: ../schema/murrine.xml.in.in.h:4
-msgid "Cell Style"
-msgstr "Styl buňky"
-
-#: ../schema/murrine.xml.in.in.h:5
 msgid "Colorize scrollbar"
 msgstr "Barevný posuvník"
 
-#: ../schema/murrine.xml.in.in.h:6
+#: ../schema/murrine.xml.in.in.h:5
 msgid "Colorize scrollbar with bg[SELECTED]"
 msgstr "Barevný posuvník s bg[SELECTED]"
+
+#: ../schema/murrine.xml.in.in.h:6
+msgid "Cell Style"
+msgstr "Styl buňky"
 
 #: ../schema/murrine.xml.in.in.h:7
 msgid "Combobox Style"
@@ -62,37 +64,36 @@ msgid "Default Button Color"
 msgstr "Barva výchozího tlačítka"
 
 #: ../schema/murrine.xml.in.in.h:11
-msgid "Enable and set the Glow Shade"
-msgstr "Zapnout a nastavit Zářící odstín"
+msgid "Sets the Color of Default button 2px border"
+msgstr "Nastavuje barvu 2pixelového okraje výchozího tlačítka"
 
 #: ../schema/murrine.xml.in.in.h:12
-msgid "Enable animations on progressbars, radio and checkbuttons"
-msgstr ""
-"Zapnout animace ukazatele průběhu, skupinových přepínačů a zaškrtávacích polí"
-
-#: ../schema/murrine.xml.in.in.h:13
-msgid "Enable/Disable RGBA support"
-msgstr "Zapnout/vypnout podporu RGBA"
-
-#: ../schema/murrine.xml.in.in.h:14
 msgid "Expander Style"
 msgstr "Styl rozbalovacího prvku"
 
-#: ../schema/murrine.xml.in.in.h:15
+#: ../schema/murrine.xml.in.in.h:13
 msgid "Focus Color"
 msgstr "Barva zaměření"
 
-#: ../schema/murrine.xml.in.in.h:16
+#: ../schema/murrine.xml.in.in.h:14
+msgid "Sets the Color of Focus"
+msgstr "Nastavuje barvu zaměření"
+
+#: ../schema/murrine.xml.in.in.h:15
 msgid "Focus Style"
 msgstr "Styl zaměření"
 
-#: ../schema/murrine.xml.in.in.h:17
+#: ../schema/murrine.xml.in.in.h:16
 msgid "Glaze Style"
 msgstr "Lesklý styl"
 
-#: ../schema/murrine.xml.in.in.h:18
+#: ../schema/murrine.xml.in.in.h:17
 msgid "Glow Shade"
 msgstr "Zářící odstín"
+
+#: ../schema/murrine.xml.in.in.h:18
+msgid "Enable and set the Glow Shade"
+msgstr "Zapnout a nastavit Zářící odstín"
 
 #: ../schema/murrine.xml.in.in.h:19
 msgid "Glow Style"
@@ -107,103 +108,102 @@ msgid "Highlight Shade"
 msgstr "Stínování zvýraznění"
 
 #: ../schema/murrine.xml.in.in.h:22
-msgid "Increse/Decrease the highlight shade"
+msgid "Increase/Decrease the highlight shade"
 msgstr "Zvětšit/zmenšit stínování zvýraznění"
 
 #: ../schema/murrine.xml.in.in.h:23
-msgid "Increse/Decrease the lightborder shade"
-msgstr "Zvětšit/zmenšit stínování zesvětleného okraje"
-
-#: ../schema/murrine.xml.in.in.h:24
-msgid "Increse/Decrease the prelight shade"
-msgstr ""
-"Zvětšit/zmenšit stínování prvku se stavem „prelight“ (je nad ním ukazatel)"
-
-#: ../schema/murrine.xml.in.in.h:25
-msgid "Increse/Decrease the text shadow shade"
-msgstr "Zvětšit/zmenšit sytost stínování textu"
-
-#: ../schema/murrine.xml.in.in.h:26
 msgid "Lightborder Shade"
 msgstr "Stínování zesvětleného okraje"
 
-#: ../schema/murrine.xml.in.in.h:27
+#: ../schema/murrine.xml.in.in.h:24
+msgid "Increase/Decrease the lightborder shade"
+msgstr "Zvětšit/zmenšit stínování zesvětleného okraje"
+
+#: ../schema/murrine.xml.in.in.h:25
 msgid "Lightborder Style"
 msgstr "Styl zesvětlení okraje"
 
-#: ../schema/murrine.xml.in.in.h:28
+#: ../schema/murrine.xml.in.in.h:26
 msgid "Listview header style"
 msgstr "Styl hlavičky seznamu"
 
-#: ../schema/murrine.xml.in.in.h:29
+#: ../schema/murrine.xml.in.in.h:27
 msgid "Listview separators"
 msgstr "Oddělovače v seznamu"
 
-#: ../schema/murrine.xml.in.in.h:30
-msgid "Menu Style"
-msgstr "Styl nabídky"
-
-#: ../schema/murrine.xml.in.in.h:31
-msgid "MenuItem Style"
-msgstr "Styl položky nabídky"
-
-#: ../schema/murrine.xml.in.in.h:32
-msgid "Menubar Style"
-msgstr "Styl panelu nabídek"
-
-#: ../schema/murrine.xml.in.in.h:33
+#: ../schema/murrine.xml.in.in.h:28
 msgid "MenubarItem Style"
 msgstr "Styl položky panelu nabídek"
 
-#: ../schema/murrine.xml.in.in.h:34
+#: ../schema/murrine.xml.in.in.h:29
+msgid "Menubar Style"
+msgstr "Styl panelu nabídek"
+
+#: ../schema/murrine.xml.in.in.h:30
+msgid "MenuItem Style"
+msgstr "Styl položky nabídky"
+
+#: ../schema/murrine.xml.in.in.h:31
+msgid "Menu Style"
+msgstr "Styl nabídky"
+
+#: ../schema/murrine.xml.in.in.h:32
 msgid "Prelight Shade"
 msgstr "Stínování nasvíceného"
 
-#: ../schema/murrine.xml.in.in.h:35
+#: ../schema/murrine.xml.in.in.h:33
+msgid "Increase/Decrease the prelight shade"
+msgstr ""
+"Zvětšit/zmenšit stínování prvku se stavem „prelight“ (je nad ním ukazatel)"
+
+#: ../schema/murrine.xml.in.in.h:34
 msgid "Progressbar style"
 msgstr "Styl ukazatele průběhu"
 
-#: ../schema/murrine.xml.in.in.h:36
+#: ../schema/murrine.xml.in.in.h:35
 msgid "Relief style of widget"
 msgstr "Styl reliéfu widgetu"
+
+#: ../schema/murrine.xml.in.in.h:36
+msgid "Enable/Disable RGBA support"
+msgstr "Zapnout/vypnout podporu RGBA"
 
 #: ../schema/murrine.xml.in.in.h:37
 msgid "Roundness"
 msgstr "Zaoblení"
 
 #: ../schema/murrine.xml.in.in.h:38
+msgid "Additional scrollbar features"
+msgstr "Doplňkové vlastnosti posuvníku"
+
+#: ../schema/murrine.xml.in.in.h:39
 msgid "Separator style"
 msgstr "Styl oddělovače"
 
-#: ../schema/murrine.xml.in.in.h:39
-msgid "Sets the Color of Default button 2px border"
-msgstr "Nastavuje barvu 2pixelového okraje výchozího tlačítka"
-
 #: ../schema/murrine.xml.in.in.h:40
-msgid "Sets the Color of Focus"
-msgstr "Nastavuje barvu zaměření"
-
-#: ../schema/murrine.xml.in.in.h:41
 msgid "Slider style"
 msgstr "Styl táhla"
 
-#: ../schema/murrine.xml.in.in.h:42
+#: ../schema/murrine.xml.in.in.h:41
 msgid "Spinbutton Style"
 msgstr "Styl číselníku"
 
-#: ../schema/murrine.xml.in.in.h:43
+#: ../schema/murrine.xml.in.in.h:42
 msgid "Stepper style"
 msgstr "Styl krokovače"
+
+#: ../schema/murrine.xml.in.in.h:43
+msgid "Text Style"
+msgstr "Styl textu"
 
 #: ../schema/murrine.xml.in.in.h:44
 msgid "Text Shade"
 msgstr "Stínování textu"
 
 #: ../schema/murrine.xml.in.in.h:45
-msgid "Text Style"
-msgstr "Styl textu"
+msgid "Increase/Decrease the text shadow shade"
+msgstr "Zvětšit/zmenšit sytost stínování textu"
 
 #: ../schema/murrine.xml.in.in.h:46
 msgid "Toolbar style"
 msgstr "Styl panelu nástrojů"
-

@@ -1,0 +1,203 @@
+# Mac Theme for Xamarian composed by Lanedo GmbH
+# Copyright 2012 Christian Kellner <christian.kellner@lanedo.com>
+
+gtk-color-scheme =
+"bg_color:         #fafafa
+fg_color:          #000
+base_color:        #fff
+text_color:        #000
+selected_bg_color: #494949
+selected_fg_color: #fff
+tooltip_bg_color:  #fff9e5
+tooltip_fg_color:  #000"
+
+gtk-button-images     = 0
+gtk-menu-images       = 0
+gtk-toolbar-style     = 0
+gtk-enable-mnemonics  = 0
+gtk-icon-sizes        = "gtk-small-toolbar=16,16:gtk-large-toolbar=22,22"
+gtk-toolbar-icon-size = large-toolbar
+gtk-auto-mnemonics    = 1
+
+
+style "default" {
+    xthickness = 1
+    ythickness = 1
+
+    ### colours
+    bg[NORMAL]        = @bg_color
+    bg[PRELIGHT]      = @bg_color
+    bg[SELECTED]      = @selected_bg_color
+    bg[INSENSITIVE]   = @bg_color
+    bg[ACTIVE]        = @bg_color
+
+    fg[NORMAL]        = @fg_color
+    fg[PRELIGHT]      = @fg_color
+    fg[SELECTED]      = @selected_fg_color
+    fg[INSENSITIVE]   = darker (@bg_color)
+    fg[ACTIVE]        = @fg_color
+
+    text[NORMAL]      = @text_color
+    text[PRELIGHT]    = @text_color
+    text[SELECTED]    = @selected_fg_color
+    text[INSENSITIVE] = darker (@bg_color)
+    text[ACTIVE]      = @selected_fg_color
+
+    base[NORMAL]      = @base_color
+    base[PRELIGHT]    = @selected_bg_color
+    base[SELECTED]    = @selected_bg_color
+    base[INSENSITIVE] = @bg_color
+    base[ACTIVE]      = @selected_bg_color
+
+    ### style properties
+    GtkWidget::new-tooltip-style = 1
+
+    GtkEntry::honors-transparent-bg-hint = 1
+
+    GtkButton::child-displacement-x = 0
+    GtkButton::child-displacement-y = 0
+    GtkButton::default-border = { 0, 0, 0, 0 }
+    GtkButton::inner-border = { 0, 0, 0, 0 }
+
+    GtkTreeView::odd-row-color = @base_color
+
+    engine "murrine" {
+
+        arrowstyle = 2
+        rgba       = TRUE
+        roundness  = 3
+        glazestyle = 0
+
+        menustyle        = 0
+        menuitemstyle    = 0
+        menubaritemstyle = 0
+    }
+}
+
+style "wide" = "default" {
+    xthickness = 2
+    ythickness = 2
+}
+
+style "wider" = "default" {
+    xthickness = 3
+    ythickness = 3
+}
+
+
+style "button" {
+    xthickness = 0
+    ythickness = 0
+
+    bg[NORMAL]      = @base_color
+    bg[PRELIGHT]    = @bg_color
+    bg[ACTIVE]      = shade(0.7, @bg_color)
+    bg[INSENSITIVE] = @bg_color
+
+    engine "murrine" {
+        contrast = 1.0
+        gradient_shades     = {1.02, 0.97, 0.92, 0.87}
+        focus_color         = shade(0.6, @bg_color)
+        textstyle           = 1
+      }
+}
+
+style "menu" {
+    xthickness = 0
+    ythickness = 0
+
+    fg[PRELIGHT] = @selected_fg_color
+
+    engine "murrine" {
+        roundness = 3
+        gradient_shades     = {1.02, 0.97, 0.92, 0.87}
+    }
+}
+
+style "menu-item" {
+    xthickness = 0
+    ythickness = 3
+
+    fg[PRELIGHT] = @selected_fg_color
+
+    engine "murrine" {
+        roundness = 0
+        gradient_shades     = {1.02, 0.97, 0.92, 0.87}
+    }
+}
+
+style "toolbar" = "default"
+{
+    bg[NORMAL] = "#ddd"
+    engine "murrine" {
+        toolbarstyle = 2
+    }
+}
+
+style "toolbar-button"
+{
+    engine "murrine" {
+        contrast = 1.0
+        focus_color         = @bg_color
+      }
+}
+
+style "tooltip"
+{
+    xthickness = 5
+    ythickness = 5
+
+    fg[NORMAL] = @tooltip_fg_color
+    bg[NORMAL] = @tooltip_bg_color
+}
+
+style "treeview" = "default"
+{
+    text[ACTIVE] = @fg_color
+    text[SELECTED] = @fg_color
+
+    base[ACTIVE] = @bg_color
+    base[SELECTED] = shade (0.98, @bg_color)
+
+    engine "murrine" {
+        roundness = 0
+        gradient_shades     = {1.0, 1.0, 1.0, 1.0}
+    }
+}
+
+style "tree-header" = "default"
+{
+}
+
+style "icon-view" = "default"
+{
+    bg[SELECTED] = "#f5f7fa"
+    base[SELECTED] = "#f5f7fa"
+    fg[SELECTED] = "#000"
+    text[SELECTED] = "#000"
+}
+
+### Apply the styles
+class "GtkWidget"    style "default"
+
+class "GtkEntry"     style "wider"
+class "GtkFrame"     style "wide"
+class "GtkRange"     style "wide"
+class "GtkSeparator" style "wide"
+
+
+widget_class "*<GtkButton>"     style "button"
+
+widget_class "*<GtkMenu>*"      style "menu"
+widget_class "*<GtkMenuItem>*"  style "menu-item"
+
+widget_class "*<GtkToolbar>*" style "toolbar"
+widget_class "*ToolButton*"     style "toolbar-button"
+
+widget_class "*.<GtkTreeView>*"         style "treeview"
+widget_class "*.GtkTreeView.GtkButton"  style "tree-header"
+widget_class "*.GtkList.GtkButton"  style "tree-header"
+
+widget_class "*<GtkIconView>" style "icon-view"
+
+widget "gtk-tooltip*"       style "tooltip"

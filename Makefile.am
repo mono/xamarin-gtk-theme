@@ -3,10 +3,14 @@ INCLUDES = $(GTK_CFLAGS) $(pixman_CFLAGS)
 SUBDIRS = schema
 DIST_SUBDIRS = $(SUBDIRS) po
 
+themedir = $(datadir)/themes/OSX/gtk-2.0
 enginedir = $(libdir)/gtk-2.0/$(GTK_VERSION)/engines
 engine_LTLIBRARIES = libmurrine.la
 
+theme_DATA = rc/gtkrc
+
 EXTRA_DIST = ./src/config.h.in \
+        ./rc/gtkrc
 	./COPYING.2.1
 
 libmurrine_la_SOURCES = \

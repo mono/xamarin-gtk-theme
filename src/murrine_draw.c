@@ -154,8 +154,9 @@ murrine_draw_button (cairo_t *cr,
 	double highlight_shade_new = widget->highlight_shade;
 	double lightborder_shade_new = widget->lightborder_shade;
 	MurrineGradients mrn_gradient_new = widget->mrn_gradient;
-	MurrineRGB border;
+	MurrineRGB border, lower_fill;
 	MurrineRGB fill = colors->bg[widget->state_type];
+	cairo_pattern_t *pat;
 /*
 	if (widget->active)
 	{
@@ -236,11 +237,21 @@ murrine_draw_button (cairo_t *cr,
 	murrine_rounded_rectangle_closed (cr, os+1, os+1, width-(os*2)-2, height-(os*2)-2, widget->roundness-1, widget->corners);
 	cairo_clip_preserve (cr);
 
+#if 0
 	murrine_draw_glaze (cr, &fill,
 	                    glow_shade_new, highlight_shade_new, !widget->active ? lightborder_shade_new : 1.0,
 	                    mrn_gradient_new, widget,
 	                    os+1, os+1, width-(os*2)-2, height-(os*2)-2,
 	                    widget->roundness-1, widget->corners, horizontal);
+#else
+	murrine_shade (&fill, 0.855, &lower_fill);
+	pat = cairo_pattern_create_linear (os, os+2, os, height-(os*2)-2);
+	murrine_pattern_add_color_stop_rgb (pat, 0.0, &fill);
+	murrine_pattern_add_color_stop_rgb (pat, 1.0, &lower_fill);
+	cairo_set_source (cr, pat);
+	cairo_fill (cr);
+	cairo_pattern_destroy (pat);
+#endif
 
 	cairo_restore (cr);
 

@@ -2445,10 +2445,15 @@ murrine_draw_tooltip (cairo_t *cr,
 
 	cairo_rectangle (cr, 1, 1, width-2, height-2);
 
+#if 0
 	murrine_draw_glaze (cr, &colors->bg[widget->state_type],
 	                    glow_shade_new, highlight_shade_new, widget->lightborder_shade,
 	                    mrn_gradient_new, widget, 1, 1, width-2, height-2,
 	                    widget->roundness, widget->corners, TRUE);
+#else
+	murrine_set_color_rgb (cr, &fill);
+	cairo_fill (cr);
+#endif
 
 	murrine_draw_border (cr, &border,
 	                     0.5, 0.5, width-1, height-1,

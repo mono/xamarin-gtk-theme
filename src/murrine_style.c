@@ -2201,6 +2201,13 @@ murrine_style_draw_layout (GtkStyle     *style,
 
 		gdk_draw_layout_with_colors(window, gc, x, y, layout, &etched, NULL);
 	}
+	else if (DETAIL ("label") && widget && gtk_widget_get_ancestor (widget, GTK_TYPE_BUTTON))
+	{
+		GdkColor etched = { 0, 65535, 65535, 65535 };
+
+		gdk_draw_layout_with_colors(window, gc, x, y + 1, layout, &etched, NULL);
+		gdk_draw_layout (window, gc, x, y, layout);
+	}
 	else
 		gdk_draw_layout (window, gc, x, y, layout);
 

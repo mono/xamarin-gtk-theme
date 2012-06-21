@@ -3017,6 +3017,7 @@ murrine_draw_checkbox (cairo_t *cr,
 			border = &colors->spot[2];
 			bg     = &colors->spot[1];
 		}
+		bg     = &colors->bg[0];
 		dot    = &colors->text[widget->state_type];
 	}
 
@@ -3055,6 +3056,7 @@ murrine_draw_checkbox (cairo_t *cr,
 		murrine_rounded_rectangle_closed (cr, 1.5, 1.5, width-3, height-3, roundness, widget->corners);
 		cairo_clip_preserve (cr);
 
+#if 0
 		if (draw_bullet)
 		{
 			murrine_draw_glaze (cr, bg,
@@ -3063,6 +3065,7 @@ murrine_draw_checkbox (cairo_t *cr,
 				            roundness, widget->corners, TRUE);
 		}
 		else
+#endif
 		{
 			murrine_set_color_rgb (cr, bg);
 			cairo_fill (cr);

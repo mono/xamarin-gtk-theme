@@ -2473,9 +2473,7 @@ murrine_draw_iconview (cairo_t *cr,
 	MurrineRGB fill = widget->focus ? colors->base[widget->state_type] :
 	                                  colors->base[GTK_STATE_ACTIVE];
 
-	murrine_shade (&fill, murrine_get_contrast(0.6, widget->contrast), &border);
-	murrine_get_fill_color (&fill, &widget->mrn_gradient);
-
+	murrine_shade (&fill, murrine_get_contrast(0.9, widget->contrast), &border);
 	cairo_save (cr);
 
 	cairo_translate (cr, x, y);
@@ -2484,10 +2482,15 @@ murrine_draw_iconview (cairo_t *cr,
 	murrine_rounded_rectangle_closed (cr, 1, 1, width-2, height-2, widget->roundness-1, widget->corners);
 	cairo_clip_preserve (cr);
 
+#if 0
 	murrine_draw_glaze (cr, &fill,
 	                    widget->glow_shade, widget->highlight_shade, widget->lightborder_shade,
 	                    widget->mrn_gradient, widget, 1, 1, width-2, height-2,
 	                    widget->roundness-1, widget->corners, TRUE);
+#else
+	murrine_set_color_rgb (cr, &fill);
+	cairo_fill (cr);
+#endif
 
 	cairo_restore (cr);
 

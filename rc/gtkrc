@@ -61,7 +61,7 @@ style "default" {
 
     GtkTreeView::odd-row-color = @base_color
 
-    engine "murrine" {
+    engine "xamarin" {
 
         arrowstyle = 2
         rgba       = TRUE
@@ -94,7 +94,7 @@ style "button" {
     bg[ACTIVE]      = shade(0.7, @bg_color)
     bg[INSENSITIVE] = @bg_color
 
-    engine "murrine" {
+    engine "xamarin" {
         contrast = 1.0
         gradient_shades     = {1.02, 0.97, 0.92, 0.87}
         focus_color         = shade(0.6, @bg_color)
@@ -108,7 +108,7 @@ style "menu" {
 
     fg[PRELIGHT] = @selected_fg_color
 
-    engine "murrine" {
+    engine "xamarin" {
         roundness = 3
         gradient_shades     = {1.02, 0.97, 0.92, 0.87}
     }
@@ -120,7 +120,7 @@ style "menu-item" {
 
     fg[PRELIGHT] = @selected_fg_color
 
-    engine "murrine" {
+    engine "xamarin" {
         roundness = 0
         gradient_shades     = {1.02, 0.97, 0.92, 0.87}
     }
@@ -129,14 +129,14 @@ style "menu-item" {
 style "toolbar" = "default"
 {
     bg[NORMAL] = "#ddd"
-    engine "murrine" {
+    engine "xamarin" {
         toolbarstyle = 2
     }
 }
 
 style "toolbar-button"
 {
-    engine "murrine" {
+    engine "xamarin" {
         contrast = 1.0
         focus_color         = @bg_color
       }
@@ -159,7 +159,7 @@ style "treeview" = "default"
     base[ACTIVE] = @bg_color
     base[SELECTED] = shade (0.98, @bg_color)
 
-    engine "murrine" {
+    engine "xamarin" {
         roundness = 0
         gradient_shades     = {1.0, 1.0, 1.0, 1.0}
     }

@@ -3,9 +3,9 @@ INCLUDES = $(GTK_CFLAGS) $(pixman_CFLAGS)
 SUBDIRS = schema
 DIST_SUBDIRS = $(SUBDIRS) po
 
-themedir = $(datadir)/themes/OSX/gtk-2.0
+themedir = $(datadir)/themes/Xamarin/gtk-2.0
 enginedir = $(libdir)/gtk-2.0/$(GTK_VERSION)/engines
-engine_LTLIBRARIES = libmurrine.la
+engine_LTLIBRARIES = libxamarin.la
 
 theme_DATA = rc/gtkrc
 
@@ -13,7 +13,7 @@ EXTRA_DIST = ./src/config.h.in \
         ./rc/gtkrc
 	./COPYING.2.1
 
-libmurrine_la_SOURCES = \
+libxamarin_la_SOURCES = \
 	./src/animation.c \
 	./src/animation.h \
 	./src/cairo-support.c \
@@ -39,6 +39,6 @@ libmurrine_la_SOURCES = \
 	./src/stack-blur.c \
 	./src/stack-blur.h
 
-libmurrine_la_LDFLAGS = -module -avoid-version -no-undefined
-libmurrine_la_LIBADD =  $(GTK_LIBS) $(pixman_LIBS) -lm
+libxamarin_la_LDFLAGS = -module -avoid-version -no-undefined
+libxamarin_la_LIBADD =  $(GTK_LIBS) $(pixman_LIBS) -lm
 

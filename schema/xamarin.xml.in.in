@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<engine schema_version="0.1" module_name="murrine" long_name="Murrine">
+<engine schema_version="0.1" module_name="xamarin" long_name="Xamarin">
 
 	<metainfo>
 		<version>@VERSION@</version>
-		<website>http://www.cimitan.com/murrine</website>
+		<website>http://www.xamarin.com</website>
 		<author>
 			<name>Andrea Cimitan</name>
 			<email>andrea.cimitan@gmail.com</email>

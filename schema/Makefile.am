@@ -1,6 +1,6 @@
 xmldir = $(datadir)/gtk-engines
 
-xml_DATA = murrine.xml
+xml_DATA = xamarin.xml
 xml_in_files = $(xml_DATA:.xml=.xml.in)
 xml_in_in_files = $(xml_DATA:.xml=.xml.in.in)
 

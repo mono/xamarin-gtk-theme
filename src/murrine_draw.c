@@ -1025,9 +1025,10 @@ murrine_draw_combobox (cairo_t *cr,
 			int os = (widget.xthickness > 2 && widget.ythickness > 2) ? 1 : 0;
 
 			button.has_default_button_color = FALSE;
-			button.fill_shade = 0.855;
+			button.fill_shade = 0.899;
 			button.border_shade = 0.639;
-			colors_new.bg[GTK_STATE_NORMAL] = colors.spot[1];
+			murrine_shade (&colors.bg[GTK_STATE_NORMAL], 0.933,
+			               &colors_new.bg[GTK_STATE_NORMAL]);
 			murrine_shade (&colors_new.bg[GTK_STATE_NORMAL], combobox->prelight_shade, 
 			               &colors_new.bg[GTK_STATE_PRELIGHT]);
 
@@ -1056,6 +1057,7 @@ murrine_draw_combobox (cairo_t *cr,
 
 			params.mrn_gradient.has_border_colors = FALSE;
 			params.mrn_gradient.has_gradient_colors = FALSE;
+			button.fill_shade = 0.866;
 
 			cairo_save (cr);
 			if (params.ltr)
@@ -2800,6 +2802,10 @@ _murrine_draw_arrow (cairo_t *cr,
 				break;
 			case 2:
 				murrine_draw_combo_arrow_filled_equilateral (cr, color, 1, 1, width-2, height-2);
+				break;
+			case 3:
+				cairo_translate (cr, -1, 0);
+				murrine_draw_normal_arrow_filled_equilateral (cr, color, 1, 1, width-2, height-2);
 				break;
 		}
 	}

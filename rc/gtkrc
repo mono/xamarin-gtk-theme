@@ -177,6 +177,18 @@ style "icon-view" = "default"
     text[SELECTED] = "#000"
 }
 
+style "toolbar-combo-box" = "default"
+{
+    fg[NORMAL] = "#737373"
+    text[NORMAL] = "#737373"
+    bg[NORMAL] = "#fff"
+    base[NORMAL] = "#fff"
+
+    engine "xamarin" {
+	comboboxstyle = 0
+    }
+}
+
 ### Apply the styles
 class "GtkWidget"    style "default"
 
@@ -199,5 +211,8 @@ widget_class "*.GtkTreeView.GtkButton"  style "tree-header"
 widget_class "*.GtkList.GtkButton"  style "tree-header"
 
 widget_class "*<GtkIconView>" style "icon-view"
+
+# Comboboxes within toolbars
+widget_class "*.<GtkToolbar>.*.GtkComboBox.*" style "toolbar-combo-box"
 
 widget "gtk-tooltip*"       style "tooltip"

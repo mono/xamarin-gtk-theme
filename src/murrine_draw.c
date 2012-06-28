@@ -177,7 +177,7 @@ murrine_draw_button (cairo_t *cr,
 		murrine_shade (&fill, murrine_get_contrast(0.75, widget->contrast), &border);
 	}
 	else
-		murrine_shade (&fill, murrine_get_contrast(0.475, widget->contrast), &border);
+		murrine_shade (&fill, button->border_shade, &border);
 
 	/* Default button */
 	if (widget->is_default && !widget->disabled)
@@ -230,8 +230,6 @@ murrine_draw_button (cairo_t *cr,
 		                    widget->roundness+1, widget->corners);
 	}
 
-	murrine_mix_color (&border, &fill, 0.4, &border);
-
 	cairo_save (cr);
 
 	murrine_rounded_rectangle_closed (cr, os+1, os+1, width-(os*2)-2, height-(os*2)-2, widget->roundness-1, widget->corners);
@@ -244,7 +242,7 @@ murrine_draw_button (cairo_t *cr,
 	                    os+1, os+1, width-(os*2)-2, height-(os*2)-2,
 	                    widget->roundness-1, widget->corners, horizontal);
 #else
-	murrine_shade (&fill, 0.855, &lower_fill);
+	murrine_shade (&fill, button->fill_shade, &lower_fill);
 	pat = cairo_pattern_create_linear (os, os+2, os, height-(os*2)-2);
 	murrine_pattern_add_color_stop_rgb (pat, 0.0, &fill);
 	murrine_pattern_add_color_stop_rgb (pat, 1.0, &lower_fill);
@@ -434,6 +432,8 @@ murrine_draw_spinbutton (cairo_t *cr,
 {
 	ButtonParameters button;
 	button.has_default_button_color = FALSE;
+	button.fill_shade = 0.855;
+	button.border_shade = 0.639;
 
 	cairo_save (cr);
 
@@ -1010,6 +1010,8 @@ murrine_draw_combobox (cairo_t *cr,
 		{
 			ButtonParameters button;
 			button.has_default_button_color = FALSE;
+			button.fill_shade = 0.899;
+			button.border_shade = 0.529;
 
 			widget.style_functions->draw_button (cr, &colors, &widget, &button, x, y, w, h, horizontal);
 			break;
@@ -1019,9 +1021,12 @@ murrine_draw_combobox (cairo_t *cr,
 			WidgetParameters params = widget;
 			MurrineColors colors_new = colors;
 			ButtonParameters button;
-			button.has_default_button_color = FALSE;
 			int box_w = (widget.xthickness > 2 && widget.ythickness > 2) ? combobox->box_w : combobox->box_w-3;
 			int os = (widget.xthickness > 2 && widget.ythickness > 2) ? 1 : 0;
+
+			button.has_default_button_color = FALSE;
+			button.fill_shade = 0.855;
+			button.border_shade = 0.639;
 			colors_new.bg[GTK_STATE_NORMAL] = colors.spot[1];
 			murrine_shade (&colors_new.bg[GTK_STATE_NORMAL], combobox->prelight_shade, 
 			               &colors_new.bg[GTK_STATE_PRELIGHT]);
@@ -1081,10 +1086,14 @@ murrine_draw_optionmenu (cairo_t *cr,
                          int x, int y, int width, int height)
 {
 	ButtonParameters button;
-	button.has_default_button_color = FALSE;
 	int offset = widget->ythickness + 1;
 
 	boolean horizontal = TRUE;
+
+	button.has_default_button_color = FALSE;
+	button.fill_shade = 0.855;
+	button.border_shade = 0.639;
+
 	if (((float)width/height<0.5) || (widget->glazestyle > 0 && width<height))
 		horizontal = FALSE;
 
@@ -2652,8 +2661,8 @@ murrine_draw_normal_arrow_filled_equilateral (cairo_t *cr,
                                               const MurrineRGB *color,
                                               double x, double y, double width, double height)
 {
-	int arrow_width = width+2;
-	int arrow_height = height;
+	gdouble arrow_width = width+2;
+	gdouble arrow_height = height;
 	cairo_pattern_t *pat;
 
 	cairo_save (cr);
@@ -2719,16 +2728,16 @@ murrine_draw_combo_arrow_filled_equilateral (cairo_t *cr,
                                              const MurrineRGB *color,
                                              double x, double y, double width, double height)
 {
-	double arrow_width = 3;
-	double arrow_height = 3;
+	double arrow_width = 1.5;
+	double arrow_height = 1.5;
 
 	cairo_save (cr);
-	cairo_translate (cr, x-1, y-5.5);
+	cairo_translate (cr, x-1, y-4.5);
 	cairo_rotate (cr, M_PI);
 	murrine_draw_normal_arrow_filled_equilateral (cr, color, 0, 0, arrow_width, arrow_height);
 	cairo_restore (cr);
 
-	cairo_translate (cr, x-1, y+4.5);
+	cairo_translate (cr, x-1, y+2.5);
 
 	murrine_draw_normal_arrow_filled_equilateral (cr, color, 0, 0, arrow_width, arrow_height);
 }

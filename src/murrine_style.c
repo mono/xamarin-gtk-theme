@@ -882,6 +882,8 @@ murrine_style_draw_box (DRAW_ARGS)
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 		params.active = shadow_type == GTK_SHADOW_IN;
+		button.fill_shade = 0.855;
+		button.border_shade = 0.639;
 
 		/* Default button color */
 		if (murrine_style->has_default_button_color)
@@ -1326,6 +1328,8 @@ murrine_style_draw_box (DRAW_ARGS)
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 
 		button.has_default_button_color = FALSE;
+		button.fill_shade = 0.855;
+		button.border_shade = 0.639;
 
 		boolean horizontal = TRUE;
 		/* Different heuristic:
@@ -1404,6 +1408,8 @@ murrine_style_draw_box (DRAW_ARGS)
 		{
 			ButtonParameters button;
 			button.has_default_button_color = FALSE;
+			button.fill_shade = 0.855;
+			button.border_shade = 0.639;
 
 			params.active = FALSE;
 			params.prelight = TRUE;

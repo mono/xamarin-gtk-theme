@@ -2846,7 +2846,7 @@ murrine_draw_radiobutton (cairo_t *cr,
                           double trans)
 {
 	const MurrineRGB *border;
-	const MurrineRGB *dot;
+	MurrineRGB dot, upper_fill;
 	const MurrineRGB *bg = &colors->base[0];
 	gboolean inconsistent = FALSE;
 	gboolean draw_box = !checkbox->in_menu;
@@ -2855,6 +2855,7 @@ murrine_draw_radiobutton (cairo_t *cr,
 	double highlight_shade_new = widget->highlight_shade;
 	double lightborder_shade_new = widget->lightborder_shade;
 	MurrineGradients mrn_gradient_new = widget->mrn_gradient;
+	cairo_pattern_t *pat;
 
 	inconsistent = (checkbox->shadow_type == GTK_SHADOW_ETCHED_IN);
 	draw_bullet |= inconsistent;
@@ -2862,7 +2863,7 @@ murrine_draw_radiobutton (cairo_t *cr,
 	if (widget->state_type == GTK_STATE_INSENSITIVE)
 	{
 		border = &colors->shade[3];
-		dot    = &colors->shade[3];
+		dot    = colors->shade[3];
 		bg     = &colors->bg[0];
 
 		mrn_gradient_new = murrine_get_decreased_gradient_shades (widget->mrn_gradient, 3.0);
@@ -2873,13 +2874,8 @@ murrine_draw_radiobutton (cairo_t *cr,
 	}
 	else
 	{
-		border = &colors->shade[5];
-		if (draw_bullet)
-		{
-			border = &colors->spot[2];
-			bg     = &colors->spot[1];
-		}
-		dot    = &colors->text[widget->state_type];
+		border = &colors->shade[7];
+		murrine_shade (&colors->base[widget->state_type], 0.35, &dot);
 	}
 
 	cairo_translate (cr, x, y);
@@ -2917,18 +2913,13 @@ murrine_draw_radiobutton (cairo_t *cr,
 		murrine_rounded_rectangle_closed (cr, 1.5, 1.5, width-3, height-3, roundness, widget->corners);
 		cairo_clip_preserve (cr);
 
-		if (draw_bullet)
-		{
-			murrine_draw_glaze (cr, bg,
-				            widget->glow_shade, highlight_shade_new, lightborder_shade_new,
-				            mrn_gradient_new, widget, 2, 2, width-4, height-4,
-				            roundness, widget->corners, TRUE);
-		}
-		else
-		{
-			murrine_set_color_rgb (cr, bg);
-			cairo_fill (cr);
-		}
+		murrine_shade (bg, 0.85, &upper_fill);
+		pat = cairo_pattern_create_linear (2, 2, 2, height-2);
+		murrine_pattern_add_color_stop_rgb (pat, 0.0, &upper_fill);
+		murrine_pattern_add_color_stop_rgb (pat, 1.0, bg);
+		cairo_set_source (cr, pat);
+		cairo_pattern_destroy (pat);
+		cairo_fill (cr);
 
 		cairo_restore (cr);
 
@@ -2962,7 +2953,7 @@ murrine_draw_radiobutton (cairo_t *cr,
 			cairo_move_to(cr, 5, (double)height/2);
 			cairo_line_to(cr, width-5, (double)height/2);
 
-			murrine_set_color_rgba (cr, dot, trans);
+			murrine_set_color_rgba (cr, &dot, trans);
 			cairo_stroke (cr);
 			cairo_restore (cr);
 		}
@@ -2975,16 +2966,16 @@ murrine_draw_radiobutton (cairo_t *cr,
 			else
 			{
 				MurrineRGB outline;
-				murrine_invert_text (dot, &outline);
+				murrine_invert_text (&dot, &outline);
 
-				cairo_arc (cr, (double)width/2, (double)height/2, (double)(width+height)/4-4, 0, G_PI*2);
+				cairo_arc (cr, (double)width/2, (double)height/2, (double)(width+height)/4 - 3, 0, G_PI*2);
 				murrine_set_color_rgba (cr, &outline, 0.3*trans*(widget->state_type == GTK_STATE_INSENSITIVE? 0.2 : 1.0));
 				cairo_fill (cr);
 
-				cairo_arc (cr, (double)width/2, (double)height/2, (double)(width+height)/4-5, 0, G_PI*2);
+				cairo_arc (cr, (double)width/2, (double)height/2, (double)(width+height)/4 - 4, 0, G_PI*2);
 			}
 
-			murrine_set_color_rgba (cr, dot, trans);
+			murrine_set_color_rgb (cr, &dot);
 			cairo_fill (cr);
 		}
 	}

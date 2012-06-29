@@ -204,6 +204,14 @@ style "combo-box-label" = "combo-box"
     fg[NORMAL] = "#595959"
 }
 
+style "radio-button" = "default"
+{
+    GtkCheckButton::indicator-size = 15
+    text[NORMAL] = lighter (@text_color)
+    base[NORMAL] = @base_color
+    text[ACTIVE] = lighter(@text_color)
+}
+
 ### Apply the styles
 class "GtkWidget"    style "default"
 
@@ -211,6 +219,8 @@ class "GtkEntry"     style "wider"
 class "GtkFrame"     style "wide"
 class "GtkRange"     style "wide"
 class "GtkSeparator" style "wide"
+
+class "GtkRadioButton" style "radio-button"
 
 
 widget_class "*<GtkButton>"     style "button"

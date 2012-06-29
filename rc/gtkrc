@@ -237,10 +237,10 @@ widget_class "*.GtkList.GtkButton"  style "tree-header"
 
 widget_class "*<GtkIconView>" style "icon-view"
 
-widget_class "*.GtkComboBox.*" style "combo-box"
-widget_class "*.GtkComboBox.*.GtkLabel" style "combo-box-label"
+widget_class "*.<GtkComboBox>.*" style "combo-box"
+widget_class "*.<GtkComboBox>.*.GtkLabel" style "combo-box-label"
 
 # Comboboxes within toolbars
-widget_class "*.<GtkToolbar>.*.GtkComboBox.GtkButton.*" style "toolbar-combo-box"
+widget_class "*.<GtkToolbar>.*.<GtkComboBox>.*" style "toolbar-combo-box"
 
 widget "gtk-tooltip*"       style "tooltip"

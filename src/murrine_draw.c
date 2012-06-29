@@ -3270,9 +3270,9 @@ murrine_draw_expander_arrow (cairo_t *cr,
 	cairo_translate (cr, x_double, y_double);
 	cairo_rotate (cr, degrees * G_PI / 180);
 
-	cairo_move_to (cr, -radius / 2.0, -radius / 2.0);
+	cairo_move_to (cr, -radius / 2.0 + offset, -radius / 2.0);
 	cairo_line_to (cr,  radius / 2.0 - offset,  0);
-	cairo_line_to (cr, -radius / 2.0,  radius / 2.0);
+	cairo_line_to (cr, -radius / 2.0 + offset,  radius / 2.0);
 	cairo_close_path (cr);
 	
 	if (expander->in_treeview)

@@ -204,6 +204,12 @@ style "combo-box-label" = "combo-box"
     fg[NORMAL] = "#595959"
 }
 
+style "notebook" = "default"
+{
+    GtkNotebook::tab-overlap = -4
+    bg[ACTIVE] = "#e9e9e9"
+}
+
 style "radio-button" = "default"
 {
     GtkCheckButton::indicator-size = 15
@@ -242,5 +248,7 @@ widget_class "*.<GtkComboBox>.*.GtkLabel" style "combo-box-label"
 
 # Comboboxes within toolbars
 widget_class "*.<GtkToolbar>.*.<GtkComboBox>.*" style "toolbar-combo-box"
+
+widget_class "*<GtkNotebook>" style "notebook"
 
 widget "gtk-tooltip*"       style "tooltip"

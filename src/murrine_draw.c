@@ -314,6 +314,11 @@ murrine_draw_entry (cairo_t *cr,
 	murrine_set_color_rgb (cr, base);
 	cairo_fill (cr);
 
+	if (!widget->disabled)
+		murrine_shade (&colors->base[widget->state_type], 0.639, &border);
+	else
+		border = colors->shade[4];
+
 	if (widget->reliefstyle != 0)
 		murrine_draw_inset (cr, &widget->parentbg, 0, 0, width-1, height-1, radius+1, widget->corners);
 

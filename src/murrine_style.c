@@ -502,8 +502,13 @@ murrine_style_draw_shadow (DRAW_ARGS)
 		else
 			focus.color = colors->spot[2];
 
-		STYLE_FUNCTION(draw_entry) (cr, &murrine_style->colors, &params, &focus,
-		                            x, y, width, height);
+
+		if (g_strcmp0 (gtk_widget_get_name (widget), "search-entry") == 0)
+			STYLE_FUNCTION(draw_search_entry) (cr, &murrine_style->colors, &params, &focus,
+							   x, y, width, height);
+		else
+			STYLE_FUNCTION(draw_entry) (cr, &murrine_style->colors, &params, &focus,
+						    x, y, width, height);
 	}
 	else if (DETAIL ("frame") && widget && MRN_IS_STATUSBAR (widget->parent))
 	{

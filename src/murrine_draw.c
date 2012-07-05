@@ -428,6 +428,46 @@ murrine_draw_entry_progress (cairo_t *cr,
 }
 
 static void
+murrine_draw_search_entry (cairo_t *cr,
+			   const MurrineColors    *colors,
+			   const WidgetParameters *widget,
+			   const FocusParameters  *focus,
+			   int x, int y, int width, int height)
+{
+	MurrineRGB border = colors->shade[widget->disabled ? 4 : 7];
+	cairo_pattern_t *pat;
+
+	cairo_save (cr);
+	cairo_translate (cr, x+0.5, y+0.5);
+
+	clearlooks_rounded_rectangle (cr, 1, 1, width - 2, height - 2,
+				      MIN (width, height), MRN_CORNER_ALL);
+
+	cairo_clip_preserve (cr);
+
+	cairo_rectangle (cr, 1, 1, width - 2, height - 2);
+	murrine_set_color_rgb (cr, &colors->bg[widget->state_type]);
+	cairo_fill_preserve (cr);
+
+	pat = cairo_pattern_create_linear (0, 0, 0, 3);
+	murrine_pattern_add_color_stop_rgba (pat, 0.0, &border, 0.3);
+	cairo_pattern_add_color_stop_rgba (pat, 1, 0, 0, 0, 0);
+	cairo_set_source (cr, pat);
+
+	cairo_rectangle (cr, 1, 2, width - 2, 3);
+	cairo_fill (cr);
+	cairo_pattern_destroy (pat);
+
+	clearlooks_rounded_rectangle (cr, 1, 1, width - 2, height - 2,
+				      MIN (width, height), MRN_CORNER_ALL);
+
+	murrine_set_color_rgb (cr, &border);
+	cairo_stroke (cr);
+
+	cairo_restore (cr);
+}
+
+static void
 murrine_draw_spinbutton (cairo_t *cr,
 	                     const MurrineColors    *colors,
 	                     const WidgetParameters *widget,
@@ -3727,6 +3767,7 @@ murrine_register_style_murrine (MurrineStyleFunctions *functions)
 	functions->draw_progressbar_fill   = murrine_draw_progressbar_fill;
 	functions->draw_entry              = murrine_draw_entry;
 	functions->draw_entry_progress     = murrine_draw_entry_progress;
+	functions->draw_search_entry       = murrine_draw_search_entry;
 	functions->draw_expander           = murrine_draw_expander;
 	functions->draw_slider             = murrine_draw_slider;
 	functions->draw_slider_handle      = murrine_draw_slider_handle;

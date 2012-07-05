@@ -218,6 +218,14 @@ style "radio-button" = "default"
     text[ACTIVE] = lighter(@text_color)
 }
 
+style "search-entry" = "wider"
+{
+    GtkEntry::inner-border = { 0, 0, 0, 0 }
+    xthickness = 6
+    ythickness = 4
+    bg[NORMAL] = @base_color
+}
+
 ### Apply the styles
 class "GtkWidget"    style "default"
 
@@ -228,6 +236,7 @@ class "GtkSeparator" style "wide"
 
 class "GtkRadioButton" style "radio-button"
 
+widget "search-entry" style "search-entry"
 
 widget_class "*<GtkButton>"     style "button"
 

@@ -192,9 +192,11 @@ style "toolbar-combo-box" = "default"
     text[NORMAL] = "#737373"
     bg[NORMAL] = "#fff"
     base[NORMAL] = "#fff"
+    ythickness = 0
 
     engine "xamarin" {
 	comboboxstyle = 0
+        arrowstyle = 2
     }
 }
 
@@ -274,6 +276,7 @@ widget_class "*.<GtkComboBox>.*.GtkLabel" style "combo-box-label"
 
 # Comboboxes within toolbars
 widget_class "*.<GtkToolbar>.*.<GtkComboBox>.*" style "toolbar-combo-box"
+widget_class "*.<GtkEventBox>.*.<GtkComboBox>.*" style "toolbar-combo-box"
 
 widget_class "*<GtkNotebook>" style "notebook"
 

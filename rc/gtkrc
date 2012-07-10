@@ -244,7 +244,7 @@ class "GtkSeparator" style "wide"
 
 class "GtkRadioButton" style "radio-button"
 
-widget "search-entry" style "search-entry"
+widget "*search-entry*" style "search-entry"
 
 widget_class "*<GtkButton>"     style "button"
 

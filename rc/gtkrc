@@ -226,6 +226,14 @@ style "radio-button" = "default"
     text[ACTIVE] = lighter(@text_color)
 }
 
+style "check-box" = "default"
+{
+    GtkCheckButton::indicator-size = 15
+    base[NORMAL] = "#f8f8f8"
+    text[NORMAL] = "#404040"
+    text[ACTIVE] = "#404040"
+}
+
 style "search-entry" = "wider"
 {
     GtkEntry::inner-border = { 0, 0, 0, 0 }
@@ -243,6 +251,7 @@ class "GtkRange"     style "wide"
 class "GtkSeparator" style "wide"
 
 class "GtkRadioButton" style "radio-button"
+class "GtkCheckButton" style "check-box"
 
 widget "*search-entry*" style "search-entry"
 

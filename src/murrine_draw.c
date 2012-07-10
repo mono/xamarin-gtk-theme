@@ -3097,9 +3097,8 @@ murrine_draw_checkbox (cairo_t *cr,
 
 	if (widget->state_type == GTK_STATE_INSENSITIVE)
 	{
-		border = &colors->shade[3];
+		border = &colors->shade[5];
 		dot    = &colors->shade[3];
-		bg     = &colors->bg[0];
 
 		mrn_gradient_new = murrine_get_decreased_gradient_shades (widget->mrn_gradient, 3.0);
 		mrn_gradient_new.border_shades[0] = murrine_get_decreased_shade (widget->mrn_gradient.border_shades[0], 3.0);
@@ -3109,13 +3108,7 @@ murrine_draw_checkbox (cairo_t *cr,
 	}
 	else
 	{
-		border = &colors->shade[5];
-		if (draw_bullet)
-		{
-			border = &colors->spot[2];
-			bg     = &colors->spot[1];
-		}
-		bg     = &colors->bg[0];
+		border = &colors->shade[6];
 		dot    = &colors->text[widget->state_type];
 	}
 
@@ -3123,6 +3116,9 @@ murrine_draw_checkbox (cairo_t *cr,
 
 	if (draw_box)
 	{
+		MurrineRGB upper_fill;
+		cairo_pattern_t *pat;
+
 		if (widget->xthickness > 2 && widget->ythickness > 2)
 		{
 			if (widget->reliefstyle > 1 && draw_bullet && widget->state_type != GTK_STATE_INSENSITIVE)
@@ -3154,20 +3150,13 @@ murrine_draw_checkbox (cairo_t *cr,
 		murrine_rounded_rectangle_closed (cr, 1.5, 1.5, width-3, height-3, roundness, widget->corners);
 		cairo_clip_preserve (cr);
 
-#if 0
-		if (draw_bullet)
-		{
-			murrine_draw_glaze (cr, bg,
-				            widget->glow_shade, highlight_shade_new, lightborder_shade_new,
-				            mrn_gradient_new, widget, 2, 2, width-4, height-4,
-				            roundness, widget->corners, TRUE);
-		}
-		else
-#endif
-		{
-			murrine_set_color_rgb (cr, bg);
-			cairo_fill (cr);
-		}
+		murrine_shade (bg, 0.85, &upper_fill);
+		pat = cairo_pattern_create_linear (2, 2, 2, height-2);
+		murrine_pattern_add_color_stop_rgb (pat, 0.0, &upper_fill);
+		murrine_pattern_add_color_stop_rgb (pat, 0.2, bg);
+		cairo_set_source (cr, pat);
+		cairo_pattern_destroy (pat);
+		cairo_fill (cr);
 
 		cairo_restore (cr);
 
@@ -3202,44 +3191,16 @@ murrine_draw_checkbox (cairo_t *cr,
 		}
 		else
 		{
-			
-			if (!draw_box)
-			{
-				cairo_scale (cr, (double)width/18.0, (double)height/18.0);
-				cairo_translate (cr, 2.0, 3.0);
-			}
-			else
-			{
-				MurrineRGB outline;
-				murrine_invert_text (dot, &outline);
+			cairo_scale (cr, (double)width/18.0, (double)height/18.0);
+			cairo_translate (cr, 3.0, 1.0);
 
-				cairo_scale (cr, (double)width/18.0, (double)height/18.0);
-
-				cairo_move_to (cr, 5.0, 5.65);
-				cairo_line_to (cr, 8.95, 9.57);
-				cairo_line_to (cr, 16.0, 2.54);
-				cairo_line_to (cr, 16.0, 8.36);
-				cairo_line_to (cr, 10.6, 15.1);
-				cairo_line_to (cr, 7.6, 15.1);
-				cairo_line_to (cr, 2.95, 10.48);
-				cairo_line_to (cr, 2.95, 7.65);
-				cairo_close_path (cr);
-
-				murrine_set_color_rgba (cr, &outline, 0.5*trans*(widget->state_type == GTK_STATE_INSENSITIVE ? 0.2 : 1.0));
-				cairo_fill (cr);
-
-				cairo_translate (cr, 4.0, 2.0);
-			}
-
-			cairo_move_to (cr, 0.0, 6.0);
-			cairo_line_to (cr, 0.0, 8.0);
-			cairo_line_to (cr, 4.0, 12.0);
-			cairo_line_to (cr, 6.0, 12.0);
-			cairo_line_to (cr, 15.0, 1.0);
-			cairo_line_to (cr, 15.0, 0.0);
-			cairo_line_to (cr, 14.0, 0.0);
-			cairo_line_to (cr, 5.0, 9.0);
-			cairo_line_to (cr, 1.0, 5.0);
+			cairo_move_to (cr, 0, 8);
+			cairo_line_to (cr, 5, 13);
+			cairo_line_to (cr, 8, 9);
+			cairo_line_to (cr, 14, 1);
+			cairo_line_to (cr, 6, 7);
+			cairo_line_to (cr, 5, 9);
+			cairo_line_to (cr, 2, 6);
 			cairo_close_path (cr);
 		}
 

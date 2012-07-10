@@ -1726,6 +1726,17 @@ murrine_draw_separator (cairo_t *cr,
 				cairo_pattern_destroy (pat);
 				break;
 			}
+			case 2:
+			{
+				cairo_pattern_t *pat;
+				murrine_shade (&colors->bg[0], 0.758, &dark);
+				pat = cairo_pattern_create_linear (0, 0, 0, height);
+				murrine_pattern_add_color_stop_rgba (pat, 0.00, &dark, 0.0);
+				murrine_pattern_add_color_stop_rgba (pat, 1.00, &dark, 1.0);
+				cairo_set_source (cr, pat);
+				cairo_pattern_destroy (pat);
+				break;
+			}
 		}
 		cairo_move_to (cr, 0.0, 0.0);
 		cairo_line_to (cr, 0.0, height);
@@ -1745,6 +1756,16 @@ murrine_draw_separator (cairo_t *cr,
 				murrine_pattern_add_color_stop_rgba (pat, 0.25, &highlight, 0.5);
 				murrine_pattern_add_color_stop_rgba (pat, 0.75, &highlight, 0.5);
 				murrine_pattern_add_color_stop_rgba (pat, 1.00, &highlight, 0.0);
+				cairo_set_source (cr, pat);
+				cairo_pattern_destroy (pat);
+				break;
+			}
+			case 2:
+			{
+				cairo_pattern_t *pat;
+				pat = cairo_pattern_create_linear (0, 0, 0, height);
+				murrine_pattern_add_color_stop_rgba (pat, 0.00, &highlight, 0.0);
+				murrine_pattern_add_color_stop_rgba (pat, 1.00, &highlight, 1.0);
 				cairo_set_source (cr, pat);
 				cairo_pattern_destroy (pat);
 				break;
@@ -1784,7 +1805,7 @@ murrine_draw_list_view_header (cairo_t *cr,
                                int x, int y, int width, int height)
 {
 	const MurrineRGB *fill   = &colors->bg[widget->state_type];
-	MurrineRGB border = colors->shade[3];
+	MurrineRGB border = colors->shade[4];
 	MurrineRGB grip = colors->shade[3];
 	MurrineRGB highlight;
 
@@ -1844,6 +1865,31 @@ murrine_draw_list_view_header (cairo_t *cr,
 			}
 			cairo_fill (cr);
 			break;
+		case 3:
+		{
+			cairo_pattern_t *pat;
+			MurrineRGB shade;
+
+			murrine_shade (fill, 0.948, &shade);
+			pat = cairo_pattern_create_linear (0, 0, 0, height);
+			murrine_pattern_add_color_stop_rgb (pat, 0, fill);
+			murrine_pattern_add_color_stop_rgb (pat, 1, &shade);
+			cairo_set_source (cr, pat);
+			cairo_pattern_destroy (pat);
+
+			cairo_rectangle (cr, 0, 0, width, height);
+			cairo_fill (cr);
+
+			/* Top line */
+			murrine_shade (fill, 1.023, &shade);
+			murrine_set_color_rgb (cr, &shade);
+			cairo_move_to (cr, 0, 0.5);
+			cairo_line_to (cr, width, 0.5);
+			cairo_stroke (cr);
+
+			murrine_shade (&colors->bg[0], 0.788, &border);
+			break;
+		}
 	}
 	murrine_shade (&border, widget->mrn_gradient.border_shades[1], &border);
 
@@ -1872,8 +1918,9 @@ murrine_draw_list_view_header (cairo_t *cr,
 		{
 			SeparatorParameters separator;
 			separator.horizontal = FALSE;
+			separator.style = 2;
 
-			murrine_draw_separator (cr, colors, widget, &separator, width-1.5, 4.0, 2, height-8.0);
+			murrine_draw_separator (cr, colors, widget, &separator, width-2.5, 4.0, 2, height-5.0);
 		}
 	}
 }

@@ -157,8 +157,10 @@ style "treeview" = "default"
     text[ACTIVE] = @fg_color
     text[SELECTED] = @fg_color
 
-    base[ACTIVE] = @bg_color
-    base[SELECTED] = shade (0.98, @bg_color)
+    base[ACTIVE] = "#fff"
+    base[SELECTED] = shade (0.8, @bg_color)
+
+    GtkTreeView::odd-row-color = "#f5f5f5"
 
     engine "xamarin" {
         roundness = 0
@@ -166,8 +168,14 @@ style "treeview" = "default"
     }
 }
 
-style "tree-header" = "default"
+style "tree-header" = "wide"
 {
+    bg[NORMAL] = "#f2f2f2"
+
+    engine "xamarin" {
+        listviewheaderstyle = 3
+        separatorstyle = 1
+    }
 }
 
 style "icon-view" = "default"

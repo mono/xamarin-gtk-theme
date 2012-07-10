@@ -214,7 +214,7 @@ style "combo-box-label" = "combo-box"
 
 style "notebook" = "default"
 {
-    GtkNotebook::tab-overlap = -4
+    GtkNotebook::tab-overlap = 1
     bg[ACTIVE] = "#e9e9e9"
 }
 

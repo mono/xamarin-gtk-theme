@@ -72,6 +72,7 @@ style "default" {
         menuitemstyle    = 0
         menubaritemstyle = 0
         comboboxstyle    = 1
+        spinbuttonstyle  = 1
     }
 }
 

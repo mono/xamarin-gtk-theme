@@ -440,12 +440,12 @@ murrine_draw_search_entry (cairo_t *cr,
 	cairo_save (cr);
 	cairo_translate (cr, x+0.5, y+0.5);
 
-	clearlooks_rounded_rectangle (cr, 1, 1, width - 2, height - 2,
+	clearlooks_rounded_rectangle (cr, 1, 1, width - 3, height - 3,
 				      MIN (width, height), MRN_CORNER_ALL);
 
 	cairo_clip_preserve (cr);
 
-	cairo_rectangle (cr, 1, 1, width - 2, height - 2);
+	cairo_rectangle (cr, 1, 1, width - 3, height - 3);
 	murrine_set_color_rgb (cr, &colors->bg[widget->state_type]);
 	cairo_fill_preserve (cr);
 
@@ -454,11 +454,11 @@ murrine_draw_search_entry (cairo_t *cr,
 	cairo_pattern_add_color_stop_rgba (pat, 1, 0, 0, 0, 0);
 	cairo_set_source (cr, pat);
 
-	cairo_rectangle (cr, 1, 2, width - 2, 3);
+	cairo_rectangle (cr, 1, 2, width - 3, 3);
 	cairo_fill (cr);
 	cairo_pattern_destroy (pat);
 
-	clearlooks_rounded_rectangle (cr, 1, 1, width - 2, height - 2,
+	clearlooks_rounded_rectangle (cr, 1, 1, width - 3, height - 3,
 				      MIN (width, height), MRN_CORNER_ALL);
 
 	murrine_set_color_rgb (cr, &border);

@@ -355,6 +355,68 @@ murrine_draw_entry (cairo_t *cr,
 }
 
 static void
+murrine_draw_spinbutton_entry (cairo_t *cr,
+			       const MurrineColors    *colors,
+			       const WidgetParameters *widget,
+			       const FocusParameters  *focus,
+			       int x, int y, int width, int height)
+{
+	MurrineGradients mrn_gradient_new = widget->mrn_gradient;
+	const MurrineRGB *base = &colors->base[widget->state_type];
+	MurrineRGB border = colors->shade[widget->disabled ? 4 : 6];
+	int radius = CLAMP (widget->roundness, 0, 3);
+
+	if (widget->focus)
+		border = focus->color;
+
+	cairo_translate (cr, x+0.5, y+0.5);
+
+	/* Fill the entry's base color */
+	cairo_rectangle (cr, 1.5, 1.5, width-4, height-4);
+	murrine_set_color_rgb (cr, base);
+	cairo_fill (cr);
+
+	if (!widget->disabled)
+		murrine_shade (&colors->base[widget->state_type], 0.639, &border);
+	else
+		border = colors->shade[4];
+
+	if (widget->reliefstyle != 0)
+		murrine_draw_inset (cr, &widget->parentbg, 0, 0, width-1, height-1, radius+1, widget->corners);
+
+	/* Draw the focused border */
+	if (widget->focus)
+	{
+		MurrineRGB focus_shadow;
+		murrine_shade (&border, 1.54, &focus_shadow);
+
+		cairo_rectangle (cr, 2, 2, width-5, height-5);
+		murrine_set_color_rgba (cr, &focus_shadow, 0.5);
+		cairo_stroke(cr);
+	}
+	else if (widget->mrn_gradient.gradients)
+	{
+		MurrineRGB shadow;
+		murrine_shade (&border, 0.925, &shadow);
+
+		cairo_move_to (cr, 2, height-3);
+		cairo_line_to (cr, 2, 2);
+		cairo_line_to (cr, width-3, 2);
+
+		murrine_set_color_rgba (cr, &shadow, widget->disabled ? 0.05 : 0.15);
+		cairo_stroke (cr);
+	}
+
+	mrn_gradient_new = murrine_get_inverted_border_shades (mrn_gradient_new);
+
+	/* Draw border */
+	murrine_draw_border (cr, &border,
+	                     1, 1, width-3, height-3,
+	                     radius, widget->corners,
+	                     mrn_gradient_new, 1.0);
+}
+
+static void
 murrine_draw_entry_progress (cairo_t *cr,
                              const MurrineColors    *colors,
                              const WidgetParameters *widget,
@@ -3776,6 +3838,7 @@ murrine_register_style_murrine (MurrineStyleFunctions *functions)
 	functions->draw_entry              = murrine_draw_entry;
 	functions->draw_entry_progress     = murrine_draw_entry_progress;
 	functions->draw_search_entry       = murrine_draw_search_entry;
+	functions->draw_spinbutton_entry   = murrine_draw_spinbutton_entry;
 	functions->draw_expander           = murrine_draw_expander;
 	functions->draw_slider             = murrine_draw_slider;
 	functions->draw_slider_handle      = murrine_draw_slider_handle;

@@ -506,6 +506,9 @@ murrine_style_draw_shadow (DRAW_ARGS)
 		if (g_strcmp0 (gtk_widget_get_name (widget), "search-entry") == 0)
 			STYLE_FUNCTION(draw_search_entry) (cr, &murrine_style->colors, &params, &focus,
 							   x, y, width, height);
+		else if (GTK_IS_SPIN_BUTTON (widget))
+			STYLE_FUNCTION(draw_spinbutton_entry) (cr, &murrine_style->colors, &params, &focus,
+							       x, y, width, height);
 		else
 			STYLE_FUNCTION(draw_entry) (cr, &murrine_style->colors, &params, &focus,
 						    x, y, width, height);

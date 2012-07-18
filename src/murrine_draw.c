@@ -319,27 +319,35 @@ murrine_draw_entry (cairo_t *cr,
 	else
 		border = colors->shade[4];
 
-	if (widget->reliefstyle != 0)
-		murrine_draw_inset (cr, &widget->parentbg, 0, 0, width-1, height-1, radius+1, widget->corners);
-
 	/* Draw the focused border */
 	if (widget->focus)
 	{
 		MurrineRGB focus_shadow;
-		murrine_shade (&border, 1.54, &focus_shadow);
 
-		cairo_rectangle (cr, 2, 2, width-5, height-5);
-		murrine_set_color_rgba (cr, &focus_shadow, 0.5);
-		cairo_stroke(cr);
+		murrine_shade (&colors->base[GTK_STATE_SELECTED],
+			       1.53, &focus_shadow);
+
+		murrine_draw_border (cr, &focus_shadow,
+				     0, 0, width-1, height-1,
+				     radius + 2, widget->corners,
+				     mrn_gradient_new, 1.0);
+
+		murrine_shade (&colors->base[GTK_STATE_SELECTED],
+			       1.45, &focus_shadow);
+		murrine_draw_border (cr, &focus_shadow,
+				     1, 1, width-3, height-3,
+				     radius + 1, widget->corners,
+				     mrn_gradient_new, 1.0);
 	}
-	else if (widget->mrn_gradient.gradients)
+
+	if (widget->mrn_gradient.gradients)
 	{
 		MurrineRGB shadow;
 		murrine_shade (&border, 0.925, &shadow);
 
-		cairo_move_to (cr, 2, height-3);
-		cairo_line_to (cr, 2, 2);
-		cairo_line_to (cr, width-3, 2);
+		cairo_move_to (cr, 3, height-5);
+		cairo_line_to (cr, 3, 3);
+		cairo_line_to (cr, width-5, 3);
 
 		murrine_set_color_rgba (cr, &shadow, widget->disabled ? 0.05 : 0.15);
 		cairo_stroke (cr);
@@ -347,9 +355,12 @@ murrine_draw_entry (cairo_t *cr,
 
 	mrn_gradient_new = murrine_get_inverted_border_shades (mrn_gradient_new);
 
+	if (widget->focus)
+		border = colors->base[GTK_STATE_SELECTED];
+
 	/* Draw border */
 	murrine_draw_border (cr, &border,
-	                     1, 1, width-3, height-3,
+	                     2, 2, width-5, height-5,
 	                     radius, widget->corners,
 	                     mrn_gradient_new, 1.0);
 }

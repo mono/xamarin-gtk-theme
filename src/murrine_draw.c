@@ -293,16 +293,16 @@ murrine_draw_button (cairo_t *cr,
 }
 
 static void
-murrine_draw_entry (cairo_t *cr,
-                    const MurrineColors    *colors,
-                    const WidgetParameters *widget,
-                    const FocusParameters  *focus,
-                    int x, int y, int width, int height)
+murrine_draw_entry_box (cairo_t *cr,
+			const MurrineColors    *colors,
+			const WidgetParameters *widget,
+			const FocusParameters  *focus,
+			int x, int y, int width, int height,
+			int radius)
 {
 	MurrineGradients mrn_gradient_new = widget->mrn_gradient;
 	const MurrineRGB *base = &colors->base[widget->state_type];
 	MurrineRGB border = colors->shade[widget->disabled ? 4 : 6];
-	int radius = CLAMP (widget->roundness, 0, 3);
 
 	if (widget->focus)
 		border = focus->color;
@@ -310,7 +310,9 @@ murrine_draw_entry (cairo_t *cr,
 	cairo_translate (cr, x+0.5, y+0.5);
 
 	/* Fill the entry's base color */
-	cairo_rectangle (cr, 1.5, 1.5, width-4, height-4);
+	murrine_rounded_rectangle_closed (cr, 2, 2, width-5, height-5, radius,
+					  (MRN_CORNER_TOPLEFT | MRN_CORNER_TOPRIGHT |
+					   MRN_CORNER_BOTTOMLEFT | MRN_CORNER_BOTTOMRIGHT));
 	murrine_set_color_rgb (cr, base);
 	cairo_fill (cr);
 
@@ -363,6 +365,22 @@ murrine_draw_entry (cairo_t *cr,
 	                     2, 2, width-5, height-5,
 	                     radius, widget->corners,
 	                     mrn_gradient_new, 1.0);
+}
+
+static void
+murrine_draw_entry (cairo_t *cr,
+                    const MurrineColors    *colors,
+                    const WidgetParameters *widget,
+                    const FocusParameters  *focus,
+                    int x, int y, int width, int height)
+{
+	MurrineGradients mrn_gradient_new = widget->mrn_gradient;
+	const MurrineRGB *base = &colors->base[widget->state_type];
+	MurrineRGB border = colors->shade[widget->disabled ? 4 : 6];
+	int radius = CLAMP (widget->roundness, 0, 3);
+
+	murrine_draw_entry_box (cr, colors, widget, focus,
+				x, y, width, height, radius);
 }
 
 static void
@@ -507,37 +525,9 @@ murrine_draw_search_entry (cairo_t *cr,
 			   const FocusParameters  *focus,
 			   int x, int y, int width, int height)
 {
-	MurrineRGB border = colors->shade[widget->disabled ? 4 : 7];
-	cairo_pattern_t *pat;
-
-	cairo_save (cr);
-	cairo_translate (cr, x+0.5, y+0.5);
-
-	clearlooks_rounded_rectangle (cr, 1, 1, width - 3, height - 3,
-				      MIN (width, height), MRN_CORNER_ALL);
-
-	cairo_clip_preserve (cr);
-
-	cairo_rectangle (cr, 1, 1, width - 3, height - 3);
-	murrine_set_color_rgb (cr, &colors->bg[widget->state_type]);
-	cairo_fill_preserve (cr);
-
-	pat = cairo_pattern_create_linear (0, 0, 0, 3);
-	murrine_pattern_add_color_stop_rgba (pat, 0.0, &border, 0.3);
-	cairo_pattern_add_color_stop_rgba (pat, 1, 0, 0, 0, 0);
-	cairo_set_source (cr, pat);
-
-	cairo_rectangle (cr, 1, 2, width - 3, 3);
-	cairo_fill (cr);
-	cairo_pattern_destroy (pat);
-
-	clearlooks_rounded_rectangle (cr, 1, 1, width - 3, height - 3,
-				      MIN (width, height), MRN_CORNER_ALL);
-
-	murrine_set_color_rgb (cr, &border);
-	cairo_stroke (cr);
-
-	cairo_restore (cr);
+	murrine_draw_entry_box (cr, colors, widget, focus,
+				x, y, width, height,
+				MIN (width, height));
 }
 
 static void

@@ -3267,6 +3267,12 @@ murrine_draw_checkbox (cairo_t *cr,
 			cairo_close_path (cr);
 		}
 
+		/* Force normal state color, as the background doesn't
+		 * change either on cell renderer checkboxes
+		 */
+		if (checkbox->in_cell)
+			dot = &colors->text[GTK_STATE_NORMAL];
+
 		murrine_set_color_rgba (cr, dot, trans);
 		cairo_fill (cr);
 	}

@@ -320,7 +320,7 @@ murrine_draw_entry_box (cairo_t *cr,
 	cairo_fill (cr);
 
 	if (!widget->disabled)
-		murrine_shade (&colors->base[widget->state_type], 0.639, &border);
+		murrine_shade (&colors->base[widget->state_type], 0.6, &border);
 	else
 		border = colors->shade[4];
 
@@ -409,7 +409,7 @@ murrine_draw_spinbutton_entry (cairo_t *cr,
 	cairo_fill (cr);
 
 	if (!widget->disabled)
-		murrine_shade (&colors->base[widget->state_type], 0.639, &border);
+		murrine_shade (&colors->base[widget->state_type], 0.6, &border);
 	else
 		border = colors->shade[4];
 
@@ -544,7 +544,7 @@ murrine_draw_spinbutton (cairo_t *cr,
 	ButtonParameters button;
 	button.has_default_button_color = FALSE;
 	button.fill_shade = 0.855;
-	button.border_shade = 0.639;
+	button.border_shade = 0.6;
 	button.draw_glaze = FALSE;
 
 	cairo_save (cr);
@@ -1139,7 +1139,7 @@ murrine_draw_combobox (cairo_t *cr,
 
 			button.has_default_button_color = FALSE;
 			button.fill_shade = 0.899;
-			button.border_shade = 0.639;
+			button.border_shade = 0.6;
 			button.draw_glaze = FALSE;
 
 			murrine_shade (&colors.bg[GTK_STATE_NORMAL], 0.933,
@@ -1209,7 +1209,7 @@ murrine_draw_optionmenu (cairo_t *cr,
 
 	button.has_default_button_color = FALSE;
 	button.fill_shade = 0.855;
-	button.border_shade = 0.639;
+	button.border_shade = 0.6;
 	button.draw_glaze = FALSE;
 
 	if (((float)width/height<0.5) || (widget->glazestyle > 0 && width<height))

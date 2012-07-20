@@ -343,22 +343,17 @@ murrine_draw_entry_box (cairo_t *cr,
 	/* Draw the focused border */
 	if (widget->focus)
 	{
-		MurrineRGB focus_shadow;
-
-		murrine_shade (&colors->base[GTK_STATE_SELECTED],
-			       1.53, &focus_shadow);
-
-		murrine_draw_border (cr, &focus_shadow,
+		murrine_draw_border (cr,
+				     &colors->base[GTK_STATE_SELECTED],
 				     0, 0, width-1, height-1,
 				     radius + 2, widget->corners,
-				     mrn_gradient_new, 1.0);
+				     mrn_gradient_new, 0.1);
 
-		murrine_shade (&colors->base[GTK_STATE_SELECTED],
-			       1.45, &focus_shadow);
-		murrine_draw_border (cr, &focus_shadow,
+		murrine_draw_border (cr,
+				     &colors->base[GTK_STATE_SELECTED],
 				     1, 1, width-3, height-3,
 				     radius + 1, widget->corners,
-				     mrn_gradient_new, 1.0);
+				     mrn_gradient_new, 0.28);
 	}
 
 	if (widget->mrn_gradient.gradients)

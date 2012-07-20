@@ -235,21 +235,24 @@ murrine_draw_button (cairo_t *cr,
 	murrine_rounded_rectangle_closed (cr, os+1, os+1, width-(os*2)-2, height-(os*2)-2, widget->roundness-1, widget->corners);
 	cairo_clip_preserve (cr);
 
-#if 0
-	murrine_draw_glaze (cr, &fill,
-	                    glow_shade_new, highlight_shade_new, !widget->active ? lightborder_shade_new : 1.0,
-	                    mrn_gradient_new, widget,
-	                    os+1, os+1, width-(os*2)-2, height-(os*2)-2,
-	                    widget->roundness-1, widget->corners, horizontal);
-#else
-	murrine_shade (&fill, button->fill_shade, &lower_fill);
-	pat = cairo_pattern_create_linear (os, os+2, os, height-(os*2)-2);
-	murrine_pattern_add_color_stop_rgb (pat, 0.0, &fill);
-	murrine_pattern_add_color_stop_rgb (pat, 1.0, &lower_fill);
-	cairo_set_source (cr, pat);
-	cairo_fill (cr);
-	cairo_pattern_destroy (pat);
-#endif
+	if (button->draw_glaze)
+	{
+		murrine_draw_glaze (cr, &fill,
+				    glow_shade_new, highlight_shade_new, !widget->active ? lightborder_shade_new : 1.0,
+				    mrn_gradient_new, widget,
+				    os+1, os+1, width-(os*2)-2, height-(os*2)-2,
+				    widget->roundness-1, widget->corners, horizontal);
+	}
+	else
+	{
+		murrine_shade (&fill, button->fill_shade, &lower_fill);
+		pat = cairo_pattern_create_linear (os, os+2, os, height-(os*2)-2);
+		murrine_pattern_add_color_stop_rgb (pat, 0.0, &fill);
+		murrine_pattern_add_color_stop_rgb (pat, 1.0, &lower_fill);
+		cairo_set_source (cr, pat);
+		cairo_fill (cr);
+		cairo_pattern_destroy (pat);
+	}
 
 	cairo_restore (cr);
 
@@ -542,6 +545,7 @@ murrine_draw_spinbutton (cairo_t *cr,
 	button.has_default_button_color = FALSE;
 	button.fill_shade = 0.855;
 	button.border_shade = 0.639;
+	button.draw_glaze = FALSE;
 
 	cairo_save (cr);
 
@@ -1120,6 +1124,7 @@ murrine_draw_combobox (cairo_t *cr,
 			button.has_default_button_color = FALSE;
 			button.fill_shade = 0.899;
 			button.border_shade = 0.529;
+			button.draw_glaze = FALSE;
 
 			widget.style_functions->draw_button (cr, &colors, &widget, &button, x, y, w, h, horizontal);
 			break;
@@ -1135,6 +1140,8 @@ murrine_draw_combobox (cairo_t *cr,
 			button.has_default_button_color = FALSE;
 			button.fill_shade = 0.899;
 			button.border_shade = 0.639;
+			button.draw_glaze = FALSE;
+
 			murrine_shade (&colors.bg[GTK_STATE_NORMAL], 0.933,
 			               &colors_new.bg[GTK_STATE_NORMAL]);
 			murrine_shade (&colors_new.bg[GTK_STATE_NORMAL], combobox->prelight_shade, 
@@ -1203,6 +1210,7 @@ murrine_draw_optionmenu (cairo_t *cr,
 	button.has_default_button_color = FALSE;
 	button.fill_shade = 0.855;
 	button.border_shade = 0.639;
+	button.draw_glaze = FALSE;
 
 	if (((float)width/height<0.5) || (widget->glazestyle > 0 && width<height))
 		horizontal = FALSE;

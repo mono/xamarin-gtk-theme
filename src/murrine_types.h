@@ -210,6 +210,7 @@ typedef struct
 {
 	MurrineRGB default_button_color;
 	boolean    has_default_button_color;
+	boolean    draw_glaze;
 	gdouble    fill_shade;
 	gdouble    border_shade;
 } ButtonParameters;

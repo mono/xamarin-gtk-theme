@@ -1007,6 +1007,8 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 	MurrineRGB border = colors->spot[2];
 	MurrineRGB effect;
 	MurrineRGB fill = colors->spot[1];
+	cairo_pattern_t *pat;
+	MurrineRGB shade1, shade2;
 
 	murrine_get_fill_color (&fill, &widget->mrn_gradient);
 	murrine_shade (&fill, murrine_get_contrast(0.65, widget->contrast), &effect);
@@ -1050,10 +1052,25 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 
 	cairo_rectangle (cr, 2, 1+yos, width-4, height-2);
 
-	murrine_draw_glaze (cr, &fill,
-	                    widget->glow_shade, widget->highlight_shade, widget->lightborder_shade,
-	                    widget->mrn_gradient, widget, 2, 1+yos, width-4, height-2,
-	                    roundness, widget->corners, TRUE);
+	murrine_shade (&colors->bg[GTK_STATE_SELECTED], 1, &shade1);
+	murrine_shade (&colors->bg[GTK_STATE_SELECTED], 0.87, &shade2);
+
+	pat = cairo_pattern_create_linear (2, 1+yos, 2, height-2);
+	murrine_pattern_add_color_stop_rgb (pat, 0, &shade1);
+	murrine_pattern_add_color_stop_rgb (pat, 1, &shade2);
+
+	cairo_set_source (cr, pat);
+	cairo_pattern_destroy (pat);
+
+	murrine_rounded_rectangle_closed (cr, 2, 1+yos, width-4, height-2,
+					  roundness, widget->corners);
+	cairo_fill (cr);
+
+	murrine_shade (&colors->bg[GTK_STATE_SELECTED], 1.2, &shade1);
+	cairo_move_to (cr, 0, 1+yos);
+	cairo_line_to (cr, width, 1+yos);
+	murrine_set_color_rgb (cr, &shade1);
+	cairo_stroke (cr);
 
 	switch (progressbar->style)
 	{
@@ -1110,8 +1127,7 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 	cairo_clip (cr);
 
 	/* Draw border */
-	murrine_mix_color (&border, &fill, 0.28, &border);
-	murrine_draw_border (cr, &border,
+	murrine_draw_border (cr, &colors->fg[GTK_STATE_SELECTED],
 	                     1.5, 0.5+yos, width-3, height-1,
 	                     roundness, widget->corners,
 	                     widget->mrn_gradient, 1.0);

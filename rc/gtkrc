@@ -78,6 +78,7 @@ style "default" {
         comboboxstyle    = 1
         spinbuttonstyle  = 1
         colorize_scrollbar = FALSE
+        progressbarstyle = 0
     }
 }
 
@@ -266,6 +267,14 @@ style "scrollbar" = "default"
     bg[NORMAL] = @bg_color
 }
 
+style "progressbar" = "default"
+{
+    bg[SELECTED] = "#62b3ec"
+    fg[SELECTED] = "#3a67a6"
+    xthickness = 0
+    ythickness = 0
+}
+
 ### Apply the styles
 class "GtkWidget"    style "default"
 
@@ -275,6 +284,7 @@ class "GtkFrame"     style "wide"
 class "GtkRange"     style "wide"
 class "GtkSeparator" style "wide"
 class "GtkScrollbar" style "scrollbar"
+class "GtkProgressBar" style "progressbar"
 
 class "GtkRadioButton" style "radio-button"
 class "GtkCheckButton" style "check-box"

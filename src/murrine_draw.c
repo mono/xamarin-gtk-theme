@@ -2219,8 +2219,9 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
 	double border_stop_mid = ((mrn_gradient_new.border_shades[0])+
 	                          (mrn_gradient_new.border_shades[1]))/2.0;
 	MurrineRGB fill = scrollbar->has_color ? scrollbar->color : colors->bg[widget->state_type];
-	MurrineRGB border;
+	MurrineRGB border, shade;
 	uint8 corners = widget->corners;
+	cairo_pattern_t *pat;
 
 	murrine_get_fill_color (&fill, &mrn_gradient_new);
 
@@ -2291,10 +2292,18 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
 	murrine_rounded_rectangle_closed (cr, 1, 1, width-2, height-2, widget->roundness-1, corners);
 	cairo_clip_preserve (cr);
 
-	murrine_draw_glaze (cr, &fill,
-	                    widget->glow_shade, widget->highlight_shade, widget->lightborder_shade,
-	                    mrn_gradient_new, widget, 1, 1, width-2, height-2,
-	                    widget->roundness, corners, TRUE);
+	murrine_shade (&colors->bg[widget->state_type], 0.9, &shade);
+
+	pat = cairo_pattern_create_linear (1, 1, 1, height-2);
+	murrine_pattern_add_color_stop_rgb (pat, 0, &shade);
+	murrine_pattern_add_color_stop_rgb (pat, 1, &colors->bg[widget->state_type]);
+
+	murrine_rounded_rectangle_closed (cr, 1, 1, width-2, height-2,
+					  widget->roundness, corners);
+	cairo_set_source (cr, pat);
+	cairo_pattern_destroy (pat);
+
+	cairo_fill (cr);
 
 	/* Draw the options */
 	MurrineRGB style;

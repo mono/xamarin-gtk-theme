@@ -63,6 +63,8 @@ style "default" {
 
     GtkTreeView::odd-row-color = @base_color
 
+    GtkScrolledWindow::scrollbar-spacing = 0
+
     engine "xamarin" {
 
         arrowstyle = 2
@@ -75,6 +77,7 @@ style "default" {
         menubaritemstyle = 0
         comboboxstyle    = 1
         spinbuttonstyle  = 1
+        colorize_scrollbar = FALSE
     }
 }
 
@@ -253,6 +256,16 @@ style "search-entry" = "wider"
     bg[NORMAL] = @base_color
 }
 
+style "scrollbar" = "default"
+{
+    GtkScrollbar::has-forward-stepper = 0
+    GtkScrollbar::has-backward-stepper = 0
+    GtkRange::slider-width = 10
+
+    bg[SELECTED] = @bg_color
+    bg[NORMAL] = @bg_color
+}
+
 ### Apply the styles
 class "GtkWidget"    style "default"
 
@@ -261,6 +274,7 @@ class "GtkSpinButton" style "wider"
 class "GtkFrame"     style "wide"
 class "GtkRange"     style "wide"
 class "GtkSeparator" style "wide"
+class "GtkScrollbar" style "scrollbar"
 
 class "GtkRadioButton" style "radio-button"
 class "GtkCheckButton" style "check-box"

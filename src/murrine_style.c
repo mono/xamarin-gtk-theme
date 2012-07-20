@@ -70,7 +70,7 @@
 
 #define STYLE_FUNCTION(function) (MURRINE_STYLE_GET_CLASS (style)->style_functions[params.style].function)
 
-G_DEFINE_DYNAMIC_TYPE (MurrineStyle, murrine_style, GTK_TYPE_STYLE)
+G_DEFINE_DYNAMIC_TYPE (XamarinStyle, murrine_style, GTK_TYPE_STYLE)
 
 static cairo_t *
 murrine_begin_paint (GdkDrawable *window, GdkRectangle *area)

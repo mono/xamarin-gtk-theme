@@ -158,7 +158,7 @@ theme_symbols[] =
 	{ "style",               TOKEN_STYLE }
 };
 
-G_DEFINE_DYNAMIC_TYPE (MurrineRcStyle, murrine_rc_style, GTK_TYPE_RC_STYLE)
+G_DEFINE_DYNAMIC_TYPE (XamarinRcStyle, murrine_rc_style, GTK_TYPE_RC_STYLE)
 
 void
 murrine_rc_style_register_types (GTypeModule *module)

@@ -25,6 +25,8 @@
 
 typedef struct _MurrineRcStyle MurrineRcStyle;
 typedef struct _MurrineRcStyleClass MurrineRcStyleClass;
+typedef struct _MurrineRcStyle XamarinRcStyle;
+typedef struct _MurrineRcStyleClass XamarinRcStyleClass;
 
 #define MURRINE_TYPE_RC_STYLE              (murrine_rc_style_get_type ())
 #define MURRINE_RC_STYLE(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), MURRINE_TYPE_RC_STYLE, MurrineRcStyle))

@@ -28,6 +28,8 @@
 
 typedef struct _MurrineStyle MurrineStyle;
 typedef struct _MurrineStyleClass MurrineStyleClass;
+typedef struct _MurrineStyle XamarinStyle;
+typedef struct _MurrineStyleClass XamarinStyleClass;
 
 #define MURRINE_TYPE_STYLE              (murrine_style_get_type())
 #define MURRINE_STYLE(object)           (G_TYPE_CHECK_INSTANCE_CAST ((object), MURRINE_TYPE_STYLE, MurrineStyle))

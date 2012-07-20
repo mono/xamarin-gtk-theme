@@ -262,7 +262,7 @@ murrine_draw_button (cairo_t *cr,
 		cairo_pattern_t *pat;
 		MurrineRGB shadow;
 
-		murrine_shade (&fill, 0.94, &shadow);
+		murrine_shade (&fill, 0.8, &shadow);
 
 		cairo_save (cr);
 
@@ -278,8 +278,24 @@ murrine_draw_button (cairo_t *cr,
 		cairo_fill (cr);
 		cairo_pattern_destroy (pat);
 
+		cairo_rectangle (cr, os+1, height-(os*2)-4, width-(os*2)-2, 3);
+		pat = cairo_pattern_create_linear (os+1, height-(os*2), os+1, height-(os*2)-4);
+		murrine_pattern_add_color_stop_rgba (pat, 0.0, &shadow, 0.58);
+		murrine_pattern_add_color_stop_rgba (pat, 1.0, &shadow, 0.0);
+		cairo_set_source (cr, pat);
+		cairo_fill (cr);
+		cairo_pattern_destroy (pat);
+
 		cairo_rectangle (cr, os+1, os+1, 3, height-(os*2)-2);
 		pat = cairo_pattern_create_linear (os+1, os+1, os+4, os+1);
+		murrine_pattern_add_color_stop_rgba (pat, 0.0, &shadow, 0.58);
+		murrine_pattern_add_color_stop_rgba (pat, 1.0, &shadow, 0.0);
+		cairo_set_source (cr, pat);
+		cairo_fill (cr);
+		cairo_pattern_destroy (pat);
+
+		cairo_rectangle (cr, width-(os*2)-4, os+1, 3, height-(os*2)-2);
+		pat = cairo_pattern_create_linear (width-(os*2), os+1, width-(os*2)-4, os+1);
 		murrine_pattern_add_color_stop_rgba (pat, 0.0, &shadow, 0.58);
 		murrine_pattern_add_color_stop_rgba (pat, 1.0, &shadow, 0.0);
 		cairo_set_source (cr, pat);

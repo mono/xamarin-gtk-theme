@@ -79,6 +79,7 @@ style "default" {
         spinbuttonstyle  = 1
         colorize_scrollbar = FALSE
         progressbarstyle = 0
+        trough_shades = { 0.842, 0.886 }
     }
 }
 

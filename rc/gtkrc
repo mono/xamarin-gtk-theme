@@ -263,15 +263,27 @@ style "scrollbar" = "default"
     GtkScrollbar::has-forward-stepper = 0
     GtkScrollbar::has-backward-stepper = 0
     GtkRange::slider-width = 10
+    GtkRange::trough-border = 2
 
     bg[SELECTED] = @bg_color
     bg[NORMAL] = @bg_color
+
+    engine "xamarin" {
+        trough_shades = { 0.968, 1.04 }
+        roundness = 0
+    }
 }
 
 style "progressbar" = "default"
 {
     bg[SELECTED] = "#62b3ec"
     fg[SELECTED] = "#3a67a6"
+    xthickness = 0
+    ythickness = 0
+}
+
+style "scrolled-window" = "default"
+{
     xthickness = 0
     ythickness = 0
 }
@@ -286,6 +298,7 @@ class "GtkRange"     style "wide"
 class "GtkSeparator" style "wide"
 class "GtkScrollbar" style "scrollbar"
 class "GtkProgressBar" style "progressbar"
+class "GtkScrolledWindow" style "scrolled-window"
 
 class "GtkRadioButton" style "radio-button"
 class "GtkCheckButton" style "check-box"

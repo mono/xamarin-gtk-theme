@@ -1580,8 +1580,8 @@ murrine_draw_tab (cairo_t *cr,
 		double highlight_shade_new = murrine_get_decreased_shade (widget->highlight_shade, 2.0);
 		double lightborder_shade_new = murrine_get_decreased_shade (widget->lightborder_shade, 2.0);
 
-		murrine_shade (fill, mrn_gradient_new.gradient_shades[0]*highlight_shade_new, &shade1);
-		murrine_shade (fill, mrn_gradient_new.gradient_shades[1]*highlight_shade_new, &shade2);
+		murrine_shade (fill, mrn_gradient_new.gradient_shades[0], &shade1);
+		murrine_shade (fill, mrn_gradient_new.gradient_shades[1], &shade2);
 		murrine_shade (fill, mrn_gradient_new.gradient_shades[2], &shade3);
 		murrine_shade (fill, mrn_gradient_new.gradient_shades[3], &shade4);
 

@@ -225,7 +225,12 @@ style "combo-box-label" = "combo-box"
 style "notebook" = "default"
 {
     GtkNotebook::tab-overlap = 1
-    bg[ACTIVE] = "#e9e9e9"
+    bg[ACTIVE] = @base_color
+    bg[NORMAL] = @base_color
+
+    engine "xamarin" {
+        gradient_shades = { 0.945, 0.945, 0.945, 0.685 }
+    }
 }
 
 style "radio-button" = "default"
@@ -299,6 +304,7 @@ class "GtkSeparator" style "wide"
 class "GtkScrollbar" style "scrollbar"
 class "GtkProgressBar" style "progressbar"
 class "GtkScrolledWindow" style "scrolled-window"
+class "GtkNotebook" style "notebook"
 
 class "GtkRadioButton" style "radio-button"
 class "GtkCheckButton" style "check-box"
@@ -325,7 +331,5 @@ widget_class "*.<GtkComboBox>.*.GtkLabel" style "combo-box-label"
 # Comboboxes within toolbars
 widget_class "*.<GtkToolbar>.*.<GtkComboBox>.*" style "toolbar-combo-box"
 widget_class "*.<GtkEventBox>.*.<GtkComboBox>.*" style "toolbar-combo-box"
-
-widget_class "*<GtkNotebook>" style "notebook"
 
 widget "gtk-tooltip*"       style "tooltip"

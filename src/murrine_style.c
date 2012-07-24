@@ -954,7 +954,7 @@ murrine_style_draw_box (DRAW_ARGS)
 		if (!MRN_IS_COMBO_BOX(widget->parent) ||
 		     MRN_IS_COMBO_BOX_ENTRY (widget->parent) ||
 		     MRN_IS_COMBO (widget->parent))
-			STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, &button, x, y, width, height, horizontal);
+			STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, &button, x, y+2, width, height-4, horizontal);
 		else
 		{
 			ComboBoxParameters combobox;

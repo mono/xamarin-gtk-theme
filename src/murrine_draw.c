@@ -2300,7 +2300,7 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
 	murrine_pattern_add_color_stop_rgb (pat, 1, &colors->bg[widget->state_type]);
 
 	murrine_rounded_rectangle_closed (cr, 1, 1, width-2, height-2,
-					  widget->roundness, corners);
+					  MIN (width, height), corners);
 	cairo_set_source (cr, pat);
 	cairo_pattern_destroy (pat);
 
@@ -2444,7 +2444,7 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
 
 	murrine_draw_border (cr, &border,
 	                     0.5, 0.5, width-1, height-1,
-	                     widget->roundness, corners,
+			     MIN (width, height), corners,
 	                     mrn_gradient_new, 1.0);
 }
 

@@ -64,6 +64,7 @@ style "default" {
     GtkTreeView::odd-row-color = @base_color
 
     GtkScrolledWindow::scrollbar-spacing = 0
+    GtkScale::slider-length = 14
 
     engine "xamarin" {
 
@@ -293,6 +294,13 @@ style "scrolled-window" = "default"
     ythickness = 0
 }
 
+style "scale" = "default"
+{
+    engine "xamarin" {
+        roundness = 7
+    }
+}
+
 ### Apply the styles
 class "GtkWidget"    style "default"
 
@@ -308,6 +316,7 @@ class "GtkNotebook" style "notebook"
 
 class "GtkRadioButton" style "radio-button"
 class "GtkCheckButton" style "check-box"
+class "GtkScale" style "scale"
 
 widget "*search-entry*" style "search-entry"
 

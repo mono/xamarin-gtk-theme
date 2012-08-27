@@ -39,7 +39,25 @@ else
 	DIE=1
 fi
 
-(libtool --version) < /dev/null > /dev/null 2>&1 || {
+if glibtool --version > /dev/null 2> /dev/null ; then
+   LIBTOOL=glibtool
+elif libtool --version > /dev/null 2> /dev/null ; then
+   LIBTOOL=libtool
+else
+   echo "libtool missing"
+   DIE=1
+fi
+
+if glibtoolize --version > /dev/null 2> /dev/null ; then
+   LIBTOOLIZE=glibtoolize
+elif libtoolize --version > /dev/null 2> /dev/null ; then
+   LIBTOOLIZE=libtoolize
+else
+   echo "libtoolize missing"
+   DIE=1
+fi
+
+($LIBTOOL --version) < /dev/null > /dev/null 2>&1 || {
 	echo
 	echo "You must have libtool installed to compile murrine."
 	echo "Get http://ftp.gnu.org/gnu/libtool/libtool-1.5.10.tar.gz"
@@ -61,7 +79,7 @@ if test -z "$*"; then
 	echo "to pass any to it, please specify them on the $0 command line."
 fi
 
-libtoolize --force --copy
+$LIBTOOLIZE --force --copy
 intltoolize --force --copy --automake
 
 $ACLOCAL $ACLOCAL_FLAGS

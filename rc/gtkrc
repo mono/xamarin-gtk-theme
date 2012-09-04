@@ -212,6 +212,8 @@ style "toolbar-combo-box" = "default"
 style "combo-box" = "default"
 {
     fg[NORMAL] = "#616161"
+    xthickness = 2
+    ythickness = 2
 
     engine "xamarin" {
         arrowstyle = 3

@@ -191,8 +191,8 @@ style "icon-view" = "default"
 
 style "toolbar-combo-box" = "default"
 {
-    fg[NORMAL] = "#737373"
-    text[NORMAL] = "#737373"
+    fg[NORMAL] = @fg_color
+    text[NORMAL] = @fg_color
     bg[NORMAL] = "#fff"
     base[NORMAL] = "#fff"
     ythickness = 0

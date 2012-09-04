@@ -96,8 +96,8 @@ style "wider" = "default" {
 
 
 style "button" {
-    xthickness = 0
-    ythickness = 0
+    xthickness = 2
+    ythickness = 2
 
     bg[NORMAL]      = @bg_color
     bg[PRELIGHT]    = shade(1.1, @bg_color)

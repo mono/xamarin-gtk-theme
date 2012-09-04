@@ -66,6 +66,9 @@ style "default" {
     GtkScrolledWindow::scrollbar-spacing = 0
     GtkScale::slider-length = 14
 
+    GtkTreeView::expander-size = 8
+    GtkExpander::expander-size = 8
+
     engine "xamarin" {
 
         arrowstyle = 2

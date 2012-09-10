@@ -65,7 +65,7 @@
 #define MRN_IS_PANEL_APPLET(object) ((object) && murrine_object_is_a ((GObject*)(object), "PanelApplet"))
 #define MRN_IS_PANEL_WIDGET(object) ((object) && murrine_object_is_a ((GObject*)(object), "PanelWidget"))
 
-#define MRN_IS_COMBO_BOX_ENTRY(object) ((object) && murrine_object_is_a ((GObject*)(object), "GtkComboBoxEntry"))
+#define MRN_IS_COMBO_BOX_ENTRY(object) ((object) && murrine_object_is_a ((GObject*)(object), "GtkComboBoxText")&&gtk_combo_box_get_has_entry ((GtkComboBox*)(object)))
 #define MRN_IS_COMBO_BOX(object) ((object) && murrine_object_is_a ((GObject*)(object), "GtkComboBox"))
 #define MRN_IS_COMBO(object) ((object) && murrine_object_is_a ((GObject*)(object), "GtkCombo"))
 #define MRN_IS_OPTION_MENU(object) ((object) && murrine_object_is_a ((GObject*)(object), "GtkOptionMenu"))

@@ -951,8 +951,9 @@ murrine_style_draw_box (DRAW_ARGS)
 			}		
 		}
 
-		if (GTK_IS_COMBO_BOX_TEXT (widget->parent) &&
-		    gtk_combo_box_get_has_entry (GTK_COMBO_BOX (widget->parent)))
+		if (MRN_IS_COMBO_BOX_ENTRY (widget->parent) ||
+		    (GTK_IS_COMBO_BOX (widget->parent) &&
+		     gtk_combo_box_get_has_entry (GTK_COMBO_BOX (widget->parent))))
 			STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, &button, x+1, y+2, width-1, height-4, horizontal);
 		else if (!MRN_IS_COMBO_BOX(widget->parent) ||
 			 MRN_IS_COMBO (widget->parent))
@@ -2045,7 +2046,7 @@ murrine_style_draw_arrow (GtkStyle     *style,
 		}
 	}
 
-	if (murrine_is_combo_box (widget) && !murrine_is_combo_box_entry (widget))
+	if (murrine_is_combo_box (widget) || murrine_is_combo_box_entry (widget))
 	{
 		arrow.type = MRN_ARROW_COMBO;
 

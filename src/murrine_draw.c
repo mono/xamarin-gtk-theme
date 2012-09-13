@@ -2459,8 +2459,6 @@ murrine_draw_selected_cell (cairo_t *cr,
 	cairo_set_line_join (cr, CAIRO_LINE_JOIN_MITER);
 	MurrineRGB fill = widget->focus ? colors->base[widget->state_type] :
 	                                  colors->base[GTK_STATE_ACTIVE];
-	MurrineRGB border;
-	murrine_shade (&fill, (cell->style != 0 ? !widget->mrn_gradient.gradients ? 0.9 : 0.95 : 1.0), &border);
 
 	cairo_save (cr);
 	cairo_translate (cr, x, y);
@@ -2468,13 +2466,6 @@ murrine_draw_selected_cell (cairo_t *cr,
 	murrine_set_gradient (cr, &fill, widget->mrn_gradient, 0, 0, 0, height, widget->mrn_gradient.gradients, FALSE);
 	cairo_rectangle (cr, 0, 0, width, height);
 	cairo_fill (cr);
-
-	murrine_set_color_rgb (cr, &border);
-	cairo_move_to  (cr, 0, 0.5);
-	cairo_rel_line_to (cr, width, 0);
-	cairo_move_to (cr, 0, height-0.5);
-	cairo_rel_line_to (cr, width, 0);
-	cairo_stroke (cr);
 
 	cairo_restore (cr);
 }

@@ -1956,13 +1956,13 @@ murrine_style_draw_arrow (GtkStyle     *style,
 			{
 				x = x + width / 2 - 2;
 				y = y + height / 2 - 2;
-				height = 5; width = 6;
+				height = 7; width = 8;
 			}
 			else
 			{
 				x = x + width / 2 - 2;
 				y = y + height / 2 - 2;
-				height = 5; width = 6;
+				height = 7; width = 8;
 			}
 		}
 		else if (DETAIL ("hscrollbar") || DETAIL ("vscrollbar"))

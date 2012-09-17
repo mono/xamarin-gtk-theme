@@ -198,7 +198,8 @@ style "toolbar-combo-box" = "default"
     text[NORMAL] = @fg_color
     bg[NORMAL] = "#fff"
     base[NORMAL] = "#fff"
-    ythickness = 0
+    ythickness = 2
+    xthickness = 2
 
     engine "xamarin" {
 	comboboxstyle = 0
@@ -209,7 +210,7 @@ style "toolbar-combo-box" = "default"
 style "combo-box" = "default"
 {
     fg[NORMAL] = "#616161"
-    xthickness = 4
+    xthickness = 2
     ythickness = 2
 
     engine "xamarin" {
@@ -253,6 +254,7 @@ style "entry" = "default"
 {
     xthickness = 4
     ythickness = 4
+    GtkEntry::inner-border = { 2, 2, 2, 2 }
 }
 
 style "search-entry" = "wider"
@@ -318,6 +320,7 @@ class "GtkRadioButton" style "radio-button"
 class "GtkCheckButton" style "check-box"
 class "GtkScale" style "scale"
 
+widget "*GtkEntry" style:highest "entry"
 widget "*search-entry*" style "search-entry"
 
 widget_class "*<GtkButton>"     style "button"

@@ -235,7 +235,7 @@ murrine_draw_button (cairo_t *cr,
 	murrine_rounded_rectangle_closed (cr, os+1, os+1, width-(os*2)-2, height-(os*2)-2, widget->roundness-1, widget->corners);
 	cairo_clip_preserve (cr);
 
-	if (button->draw_glaze)
+	if (widget->active && button->draw_glaze)
 	{
 		murrine_draw_glaze (cr, &fill,
 				    glow_shade_new, highlight_shade_new, !widget->active ? lightborder_shade_new : 1.0,

@@ -1951,7 +1951,7 @@ murrine_style_draw_arrow (GtkStyle     *style,
 
 	murrine_set_widget_parameters (widget, style, state_type, &params);
 
-	if (arrow.style == 1 || arrow.style == 2)
+	if (arrow.style == 1 || arrow.style == 2 || arrow.style == 3)
 	{
 		if (DETAIL ("menuitem"))
 		{
@@ -2018,22 +2018,12 @@ murrine_style_draw_arrow (GtkStyle     *style,
 		}
 		else if (DETAIL ("spinbutton"))
 		{
-			x = x + width / 2 - 2;
+			x = x + width / 2 - 1;
 			y = y + height / 2 - 1;
-			height = 4; width = 5;
+			height = 4; width = 4;
 
-			if (arrow.style == 2)
-			{
-				if (arrow.direction == MRN_DIRECTION_UP)
-					y++;
-				if (arrow.direction == MRN_DIRECTION_DOWN)
-					y-=2;
-			}
-			else
-			{
-				if (arrow.direction == MRN_DIRECTION_UP)
-					y--;
-			}
+			if (arrow.direction == MRN_DIRECTION_UP)
+				y -= 1;
 		}
 		else if (arrow.direction == MRN_DIRECTION_UP || arrow.direction == MRN_DIRECTION_DOWN)
 		{

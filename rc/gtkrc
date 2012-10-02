@@ -303,11 +303,19 @@ style "scale" = "default"
     }
 }
 
+style "spin-button" = "wider"
+{
+    fg[NORMAL] = "#616161"
+    engine "xamarin" {
+        arrowstyle = 3
+    }
+}
+
 ### Apply the styles
 class "GtkWidget"    style "default"
 
 class "GtkEntry"     style "entry"
-class "GtkSpinButton" style "wider"
+class "GtkSpinButton" style "spin-button"
 class "GtkFrame"     style "wide"
 class "GtkRange"     style "wide"
 class "GtkSeparator" style "wide"

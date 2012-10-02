@@ -255,6 +255,7 @@ style "entry" = "default"
     xthickness = 4
     ythickness = 4
     GtkEntry::inner-border = { 2, 2, 2, 2 }
+    base[INSENSITIVE] = shade(1.02, @bg_color)
 }
 
 style "search-entry" = "wider"
@@ -322,6 +323,7 @@ class "GtkScale" style "scale"
 
 widget "*GtkEntry" style:highest "entry"
 widget "*search-entry*" style "search-entry"
+widget "*GtkTextView"   style "entry"
 
 widget_class "*<GtkButton>"     style "button"
 widget "*.GtkToggleButton"      style "button"

@@ -209,7 +209,7 @@ murrine_is_combo_box_entry (GtkWidget *widget)
 
 	if ((widget) && (widget->parent))
 	{
-		if (GTK_IS_COMBO_BOX_ENTRY (widget->parent))
+		if (MRN_IS_COMBO_BOX_ENTRY (widget->parent))
 			result = TRUE;
 		else
 			result = murrine_is_combo_box_entry (widget->parent);

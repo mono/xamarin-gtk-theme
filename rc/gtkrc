@@ -291,8 +291,8 @@ style "progressbar" = "default"
 
 style "scrolled-window" = "default"
 {
-    xthickness = 0
-    ythickness = 0
+    xthickness = 1
+    ythickness = 1
 }
 
 style "scale" = "default"

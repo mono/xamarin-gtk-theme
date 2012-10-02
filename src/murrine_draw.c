@@ -1146,8 +1146,11 @@ murrine_draw_combobox (cairo_t *cr,
 			WidgetParameters params = widget;
 			MurrineColors colors_new = colors;
 			ButtonParameters button;
-			int box_w = (widget.xthickness > 2 && widget.ythickness > 2) ? combobox->box_w : combobox->box_w-3;
+			int box_w = combobox->box_w;
 			int os = (widget.xthickness > 2 && widget.ythickness > 2) ? 1 : 0;
+
+			if (box_w % 2)
+				box_w--;
 
 			button.has_default_button_color = FALSE;
 			button.fill_shade = 0.899;

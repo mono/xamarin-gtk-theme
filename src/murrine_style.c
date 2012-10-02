@@ -965,7 +965,7 @@ murrine_style_draw_box (DRAW_ARGS)
 		{
 			ComboBoxParameters combobox;
 			combobox.as_list = FALSE;
-			combobox.box_w = 24;
+			combobox.box_w = height-8;
 			combobox.style = murrine_style->comboboxstyle;
 			combobox.prelight_shade = murrine_style->prelight_shade;
 

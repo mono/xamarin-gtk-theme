@@ -1848,8 +1848,8 @@ murrine_style_draw_shadow_gap (DRAW_ARGS,
 
 		frame.shadow    = shadow_type;
 		frame.gap_side  = gap_side;
-		frame.gap_x     = gap_x;
-		frame.gap_width = gap_width;
+		frame.gap_x     = gap_x-1;
+		frame.gap_width = gap_width+2;
 		frame.border    = (MurrineRGB*)&colors->shade[4];
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);

@@ -2080,7 +2080,8 @@ murrine_style_draw_layout (GtkStyle     *style,
 	{
 		MurrineStyle *murrine_style = MURRINE_STYLE (style);
 		MurrineColors *colors = &murrine_style->colors;
-	
+		cairo_t *cr;
+
 		WidgetParameters params;
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
@@ -2170,26 +2171,12 @@ murrine_style_draw_layout (GtkStyle     *style,
 		else
 			murrine_shade (&colors->bg[state_type], shade_level, &temp);
 
-		if (DETAIL ("cellrenderertext"))
-		{
-			cairo_t *cr; 
-			cr = murrine_begin_paint (window, area);
-			cairo_translate (cr, x+xos, y+yos);
-			murrine_set_color_rgba (cr, &temp, 0.5);
-			pango_cairo_show_layout (cr, layout);
-			cairo_destroy (cr);
-		}
-		else
-		{
-			cairo_t *cr; 
-			cr = murrine_begin_paint (window, area); 
-			cairo_translate (cr, x+xos, y+yos); 
-			pango_cairo_layout_path (cr, layout);
-			murrine_set_color_rgba (cr, &temp, 0.5);
-			cairo_stroke (cr);
-			cairo_destroy (cr);
-		}
-/*		printf( "draw_layout: %s %s\n", detail, G_OBJECT_TYPE_NAME (widget->parent));*/
+		cr = murrine_begin_paint (window, area);
+		cairo_translate (cr, x+xos, y+yos);
+		pango_cairo_layout_path (cr, layout);
+		murrine_set_color_rgba (cr, &temp, 0.5);
+		cairo_stroke (cr);
+		cairo_destroy (cr);
 	}
 
 	out:

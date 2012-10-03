@@ -64,6 +64,7 @@ style "default" {
 
     GtkScrolledWindow::scrollbar-spacing = 0
     GtkScale::slider-length = 14
+    GtkRange::trough-side-details = 1
 
     GtkTreeView::expander-size = 8
     GtkExpander::expander-size = 8
@@ -298,6 +299,8 @@ style "scrolled-window" = "default"
 
 style "scale" = "default"
 {
+    bg[SELECTED] = @selected_bg_color
+
     engine "xamarin" {
         roundness = 7
     }

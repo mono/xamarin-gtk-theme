@@ -1263,3 +1263,20 @@ murrine_get_decreased_gradient_shades (MurrineGradients mrn_gradient, double fac
 
 	return mrn_gradient_new;
 }
+
+MurrineGradients
+murrine_get_inverted_gradient_shades (MurrineGradients mrn_gradient)
+{
+	MurrineGradients mrn_gradient_new = mrn_gradient;
+	gdouble tmp;
+
+	tmp = mrn_gradient.gradient_shades[0];
+	mrn_gradient_new.gradient_shades[0] = mrn_gradient.gradient_shades[3];
+	mrn_gradient.gradient_shades[3] = tmp;
+
+	tmp = mrn_gradient.gradient_shades[1];
+	mrn_gradient_new.gradient_shades[1] = mrn_gradient.gradient_shades[2];
+	mrn_gradient_new.gradient_shades[2] = tmp;
+
+	return mrn_gradient_new;
+}

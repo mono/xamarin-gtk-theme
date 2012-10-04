@@ -68,7 +68,7 @@ style "default" {
 
     GtkTreeView::expander-size = 8
     GtkExpander::expander-size = 8
-    GtkComboBox::arrow-size = 8
+    GtkComboBox::arrow-size = 20
 
     engine "xamarin" {
 
@@ -107,6 +107,7 @@ style "button" {
     bg[PRELIGHT]    = shade(1.1, @bg_color)
     bg[ACTIVE]      = @bg_color
     bg[INSENSITIVE] = @bg_color
+    GtkWidget::focus-padding = 0
 
     engine "xamarin" {
         contrast = 1.0

@@ -195,12 +195,12 @@ style "icon-view" = "default"
 
 style "toolbar-combo-box" = "default"
 {
-    fg[NORMAL] = @fg_color
+    fg[NORMAL] = "#616161"
     text[NORMAL] = @fg_color
     bg[NORMAL] = "#fff"
     base[NORMAL] = "#fff"
     ythickness = 4
-    xthickness = 4
+    xthickness = 2
 
     engine "xamarin" {
 	comboboxstyle = 0

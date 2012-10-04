@@ -2250,6 +2250,8 @@ murrine_style_draw_expander (GtkStyle        *style,
 	expander.arrowstyle = murrine_style->arrowstyle;
 	expander.style = murrine_style->expanderstyle;
 
+	expander.in_treeview = GTK_IS_TREE_VIEW (widget);
+
 	STYLE_FUNCTION(draw_expander) (cr, colors, &params, &expander, x, y);
 
 	cairo_destroy (cr);

@@ -2913,7 +2913,7 @@ murrine_draw_combo_arrow_filled_equilateral (cairo_t *cr,
 	double arrow_height = 3;
 
 	cairo_save (cr);
-	cairo_translate (cr, x-1, y-6);
+	cairo_translate (cr, x-1, y-5);
 	cairo_rotate (cr, M_PI);
 	murrine_draw_normal_arrow_filled_equilateral (cr, color, 0, 0, arrow_width, arrow_height);
 	cairo_restore (cr);

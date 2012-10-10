@@ -3423,16 +3423,8 @@ murrine_draw_expander_arrow (cairo_t *cr,
 	cairo_line_to (cr,  radius / 2.0 - offset,  0);
 	cairo_line_to (cr, -radius / 2.0 + offset,  radius / 2.0);
 	cairo_close_path (cr);
-
-	if (expander->in_treeview &&
-	    widget->state_type == GTK_STATE_NORMAL &&
-	    (colors->base[GTK_STATE_NORMAL].r != 1 ||
-	     colors->base[GTK_STATE_NORMAL].g != 1 ||
-	     colors->base[GTK_STATE_NORMAL].b != 1)) {
-		color.r = 0.552;
-		color.g = 0.6;
-		color.b = 0.651;
-	} else if (expander->in_treeview)
+	
+	if (expander->in_treeview)
 		color = colors->text[widget->state_type];
 	else
 		color = colors->fg[widget->state_type];

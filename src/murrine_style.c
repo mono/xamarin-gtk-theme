@@ -2023,7 +2023,7 @@ murrine_style_draw_arrow (GtkStyle     *style,
 			height = 4; width = 4;
 
 			if (arrow.direction == MRN_DIRECTION_UP)
-				y -= 1;
+				y -= 2;
 		}
 		else if (arrow.direction == MRN_DIRECTION_UP || arrow.direction == MRN_DIRECTION_DOWN)
 		{

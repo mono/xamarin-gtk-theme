@@ -325,7 +325,7 @@ class "GtkWidget"    style "default"
 
 class "GtkEntry"     style "entry"
 class "GtkSpinButton" style "spin-button"
-class "GtkFrame"     style "wide"
+class "GtkFrame"     style "wider"
 class "GtkRange"     style "wide"
 class "GtkSeparator" style "wide"
 class "GtkScrollbar" style "scrollbar"

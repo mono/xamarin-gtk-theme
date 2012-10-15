@@ -960,7 +960,11 @@ murrine_style_draw_box (DRAW_ARGS)
 			STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, &button, x+1, y+4, width-1, height-8, horizontal);
 		else if (!MRN_IS_COMBO_BOX(widget->parent) ||
 			 MRN_IS_COMBO (widget->parent))
+		{
+			if (GTK_IS_TOGGLE_BUTTON (widget))
+				button.fill_shade = 0.934;
 			STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, &button, x, y+4, width, height-8, horizontal);
+		}
 		else
 		{
 			ComboBoxParameters combobox;

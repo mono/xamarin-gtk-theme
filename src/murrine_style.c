@@ -973,7 +973,7 @@ murrine_style_draw_box (DRAW_ARGS)
 			gtk_widget_style_get (widget->parent, "arrow-size", &arrow_size, NULL);
 
 			combobox.as_list = FALSE;
-			combobox.box_w = MIN (20, arrow_size + 2 * MAX (params.xthickness, params.ythickness));
+			combobox.box_w = MIN (22, arrow_size + 2 * MAX (params.xthickness, params.ythickness) + 2);
 			combobox.style = murrine_style->comboboxstyle;
 			combobox.prelight_shade = murrine_style->prelight_shade;
 

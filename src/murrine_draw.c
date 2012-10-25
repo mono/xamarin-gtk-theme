@@ -2990,7 +2990,7 @@ _murrine_draw_arrow (cairo_t *cr,
 				murrine_draw_normal_arrow_filled_equilateral (cr, color, 1, 1, width-2, height-2);
 				break;
 			case 4:
-				cairo_translate (cr, 1, 1);
+				cairo_translate (cr, 0, 1);
 				murrine_draw_normal_arrow_filled_equilateral (cr, color, 1, 1, width-2, height-2);
 				break;
 		}

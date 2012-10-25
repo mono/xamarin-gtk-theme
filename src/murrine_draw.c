@@ -1150,7 +1150,7 @@ murrine_draw_combobox (cairo_t *cr,
 			int box_w = combobox->box_w;
 			int os = (widget.xthickness > 2 && widget.ythickness > 2) ? 1 : 0;
 
-			if (box_w % 2)
+			if (box_w % 2 == 0)
 				box_w--;
 
 			button.has_default_button_color = FALSE;

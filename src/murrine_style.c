@@ -2413,6 +2413,8 @@ murrine_style_draw_focus (GtkStyle *style, GdkWindow *window, GtkStateType state
 	else if (DETAIL("checkbutton") || DETAIL("radiobutton") || DETAIL("expander"))
 	{
 		focus.type = MRN_FOCUS_LABEL; /* Let's call it "LABEL" :) */
+		height += 4;
+		y -= 2;
 	}
 	else if (widget && MRN_IS_TREE_VIEW (widget))
 	{

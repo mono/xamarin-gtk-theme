@@ -39,19 +39,19 @@ else
 	DIE=1
 fi
 
-if glibtool --version > /dev/null 2> /dev/null ; then
-   LIBTOOL=glibtool
-elif libtool --version > /dev/null 2> /dev/null ; then
+if libtool --version > /dev/null 2> /dev/null ; then
    LIBTOOL=libtool
+elif glibtool --version > /dev/null 2> /dev/null ; then
+   LIBTOOL=glibtool
 else
    echo "libtool missing"
    DIE=1
 fi
 
-if glibtoolize --version > /dev/null 2> /dev/null ; then
-   LIBTOOLIZE=glibtoolize
-elif libtoolize --version > /dev/null 2> /dev/null ; then
+if libtoolize --version > /dev/null 2> /dev/null ; then
    LIBTOOLIZE=libtoolize
+elif glibtoolize --version > /dev/null 2> /dev/null ; then
+   LIBTOOLIZE=glibtoolize
 else
    echo "libtoolize missing"
    DIE=1

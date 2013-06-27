@@ -68,7 +68,7 @@ if test $rgba = "yes"; then
 	AC_DEFINE_UNQUOTED(HAVE_RGBA, 1, [Defines whether to compile with rgba support])
 fi
 
-AM_CONFIG_HEADER([src/config.h])
+AC_CONFIG_HEADERS([src/config.h])
 
 AC_CONFIG_FILES([
 Makefile

@@ -85,13 +85,16 @@ if test -z "$*"; then
 	echo "to pass any to it, please specify them on the $0 command line."
 fi
 
+$ACLOCAL $ACLOCAL_FLAGS
+
 $LIBTOOLIZE --force --copy
 intltoolize --force --copy --automake
 
-$ACLOCAL $ACLOCAL_FLAGS
-autoconf
 autoheader
+
 $AUTOMAKE --add-missing
+autoconf
+
 cd $THEDIR
 
 $srcdir/configure "$@"

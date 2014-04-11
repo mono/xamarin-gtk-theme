@@ -2517,7 +2517,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	murrine_style->glowstyle           = MURRINE_RC_STYLE (rc_style)->glowstyle;
 	murrine_style->has_border_colors   = MURRINE_RC_STYLE (rc_style)->has_border_colors;
 	murrine_style->has_default_button_color = MURRINE_RC_STYLE (rc_style)->flags & MRN_FLAG_DEFAULT_BUTTON_COLOR;
-	murrine_style->has_treeview_expander_color = MURRINE_RC_STYLE (rc_style)->flags & MRN_FLAG_TREEVIEW_EXPANDER_COLOR;
+	murrine_style->has_treeview_expander_color = MURRINE_RC_STYLE (rc_style)->has_treeview_expander_color;
 	murrine_style->has_focus_color     = MURRINE_RC_STYLE (rc_style)->flags & MRN_FLAG_FOCUS_COLOR;
 	murrine_style->has_gradient_colors = MURRINE_RC_STYLE (rc_style)->has_gradient_colors;
 	murrine_style->handlestyle         = MURRINE_RC_STYLE (rc_style)->handlestyle;

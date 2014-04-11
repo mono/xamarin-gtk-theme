@@ -790,7 +790,7 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				break;
 			case TOKEN_TREEVIEW_EXPANDER_COLOR:
 				token = theme_parse_color (settings, scanner, rc_style, &murrine_style->treeview_expander_color);
-				murrine_style->flags |= MRN_FLAG_TREEVIEW_EXPANDER_COLOR;
+				murrine_style->has_treeview_expander_color = TRUE;
 				break;
 			case TOKEN_TOOLBARSTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->toolbarstyle);
@@ -892,7 +892,7 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->has_default_button_color = src_w->has_default_button_color;
 		dest_w->default_button_color = src_w->default_button_color;
 	}
-	if (flags & MRN_FLAG_TREEVIEW_EXPANDER_COLOR)
+	if (src_w->has_treeview_expander_color)
 	{
 		dest_w->has_treeview_expander_color = src_w->has_treeview_expander_color;
 		dest_w->treeview_expander_color = src_w->treeview_expander_color;

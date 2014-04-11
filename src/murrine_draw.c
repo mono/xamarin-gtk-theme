@@ -3341,6 +3341,7 @@ murrine_draw_resize_grip (cairo_t *cr,
 static void
 murrine_draw_expander_arrow (cairo_t *cr,
 	                     const MurrineColors    *colors,
+	                     const MurrineRGB        custom_treeview_expander_color,
 	                     const WidgetParameters *widget,
 	                     const ExpanderParameters *expander,
 	                     int x, int y)
@@ -3427,11 +3428,15 @@ murrine_draw_expander_arrow (cairo_t *cr,
 	cairo_line_to (cr,  radius / 2.0 - offset,  0);
 	cairo_line_to (cr, -radius / 2.0 + offset,  radius / 2.0);
 	cairo_close_path (cr);
-	
+
 	if (expander->in_treeview)
-		color = colors->text[widget->state_type];
+	{
+                color = custom_treeview_expander_color;
+	}
 	else
+	{
 		color = colors->fg[widget->state_type];
+	}
 
 	pat = cairo_pattern_create_linear (-radius/2.0, 0, radius/2.0, 0);
 	murrine_pattern_add_color_stop_rgba (pat, 0.0, &color, 0.6);
@@ -3548,6 +3553,7 @@ murrine_draw_expander_button (cairo_t *cr,
 void 
 murrine_draw_expander (cairo_t *cr,
                        const MurrineColors    *colors,
+                       const MurrineRGB        treeview_expander_color,
                        const WidgetParameters *widget,
                        const ExpanderParameters *expander,
                        int x, int y)
@@ -3556,7 +3562,7 @@ murrine_draw_expander (cairo_t *cr,
 	{
 		default:
 		case 0:
-			murrine_draw_expander_arrow (cr, colors, widget, expander, x, y);
+			murrine_draw_expander_arrow (cr, colors, treeview_expander_color, widget, expander, x, y);
 			break;
 		case 1:
 			murrine_draw_expander_circle (cr, colors, widget, expander, x, y);

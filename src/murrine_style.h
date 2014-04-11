@@ -89,11 +89,13 @@ struct _MurrineStyle
 	gboolean has_focus_color;
 	gboolean has_gradient_colors;
 	gboolean rgba;
+	gboolean has_treeview_expander_color;
 
 	GdkColor border_colors[2];
 	GdkColor default_button_color;
 	GdkColor focus_color;
 	GdkColor gradient_colors[4];
+	GdkColor treeview_expander_color;
 };
 
 struct _MurrineStyleClass

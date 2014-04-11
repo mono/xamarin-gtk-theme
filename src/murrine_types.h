@@ -467,6 +467,7 @@ struct _MurrineStyleFunctions
 
 	void (*draw_expander) (cairo_t *cr,
 	                       const MurrineColors    *colors,
+	                       const MurrineRGB        treeview_expander_color,
 	                       const WidgetParameters *widget,
 	                       const ExpanderParameters *expander,
 	                       int x, int y);

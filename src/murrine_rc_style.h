@@ -67,7 +67,8 @@ typedef enum
 	MRN_FLAG_STEPPERSTYLE = 1 << 28,
 	MRN_FLAG_TEXTSTYLE = 1 << 29,
 	MRN_FLAG_TEXT_SHADE = 1 << 30,
-	MRN_FLAG_TOOLBARSTYLE = 1 << 31
+	MRN_FLAG_TOOLBARSTYLE = 1 << 31,
+	MRN_FLAG_TREEVIEW_EXPANDER_COLOR = 1 << 32
 } MurrineRcFlags;
 
 typedef enum
@@ -139,6 +140,7 @@ struct _MurrineRcStyle
 	gboolean animation;
 	gboolean colorize_scrollbar;
 	gboolean has_border_colors;
+	gboolean has_treeview_expander_color;
 	gboolean has_default_button_color;
 	gboolean has_focus_color;
 	gboolean has_gradient_colors;
@@ -148,6 +150,7 @@ struct _MurrineRcStyle
 	GdkColor default_button_color;
 	GdkColor focus_color;
 	GdkColor gradient_colors[4];
+	GdkColor treeview_expander_color;
 };
 
 struct _MurrineRcStyleClass

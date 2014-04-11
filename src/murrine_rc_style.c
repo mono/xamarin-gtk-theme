@@ -76,6 +76,7 @@ enum
 	TOKEN_TEXTSTYLE,
 	TOKEN_TEXT_SHADE,
 	TOKEN_TOOLBARSTYLE,
+	TOKEN_TREEVIEW_EXPANDER_COLOR,
 	TOKEN_TROUGH_BORDER_SHADES,
 	TOKEN_TROUGH_SHADES,	
 
@@ -141,6 +142,7 @@ theme_symbols[] =
 	{ "textstyle",           TOKEN_TEXTSTYLE },
 	{ "text_shade",          TOKEN_TEXT_SHADE },
 	{ "toolbarstyle",        TOKEN_TOOLBARSTYLE },
+	{ "treeview_expander_color", TOKEN_TREEVIEW_EXPANDER_COLOR },
 	{ "trough_border_shades", TOKEN_TROUGH_BORDER_SHADES },
 	{ "trough_shades",       TOKEN_TROUGH_SHADES },
 
@@ -184,6 +186,7 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->has_border_colors = FALSE;
 	murrine_rc->has_default_button_color = FALSE;
 	murrine_rc->has_gradient_colors = FALSE;
+	murrine_rc->has_treeview_expander_color = FALSE;
 	murrine_rc->handlestyle = 0;
 	murrine_rc->glazestyle = 1;
 	murrine_rc->glow_shade = 1.0;
@@ -785,6 +788,10 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_shade (settings, scanner, &murrine_style->text_shade);
 				murrine_style->flags |= MRN_FLAG_TEXT_SHADE;
 				break;
+			case TOKEN_TREEVIEW_EXPANDER_COLOR:
+				token = theme_parse_color (settings, scanner, rc_style, &murrine_style->treeview_expander_color);
+				murrine_style->flags |= MRN_FLAG_TREEVIEW_EXPANDER_COLOR;
+				break;
 			case TOKEN_TOOLBARSTYLE:
 				token = theme_parse_int (settings, scanner, &murrine_style->toolbarstyle);
 				murrine_style->flags |= MRN_FLAG_TOOLBARSTYLE;
@@ -884,6 +891,11 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 	{
 		dest_w->has_default_button_color = src_w->has_default_button_color;
 		dest_w->default_button_color = src_w->default_button_color;
+	}
+	if (flags & MRN_FLAG_TREEVIEW_EXPANDER_COLOR)
+	{
+		dest_w->has_treeview_expander_color = src_w->has_treeview_expander_color;
+		dest_w->treeview_expander_color = src_w->treeview_expander_color;
 	}
 	if (flags & MRN_FLAG_EXPANDERSTYLE)
 		dest_w->expanderstyle = src_w->expanderstyle;

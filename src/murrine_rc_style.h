@@ -37,6 +37,7 @@ typedef struct _MurrineRcStyleClass XamarinRcStyleClass;
 
 typedef enum
 {
+//	MRN_FLAG_UNUSED = 1 << 0,
 	MRN_FLAG_ARROWSTYLE = 1 << 1,
 	MRN_FLAG_CELLSTYLE = 1 << 2,
 	MRN_FLAG_COMBOBOXSTYLE = 1 << 3,
@@ -81,6 +82,7 @@ typedef enum
 
 typedef enum
 {
+//	MRN_FLAG_UNUSED = 1 << 0,
 	MRN_FLAG_BORDER_COLORS = 1 << 1,
 	MRN_FLAG_BORDER_SHADES = 1 << 2,
 	MRN_FLAG_GRADIENT_COLORS = 1 << 3,

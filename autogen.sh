@@ -16,27 +16,9 @@ cd $srcdir
 	DIE=1
 }
 
-if automake-1.13 --version < /dev/null > /dev/null 2>&1 ; then
-	AUTOMAKE=automake-1.13
-	ACLOCAL=aclocal-1.13
-elif automake-1.12 --version < /dev/null > /dev/null 2>&1 ; then
-	AUTOMAKE=automake-1.12
-	ACLOCAL=aclocal-1.12
-elif automake-1.11 --version < /dev/null > /dev/null 2>&1 ; then
-	AUTOMAKE=automake-1.11
-	ACLOCAL=aclocal-1.11
-elif automake-1.10 --version < /dev/null > /dev/null 2>&1 ; then
-	AUTOMAKE=automake-1.10
-	ACLOCAL=aclocal-1.10
-elif automake-1.9 --version < /dev/null > /dev/null 2>&1 ; then
-	AUTOMAKE=automake-1.9
-	ACLOCAL=aclocal-1.9
-elif automake-1.8 --version < /dev/null > /dev/null 2>&1 ; then
-	AUTOMAKE=automake-1.8
-	ACLOCAL=aclocal-1.8
-elif automake-1.7 --version < /dev/null > /dev/null 2>&1 ; then
-	AUTOMAKE=automake-1.7
-	ACLOCAL=aclocal-1.7
+if automake --version < /dev/null > /dev/null 2>&1 ; then
+	AUTOMAKE=automake
+	ACLOCAL=aclocal
 else
 	echo
 	echo "You must have automake 1.7.x installed to compile $PROJECT."

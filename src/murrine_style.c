@@ -23,12 +23,17 @@
 #include <math.h>
 #include <string.h>
 #include <sys/time.h>
+#include <gdk/gdk.h>
 
 #include "murrine_style.h"
 #include "murrine_rc_style.h"
 #include "murrine_draw.h"
 #include "support.h"
 #include "cairo-support.h"
+
+#ifdef GDK_WINDOWING_QUARTZ
+#include <Carbon/Carbon.h>
+#endif
 
 /* #define DEBUG 1 */
 
@@ -71,6 +76,32 @@
 #define STYLE_FUNCTION(function) (MURRINE_STYLE_GET_CLASS (style)->style_functions[params.style].function)
 
 G_DEFINE_DYNAMIC_TYPE (XamarinStyle, murrine_style, GTK_TYPE_STYLE)
+
+static gboolean
+is_yosemite ()
+{
+#ifdef GDK_WINDOWING_QUARTZ
+	static gboolean checked_version = FALSE;
+	static gboolean version_is_yosemite = FALSE;
+
+	if (checked_version == FALSE) {
+		SInt32 major, minor;
+
+		Gestalt (gestaltSystemVersionMajor, &major);
+		Gestalt (gestaltSystemVersionMinor, &minor);
+
+		if (major == 10 && minor >= 10) {
+			version_is_yosemite = TRUE;
+		}
+
+		checked_version = TRUE;
+	}
+
+	return version_is_yosemite;
+#else
+	return FALSE;
+#endif
+}
 
 static cairo_t *
 murrine_begin_paint (GdkDrawable *window, GdkRectangle *area)
@@ -2211,10 +2242,22 @@ murrine_style_draw_layout (GtkStyle     *style,
 	}
 	else if (DETAIL ("label") && widget && gtk_widget_get_ancestor (widget, GTK_TYPE_BUTTON))
 	{
-		GdkColor etched = { 0, 65535, 65535, 65535 };
-
-		gdk_draw_layout_with_colors(window, gc, x, y + 1, layout, &etched, NULL);
-		gdk_draw_layout (window, gc, x, y, layout);
+		if (is_yosemite ()) {
+			if (state_type == GTK_STATE_ACTIVE) {
+				GdkColor etched = { 0, 0, 0, 0 };
+		                GdkColor white = { 0, 65535, 65535, 65535 };
+				gdk_draw_layout_with_colors (window, gc, x, y + 1, layout, &etched, NULL);
+				gdk_draw_layout_with_colors (window, gc, x, y, layout, &white, NULL);
+			} else {
+				GdkColor etched = { 0, 65535, 65535, 65535 };
+				gdk_draw_layout_with_colors (window, gc, x, y + 1, layout, &etched, NULL);
+				gdk_draw_layout (window, gc, x, y, layout);
+			}
+		} else {
+			GdkColor etched = { 0, 65535, 65535, 65535 };
+			gdk_draw_layout_with_colors(window, gc, x, y + 1, layout, &etched, NULL);
+			gdk_draw_layout (window, gc, x, y, layout);
+		}
 	}
 	else
 		gdk_draw_layout (window, gc, x, y, layout);

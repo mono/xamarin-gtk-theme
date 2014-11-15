@@ -2240,7 +2240,7 @@ murrine_style_draw_layout (GtkStyle     *style,
 
 		gdk_draw_layout_with_colors(window, gc, x, y, layout, &etched, NULL);
 	}
-	else if (DETAIL ("label") && widget && gtk_widget_get_ancestor (widget, GTK_TYPE_BUTTON))
+	else if (DETAIL ("label") && widget && gtk_widget_get_ancestor (widget, GTK_TYPE_BUTTON) && !gtk_widget_get_ancestor (widget, GTK_TYPE_CHECK_BUTTON))
 	{
 		if (is_yosemite ()) {
 			if (state_type == GTK_STATE_ACTIVE) {

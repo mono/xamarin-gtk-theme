@@ -16,7 +16,13 @@ cd $srcdir
 	DIE=1
 }
 
-if automake-1.13 --version < /dev/null > /dev/null 2>&1 ; then
+if automake-1.15 --version < /dev/null > /dev/null 2>&1 ; then
+	AUTOMAKE=automake-1.15
+	ACLOCAL=aclocal-1.15
+elif automake-1.14 --version < /dev/null > /dev/null 2>&1 ; then
+	AUTOMAKE=automake-1.14
+	ACLOCAL=aclocal-1.14
+elif automake-1.13 --version < /dev/null > /dev/null 2>&1 ; then
 	AUTOMAKE=automake-1.13
 	ACLOCAL=aclocal-1.13
 elif automake-1.12 --version < /dev/null > /dev/null 2>&1 ; then

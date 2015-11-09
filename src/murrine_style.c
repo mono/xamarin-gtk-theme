@@ -1182,6 +1182,22 @@ murrine_style_draw_box (DRAW_ARGS)
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 
+		if (murrine_style->trough_use_child_bg && widget->parent && MRN_IS_SCROLLED_WINDOW (widget->parent)) {
+			GdkColor *gcolor = NULL;
+			GtkWidget *child  = gtk_bin_get_child ((GtkBin*) widget->parent);
+			if (child) {
+				if (MRN_IS_TREE_VIEW (child)) {
+					gtk_widget_style_get ((GtkTreeView*) child, "even-row-color", &gcolor, NULL);
+					if (!gcolor)
+						gcolor = &child->style->base[GTK_STATE_NORMAL];
+				}
+				
+				if (!gcolor)
+					gcolor = &child->style->bg[GTK_STATE_NORMAL];
+				murrine_gdk_color_to_rgb (gcolor, &params.parentbg.r, &params.parentbg.g, &params.parentbg.b);
+			}
+		}
+
 		if (within_bevel)
 			params.corners = MRN_CORNER_NONE;
 
@@ -2114,7 +2130,6 @@ murrine_style_draw_layout (GtkStyle     *style,
 
 	if (widget && (state_type == GTK_STATE_INSENSITIVE || 
 	    (MURRINE_STYLE (style)->textstyle != 0 &&
-	     state_type != GTK_STATE_PRELIGHT &&
 	     !(DETAIL ("cellrenderertext") && state_type == GTK_STATE_NORMAL))))
 	{
 		MurrineStyle *murrine_style = MURRINE_STYLE (style);
@@ -2161,6 +2176,11 @@ murrine_style_draw_layout (GtkStyle     *style,
 		{
 			boolean use_parentbg = TRUE;
 
+			if (state_type == GTK_STATE_PRELIGHT) {
+				use_parentbg = FALSE;
+				goto draw;
+			}
+
 			while (widget->parent)
 			{
 				if (GTK_IS_SCROLLED_WINDOW (widget->parent))
@@ -2197,6 +2217,8 @@ murrine_style_draw_layout (GtkStyle     *style,
 
 				widget = widget->parent;
 			}
+
+			draw:
 
 			if (use_parentbg)
 				murrine_shade (&params.parentbg, shade_level, &temp);
@@ -2239,25 +2261,6 @@ murrine_style_draw_layout (GtkStyle     *style,
 		etched.blue = (int) (temp.b*65535);
 
 		gdk_draw_layout_with_colors(window, gc, x, y, layout, &etched, NULL);
-	}
-	else if (DETAIL ("label") && widget && gtk_widget_get_ancestor (widget, GTK_TYPE_BUTTON) && !gtk_widget_get_ancestor (widget, GTK_TYPE_TOGGLE_BUTTON))
-	{
-		if (is_yosemite ()) {
-			if (state_type == GTK_STATE_ACTIVE) {
-				GdkColor etched = { 0, 0, 0, 0 };
-		                GdkColor white = { 0, 65535, 65535, 65535 };
-				gdk_draw_layout_with_colors (window, gc, x, y + 1, layout, &etched, NULL);
-				gdk_draw_layout_with_colors (window, gc, x, y, layout, &white, NULL);
-			} else {
-				GdkColor etched = { 0, 65535, 65535, 65535 };
-				gdk_draw_layout_with_colors (window, gc, x, y + 1, layout, &etched, NULL);
-				gdk_draw_layout (window, gc, x, y, layout);
-			}
-		} else {
-			GdkColor etched = { 0, 65535, 65535, 65535 };
-			gdk_draw_layout_with_colors(window, gc, x, y + 1, layout, &etched, NULL);
-			gdk_draw_layout (window, gc, x, y, layout);
-		}
 	}
 	else
 		gdk_draw_layout (window, gc, x, y, layout);
@@ -2583,6 +2586,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	murrine_style->textstyle           = MURRINE_RC_STYLE (rc_style)->textstyle;
 	murrine_style->text_shade          = MURRINE_RC_STYLE (rc_style)->text_shade;
 	murrine_style->toolbarstyle        = MURRINE_RC_STYLE (rc_style)->toolbarstyle;
+	murrine_style->trough_use_child_bg = MURRINE_RC_STYLE (rc_style)->trough_use_child_bg;
 
 	if (murrine_style->has_border_colors)
 	{
@@ -2746,6 +2750,7 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	mrn_style->trough_border_shades[1] = mrn_src->trough_border_shades[1];
 	mrn_style->trough_shades[0]    = mrn_src->trough_shades[0];
 	mrn_style->trough_shades[1]    = mrn_src->trough_shades[1];
+	mrn_style->trough_use_child_bg = mrn_src->trough_use_child_bg;
 
 	GTK_STYLE_CLASS (murrine_style_parent_class)->copy (style, src);
 }

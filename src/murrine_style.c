@@ -2114,7 +2114,6 @@ murrine_style_draw_layout (GtkStyle     *style,
 
 	if (widget && (state_type == GTK_STATE_INSENSITIVE || 
 	    (MURRINE_STYLE (style)->textstyle != 0 &&
-	     state_type != GTK_STATE_PRELIGHT &&
 	     !(DETAIL ("cellrenderertext") && state_type == GTK_STATE_NORMAL))))
 	{
 		MurrineStyle *murrine_style = MURRINE_STYLE (style);
@@ -2161,6 +2160,11 @@ murrine_style_draw_layout (GtkStyle     *style,
 		{
 			boolean use_parentbg = TRUE;
 
+			if (state_type == GTK_STATE_PRELIGHT) {
+				use_parentbg = FALSE;
+				goto draw;
+			}
+
 			while (widget->parent)
 			{
 				if (GTK_IS_SCROLLED_WINDOW (widget->parent))
@@ -2197,6 +2201,8 @@ murrine_style_draw_layout (GtkStyle     *style,
 
 				widget = widget->parent;
 			}
+
+			draw:
 
 			if (use_parentbg)
 				murrine_shade (&params.parentbg, shade_level, &temp);
@@ -2239,25 +2245,6 @@ murrine_style_draw_layout (GtkStyle     *style,
 		etched.blue = (int) (temp.b*65535);
 
 		gdk_draw_layout_with_colors(window, gc, x, y, layout, &etched, NULL);
-	}
-	else if (DETAIL ("label") && widget && gtk_widget_get_ancestor (widget, GTK_TYPE_BUTTON) && !gtk_widget_get_ancestor (widget, GTK_TYPE_TOGGLE_BUTTON))
-	{
-		if (is_yosemite ()) {
-			if (state_type == GTK_STATE_ACTIVE) {
-				GdkColor etched = { 0, 0, 0, 0 };
-		                GdkColor white = { 0, 65535, 65535, 65535 };
-				gdk_draw_layout_with_colors (window, gc, x, y + 1, layout, &etched, NULL);
-				gdk_draw_layout_with_colors (window, gc, x, y, layout, &white, NULL);
-			} else {
-				GdkColor etched = { 0, 65535, 65535, 65535 };
-				gdk_draw_layout_with_colors (window, gc, x, y + 1, layout, &etched, NULL);
-				gdk_draw_layout (window, gc, x, y, layout);
-			}
-		} else {
-			GdkColor etched = { 0, 65535, 65535, 65535 };
-			gdk_draw_layout_with_colors(window, gc, x, y + 1, layout, &etched, NULL);
-			gdk_draw_layout (window, gc, x, y, layout);
-		}
 	}
 	else
 		gdk_draw_layout (window, gc, x, y, layout);

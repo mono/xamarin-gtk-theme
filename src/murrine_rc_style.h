@@ -77,7 +77,8 @@ typedef enum
 	MRN_FLAG_COLORIZE_SCROLLBAR = 1 << 1,
 	MRN_FLAG_CONTRAST = 1 << 2,
 	MRN_FLAG_RGBA = 1 << 3,
-	MRN_FLAG_ROUNDNESS = 1 << 4
+	MRN_FLAG_ROUNDNESS = 1 << 4,
+	MRN_FLAG_TROUGH_USE_CHILD_BG = 1 << 5
 } MurrineRcBasicFlags;
 
 typedef enum
@@ -89,7 +90,7 @@ typedef enum
 	MRN_FLAG_GRADIENT_SHADES = 1 << 4,
 	MRN_FLAG_SHADOW_SHADES = 1 << 5,
 	MRN_FLAG_TROUGH_BORDER_SHADES = 1 << 6,
-	MRN_FLAG_TROUGH_SHADES = 1 << 7
+	MRN_FLAG_TROUGH_SHADES = 1 << 7,
 } MurrineRcGradientFlags;
 
 struct _MurrineRcStyle
@@ -146,6 +147,7 @@ struct _MurrineRcStyle
 	gboolean has_focus_color;
 	gboolean has_gradient_colors;
 	gboolean rgba;
+	gboolean trough_use_child_bg;
 
 	GdkColor border_colors[2];
 	GdkColor default_button_color;

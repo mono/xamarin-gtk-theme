@@ -78,7 +78,8 @@ enum
 	TOKEN_TOOLBARSTYLE,
 	TOKEN_TREEVIEW_EXPANDER_COLOR,
 	TOKEN_TROUGH_BORDER_SHADES,
-	TOKEN_TROUGH_SHADES,	
+	TOKEN_TROUGH_SHADES,
+	TOKEN_TROUGH_USE_CHILD_BG,
 
 	TOKEN_TRUE,
 	TOKEN_FALSE,
@@ -145,6 +146,7 @@ theme_symbols[] =
 	{ "treeview_expander_color", TOKEN_TREEVIEW_EXPANDER_COLOR },
 	{ "trough_border_shades", TOKEN_TROUGH_BORDER_SHADES },
 	{ "trough_shades",       TOKEN_TROUGH_SHADES },
+	{ "trough_use_child_bg", TOKEN_TROUGH_USE_CHILD_BG },
 
 	{ "TRUE",                TOKEN_TRUE },
 	{ "FALSE",               TOKEN_FALSE },
@@ -223,6 +225,7 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->trough_border_shades[1] = 1.0;
 	murrine_rc->trough_shades[0] = 1.0;
 	murrine_rc->trough_shades[1] = 1.0;
+	murrine_rc->trough_use_child_bg = TRUE;
 }
 
 #ifdef HAVE_ANIMATION
@@ -804,6 +807,10 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_border (settings, scanner, murrine_style->trough_shades);
 				murrine_style->gflags |= MRN_FLAG_TROUGH_SHADES;
 				break;
+			case TOKEN_TROUGH_USE_CHILD_BG:
+				token = theme_parse_boolean (settings, scanner, &murrine_style->trough_use_child_bg);
+				murrine_style->bflags |= MRN_FLAG_TROUGH_USE_CHILD_BG;
+				break;
 
 			/* stuff to ignore */
 			case TOKEN_GRADIENTS:
@@ -970,6 +977,9 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 		dest_w->rgba = src_w->rgba;
 	if (bflags & MRN_FLAG_ROUNDNESS)
 		dest_w->roundness = src_w->roundness;
+	if (bflags & MRN_FLAG_TROUGH_USE_CHILD_BG)
+		dest_w->trough_use_child_bg = src_w->trough_use_child_bg;
+
 
 	dest_w->bflags |= src_w->bflags;
 

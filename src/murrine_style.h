@@ -90,6 +90,7 @@ struct _MurrineStyle
 	gboolean has_gradient_colors;
 	gboolean rgba;
 	gboolean has_treeview_expander_color;
+	gboolean trough_use_child_bg;
 
 	GdkColor border_colors[2];
 	GdkColor default_button_color;

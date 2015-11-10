@@ -2162,47 +2162,44 @@ murrine_style_draw_layout (GtkStyle     *style,
 
 			if (state_type == GTK_STATE_PRELIGHT) {
 				use_parentbg = FALSE;
-				goto draw;
-			}
-
-			while (widget->parent)
-			{
-				if (GTK_IS_SCROLLED_WINDOW (widget->parent))
-					goto out;
-
-				widget = widget->parent;
-			}
-
-			while (widget->parent)
-			{
-				if (MRN_IS_BUTTON (widget->parent) ||
-				    MRN_IS_TOGGLE_BUTTON (widget->parent) ||
-				    MRN_IS_COMBO_BOX (widget->parent) ||
-				    MRN_IS_COMBO_BOX_ENTRY (widget->parent) ||
-				    MRN_IS_COMBO (widget->parent) ||
-				    MRN_IS_OPTION_MENU (widget->parent) ||
-				    MRN_IS_NOTEBOOK (widget->parent))
+			} else {
+				while (widget->parent)
 				{
-					GtkReliefStyle relief = GTK_RELIEF_NORMAL;
+					if (GTK_IS_SCROLLED_WINDOW (widget->parent))
+						goto out;
 
-					/* Check for the shadow type. */
-					if (MRN_IS_BUTTON (widget->parent))
-						g_object_get (G_OBJECT (widget->parent), "relief", &relief, NULL);
-
-					if (!MRN_IS_CHECK_BUTTON(widget->parent) &&
-					    !MRN_IS_RADIO_BUTTON(widget->parent) &&
-					    !(relief == GTK_RELIEF_NONE &&
-					      (state_type == GTK_STATE_NORMAL ||
-					       state_type == GTK_STATE_INSENSITIVE)))
-						use_parentbg = FALSE;
-
-					break;
+					widget = widget->parent;
 				}
 
-				widget = widget->parent;
-			}
+				while (widget->parent)
+				{
+					if (MRN_IS_BUTTON (widget->parent) ||
+					    MRN_IS_TOGGLE_BUTTON (widget->parent) ||
+					    MRN_IS_COMBO_BOX (widget->parent) ||
+					    MRN_IS_COMBO_BOX_ENTRY (widget->parent) ||
+					    MRN_IS_COMBO (widget->parent) ||
+					    MRN_IS_OPTION_MENU (widget->parent) ||
+					    MRN_IS_NOTEBOOK (widget->parent))
+					{
+						GtkReliefStyle relief = GTK_RELIEF_NORMAL;
 
-			draw:
+						/* Check for the shadow type. */
+						if (MRN_IS_BUTTON (widget->parent))
+							g_object_get (G_OBJECT (widget->parent), "relief", &relief, NULL);
+
+						if (!MRN_IS_CHECK_BUTTON(widget->parent) &&
+						    !MRN_IS_RADIO_BUTTON(widget->parent) &&
+						    !(relief == GTK_RELIEF_NONE &&
+						      (state_type == GTK_STATE_NORMAL ||
+						       state_type == GTK_STATE_INSENSITIVE)))
+							use_parentbg = FALSE;
+
+						break;
+					}
+
+					widget = widget->parent;
+				}
+			}
 
 			if (use_parentbg)
 				murrine_shade (&params.parentbg, shade_level, &temp);

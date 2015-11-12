@@ -2244,7 +2244,13 @@ murrine_style_draw_layout (GtkStyle     *style,
 		gdk_draw_layout_with_colors(window, gc, x, y, layout, &etched, NULL);
 	}
 	else
-		gdk_draw_layout (window, gc, x, y, layout);
+	{
+		GtkWidget *button = gtk_widget_get_ancestor (widget, GTK_TYPE_BUTTON);
+		if (DETAIL ("label") && button)
+			gdk_draw_layout_with_colors(window, gc, x, y, layout, &button->style->fg[state_type], NULL);
+		else
+			gdk_draw_layout (window, gc, x, y, layout);
+	}
 
 	if (area)
 		gdk_gc_set_clip_rectangle (gc, NULL);

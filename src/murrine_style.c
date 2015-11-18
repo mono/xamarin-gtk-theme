@@ -169,6 +169,8 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	params->ythickness = style->ythickness;
 
 	params->contrast          = murrine_style->contrast;
+	params->fill_shade        = murrine_style->fill_shade;
+	params->has_fill_shade    = murrine_style->has_fill_shade;
 	params->glazestyle        = murrine_style->glazestyle;
 	params->glow_shade        = murrine_style->glow_shade;
 	params->glowstyle         = murrine_style->glowstyle;
@@ -924,7 +926,10 @@ murrine_style_draw_box (DRAW_ARGS)
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 		params.active = shadow_type == GTK_SHADOW_IN;
-		button.fill_shade = 0.855;
+		if (murrine_style->has_fill_shade)
+			button.fill_shade = murrine_style->fill_shade;
+		else
+			button.fill_shade = 0.855;
 		button.border_shade = 0.6;
 		button.draw_glaze = TRUE;
 
@@ -993,7 +998,8 @@ murrine_style_draw_box (DRAW_ARGS)
 			 MRN_IS_COMBO (widget->parent))
 		{
 			if (GTK_IS_TOGGLE_BUTTON (widget))
-				button.fill_shade = 0.934;
+				if (!murrine_style->has_fill_shade)
+					button.fill_shade = 0.934;
 			STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, &button, x, y+4, width, height-8, horizontal);
 		}
 		else
@@ -1382,7 +1388,10 @@ murrine_style_draw_box (DRAW_ARGS)
 		murrine_set_widget_parameters (widget, style, state_type, &params);
 
 		button.has_default_button_color = FALSE;
-		button.fill_shade = 0.855;
+		if (murrine_style->has_fill_shade)
+			button.fill_shade = murrine_style->fill_shade;
+		else
+			button.fill_shade = 0.855;
 		button.border_shade = 0.6;
 		button.draw_glaze = FALSE;
 
@@ -1463,7 +1472,10 @@ murrine_style_draw_box (DRAW_ARGS)
 		{
 			ButtonParameters button;
 			button.has_default_button_color = FALSE;
-			button.fill_shade = 0.855;
+			if (murrine_style->has_fill_shade)
+				button.fill_shade = murrine_style->fill_shade;
+			else
+				button.fill_shade = 0.855;
 			button.border_shade = 0.6;
 			button.draw_glaze = FALSE;
 
@@ -2561,6 +2573,7 @@ murrine_style_init_from_rc (GtkStyle   *style,
 	murrine_style->has_border_colors   = MURRINE_RC_STYLE (rc_style)->has_border_colors;
 	murrine_style->has_default_button_color = MURRINE_RC_STYLE (rc_style)->flags & MRN_FLAG_DEFAULT_BUTTON_COLOR;
 	murrine_style->has_treeview_expander_color = MURRINE_RC_STYLE (rc_style)->has_treeview_expander_color;
+	murrine_style->has_fill_shade      = MURRINE_RC_STYLE (rc_style)->has_fill_shade;
 	murrine_style->has_focus_color     = MURRINE_RC_STYLE (rc_style)->flags & MRN_FLAG_FOCUS_COLOR;
 	murrine_style->has_gradient_colors = MURRINE_RC_STYLE (rc_style)->has_gradient_colors;
 	murrine_style->handlestyle         = MURRINE_RC_STYLE (rc_style)->handlestyle;
@@ -2593,6 +2606,8 @@ murrine_style_init_from_rc (GtkStyle   *style,
 		murrine_style->default_button_color = MURRINE_RC_STYLE (rc_style)->default_button_color;
 	if (murrine_style->has_treeview_expander_color)
 		murrine_style->treeview_expander_color = MURRINE_RC_STYLE (rc_style)->treeview_expander_color;
+	if (murrine_style->has_fill_shade)
+		murrine_style->fill_shade = MURRINE_RC_STYLE (rc_style)->fill_shade;
 	if (murrine_style->has_focus_color)
 		murrine_style->focus_color = MURRINE_RC_STYLE (rc_style)->focus_color;
 	if (murrine_style->has_gradient_colors)
@@ -2698,6 +2713,7 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	mrn_style->contrast            = mrn_src->contrast;
 	mrn_style->default_button_color = mrn_src->default_button_color;
 	mrn_style->expanderstyle       = mrn_src->expanderstyle;
+	mrn_style->fill_shade          = mrn_src->fill_shade;
 	mrn_style->focusstyle          = mrn_src->focusstyle;
 	mrn_style->focus_color         = mrn_src->focus_color;
 	mrn_style->glazestyle          = mrn_src->glazestyle;
@@ -2714,6 +2730,7 @@ murrine_style_copy (GtkStyle *style, GtkStyle *src)
 	mrn_style->handlestyle         = mrn_src->handlestyle;
 	mrn_style->has_border_colors   = mrn_src->has_border_colors;
 	mrn_style->has_default_button_color = mrn_src->has_default_button_color;
+	mrn_style->has_fill_shade      = mrn_src->has_fill_shade;
 	mrn_style->has_focus_color     = mrn_src->has_focus_color;
 	mrn_style->has_gradient_colors = mrn_src->has_gradient_colors;
 	mrn_style->has_treeview_expander_color = mrn_src->has_treeview_expander_color;

@@ -386,6 +386,8 @@ typedef struct
 	int reliefstyle;
 	int roundness;
 	double contrast;
+	double fill_shade;
+	boolean has_fill_shade;
 	double glow_shade;
 	double highlight_shade;
 	double lightborder_shade;

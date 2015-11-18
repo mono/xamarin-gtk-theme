@@ -46,6 +46,7 @@ struct _MurrineStyle
 
 	double   border_shades[2];
 	double   contrast;
+	double   fill_shade;
 	double   glow_shade;
 	double   gradient_shades[4];
 	double   highlight_shade;
@@ -86,6 +87,7 @@ struct _MurrineStyle
 	gboolean colorize_scrollbar;
 	gboolean has_border_colors;
 	gboolean has_default_button_color;
+	gboolean has_fill_shade;
 	gboolean has_focus_color;
 	gboolean has_gradient_colors;
 	gboolean rgba;

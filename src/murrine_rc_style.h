@@ -102,6 +102,7 @@ struct _MurrineRcStyle
 
 	double   border_shades[2];
 	double   contrast;
+	double   fill_shade;
 	double   glow_shade;
 	double   gradient_shades[4];
 	double   highlight_shade;
@@ -143,6 +144,7 @@ struct _MurrineRcStyle
 	gboolean has_border_colors;
 	gboolean has_treeview_expander_color;
 	gboolean has_default_button_color;
+	gboolean has_fill_shade;
 	gboolean has_focus_color;
 	gboolean has_gradient_colors;
 	gboolean rgba;

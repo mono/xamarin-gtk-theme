@@ -45,6 +45,7 @@ enum
 	TOKEN_CONTRAST,
 	TOKEN_DEFAULT_BUTTON_COLOR,
 	TOKEN_EXPANDERSTYLE,
+	TOKEN_FILL_SHADE,
 	TOKEN_FOCUS_COLOR,
 	TOKEN_FOCUSSTYLE,
 	TOKEN_GLAZESTYLE,
@@ -111,6 +112,7 @@ theme_symbols[] =
 	{ "contrast",            TOKEN_CONTRAST },
 	{ "default_button_color", TOKEN_DEFAULT_BUTTON_COLOR },
 	{ "expanderstyle",       TOKEN_EXPANDERSTYLE },
+	{ "fill_shade",          TOKEN_FILL_SHADE },
 	{ "focus_color",         TOKEN_FOCUS_COLOR },
 	{ "focusstyle",          TOKEN_FOCUSSTYLE },
 	{ "glazestyle",          TOKEN_GLAZESTYLE },
@@ -185,6 +187,7 @@ murrine_rc_style_init (MurrineRcStyle *murrine_rc)
 	murrine_rc->focusstyle = 2;
 	murrine_rc->has_border_colors = FALSE;
 	murrine_rc->has_default_button_color = FALSE;
+	murrine_rc->has_fill_shade = FALSE;
 	murrine_rc->has_gradient_colors = FALSE;
 	murrine_rc->has_treeview_expander_color = FALSE;
 	murrine_rc->handlestyle = 0;
@@ -668,6 +671,10 @@ murrine_rc_style_parse (GtkRcStyle *rc_style,
 				token = theme_parse_int (settings, scanner, &murrine_style->expanderstyle);
 				murrine_style->flags |= MRN_FLAG_EXPANDERSTYLE;
 				break;
+			case TOKEN_FILL_SHADE:
+				token = theme_parse_shade (settings, scanner, &murrine_style->fill_shade);
+				murrine_style->has_fill_shade = TRUE;
+				break;
 			case TOKEN_FOCUS_COLOR:
 				token = theme_parse_color (settings, scanner, rc_style, &murrine_style->focus_color);
 				murrine_style->flags |= MRN_FLAG_FOCUS_COLOR;
@@ -899,6 +906,11 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 	}
 	if (flags & MRN_FLAG_EXPANDERSTYLE)
 		dest_w->expanderstyle = src_w->expanderstyle;
+	if (src_w->has_fill_shade)
+	{
+		dest_w->has_fill_shade = src_w->has_fill_shade;
+		dest_w->fill_shade = src_w->fill_shade;
+	}
 	if (flags & MRN_FLAG_FOCUS_COLOR)
 	{
 		dest_w->has_focus_color = src_w->has_focus_color;

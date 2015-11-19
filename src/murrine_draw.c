@@ -555,7 +555,10 @@ murrine_draw_spinbutton (cairo_t *cr,
 {
 	ButtonParameters button;
 	button.has_default_button_color = FALSE;
-	button.fill_shade = 0.855;
+	if (widget->has_fill_shade)
+		button.fill_shade = widget->fill_shade;
+	else
+		button.fill_shade = 0.855;
 	button.border_shade = 0.6;
 	button.draw_glaze = FALSE;
 
@@ -1135,7 +1138,10 @@ murrine_draw_combobox (cairo_t *cr,
 		{
 			ButtonParameters button;
 			button.has_default_button_color = FALSE;
-			button.fill_shade = 0.899;
+			if (widget.has_fill_shade)
+				button.fill_shade = widget.fill_shade;
+			else
+				button.fill_shade = 0.899;
 			button.border_shade = 0.529;
 			button.draw_glaze = FALSE;
 
@@ -1154,7 +1160,10 @@ murrine_draw_combobox (cairo_t *cr,
 				box_w--;
 
 			button.has_default_button_color = FALSE;
-			button.fill_shade = 0.899;
+			if (widget.has_fill_shade)
+				button.fill_shade = widget.fill_shade;
+			else
+				button.fill_shade = 0.899;
 			button.border_shade = 0.6;
 			button.draw_glaze = FALSE;
 
@@ -1188,7 +1197,10 @@ murrine_draw_combobox (cairo_t *cr,
 
 			params.mrn_gradient.has_border_colors = FALSE;
 			params.mrn_gradient.has_gradient_colors = FALSE;
-			button.fill_shade = 0.866;
+			if (widget.has_fill_shade)
+				button.fill_shade = widget.fill_shade;
+			else
+				button.fill_shade = 0.866;
 
 			cairo_save (cr);
 			if (params.ltr)
@@ -1224,7 +1236,10 @@ murrine_draw_optionmenu (cairo_t *cr,
 	boolean horizontal = TRUE;
 
 	button.has_default_button_color = FALSE;
-	button.fill_shade = 0.855;
+	if (widget->has_fill_shade)
+		button.fill_shade = widget->fill_shade;
+	else
+		button.fill_shade = 0.855;
 	button.border_shade = 0.6;
 	button.draw_glaze = FALSE;
 

@@ -2114,7 +2114,6 @@ murrine_style_draw_layout (GtkStyle     *style,
 
 	if (widget && (state_type == GTK_STATE_INSENSITIVE || 
 	    (MURRINE_STYLE (style)->textstyle != 0 &&
-	     state_type != GTK_STATE_PRELIGHT &&
 	     !(DETAIL ("cellrenderertext") && state_type == GTK_STATE_NORMAL))))
 	{
 		MurrineStyle *murrine_style = MURRINE_STYLE (style);
@@ -2161,41 +2160,45 @@ murrine_style_draw_layout (GtkStyle     *style,
 		{
 			boolean use_parentbg = TRUE;
 
-			while (widget->parent)
-			{
-				if (GTK_IS_SCROLLED_WINDOW (widget->parent))
-					goto out;
-
-				widget = widget->parent;
-			}
-
-			while (widget->parent)
-			{
-				if (MRN_IS_BUTTON (widget->parent) ||
-				    MRN_IS_TOGGLE_BUTTON (widget->parent) ||
-				    MRN_IS_COMBO_BOX (widget->parent) ||
-				    MRN_IS_COMBO_BOX_ENTRY (widget->parent) ||
-				    MRN_IS_COMBO (widget->parent) ||
-				    MRN_IS_OPTION_MENU (widget->parent) ||
-				    MRN_IS_NOTEBOOK (widget->parent))
+			if (state_type == GTK_STATE_PRELIGHT) {
+				use_parentbg = FALSE;
+			} else {
+				while (widget->parent)
 				{
-					GtkReliefStyle relief = GTK_RELIEF_NORMAL;
+					if (GTK_IS_SCROLLED_WINDOW (widget->parent))
+						goto out;
 
-					/* Check for the shadow type. */
-					if (MRN_IS_BUTTON (widget->parent))
-						g_object_get (G_OBJECT (widget->parent), "relief", &relief, NULL);
-
-					if (!MRN_IS_CHECK_BUTTON(widget->parent) &&
-					    !MRN_IS_RADIO_BUTTON(widget->parent) &&
-					    !(relief == GTK_RELIEF_NONE &&
-					      (state_type == GTK_STATE_NORMAL ||
-					       state_type == GTK_STATE_INSENSITIVE)))
-						use_parentbg = FALSE;
-
-					break;
+					widget = widget->parent;
 				}
 
-				widget = widget->parent;
+				while (widget->parent)
+				{
+					if (MRN_IS_BUTTON (widget->parent) ||
+					    MRN_IS_TOGGLE_BUTTON (widget->parent) ||
+					    MRN_IS_COMBO_BOX (widget->parent) ||
+					    MRN_IS_COMBO_BOX_ENTRY (widget->parent) ||
+					    MRN_IS_COMBO (widget->parent) ||
+					    MRN_IS_OPTION_MENU (widget->parent) ||
+					    MRN_IS_NOTEBOOK (widget->parent))
+					{
+						GtkReliefStyle relief = GTK_RELIEF_NORMAL;
+
+						/* Check for the shadow type. */
+						if (MRN_IS_BUTTON (widget->parent))
+							g_object_get (G_OBJECT (widget->parent), "relief", &relief, NULL);
+
+						if (!MRN_IS_CHECK_BUTTON(widget->parent) &&
+						    !MRN_IS_RADIO_BUTTON(widget->parent) &&
+						    !(relief == GTK_RELIEF_NONE &&
+						      (state_type == GTK_STATE_NORMAL ||
+						       state_type == GTK_STATE_INSENSITIVE)))
+							use_parentbg = FALSE;
+
+						break;
+					}
+
+					widget = widget->parent;
+				}
 			}
 
 			if (use_parentbg)
@@ -2240,27 +2243,14 @@ murrine_style_draw_layout (GtkStyle     *style,
 
 		gdk_draw_layout_with_colors(window, gc, x, y, layout, &etched, NULL);
 	}
-	else if (DETAIL ("label") && widget && gtk_widget_get_ancestor (widget, GTK_TYPE_BUTTON) && !gtk_widget_get_ancestor (widget, GTK_TYPE_TOGGLE_BUTTON))
-	{
-		if (is_yosemite ()) {
-			if (state_type == GTK_STATE_ACTIVE) {
-				GdkColor etched = { 0, 0, 0, 0 };
-		                GdkColor white = { 0, 65535, 65535, 65535 };
-				gdk_draw_layout_with_colors (window, gc, x, y + 1, layout, &etched, NULL);
-				gdk_draw_layout_with_colors (window, gc, x, y, layout, &white, NULL);
-			} else {
-				GdkColor etched = { 0, 65535, 65535, 65535 };
-				gdk_draw_layout_with_colors (window, gc, x, y + 1, layout, &etched, NULL);
-				gdk_draw_layout (window, gc, x, y, layout);
-			}
-		} else {
-			GdkColor etched = { 0, 65535, 65535, 65535 };
-			gdk_draw_layout_with_colors(window, gc, x, y + 1, layout, &etched, NULL);
-			gdk_draw_layout (window, gc, x, y, layout);
-		}
-	}
 	else
-		gdk_draw_layout (window, gc, x, y, layout);
+	{
+		GtkWidget *button = gtk_widget_get_ancestor (widget, GTK_TYPE_BUTTON);
+		if (DETAIL ("label") && button)
+			gdk_draw_layout_with_colors(window, gc, x, y, layout, &button->style->fg[state_type], NULL);
+		else
+			gdk_draw_layout (window, gc, x, y, layout);
+	}
 
 	if (area)
 		gdk_gc_set_clip_rectangle (gc, NULL);

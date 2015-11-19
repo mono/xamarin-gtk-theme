@@ -1175,9 +1175,13 @@ murrine_style_draw_box (DRAW_ARGS)
 		WidgetParameters params;
 		ScrollBarParameters scrollbar;
 		boolean within_bevel = FALSE;
+		boolean draw_child_bg = FALSE;
 
 		if (widget->parent && MRN_IS_SCROLLED_WINDOW (widget->parent))
+		{
 			gtk_widget_style_get (widget->parent, "scrollbars-within-bevel", &within_bevel, NULL);
+			gtk_widget_style_get (widget->parent, "draw-child-bg", &draw_child_bg, NULL);
+		}
 
 		scrollbar.horizontal   = TRUE;
 		scrollbar.junction     = murrine_scrollbar_get_junction (widget);
@@ -1187,6 +1191,25 @@ murrine_style_draw_box (DRAW_ARGS)
 		gtk_widget_style_get (widget, "stepper-size", &scrollbar.steppersize, NULL);
 
 		murrine_set_widget_parameters (widget, style, state_type, &params);
+
+		if (draw_child_bg)
+		{
+			GtkWidget *child  = gtk_bin_get_child (GTK_BIN (widget->parent));
+			if (child != NULL)
+			{
+				GdkColor *bgcolor = NULL;
+				if (GTK_IS_TREE_VIEW (child))
+				{
+					gtk_widget_style_get (child, "even-row-color", &bgcolor, NULL);
+					if (!bgcolor)
+						bgcolor = &child->style->base[child->state];
+				} else
+					bgcolor = &child->style->bg[child->state];
+
+				if (bgcolor)
+					murrine_gdk_color_to_rgb (bgcolor, &params.parentbg.r, &params.parentbg.g, &params.parentbg.b);
+			}
+		}
 
 		if (within_bevel)
 			params.corners = MRN_CORNER_NONE;

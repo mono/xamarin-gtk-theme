@@ -373,6 +373,7 @@ typedef struct
 	boolean ltr;
 	boolean focus;
 	boolean is_default;
+	boolean draw_border;
 	MurrineStateType state_type;
 	uint8 corners;
 	uint8 xthickness;

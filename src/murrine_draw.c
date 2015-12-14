@@ -306,7 +306,7 @@ murrine_draw_button (cairo_t *cr,
 		cairo_restore (cr);
 	}
 
-	murrine_draw_border (cr, &border,
+	murrine_draw_border (cr, widget->draw_border ? &border : &colors->bg[widget->state_type],
 	                     os+0.5, os+0.5, width-(os*2)-1, height-(os*2)-1,
 	                     widget->roundness, widget->corners,
 	                     mrn_gradient_new, 1.0);
@@ -1116,7 +1116,7 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 	cairo_clip (cr);
 
 	/* Draw border */
-	murrine_draw_border (cr, &colors->fg[GTK_STATE_SELECTED],
+	murrine_draw_border (cr, widget->draw_border ? &colors->fg[GTK_STATE_SELECTED] : &colors->bg[GTK_STATE_SELECTED],
 	                     1.5, 0.5+yos, width-3, height-1,
 	                     roundness, widget->corners,
 	                     widget->mrn_gradient, 1.0);
@@ -2222,7 +2222,7 @@ murrine_draw_scrollbar_stepper (cairo_t *cr,
 
 	cairo_restore (cr);
 
-	murrine_draw_border (cr, &border,
+	murrine_draw_border (cr, widget->draw_border ? &border : &colors->bg[widget->state_type],
 	                     0.5, 0.5, width-1, height-1,
 	                     widget->roundness, widget->corners,
 	                     mrn_gradient_new, 1.0);
@@ -2461,7 +2461,7 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
 
 	cairo_restore (cr);
 
-	murrine_draw_border (cr, &border,
+	murrine_draw_border (cr, widget->draw_border ? &border : &colors->bg[widget->state_type],
 	                     0.5, 0.5, width-1, height-1,
 			     MIN (width, height), corners,
 	                     mrn_gradient_new, 1.0);

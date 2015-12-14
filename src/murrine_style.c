@@ -164,6 +164,13 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	params->ltr        = murrine_widget_is_ltr ((GtkWidget*)widget);
 	params->focus      = (MURRINE_STYLE (style)->focusstyle != 0) && widget && GTK_WIDGET_HAS_FOCUS (widget);
 	params->is_default = widget && GTK_WIDGET_HAS_DEFAULT (widget);
+	
+	GtkBorder *draw_border = NULL;
+	gtk_widget_style_get ((GtkWidget*)widget, "draw-border", &draw_border, NULL);
+	// draw whole border with 1px if at least one side is >0
+	// TODO: handle the specified border thicknesses,
+	//       needs complete border drawing rewrite
+	params->draw_border = (!draw_border) || (draw_border->left > 0 || draw_border->top > 0 || draw_border->right > 0 || draw_border->bottom > 0);
 
 	params->xthickness = style->xthickness;
 	params->ythickness = style->ythickness;

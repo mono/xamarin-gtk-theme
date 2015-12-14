@@ -995,7 +995,7 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 	MurrineRGB effect;
 	MurrineRGB fill = colors->spot[1];
 	cairo_pattern_t *pat;
-	MurrineRGB shade1, shade2, shade3;
+	MurrineRGB shade1, shade2, shade3, shade4;
 
 	murrine_get_fill_color (&fill, &widget->mrn_gradient);
 	murrine_shade (&fill, murrine_get_contrast(0.65, widget->contrast), &effect);
@@ -1039,15 +1039,16 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 
 	cairo_rectangle (cr, 2, 1+yos, width-4, height-2);
 
-	murrine_shade (&colors->bg[GTK_STATE_SELECTED], 1, &shade1);
-	murrine_shade (&colors->bg[GTK_STATE_SELECTED], 0.78, &shade2);
-	murrine_shade (&colors->bg[GTK_STATE_SELECTED], 0.87, &shade3);
+	murrine_shade (&colors->bg[GTK_STATE_SELECTED], widget->mrn_gradient.gradient_shades[0], &shade1);
+	murrine_shade (&colors->bg[GTK_STATE_SELECTED], widget->mrn_gradient.gradient_shades[1], &shade2);
+	murrine_shade (&colors->bg[GTK_STATE_SELECTED], widget->mrn_gradient.gradient_shades[2], &shade3);
+	murrine_shade (&colors->bg[GTK_STATE_SELECTED], widget->mrn_gradient.gradient_shades[3], &shade4);
 
 	pat = cairo_pattern_create_linear (2, 1+yos, 2, height-2);
 	murrine_pattern_add_color_stop_rgb (pat, 0, &shade1);
 	murrine_pattern_add_color_stop_rgb (pat, 0.65, &shade2);
-	murrine_pattern_add_color_stop_rgb (pat, 0.85, &shade2);
-	murrine_pattern_add_color_stop_rgb (pat, 1, &shade3);
+	murrine_pattern_add_color_stop_rgb (pat, 0.85, &shade3);
+	murrine_pattern_add_color_stop_rgb (pat, 1, &shade4);
 
 	cairo_set_source (cr, pat);
 	cairo_pattern_destroy (pat);

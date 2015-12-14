@@ -1187,7 +1187,8 @@ murrine_style_draw_box (DRAW_ARGS)
 		if (widget->parent && MRN_IS_SCROLLED_WINDOW (widget->parent))
 		{
 			gtk_widget_style_get (widget->parent, "scrollbars-within-bevel", &within_bevel, NULL);
-			gtk_widget_style_get (widget->parent, "draw-child-bg", &draw_child_bg, NULL);
+			if (gtk_widget_class_find_style_property (GTK_WIDGET_GET_CLASS (widget->parent), "draw-child-bg")) // no warnings with unpatched Gtk
+				gtk_widget_style_get (widget->parent, "draw-child-bg", &draw_child_bg, NULL);
 		}
 
 		scrollbar.horizontal   = TRUE;

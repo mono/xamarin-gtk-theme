@@ -258,12 +258,13 @@ murrine_draw_button (cairo_t *cr,
 	cairo_restore (cr);
 
 	/* Draw pressed button shadow */
-	if (widget->active)
+	double active_shadow_shade = murrine_get_inverted_shade(highlight_shade_new);
+	if (widget->active && active_shadow_shade != 1.0)
 	{
 		cairo_pattern_t *pat;
 		MurrineRGB shadow;
 
-		murrine_shade (&fill, 0.8, &shadow);
+		murrine_shade (&fill, active_shadow_shade, &shadow);
 
 		cairo_save (cr);
 

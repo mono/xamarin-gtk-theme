@@ -405,6 +405,10 @@ murrine_style_draw_flat_box (DRAW_ARGS)
 				cairo_destroy (cr);
 			}
 		}
+		else if ((DETAIL("checkbutton") || DETAIL("radiobutton")) && state_type == GTK_STATE_PRELIGHT)
+		{
+			// don't draw prelight background for checkbutton / optionbutton
+		}
 		else
 		{
 /*			printf( "draw_flat_box: %s %s\n", detail, G_OBJECT_TYPE_NAME (widget));*/

@@ -2312,7 +2312,10 @@ murrine_draw_scrollbar_slider (cairo_t *cr,
 	murrine_rounded_rectangle_closed (cr, 1, 1, width-2, height-2, widget->roundness-1, corners);
 	cairo_clip_preserve (cr);
 
-	murrine_shade (&colors->bg[widget->state_type], 0.9, &shade);
+	double fill_shade = 0.9;
+	if (widget->has_fill_shade)
+		fill_shade = widget->fill_shade;
+	murrine_shade (&colors->bg[widget->state_type], fill_shade, &shade);
 
 	pat = cairo_pattern_create_linear (1, 1, 1, height-2);
 	murrine_pattern_add_color_stop_rgb (pat, 0, &shade);

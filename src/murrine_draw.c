@@ -3051,9 +3051,8 @@ murrine_draw_radiobutton (cairo_t *cr,
                           int x, int y, int width, int height,
                           double trans)
 {
-	const MurrineRGB *border;
-	MurrineRGB dot, upper_fill;
-	const MurrineRGB *bg = &colors->base[0];
+	MurrineRGB dot, upper_fill, border;
+	MurrineRGB bg = colors->base[widget->state_type];
 	gboolean inconsistent = FALSE;
 	gboolean draw_box = !checkbox->in_menu;
 	gboolean draw_bullet = (checkbox->shadow_type == GTK_SHADOW_IN);
@@ -3065,12 +3064,16 @@ murrine_draw_radiobutton (cairo_t *cr,
 
 	inconsistent = (checkbox->shadow_type == GTK_SHADOW_ETCHED_IN);
 	draw_bullet |= inconsistent;
+	
+	// a optionbox has no active state, so we use this color for the checked state
+	if (draw_bullet && widget->state_type == GTK_STATE_NORMAL)
+		bg = colors->base[GTK_STATE_SELECTED];
 
 	if (widget->state_type == GTK_STATE_INSENSITIVE)
 	{
-		border = &colors->shade[3];
+		border = colors->shade[3];
 		dot    = colors->shade[3];
-		bg     = &colors->bg[0];
+		bg     = colors->bg[0];
 
 		mrn_gradient_new = murrine_get_decreased_gradient_shades (widget->mrn_gradient, 3.0);
 		mrn_gradient_new.border_shades[0] = murrine_get_decreased_shade (widget->mrn_gradient.border_shades[0], 3.0);
@@ -3080,8 +3083,8 @@ murrine_draw_radiobutton (cairo_t *cr,
 	}
 	else
 	{
-		border = &colors->shade[7];
-		murrine_shade (&colors->base[widget->state_type], 0.35, &dot);
+		murrine_shade (&bg, 0.6, &border);
+		dot    = colors->text[GTK_STATE_SELECTED];
 	}
 
 	cairo_translate (cr, x, y);
@@ -3101,7 +3104,7 @@ murrine_draw_radiobutton (cairo_t *cr,
 				else
 				{
 					MurrineRGB shadow;
-					murrine_shade (border, 0.9, &shadow);
+					murrine_shade (&border, 0.9, &shadow);
 
 					murrine_draw_shadow (cr, &shadow,
 					                     0.5, 0.5, width-1, height-1,
@@ -3119,10 +3122,13 @@ murrine_draw_radiobutton (cairo_t *cr,
 		murrine_rounded_rectangle_closed (cr, 1.5, 1.5, width-3, height-3, roundness, widget->corners);
 		cairo_clip_preserve (cr);
 
-		murrine_shade (bg, 0.85, &upper_fill);
+		double fill_shade = 0.85;
+		if (widget->has_fill_shade)
+			fill_shade = widget->fill_shade;
+		murrine_shade (&bg, fill_shade, &upper_fill);
 		pat = cairo_pattern_create_linear (2, 2, 2, height-2);
 		murrine_pattern_add_color_stop_rgb (pat, 0.0, &upper_fill);
-		murrine_pattern_add_color_stop_rgb (pat, 1.0, bg);
+		murrine_pattern_add_color_stop_rgb (pat, 1.0, &bg);
 		cairo_set_source (cr, pat);
 		cairo_pattern_destroy (pat);
 		cairo_fill (cr);
@@ -3142,7 +3148,7 @@ murrine_draw_radiobutton (cairo_t *cr,
 			mrn_gradient_new.has_border_colors = FALSE;
 		}
 
-		murrine_draw_border (cr, border,
+		murrine_draw_border (cr, &border,
 			             1.5, 1.5, width-3, height-3,
 			             roundness, widget->corners,
 			             mrn_gradient_new, 1.0);
@@ -3195,9 +3201,9 @@ murrine_draw_checkbox (cairo_t *cr,
                        int x, int y, int width, int height,
                        double trans)
 {
-	const MurrineRGB *border;
+	MurrineRGB border;
 	const MurrineRGB *dot;
-	const MurrineRGB *bg = &colors->base[0];
+	MurrineRGB bg = colors->base[widget->state_type];
 	gboolean inconsistent = FALSE;
 	gboolean draw_box = !checkbox->in_menu;
 	gboolean draw_bullet = (checkbox->shadow_type == GTK_SHADOW_IN);
@@ -3208,10 +3214,14 @@ murrine_draw_checkbox (cairo_t *cr,
 
 	inconsistent = (checkbox->shadow_type == GTK_SHADOW_ETCHED_IN);
 	draw_bullet |= inconsistent;
+	
+	// a checkbox has no active state, so we use this color for the checked state
+	if (draw_bullet && widget->state_type == GTK_STATE_NORMAL)
+		bg = colors->base[GTK_STATE_SELECTED];
 
 	if (widget->state_type == GTK_STATE_INSENSITIVE)
 	{
-		border = &colors->shade[5];
+		border = colors->shade[5];
 		dot    = &colors->shade[3];
 
 		mrn_gradient_new = murrine_get_decreased_gradient_shades (widget->mrn_gradient, 3.0);
@@ -3222,8 +3232,8 @@ murrine_draw_checkbox (cairo_t *cr,
 	}
 	else
 	{
-		border = &colors->shade[6];
-		dot    = &colors->text[widget->state_type];
+		murrine_shade (&bg, 0.6, &border);
+		dot    = &colors->text[GTK_STATE_SELECTED];
 	}
 
 	cairo_translate (cr, x, y);
@@ -3246,7 +3256,7 @@ murrine_draw_checkbox (cairo_t *cr,
 				else
 				{
 					MurrineRGB shadow;
-					murrine_shade (border, 0.9, &shadow);
+					murrine_shade (&border, 0.9, &shadow);
 
 					murrine_draw_shadow (cr, &shadow,
 					                     0.5, 0.5, width-1, height-1,
@@ -3264,10 +3274,13 @@ murrine_draw_checkbox (cairo_t *cr,
 		murrine_rounded_rectangle_closed (cr, 1.5, 1.5, width-3, height-3, roundness, widget->corners);
 		cairo_clip_preserve (cr);
 
-		murrine_shade (bg, 0.85, &upper_fill);
+		double fill_shade = 0.85;
+		if (widget->has_fill_shade)
+			fill_shade = widget->fill_shade;
+		murrine_shade (&bg, fill_shade, &upper_fill);
 		pat = cairo_pattern_create_linear (2, 2, 2, height-2);
 		murrine_pattern_add_color_stop_rgb (pat, 0.0, &upper_fill);
-		murrine_pattern_add_color_stop_rgb (pat, 0.2, bg);
+		murrine_pattern_add_color_stop_rgb (pat, 0.2, &bg);
 		cairo_set_source (cr, pat);
 		cairo_pattern_destroy (pat);
 		cairo_fill (cr);
@@ -3287,7 +3300,7 @@ murrine_draw_checkbox (cairo_t *cr,
 			mrn_gradient_new.has_border_colors = FALSE;
 		}
 
-		murrine_draw_border (cr, border,
+		murrine_draw_border (cr, &border,
 		                     1.5, 1.5, width-3, height-3,
 		                     roundness, widget->corners,
 		                     mrn_gradient_new, 1.0);
@@ -3317,12 +3330,6 @@ murrine_draw_checkbox (cairo_t *cr,
 			cairo_line_to (cr, 2, 6);
 			cairo_close_path (cr);
 		}
-
-		/* Force normal state color, as the background doesn't
-		 * change either on cell renderer checkboxes
-		 */
-		if (checkbox->in_cell)
-			dot = &colors->text[GTK_STATE_NORMAL];
 
 		murrine_set_color_rgba (cr, dot, trans);
 		cairo_fill (cr);

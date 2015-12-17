@@ -906,7 +906,7 @@ murrine_rc_style_merge (GtkRcStyle *dest,
 	}
 	if (flags & MRN_FLAG_EXPANDERSTYLE)
 		dest_w->expanderstyle = src_w->expanderstyle;
-	if (src_w->has_fill_shade)
+	if (!dest_w->has_fill_shade)
 	{
 		dest_w->has_fill_shade = src_w->has_fill_shade;
 		dest_w->fill_shade = src_w->fill_shade;

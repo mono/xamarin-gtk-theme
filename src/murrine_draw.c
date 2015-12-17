@@ -1151,6 +1151,7 @@ murrine_draw_combobox (cairo_t *cr,
 			break;
 		}
 		case 1:
+		case 2:
 		{
 			WidgetParameters params = widget;
 			MurrineColors colors_new = colors;
@@ -1169,16 +1170,25 @@ murrine_draw_combobox (cairo_t *cr,
 			button.border_shade = 0.6;
 			button.draw_glaze = FALSE;
 
-			murrine_shade (&colors.bg[GTK_STATE_NORMAL], 0.933,
-			               &colors_new.bg[GTK_STATE_NORMAL]);
-			murrine_shade (&colors_new.bg[GTK_STATE_NORMAL], combobox->prelight_shade, 
-			               &colors_new.bg[GTK_STATE_PRELIGHT]);
+			if (combobox->style == 1) {
+				murrine_shade (&colors.bg[GTK_STATE_NORMAL], 0.933,
+				               &colors_new.bg[GTK_STATE_NORMAL]);
+				murrine_shade (&colors_new.bg[GTK_STATE_NORMAL], combobox->prelight_shade, 
+				               &colors_new.bg[GTK_STATE_PRELIGHT]);
+			} else {
+				colors_new.bg[GTK_STATE_NORMAL] = colors.base[GTK_STATE_NORMAL];
+				colors_new.bg[GTK_STATE_ACTIVE] = colors.base[GTK_STATE_ACTIVE];
+				colors_new.bg[GTK_STATE_PRELIGHT] = colors.base[GTK_STATE_PRELIGHT];
+			}
 
 			if (combobox->as_list)
 			{
 				params.style_functions->draw_button (cr, &colors_new, &params, &button, x, y, w, h, horizontal);
 				break;
 			}
+
+			if (combobox->style == 2)
+				button.fill_shade = 1.0;
 
 			cairo_save (cr);
 			if (params.ltr)

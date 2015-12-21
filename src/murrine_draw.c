@@ -362,10 +362,30 @@ murrine_draw_entry_box (cairo_t *cr,
 	{
 		MurrineRGB shadow;
 		murrine_shade (&border, 0.925, &shadow);
+		int sw = width-5;
+		int sh = height-5;
+		int sx = 3;
+		int sy = 3;
+		int sr = MIN (radius, MIN (sw/2.0, sh/2.0));
 
-		cairo_move_to (cr, 3, height-5);
-		cairo_line_to (cr, 3, 3);
-		cairo_line_to (cr, width-5, 3);
+		if (widget->corners & MRN_CORNER_BOTTOMLEFT) {
+			cairo_move_to (cr, sx+sr, sy+sh);
+			cairo_arc (cr, sx+sr, sy+sh-sr, sr, M_PI*0.5, M_PI);
+		}
+		else
+			cairo_move_to (cr, sx, sy+sh);
+
+		if (widget->corners & MRN_CORNER_TOPLEFT) {
+			cairo_line_to (cr, sx, sy+sr);
+			cairo_arc (cr, sx+sr, sy+sr, sr, M_PI, M_PI*1.5);
+		}
+		else
+			cairo_line_to (cr, sx, sy);
+
+		if (widget->corners & MRN_CORNER_TOPRIGHT)
+			cairo_line_to (cr, sx+sw-sr, sy);
+		else
+			cairo_line_to (cr, sx+sw, sy);
 
 		murrine_set_color_rgba (cr, &shadow, widget->disabled ? 0.05 : 0.15);
 		cairo_stroke (cr);

@@ -3062,7 +3062,7 @@ murrine_draw_radiobutton (cairo_t *cr,
                           double trans)
 {
 	MurrineRGB dot, upper_fill, border;
-	MurrineRGB bg = colors->base[widget->state_type];
+	MurrineRGB bg = colors->base[checkbox->in_cell ? GTK_STATE_NORMAL : widget->state_type];
 	gboolean inconsistent = FALSE;
 	gboolean draw_box = !checkbox->in_menu;
 	gboolean draw_bullet = (checkbox->shadow_type == GTK_SHADOW_IN);
@@ -3076,7 +3076,7 @@ murrine_draw_radiobutton (cairo_t *cr,
 	draw_bullet |= inconsistent;
 	
 	// a optionbox has no active state, so we use this color for the checked state
-	if (draw_bullet && widget->state_type == GTK_STATE_NORMAL)
+	if (!checkbox->in_cell && draw_bullet && widget->state_type == GTK_STATE_NORMAL)
 		bg = colors->base[GTK_STATE_SELECTED];
 
 	if (widget->state_type == GTK_STATE_INSENSITIVE)
@@ -3094,7 +3094,7 @@ murrine_draw_radiobutton (cairo_t *cr,
 	else
 	{
 		murrine_shade (&bg, 0.6, &border);
-		dot    = colors->text[GTK_STATE_SELECTED];
+		dot = colors->text[checkbox->in_cell ? GTK_STATE_NORMAL : GTK_STATE_SELECTED];
 	}
 
 	cairo_translate (cr, x, y);
@@ -3213,7 +3213,7 @@ murrine_draw_checkbox (cairo_t *cr,
 {
 	MurrineRGB border;
 	const MurrineRGB *dot;
-	MurrineRGB bg = colors->base[widget->state_type];
+	MurrineRGB bg = colors->base[checkbox->in_cell ? GTK_STATE_NORMAL : widget->state_type];
 	gboolean inconsistent = FALSE;
 	gboolean draw_box = !checkbox->in_menu;
 	gboolean draw_bullet = (checkbox->shadow_type == GTK_SHADOW_IN);
@@ -3226,7 +3226,7 @@ murrine_draw_checkbox (cairo_t *cr,
 	draw_bullet |= inconsistent;
 	
 	// a checkbox has no active state, so we use this color for the checked state
-	if (draw_bullet && widget->state_type == GTK_STATE_NORMAL)
+	if (!checkbox->in_cell && draw_bullet && widget->state_type == GTK_STATE_NORMAL)
 		bg = colors->base[GTK_STATE_SELECTED];
 
 	if (widget->state_type == GTK_STATE_INSENSITIVE)
@@ -3243,7 +3243,7 @@ murrine_draw_checkbox (cairo_t *cr,
 	else
 	{
 		murrine_shade (&bg, 0.6, &border);
-		dot    = &colors->text[GTK_STATE_SELECTED];
+		dot = &colors->text[checkbox->in_cell ? GTK_STATE_NORMAL : GTK_STATE_SELECTED];
 	}
 
 	cairo_translate (cr, x, y);

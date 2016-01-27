@@ -3217,7 +3217,6 @@ murrine_draw_checkbox (cairo_t *cr,
 	gboolean inconsistent = FALSE;
 	gboolean draw_box = !checkbox->in_menu;
 	gboolean draw_bullet = (checkbox->shadow_type == GTK_SHADOW_IN);
-	int roundness = CLAMP (widget->roundness, 0, 2);
 	MurrineGradients mrn_gradient_new = widget->mrn_gradient;
 
 	inconsistent = (checkbox->shadow_type == GTK_SHADOW_ETCHED_IN);
@@ -3241,7 +3240,7 @@ murrine_draw_checkbox (cairo_t *cr,
 				if (widget->reliefstyle == 5)
 					murrine_draw_shadow (cr, &widget->parentbg,
 					                     0.5, 0.5, width-1, height-1,
-					                     roundness+1, widget->corners,
+					                     widget->roundness+1, widget->corners,
 					                     widget->reliefstyle,
 					                     mrn_gradient_new, 0.5);
 				else
@@ -3251,18 +3250,18 @@ murrine_draw_checkbox (cairo_t *cr,
 
 					murrine_draw_shadow (cr, &shadow,
 					                     0.5, 0.5, width-1, height-1,
-					                     roundness+1, widget->corners,
+					                     widget->roundness+1, widget->corners,
 					                     widget->reliefstyle,
 					                     mrn_gradient_new, 0.08);
 				}
 			}
 			else if (widget->reliefstyle != 0)
-				murrine_draw_inset (cr, &widget->parentbg, 0.5, 0.5, width-1, height-1, roundness+1, widget->corners);
+				murrine_draw_inset (cr, &widget->parentbg, 0.5, 0.5, width-1, height-1, widget->roundness+1, widget->corners);
 		}
 
 		cairo_save (cr);
 
-		murrine_rounded_rectangle_closed (cr, 1.5, 1.5, width-3, height-3, roundness, widget->corners);
+		murrine_rounded_rectangle_closed (cr, 1.5, 1.5, width-3, height-3, widget->roundness, widget->corners);
 		cairo_clip_preserve (cr);
 
 		double fill_shade = 0.85;
@@ -3288,7 +3287,7 @@ murrine_draw_checkbox (cairo_t *cr,
 
 		murrine_draw_border (cr, &border,
 		                     1.5, 1.5, width-3, height-3,
-		                     roundness, widget->corners,
+		                     widget->roundness, widget->corners,
 		                     mrn_gradient_new, 1.0);
 	}
 

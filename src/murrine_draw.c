@@ -3172,11 +3172,6 @@ murrine_draw_radiobutton (cairo_t *cr,
 			if (!draw_bullet)
 				mrn_gradient_new.has_border_colors = FALSE;
 		}
-		else if (!draw_bullet)
-		{
-			mrn_gradient_new = murrine_get_inverted_border_shades (mrn_gradient_new);
-			mrn_gradient_new.has_border_colors = FALSE;
-		}
 
 		murrine_draw_border (cr, &border,
 			             1.5, 1.5, width-3, height-3,
@@ -3323,11 +3318,6 @@ murrine_draw_checkbox (cairo_t *cr,
 			mrn_gradient_new.border_shades[1] = 1.0;
 			if (!draw_bullet)
 				mrn_gradient_new.has_border_colors = FALSE;
-		}
-		else if (!draw_bullet)
-		{
-			mrn_gradient_new = murrine_get_inverted_border_shades (mrn_gradient_new);
-			mrn_gradient_new.has_border_colors = FALSE;
 		}
 
 		murrine_draw_border (cr, &border,

@@ -3081,14 +3081,13 @@ murrine_draw_radiobutton (cairo_t *cr,
                           int x, int y, int width, int height,
                           double trans)
 {
-	MurrineRGB dot, upper_fill, border;
+	MurrineRGB border = colors->text[widget->state_type];
+	MurrineRGB dot = colors->text[widget->state_type];
 	MurrineRGB bg = colors->base[checkbox->in_cell ? GTK_STATE_NORMAL : widget->state_type];
 	gboolean inconsistent = FALSE;
 	gboolean draw_box = !checkbox->in_menu;
 	gboolean draw_bullet = (checkbox->shadow_type == GTK_SHADOW_IN);
 	int roundness = width+height;
-	double highlight_shade_new = widget->highlight_shade;
-	double lightborder_shade_new = widget->lightborder_shade;
 	MurrineGradients mrn_gradient_new = widget->mrn_gradient;
 	cairo_pattern_t *pat;
 
@@ -3099,28 +3098,14 @@ murrine_draw_radiobutton (cairo_t *cr,
 	if (!checkbox->in_cell && draw_bullet && widget->state_type == GTK_STATE_NORMAL)
 		bg = colors->base[GTK_STATE_SELECTED];
 
-	if (widget->state_type == GTK_STATE_INSENSITIVE)
-	{
-		border = colors->shade[3];
-		dot    = colors->shade[3];
-		bg     = colors->bg[0];
-
-		mrn_gradient_new = murrine_get_decreased_gradient_shades (widget->mrn_gradient, 3.0);
-		mrn_gradient_new.border_shades[0] = murrine_get_decreased_shade (widget->mrn_gradient.border_shades[0], 3.0);
-		mrn_gradient_new.border_shades[1] = murrine_get_decreased_shade (widget->mrn_gradient.border_shades[1], 3.0);
-		highlight_shade_new = murrine_get_decreased_shade (widget->highlight_shade, 2.0);
-		lightborder_shade_new = murrine_get_decreased_shade (widget->lightborder_shade, 2.0);
-	}
-	else
-	{
-		border = colors->text[widget->state_type];
-		dot = colors->text[widget->state_type];
-	}
+	border = colors->text[widget->state_type];
+	dot = colors->text[widget->state_type];
 
 	cairo_translate (cr, x, y);
 
 	if (draw_box)
 	{	
+		MurrineRGB upper_fill;
 		if (widget->xthickness > 2 && widget->ythickness > 2)
 		{
 			if (widget->reliefstyle > 1 && draw_bullet && widget->state_type != GTK_STATE_INSENSITIVE)
@@ -3226,15 +3211,13 @@ murrine_draw_checkbox (cairo_t *cr,
                        int x, int y, int width, int height,
                        double trans)
 {
-	MurrineRGB border;
-	const MurrineRGB *dot;
+	MurrineRGB border = colors->text[widget->state_type];
+	MurrineRGB dot = colors->text[widget->state_type];
 	MurrineRGB bg = colors->base[checkbox->in_cell ? GTK_STATE_NORMAL : widget->state_type];
 	gboolean inconsistent = FALSE;
 	gboolean draw_box = !checkbox->in_menu;
 	gboolean draw_bullet = (checkbox->shadow_type == GTK_SHADOW_IN);
 	int roundness = CLAMP (widget->roundness, 0, 2);
-	double highlight_shade_new = widget->highlight_shade;
-	double lightborder_shade_new = widget->lightborder_shade;
 	MurrineGradients mrn_gradient_new = widget->mrn_gradient;
 
 	inconsistent = (checkbox->shadow_type == GTK_SHADOW_ETCHED_IN);
@@ -3243,23 +3226,6 @@ murrine_draw_checkbox (cairo_t *cr,
 	// a checkbox has no active state, so we use this color for the checked state
 	if (!checkbox->in_cell && draw_bullet && widget->state_type == GTK_STATE_NORMAL)
 		bg = colors->base[GTK_STATE_SELECTED];
-
-	if (widget->state_type == GTK_STATE_INSENSITIVE)
-	{
-		border = colors->shade[5];
-		dot    = &colors->shade[3];
-
-		mrn_gradient_new = murrine_get_decreased_gradient_shades (widget->mrn_gradient, 3.0);
-		mrn_gradient_new.border_shades[0] = murrine_get_decreased_shade (widget->mrn_gradient.border_shades[0], 3.0);
-		mrn_gradient_new.border_shades[1] = murrine_get_decreased_shade (widget->mrn_gradient.border_shades[1], 3.0);
-		highlight_shade_new = murrine_get_decreased_shade (widget->highlight_shade, 2.0);
-		lightborder_shade_new = murrine_get_decreased_shade (widget->lightborder_shade, 2.0);
-	}
-	else
-	{
-		border = colors->text[widget->state_type];
-		dot = &colors->text[widget->state_type];
-	}
 
 	cairo_translate (cr, x, y);
 
@@ -3351,7 +3317,7 @@ murrine_draw_checkbox (cairo_t *cr,
 			cairo_close_path (cr);
 		}
 
-		murrine_set_color_rgba (cr, dot, trans);
+		murrine_set_color_rgba (cr, &dot, trans);
 		cairo_fill (cr);
 	}
 }

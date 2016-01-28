@@ -3113,8 +3113,8 @@ murrine_draw_radiobutton (cairo_t *cr,
 	}
 	else
 	{
-		murrine_shade (&bg, 0.6, &border);
-		dot = colors->text[checkbox->in_cell ? GTK_STATE_NORMAL : GTK_STATE_SELECTED];
+		border = colors->text[widget->state_type];
+		dot = colors->text[widget->state_type];
 	}
 
 	cairo_translate (cr, x, y);
@@ -3257,8 +3257,8 @@ murrine_draw_checkbox (cairo_t *cr,
 	}
 	else
 	{
-		murrine_shade (&bg, 0.6, &border);
-		dot = &colors->text[checkbox->in_cell ? GTK_STATE_NORMAL : GTK_STATE_SELECTED];
+		border = colors->text[widget->state_type];
+		dot = &colors->text[widget->state_type];
 	}
 
 	cairo_translate (cr, x, y);

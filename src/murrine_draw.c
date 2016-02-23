@@ -3081,8 +3081,8 @@ murrine_draw_radiobutton (cairo_t *cr,
                           int x, int y, int width, int height,
                           double trans)
 {
-	MurrineRGB border = colors->text[widget->state_type];
-	MurrineRGB dot = colors->text[widget->state_type];
+	MurrineRGB border = colors->text[checkbox->in_cell ? GTK_STATE_NORMAL : widget->state_type];
+	MurrineRGB dot = colors->text[checkbox->in_cell ? GTK_STATE_NORMAL : widget->state_type];
 	MurrineRGB bg = colors->base[checkbox->in_cell ? GTK_STATE_NORMAL : widget->state_type];
 	gboolean inconsistent = FALSE;
 	gboolean draw_box = !checkbox->in_menu;
@@ -3211,8 +3211,8 @@ murrine_draw_checkbox (cairo_t *cr,
                        int x, int y, int width, int height,
                        double trans)
 {
-	MurrineRGB border = colors->text[widget->state_type];
-	MurrineRGB dot = colors->text[widget->state_type];
+	MurrineRGB border = colors->text[checkbox->in_cell ? GTK_STATE_NORMAL : widget->state_type];
+	MurrineRGB dot = colors->text[checkbox->in_cell ? GTK_STATE_NORMAL : widget->state_type];
 	MurrineRGB bg = colors->base[checkbox->in_cell ? GTK_STATE_NORMAL : widget->state_type];
 	gboolean inconsistent = FALSE;
 	gboolean draw_box = !checkbox->in_menu;

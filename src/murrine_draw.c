@@ -3096,7 +3096,7 @@ murrine_draw_radiobutton (cairo_t *cr,
 	
 	// a optionbox has no active state, so we use this color for the checked state
 	if (!checkbox->in_cell && draw_bullet && widget->state_type == GTK_STATE_NORMAL)
-		bg = colors->base[GTK_STATE_SELECTED];
+		bg = colors->base[GTK_STATE_ACTIVE];
 
 	border = colors->text[widget->state_type];
 	dot = colors->text[widget->state_type];
@@ -3224,7 +3224,7 @@ murrine_draw_checkbox (cairo_t *cr,
 	
 	// a checkbox has no active state, so we use this color for the checked state
 	if (!checkbox->in_cell && draw_bullet && widget->state_type == GTK_STATE_NORMAL)
-		bg = colors->base[GTK_STATE_SELECTED];
+		bg = colors->base[GTK_STATE_ACTIVE];
 
 	cairo_translate (cr, x, y);
 

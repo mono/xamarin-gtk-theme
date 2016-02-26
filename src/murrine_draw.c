@@ -2922,9 +2922,9 @@ murrine_draw_combo_arrow (cairo_t *cr,
                           const MurrineRGB *color,
                           double x, double y, double width, double height)
 {
-	double arrow_width = MIN (height*2/3.0, width);
-	double arrow_height = arrow_width/2.0;
-	double gap_size = arrow_height;
+	double arrow_width = width + 2;
+	double arrow_height = height;
+	double gap_size = height / 3.0;
 
 	cairo_save (cr);
 	cairo_translate (cr, x, y-(arrow_height+gap_size)/2.0);
@@ -3027,7 +3027,7 @@ _murrine_draw_arrow (cairo_t *cr,
 		{
 			default:
 			case 0:
-				murrine_draw_combo_arrow (cr, color, 0, 0, width, height);
+				murrine_draw_combo_arrow (cr, color, 0, 0.5, width, height);
 				break;
 			case 1:
 				murrine_draw_combo_arrow_filled (cr, color, 0, 0, width, height);

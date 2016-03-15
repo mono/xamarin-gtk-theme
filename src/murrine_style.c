@@ -1004,7 +1004,7 @@ murrine_style_draw_box (DRAW_ARGS)
 		if (MRN_IS_COMBO_BOX_ENTRY (widget->parent) ||
 		    (GTK_IS_COMBO_BOX (widget->parent) &&
 		     gtk_combo_box_get_has_entry (GTK_COMBO_BOX (widget->parent))))
-			STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, &button, x+1, y+4, width-1, height-8, horizontal);
+			STYLE_FUNCTION(draw_button) (cr, &murrine_style->colors, &params, &button, x, y+4, width, height-8, horizontal);
 		else if (!MRN_IS_COMBO_BOX(widget->parent) ||
 			 MRN_IS_COMBO (widget->parent))
 		{

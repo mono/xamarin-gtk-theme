@@ -2874,14 +2874,8 @@ murrine_draw_normal_arrow_filled (cairo_t *cr,
 	cairo_line_to (cr, arrow_width/2, -arrow_height/2);
 	cairo_close_path (cr);
 
-	pat = cairo_pattern_create_linear (0, -arrow_height/2, 0, arrow_height/2);
-	murrine_pattern_add_color_stop_rgba (pat, 0.0, color, 0.6);
-	murrine_pattern_add_color_stop_rgba (pat, 1.0, color, 0.8);
-	cairo_set_source (cr, pat);
-	cairo_fill_preserve (cr);
-	cairo_pattern_destroy (pat);
-
 	murrine_set_color_rgb (cr, color);
+	cairo_fill_preserve (cr);
 	cairo_stroke (cr);
 
 	cairo_restore (cr);
@@ -2904,14 +2898,8 @@ murrine_draw_normal_arrow_filled_equilateral (cairo_t *cr,
 	cairo_line_to (cr, arrow_width/2, -arrow_height/2);
 	cairo_close_path (cr);
 
-	pat = cairo_pattern_create_linear (0, -arrow_height/2, 0, arrow_height/2);
-	murrine_pattern_add_color_stop_rgba (pat, 0.0, color, 0.6);
-	murrine_pattern_add_color_stop_rgba (pat, 1.0, color, 0.8);
-	cairo_set_source (cr, pat);
-	cairo_fill_preserve (cr);
-	cairo_pattern_destroy (pat);
-
 	murrine_set_color_rgb (cr, color);
+	cairo_fill_preserve (cr);
 	cairo_stroke (cr);
 
 	cairo_restore (cr);
@@ -3495,14 +3483,8 @@ murrine_draw_expander_arrow (cairo_t *cr,
 		color = colors->fg[widget->state_type];
 	}
 
-	pat = cairo_pattern_create_linear (-radius/2.0, 0, radius/2.0, 0);
-	murrine_pattern_add_color_stop_rgba (pat, 0.0, &color, 0.6);
-	murrine_pattern_add_color_stop_rgba (pat, 1.0, &color, 0.8);
-	cairo_set_source (cr, pat);
-	cairo_fill_preserve (cr);
-	cairo_pattern_destroy (pat);
-
 	murrine_set_color_rgb (cr, &color);
+	cairo_fill_preserve (cr);
 	cairo_stroke (cr);
 }
 

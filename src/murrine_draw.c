@@ -188,7 +188,7 @@ murrine_draw_button (cairo_t *cr,
 		{
 			mrn_gradient_new.has_border_colors = FALSE;
 			mrn_gradient_new.has_gradient_colors = FALSE;
-			murrine_mix_color (&fill, &button->default_button_color, 0.8, &fill);
+			fill = button->default_button_color;
 		}
 		else
 			murrine_mix_color (&fill, &colors->spot[1], 0.2, &fill);

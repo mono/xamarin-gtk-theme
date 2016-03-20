@@ -22,7 +22,11 @@
 #include <cairo.h>
 #include <math.h>
 #include <string.h>
+#ifdef WIN32
+#include <time.h>
+#else
 #include <sys/time.h>
+#endif
 #include <gdk/gdk.h>
 
 #include "murrine_style.h"
@@ -1185,8 +1189,8 @@ murrine_style_draw_box (DRAW_ARGS)
 	{
 		WidgetParameters params;
 		ScrollBarParameters scrollbar;
-		boolean within_bevel = FALSE;
-		boolean draw_child_bg = FALSE;
+		gboolean within_bevel = FALSE;
+		gboolean draw_child_bg = FALSE;
 
 		if (widget->parent && MRN_IS_SCROLLED_WINDOW (widget->parent))
 		{
@@ -1530,7 +1534,7 @@ murrine_style_draw_box (DRAW_ARGS)
 	{
 		WidgetParameters    params;
 		ScrollBarParameters scrollbar;
-		boolean within_bevel = FALSE;
+		gboolean within_bevel = FALSE;
 
 		scrollbar.has_color      = FALSE;
 		scrollbar.horizontal     = TRUE;

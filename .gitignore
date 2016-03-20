@@ -23,4 +23,11 @@ Makefile.in.in
 /src/config.h.in
 /src/stamp-h1
 /xamarin-gtk-theme.pc
-
+*\obj
+*\bin
+*\Debug
+*\Release
+*.suo
+*.sdf
+*.obj
+*.user

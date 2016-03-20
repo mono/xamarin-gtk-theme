@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Label="UserMacros">
+    <GTK_BASEPATH Condition=" '$(GTK_BASEPATH)' == '' ">C:\Program Files (x86)\GtkSharp\2.12\</GTK_BASEPATH>
+	<GtkInclude>$(GTK_BASEPATH)\include;$(GTK_BASEPATH)\include\gtk-2.0;$(GTK_BASEPATH)\include\glib-2.0;$(GTK_BASEPATH)\include\gio-win32-2.0;$(GTK_BASEPATH)\include\pixman-1;$(GTK_BASEPATH)\include\gdk-pixbuf-2.0;$(GTK_BASEPATH)\include\atk-1.0;$(GTK_BASEPATH)\lib\glib-2.0\include;$(GTK_BASEPATH)\lib\gtk-2.0\include\;$(GTK_BASEPATH)\include\pango-1.0;</GtkInclude>
+	<GtkLibs>gtk-win32-2.0.lib;gdk-win32-2.0.lib;glib-2.0.lib;atk-1.0.lib;gdk_pixbuf-2.0.lib;gobject-2.0.lib;cairo.lib;pangocairo-1.0.lib;pixman-1.lib;pangowin32-1.0.lib;</GtkLibs>
+  </PropertyGroup>
+  <PropertyGroup>
+    <_PropertySheetDisplayName>builddefinesprops</_PropertySheetDisplayName>
+    <OutDir>$(SolutionDir)$(Configuration)\$(PlatformName)\bin\</OutDir>
+    <IntDir>$(SolutionDir)$(Configuration)\$(PlatformName)\obj\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+    <ClCompile>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(GtkInclude);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;_USE_MATH_DEFINES;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+	<Link>
+	  <AdditionalDependencies>$(GtkLibs);%(AdditionalDependencies)</AdditionalDependencies>
+	  <AdditionalLibraryDirectories>$(GTK_BASEPATH)\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <BuildMacro Include="GtkInclude">
+      <Value>$(GtkInclude)</Value>
+    </BuildMacro>
+    <BuildMacro Include="GtkLibs">
+      <Value>$(GtkLibs)</Value>
+    </BuildMacro>
+  </ItemGroup>
+</Project>

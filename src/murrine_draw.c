@@ -2127,12 +2127,11 @@ murrine_draw_scrollbar_trough (cairo_t *cr,
                                int x, int y, int width, int height)
 {
 	MurrineRGB border;
-	MurrineRGB fill;
+	MurrineRGB fill = widget->parentbg;
 
 	murrine_shade (&widget->parentbg,
 	               murrine_get_contrast (scrollbar->stepperstyle != 1 ? 0.86 : 0.8, widget->contrast),
 	               &border);
-	murrine_shade (&widget->parentbg, scrollbar->stepperstyle != 1 ? 0.97 : 1.026, &fill);
 /*
 	murrine_shade (&colors->bg[widget->state_type],
 	               murrine_get_contrast (scrollbar->stepperstyle < 1 ? 0.86 : 0.8, widget->contrast),

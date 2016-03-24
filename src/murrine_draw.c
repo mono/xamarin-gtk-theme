@@ -972,7 +972,7 @@ murrine_draw_progressbar_trough (cairo_t *cr,
                                  int x, int y, int width, int height)
 {
 	MurrineRGB border, fill;
-	int roundness = 1;
+	int roundness = MIN (widget->roundness - widget->xthickness, height/2.0);
 	boolean horizontal = progressbar->orientation < 2;
 	MurrineRGB shadow;
 
@@ -985,18 +985,6 @@ murrine_draw_progressbar_trough (cairo_t *cr,
 
 	/* Draw border */
 	murrine_draw_trough_border (cr, &border, x+0.5, y+0.5, width-1, height-1, roundness, widget->corners, widget->mrn_gradient, 1.0, horizontal);
-
-	/* Draw shadow on top */
-	cairo_move_to (cr, x+1, y+1.5);
-	cairo_line_to (cr, x+width-2, y+1.5);
-	murrine_set_color_rgb (cr, &shadow);
-	cairo_stroke (cr);
-
-	murrine_shade (&colors->bg[GTK_STATE_ACTIVE], 0.543, &shadow);
-	cairo_move_to (cr, x+roundness, y+0.5);
-	cairo_line_to (cr, x+width-(2*roundness), y+0.5);
-	murrine_set_color_rgb (cr, &shadow);
-	cairo_stroke (cr);
 }
 
 static void
@@ -1077,12 +1065,6 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 					  roundness, widget->corners);
 	cairo_fill (cr);
 
-	murrine_shade (&colors->bg[GTK_STATE_SELECTED], 1.2, &shade1);
-	cairo_move_to (cr, 0, 1+yos);
-	cairo_line_to (cr, width, 1+yos);
-	murrine_set_color_rgb (cr, &shade1);
-	cairo_stroke (cr);
-
 	switch (progressbar->style)
 	{
 		case 0:
@@ -1132,18 +1114,19 @@ murrine_draw_progressbar_fill (cairo_t *cr,
 
 	cairo_restore (cr);
 
-	cairo_save (cr);
+	if (widget->draw_border) {
+		cairo_save (cr);
+		
+		murrine_rounded_rectangle_closed (cr, 0.5, -0.5+yos, width-1, height+1, roundness-1, widget->corners);
+		cairo_clip (cr);
 
-	murrine_rounded_rectangle_closed (cr, 0.5, -0.5+yos, width-1, height+1, roundness-1, widget->corners);
-	cairo_clip (cr);
-
-	/* Draw border */
-	murrine_draw_border (cr, widget->draw_border ? &colors->fg[GTK_STATE_SELECTED] : &colors->bg[GTK_STATE_SELECTED],
-	                     1.5, 0.5+yos, width-3, height-1,
-	                     roundness, widget->corners,
-	                     widget->mrn_gradient, 1.0);
-
-	cairo_restore (cr);
+		/* Draw border */
+		murrine_draw_border (cr, &colors->fg[GTK_STATE_SELECTED],
+		                     1.5, 0.5+yos, width-3, height-1,
+		                     roundness, widget->corners,
+		                     widget->mrn_gradient, 1.0);
+		cairo_restore (cr);
+	}
 }
 
 static void

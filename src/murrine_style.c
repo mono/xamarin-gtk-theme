@@ -2045,18 +2045,7 @@ murrine_style_draw_arrow (GtkStyle     *style,
 	{
 		if (DETAIL ("menuitem"))
 		{
-			if (arrow.direction == MRN_DIRECTION_UP || arrow.direction == MRN_DIRECTION_DOWN)
-			{
-				x = x + width / 2 - 2;
-				y = y + height / 2 - 2;
-				height = 7; width = 8;
-			}
-			else
-			{
-				x = x + width / 2 - 2;
-				y = y + height / 2 - 2;
-				height = 7; width = 8;
-			}
+			// nothing to do
 		}
 		else if (DETAIL ("hscrollbar") || DETAIL ("vscrollbar"))
 		{

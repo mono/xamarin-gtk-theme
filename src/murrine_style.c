@@ -166,7 +166,7 @@ murrine_set_widget_parameters (const GtkWidget  *widget,
 	params->state_type = (MurrineStateType)state_type;
 	params->corners    = MRN_CORNER_ALL;
 	params->ltr        = murrine_widget_is_ltr ((GtkWidget*)widget);
-	params->focus      = (MURRINE_STYLE (style)->focusstyle != 0) && widget && GTK_WIDGET_HAS_FOCUS (widget);
+	params->focus      = widget && GTK_WIDGET_HAS_FOCUS (widget);
 	params->is_default = widget && GTK_WIDGET_HAS_DEFAULT (widget);
 	
 	GtkBorder *draw_border = NULL;

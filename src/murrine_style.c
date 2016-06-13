@@ -1738,6 +1738,11 @@ murrine_style_draw_option (DRAW_ARGS)
 	checkbox.shadow_type = shadow_type;
 	checkbox.in_cell = DETAIL ("cellradio");
 	checkbox.in_menu = (widget && widget->parent && GTK_IS_MENU(widget->parent));
+	#ifdef GDK_WINDOWING_QUARTZ
+	checkbox.mac_style = TRUE;
+	#else
+	checkbox.mac_style = FALSE;
+	#endif
 
 	murrine_set_widget_parameters (widget, style, state_type, &params);
 
@@ -1780,6 +1785,11 @@ murrine_style_draw_check (DRAW_ARGS)
 	checkbox.shadow_type = shadow_type;
 	checkbox.in_cell = DETAIL ("cellcheck");
 	checkbox.in_menu = (widget && widget->parent && GTK_IS_MENU(widget->parent));
+	#ifdef GDK_WINDOWING_QUARTZ
+	checkbox.mac_style = TRUE;
+	#else
+	checkbox.mac_style = FALSE;
+	#endif
 
 	murrine_set_widget_parameters (widget, style, state_type, &params);
 

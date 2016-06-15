@@ -3051,9 +3051,10 @@ murrine_draw_radiobutton (cairo_t *cr,
                           int x, int y, int width, int height,
                           double trans)
 {
-	MurrineRGB border = colors->text[checkbox->in_cell ? GTK_STATE_NORMAL : widget->state_type];
+	MurrineRGB border = colors->fg[checkbox->in_cell ? GTK_STATE_NORMAL : widget->state_type];
 	MurrineRGB dot = colors->text[checkbox->in_cell ? GTK_STATE_NORMAL : widget->state_type];
 	MurrineRGB bg = colors->base[checkbox->in_cell ? GTK_STATE_NORMAL : widget->state_type];
+	double border_alpha = checkbox->mac_style ? 0.6 : 1.0;
 	gboolean inconsistent = FALSE;
 	gboolean draw_box = !checkbox->in_menu;
 	gboolean draw_bullet = (checkbox->shadow_type == GTK_SHADOW_IN);
@@ -3065,11 +3066,14 @@ murrine_draw_radiobutton (cairo_t *cr,
 	draw_bullet |= inconsistent;
 	
 	// a optionbox has no active state, so we use this color for the checked state
-	if (!checkbox->in_cell && draw_bullet && widget->state_type == GTK_STATE_NORMAL)
+	if (!checkbox->in_cell && draw_bullet && (widget->state_type == GTK_STATE_NORMAL || widget->state_type == GTK_STATE_PRELIGHT))
+	{
 		bg = colors->base[GTK_STATE_ACTIVE];
-
-	border = colors->text[widget->state_type];
-	dot = colors->text[widget->state_type];
+		if (!checkbox->in_cell && checkbox->mac_style) {
+			border = bg;
+			border_alpha = 1.0;
+		}
+	}
 
 	cairo_translate (cr, x, y);
 
@@ -3116,10 +3120,9 @@ murrine_draw_radiobutton (cairo_t *cr,
 		murrine_pattern_add_color_stop_rgb (pat, 1.0, &bg);
 		cairo_set_source (cr, pat);
 		cairo_pattern_destroy (pat);
+
 		cairo_fill (cr);
-
 		cairo_restore (cr);
-
 		if (checkbox->in_cell)
 		{
 			mrn_gradient_new.border_shades[0] = 1.0;
@@ -3128,14 +3131,19 @@ murrine_draw_radiobutton (cairo_t *cr,
 				mrn_gradient_new.has_border_colors = FALSE;
 		}
 
+		if (checkbox->mac_style)
+			cairo_set_line_width (cr, 0.5);
+
 		murrine_draw_border (cr, &border,
 			             1.5, 1.5, width-3, height-3,
 			             roundness, widget->corners,
-			             mrn_gradient_new, 1.0);
+			             mrn_gradient_new, border_alpha);
+
 	}
 
 	if (draw_bullet)
 	{
+
 		if (inconsistent)
 		{
 			cairo_save (cr);
@@ -3157,14 +3165,21 @@ murrine_draw_radiobutton (cairo_t *cr,
 			}
 			else
 			{
-				MurrineRGB outline;
-				murrine_invert_text (&dot, &outline);
+				if (!checkbox->mac_style)
+				{
+					MurrineRGB outline;
+					murrine_invert_text (&dot, &outline);
 
-				cairo_arc (cr, (double)width/2, (double)height/2, (double)(width+height)/4 - 3, 0, G_PI*2);
-				murrine_set_color_rgba (cr, &outline, 0.3*trans*(widget->state_type == GTK_STATE_INSENSITIVE? 0.2 : 1.0));
-				cairo_fill (cr);
+					cairo_arc (cr, (double)width/2, (double)height/2, (double)(width+height)/4 - 3, 0, G_PI*2);
+					murrine_set_color_rgba (cr, &outline, 0.3*trans*(widget->state_type == GTK_STATE_INSENSITIVE? 0.2 : 1.0));
+					cairo_fill (cr);
 
-				cairo_arc (cr, (double)width/2, (double)height/2, (double)(width+height)/4 - 4, 0, G_PI*2);
+					cairo_arc (cr, (double)width/2, (double)height/2, (double)(width+height)/4 - 4, 0, G_PI*2);
+				}
+				else
+				{
+					cairo_arc (cr, (double)width/2, (double)height/2, (double)(width+height)/5 - 4, 0, G_PI*2);
+				}
 			}
 
 			murrine_set_color_rgb (cr, &dot);
@@ -3181,9 +3196,10 @@ murrine_draw_checkbox (cairo_t *cr,
                        int x, int y, int width, int height,
                        double trans)
 {
-	MurrineRGB border = colors->text[checkbox->in_cell ? GTK_STATE_NORMAL : widget->state_type];
+	MurrineRGB border = colors->fg[checkbox->in_cell ? GTK_STATE_NORMAL : widget->state_type];
 	MurrineRGB dot = colors->text[checkbox->in_cell ? GTK_STATE_NORMAL : widget->state_type];
 	MurrineRGB bg = colors->base[checkbox->in_cell ? GTK_STATE_NORMAL : widget->state_type];
+	double border_alpha = checkbox->mac_style ? 0.6 : 1.0;
 	gboolean inconsistent = FALSE;
 	gboolean draw_box = !checkbox->in_menu;
 	gboolean draw_bullet = (checkbox->shadow_type == GTK_SHADOW_IN);
@@ -3193,8 +3209,13 @@ murrine_draw_checkbox (cairo_t *cr,
 	draw_bullet |= inconsistent;
 	
 	// a checkbox has no active state, so we use this color for the checked state
-	if (!checkbox->in_cell && draw_bullet && widget->state_type == GTK_STATE_NORMAL)
+	if (!checkbox->in_cell && draw_bullet && (widget->state_type == GTK_STATE_NORMAL || widget->state_type == GTK_STATE_PRELIGHT)) {
 		bg = colors->base[GTK_STATE_ACTIVE];
+		if (!checkbox->in_cell && checkbox->mac_style) {
+			border = bg;
+			border_alpha = 1.0;
+		}
+	}
 
 	cairo_translate (cr, x, y);
 
@@ -3244,7 +3265,6 @@ murrine_draw_checkbox (cairo_t *cr,
 		cairo_set_source (cr, pat);
 		cairo_pattern_destroy (pat);
 		cairo_fill (cr);
-
 		cairo_restore (cr);
 
 		if (checkbox->in_cell)
@@ -3255,39 +3275,65 @@ murrine_draw_checkbox (cairo_t *cr,
 				mrn_gradient_new.has_border_colors = FALSE;
 		}
 
+		if (checkbox->mac_style)
+			cairo_set_line_width (cr, 0.5);
+
 		murrine_draw_border (cr, &border,
 		                     1.5, 1.5, width-3, height-3,
 		                     widget->roundness, widget->corners,
-		                     mrn_gradient_new, 1.0);
+		                     mrn_gradient_new, border_alpha);
 	}
 
 	if (draw_bullet)
 	{
+		murrine_set_color_rgba (cr, &dot, trans);
+
 		if (inconsistent)
 		{
-			cairo_save (cr);
-			cairo_set_line_width (cr, 2.0);
-			cairo_move_to (cr, 3, (double)height/2);
-			cairo_line_to (cr, width-3, (double)height/2);
-			cairo_restore (cr);
+			if (checkbox->mac_style)
+			{
+				cairo_set_line_width (cr, 1.5);
+				cairo_set_line_cap  (cr, CAIRO_LINE_CAP_ROUND);
+				cairo_move_to (cr, 5, (double)height/2);
+				cairo_line_to (cr, width-5, (double)height/2);
+			}
+			else
+			{
+				cairo_set_line_width (cr, 2.0);
+				cairo_move_to (cr, 3, (double)height/2);
+				cairo_line_to (cr, width-3, (double)height/2);
+			}
+			cairo_stroke (cr);
 		}
 		else
 		{
 			cairo_scale (cr, (double)width/18.0, (double)height/18.0);
 			cairo_translate (cr, 3.0, 1.0);
 
-			cairo_move_to (cr, 0, 8);
-			cairo_line_to (cr, 5, 13);
-			cairo_line_to (cr, 8, 9);
-			cairo_line_to (cr, 14, 1);
-			cairo_line_to (cr, 6, 7);
-			cairo_line_to (cr, 5, 9);
-			cairo_line_to (cr, 2, 6);
-			cairo_close_path (cr);
-		}
+			if (checkbox->mac_style)
+			{
+				cairo_set_line_width (cr, 1.5);
+				cairo_set_line_cap  (cr, CAIRO_LINE_CAP_ROUND);
+				cairo_set_line_join (cr, CAIRO_LINE_JOIN_ROUND);
 
-		murrine_set_color_rgba (cr, &dot, trans);
-		cairo_fill (cr);
+				cairo_move_to (cr, 2, 9);
+				cairo_line_to (cr, 5, 12);
+				cairo_line_to (cr, 10, 4);
+				cairo_stroke (cr);
+			}
+			else
+			{
+				cairo_move_to (cr, 0, 8);
+				cairo_line_to (cr, 5, 13);
+				cairo_line_to (cr, 8, 9);
+				cairo_line_to (cr, 14, 1);
+				cairo_line_to (cr, 6, 7);
+				cairo_line_to (cr, 5, 9);
+				cairo_line_to (cr, 2, 6);
+				cairo_close_path (cr);
+				cairo_fill (cr);
+			}
+		}
 	}
 }
 

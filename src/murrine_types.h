@@ -225,6 +225,7 @@ typedef struct
 	MurrineShadowType shadow_type;
 	boolean           in_cell;
 	boolean           in_menu;
+	boolean           mac_style;
 } CheckboxParameters;
 
 typedef struct

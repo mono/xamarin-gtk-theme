@@ -2376,8 +2376,15 @@ murrine_style_draw_focus (GtkStyle *style, GdkWindow *window, GtkStateType state
 	SANITIZE_SIZE
 
 	/* Just return if focus drawing is disabled. */
-	if (murrine_style->focusstyle == 0)
-		return;
+	if (murrine_style->focusstyle == 0) {
+		/* Focus is always enabled for drop indication in trees */
+		if (g_str_has_prefix (detail, "treeview-drop-indicator"))
+			focus.style = 1;
+		else
+			return;
+	}
+	else
+		focus.style = murrine_style->focusstyle;
 
 	cr = gdk_cairo_create (window);
 
@@ -2403,7 +2410,6 @@ murrine_style_draw_focus (GtkStyle *style, GdkWindow *window, GtkStateType state
 	focus.interior = FALSE;
 	focus.line_width = 1;
 	focus.padding = 1;
-	focus.style = murrine_style->focusstyle;
 	dash_list = NULL;
 
 	if (widget)

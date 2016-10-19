@@ -3085,7 +3085,10 @@ murrine_draw_radiobutton (cairo_t *cr,
 	}
 
 	if (draw_active) {
-		bg = colors->base[GTK_STATE_ACTIVE];
+		if (checkbox->in_cell && checkbox->mac_style)
+			bg = widget->focus ? colors->base[GTK_STATE_SELECTED] : colors->base[GTK_STATE_ACTIVE];
+		else
+			bg = colors->base[GTK_STATE_ACTIVE];
 		if (checkbox->mac_style) {
 			if (checkbox->in_cell)
 				border_alpha = 0.2;
@@ -3241,7 +3244,10 @@ murrine_draw_checkbox (cairo_t *cr,
 	}
 
 	if (draw_active) {
-		bg = colors->base[GTK_STATE_ACTIVE];
+		if (checkbox->in_cell && checkbox->mac_style)
+			bg = widget->focus ? colors->base[GTK_STATE_SELECTED] : colors->base[GTK_STATE_ACTIVE];
+		else
+			bg = colors->base[GTK_STATE_ACTIVE];
 		if (checkbox->mac_style) {
 			if (checkbox->in_cell)
 				border_alpha = 0.2;

@@ -226,6 +226,7 @@ typedef struct
 	boolean           in_cell;
 	boolean           in_menu;
 	boolean           mac_style;
+	boolean           draw_focus;
 } CheckboxParameters;
 
 typedef struct

@@ -3163,6 +3163,11 @@ murrine_draw_radiobutton (cairo_t *cr,
 			             roundness, widget->corners,
 			             mrn_gradient_new, border_alpha);
 
+		if (checkbox->mac_style && checkbox->draw_focus && widget->focus) {
+			cairo_set_line_width (cr, 1.5);
+			murrine_draw_border (cr, &colors->base[GTK_STATE_ACTIVE],
+								 0, 0, width, height, roundness, widget->corners, mrn_gradient_new, 1.0);
+		}
 	}
 
 	if (draw_bullet)
@@ -3333,6 +3338,12 @@ murrine_draw_checkbox (cairo_t *cr,
 		                     1.5, 1.5, width-3, height-3,
 		                     roundness, widget->corners,
 		                     mrn_gradient_new, border_alpha);
+
+		if (checkbox->mac_style && checkbox->draw_focus && widget->focus) {
+			cairo_set_line_width (cr, 1.5);
+			murrine_draw_border (cr, &colors->base[GTK_STATE_ACTIVE], 0, 0,
+								 width, height, roundness, widget->corners, mrn_gradient_new, 1.0);
+		}
 	}
 
 	if (draw_bullet)

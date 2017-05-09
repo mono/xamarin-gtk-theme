@@ -1740,6 +1740,7 @@ murrine_style_draw_option (DRAW_ARGS)
 	checkbox.in_menu = (widget && widget->parent && GTK_IS_MENU(widget->parent));
 	#ifdef GDK_WINDOWING_QUARTZ
 	checkbox.mac_style = TRUE;
+	checkbox.draw_focus = (murrine_style->focusstyle != 0);
 	#else
 	checkbox.mac_style = FALSE;
 	#endif
@@ -1787,6 +1788,7 @@ murrine_style_draw_check (DRAW_ARGS)
 	checkbox.in_menu = (widget && widget->parent && GTK_IS_MENU(widget->parent));
 	#ifdef GDK_WINDOWING_QUARTZ
 	checkbox.mac_style = TRUE;
+	checkbox.draw_focus = (murrine_style->focusstyle != 0);
 	#else
 	checkbox.mac_style = FALSE;
 	#endif
@@ -2380,8 +2382,13 @@ murrine_style_draw_focus (GtkStyle *style, GdkWindow *window, GtkStateType state
 		/* Focus is always enabled for drop indication in trees */
 		if (g_str_has_prefix (detail, "treeview-drop-indicator"))
 			focus.style = 1;
-		else
+		else 
 			return;
+#ifdef GDK_WINDOWING_QUARTZ
+	} else if (DETAIL ("checkbutton") || DETAIL ("radiobutton")) {
+		/* Checkbutton/radiobutton focus is drawn while drawing the item */
+		return;
+#endif
 	}
 	else
 		focus.style = murrine_style->focusstyle;
@@ -2512,7 +2519,7 @@ murrine_style_draw_focus (GtkStyle *style, GdkWindow *window, GtkStateType state
 		else
 			focus.type = MRN_FOCUS_COLOR_WHEEL_LIGHT;
 	}
-	else if (DETAIL("checkbutton") || DETAIL("radiobutton") || DETAIL("expander"))
+	else if (DETAIL("expander"))
 	{
 		focus.type = MRN_FOCUS_LABEL; /* Let's call it "LABEL" :) */
 		height += 4;

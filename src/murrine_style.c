@@ -2378,7 +2378,7 @@ murrine_style_draw_focus (GtkStyle *style, GdkWindow *window, GtkStateType state
 	/* Just return if focus drawing is disabled. */
 	if (murrine_style->focusstyle == 0) {
 		/* Focus is always enabled for drop indication in trees */
-		if (g_str_has_prefix (detail, "treeview-drop-indicator"))
+		if (detail && g_str_has_prefix (detail, "treeview-drop-indicator"))
 			focus.style = 1;
 		else
 			return;

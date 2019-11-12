@@ -3725,14 +3725,6 @@ murrine_draw_focus_border (cairo_t *cr,
 	switch (focus->type)
 	{
 		case MRN_FOCUS_BUTTON_DEFAULT:
-			xoffset = -(focus->padding)-2.0;
-			yoffset = -(focus->padding)-2.0;
-			radius = widget->roundness;
-			focus_fill = FALSE;
-			focus_shadow = TRUE;
-			border_alpha = 0.2;
-			shadow_alpha = 0.4;
-			break;
 		case MRN_FOCUS_BUTTON:
 			xoffset = -(focus->padding)-2.0;
 			yoffset = -(focus->padding)-2.0;

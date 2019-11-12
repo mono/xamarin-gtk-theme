@@ -2530,6 +2530,10 @@ murrine_style_draw_focus (GtkStyle *style, GdkWindow *window, GtkStateType state
 	{
 		focus.type = MRN_FOCUS_ICONVIEW;
 	}
+	else if (DETAIL("label"))
+	{
+		focus.type = MRN_FOCUS_LABEL;
+	}
 	else
 	{
 		focus.type = MRN_FOCUS_UNKNOWN; /* Custom widgets (Beagle) and something unknown */

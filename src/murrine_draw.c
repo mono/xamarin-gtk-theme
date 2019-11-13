@@ -3740,8 +3740,8 @@ murrine_draw_focus_border (cairo_t *cr,
 			radius = widget->roundness;
 			break;
 		case MRN_FOCUS_LABEL:
-			xoffset = 0.0;
-			yoffset = 0.0;
+			xoffset = -(focus->padding);
+			yoffset = -(focus->padding);
 			radius = widget->roundness;
 			break;
 		case MRN_FOCUS_TREEVIEW:
@@ -3847,8 +3847,8 @@ murrine_draw_focus_inner (cairo_t *cr,
 			radius = widget->roundness-1;
 			break;
 		case MRN_FOCUS_LABEL:
-			xoffset = 0.0;
-			yoffset = 0.0;
+			xoffset = -(focus->padding);
+			yoffset = -(focus->padding);
 			radius = widget->roundness;
 			break;
 		case MRN_FOCUS_TREEVIEW:

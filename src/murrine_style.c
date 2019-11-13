@@ -2296,9 +2296,13 @@ murrine_style_draw_layout (GtkStyle     *style,
 	else
 	{
 		GtkWidget *button = gtk_widget_get_ancestor (widget, GTK_TYPE_BUTTON);
-		if (DETAIL ("label") && button)
-			gdk_draw_layout_with_colors(window, gc, x, y, layout, &button->style->fg[state_type], NULL);
-		else
+		if (DETAIL ("label") && button) {
+			MurrineRGB *color = &button->style->fg[state_type];
+			// text style is not used by buttons, so we can use it here to define a different label color for default buttons
+			if (GTK_WIDGET_HAS_DEFAULT (button))
+				color = &button->style->text[state_type];
+			gdk_draw_layout_with_colors(window, gc, x, y, layout, color, NULL);
+		} else
 			gdk_draw_layout (window, gc, x, y, layout);
 	}
 
@@ -2525,6 +2529,10 @@ murrine_style_draw_focus (GtkStyle *style, GdkWindow *window, GtkStateType state
 	else if (DETAIL("icon_view"))
 	{
 		focus.type = MRN_FOCUS_ICONVIEW;
+	}
+	else if (DETAIL("label"))
+	{
+		focus.type = MRN_FOCUS_LABEL;
 	}
 	else
 	{
